@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/group"
+        android:layout_width="match_parent"
+        android:layout_height="64dp">
+
+        <RelativeLayout
+            android:layout_gravity="center_vertical"
+            android:layout_width="40dp"
+            android:layout_height="40dp">
+
+            <ImageView
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:id="@+id/grpIcon"
+                android:src="@drawable/user_pic"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:textSize="10dp"
+            android:layout_marginLeft="72dp"
+            android:id="@+id/grpName"
+            android:gravity="center_vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Hello ankit"/>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

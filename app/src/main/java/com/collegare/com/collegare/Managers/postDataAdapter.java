@@ -1,0 +1,230 @@
+package com.collegare.com.collegare.Managers;
+
+/**
+ * Created by Vishal on 03-10-2015.
+ */
+
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+/**
+ * Created by Vishal on 27-09-2015.
+ */
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import com.collegare.com.collegare.Activity.individualPost;
+import com.collegare.com.collegare.Models.CollegareFeed;
+import com.collegare.com.collegare.Models.CollegarePost;
+import com.collegare.com.collegare.R;
+
+
+import java.util.ArrayList;
+
+
+public class postDataAdapter extends RecyclerView
+        .Adapter<postDataAdapter
+        .DataObjectHolder> {
+
+    Context context;
+    static postDataAdapter bInstance;
+    public ArrayList<CollegareFeed> mDataset;
+    public SessionManager sessionManager;
+
+    public postDataAdapter(ArrayList<CollegareFeed> myDataset) {
+        mDataset = myDataset;
+    }
+
+    public postDataAdapter(Context context) {
+        sessionManager = new SessionManager(context);
+        this.context = context;
+    }
+
+    public static postDataAdapter getInstance(Context context) {
+        if (bInstance == null) {
+            bInstance = new postDataAdapter(context);
+        }
+        return bInstance;
+    }
+
+    public void setPostDataList(ArrayList<CollegareFeed> list) {
+        this.mDataset = list;
+    }
+
+    public static class DataObjectHolder extends RecyclerView.ViewHolder
+            implements View
+            .OnClickListener {
+        TextView likeCount;
+        TextView disLikeCount;
+        TextView group;
+        TextView tagChar;
+        TextView timeSpan;
+        TextView post;
+        TextView commentCount;
+        TextView userName;
+        ImageView like;
+        ImageView unlike;
+        ImageView comment;
+
+        public DataObjectHolder(View itemView) {
+            super(itemView);
+            likeCount = (TextView) itemView.findViewById(R.id.likeText);
+            disLikeCount = (TextView) itemView.findViewById(R.id.unlikeText);
+            tagChar = (TextView) itemView.findViewById(R.id.TagChar);
+            post = (TextView) itemView.findViewById(R.id.textPost);
+            timeSpan = (TextView) itemView.findViewById(R.id.pastTime);
+            commentCount = (TextView) itemView.findViewById(R.id.commentCount);
+            userName = (TextView) itemView.findViewById(R.id.usernameDisplay);
+
+            comment = (ImageView) itemView.findViewById(R.id.commentImg);
+            like = (ImageView) itemView.findViewById(R.id.likeImg);
+            unlike = (ImageView) itemView.findViewById(R.id.unlikeImg);
+            comment.setTag("comment");
+            like.setTag("likeBtn");
+            unlike.setTag("unlikeBtn");
+            post.setTag("post");
+            itemView.setOnClickListener(this);
+            like.setOnClickListener(this);
+            unlike.setOnClickListener(this);
+            comment.setOnClickListener(this);
+            post.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            postDataAdapter instance = postDataAdapter.getInstance(new Contexter().getContext());
+//            String tag = v.getTag().toString();
+            int id= v.getId();
+            int currentPosition = getAdapterPosition();
+            CollegareFeed feed = instance.mDataset.get(currentPosition);
+            switch (id) {
+
+               // case "likeBtn":
+
+                case R.id.likeImg :
+                    if (feed.isLiked.equals("false") && feed.isDisliked.equals("false")) {
+                        feed.likeCount = String.format("%s", Integer.parseInt(feed.likeCount)+1);
+                        feed.isLiked="true";
+                        Log.e("liked ", " " + currentPosition);
+                        instance.notifyItemChanged(currentPosition);
+
+                    }
+                    else if (feed.isDisliked.equals("true")) {
+
+                        //feed.likeCount = String.format("%s", Integer.parseInt(instance.mDataset.get(currentPosition).likeCount) + 1);
+                        feed.dislikeCount = String.format("%s", Integer.parseInt(feed.dislikeCount) - 1);
+                        //feed.isLiked="true";
+                        feed.isDisliked="false";
+                        Log.e("nulled "," "+currentPosition);
+                        instance.notifyItemChanged(currentPosition);
+
+                    } else {
+
+                    }
+
+
+                    break;
+              //  case "unlikeBtn":
+                case R.id.unlikeImg:
+                    if (feed.isLiked.equals("false") && feed.isDisliked.equals("false")) {
+
+                       feed.dislikeCount = String.format("%s", Integer.parseInt(feed.dislikeCount)+1);
+                        feed.isDisliked="true";
+                        Log.e("disliked "," "+currentPosition);
+                        instance.notifyItemChanged(currentPosition);
+
+                    } else if (feed.isLiked.equals("true")) {
+
+                        feed.likeCount = String.format("%s", Integer.parseInt(feed.likeCount) - 1);
+                        feed.isLiked="false";
+                        Log.e("nulled "," "+currentPosition);
+                        instance.notifyItemChanged(currentPosition);
+
+                    } else {
+
+                    }
+
+                    break;
+
+                case R.id.textPost:
+
+                    Intent i = new Intent(instance.context, individualPost.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("postId", feed.postid);
+                    i.putExtras(bundle);
+                    instance.sessionManager.setLastGroup(feed.groupid);
+                    Log.e("stored gid", " " + feed.groupid);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    instance.context.startActivity(i);
+
+                    break;
+                case R.id.commentImg:
+                    i = new Intent(instance.context, individualPost.class);
+                    bundle = new Bundle();
+                    bundle.putString("postId", feed.postid);
+                    i.putExtras(bundle);
+                    instance.sessionManager.setLastGroup(feed.groupid);
+                    Log.e("stored gid"," "+feed.groupid);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    instance.context.startActivity(i);
+
+
+                    break;
+
+
+            }
+
+
+        }
+    }
+
+
+    @Override
+    public DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.post_layout, parent, false);
+
+        DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
+        return dataObjectHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(DataObjectHolder holder, int position) {
+
+        String timePast = TimeManager.getInstance().convert("2014-12-03 12:12:45", mDataset.get(position).doc);
+        holder.post.setText(mDataset.get(position).content);
+        holder.commentCount.setText(mDataset.get(position).CommentCount);
+        holder.disLikeCount.setText(mDataset.get(position).dislikeCount);
+        holder.likeCount.setText(mDataset.get(position).likeCount);
+        String tag = String.format("%c", mDataset.get(position).username.toUpperCase().charAt(0));
+        holder.tagChar.setText(tag);
+        holder.timeSpan.setText(timePast);
+        holder.userName.setText(mDataset.get(position).username);
+
+        int resIdL = (mDataset.get(position).isLiked.equals("true")) ? R.drawable.upvote_48 : R.drawable.upvote_48_black;
+        int resIdD = (mDataset.get(position).isDisliked.equals("true")) ? R.drawable.downvote_48 : R.drawable.downvote_48_black;
+
+        holder.like.setImageResource(resIdL);
+        holder.unlike.setImageResource(resIdD);
+
+    }
+
+
+    @Override
+    public int getItemCount() {
+       // Log.e("size", mDataset.size() + "");
+        return mDataset.size();
+
+    }
+
+}

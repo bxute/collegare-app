@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    >
+    <include layout="@layout/toolbar"
+        android:id="@+id/toolbar"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_below="@+id/toolbar"
+        android:padding="10dp"
+        android:layout_marginTop="5dp"
+        android:id="@+id/userInfoHolder">
+        <RelativeLayout
+            android:padding="10dp"
+            android:layout_width="72dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imageBox">
+            <ImageView
+                android:id="@+id/userPic"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/user_pic"/>
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_toRightOf="@+id/imageBox"
+            android:layout_height="match_parent"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:gravity="center_vertical"
+                android:id="@+id/nameDisplay"
+                android:text="Pratyush Singh"
+                android:textSize="28dp"
+                android:textColor="#00223E"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:id="@+id/userId"
+                android:gravity="center_vertical"
+                android:text="201451036"
+                android:layout_below="@+id/nameDisplay"/>
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:cardView="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:id="@+id/contentHolder"
+        cardView:cardBackgroundColor="#ffffff"
+        cardView:cardCornerRadius="3dp"
+        android:layout_below="@+id/userInfoHolder">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/contentText"
+            android:padding="20dp"
+            android:lines="4"
+            android:textSize="15dp"
+            android:textColor="#00223E"
+            android:text="0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789"/>
+
+    </android.support.v7.widget.CardView>
+
+    <RelativeLayout
+        android:id="@+id/lowerSection"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/contentHolder"
+
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/bottomLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="20dp">
+
+            <ImageView
+                android:id="@+id/likeImg"
+                android:layout_width="24dp"
+                android:layout_height="fill_parent"
+                android:src="@drawable/upvote_48" />
+
+            <TextView
+                android:id="@+id/likeText"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@+id/likeImg"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="12" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bottomMiddle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/bottomLeft"
+            android:paddingRight="40dp">
+
+            <ImageView
+                android:id="@+id/unlikeImg"
+                android:layout_width="24dp"
+                android:layout_height="40dp"
+                android:src="@drawable/downvote_48" />
+
+            <TextView
+                android:id="@+id/unlikeText"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_toRightOf="@+id/unlikeImg"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="1" />
+
+
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:paddingRight="10dp"
+            android:id="@+id/commentBtnParent"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/bottomMiddle"
+            >
+
+            <RelativeLayout
+                android:padding="10dp"
+                android:layout_width="40dp"
+                android:layout_toLeftOf="@+id/commentCount"
+                android:layout_height="match_parent">
+                <ImageButton
+                    android:id="@+id/commentImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/comment2" />
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/commentCount"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                android:paddingRight="5dp"
+                android:text="15" />
+        </RelativeLayout>
+</RelativeLayout>
+
+    <RelativeLayout
+        android:layout_below="@+id/lowerSection"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+       <android.support.v7.widget.RecyclerView
+           android:paddingLeft="20dp"
+           android:paddingRight="20dp"
+           android:layout_height="match_parent"
+           android:layout_width="match_parent"
+           android:id="@+id/commentHolder"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

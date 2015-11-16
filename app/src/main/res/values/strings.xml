@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Collegare</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_app__config">App_Config</string>
+    <string name="title_activity_app_manager">AppManager</string>
+    <string name="title_activity_session_manager">SessionManager</string>
+    <string name="title_activity_home">Home</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+
+
+    <string-array name="drawer_items">
+        <item>Home</item>
+        <item>item 2</item>
+        <item>item 3</item>
+        <item>item 4</item>
+        <item>item 5</item>
+    </string-array>
+
+    <string name="title_activity_post_fragment">postFragment</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_individual_post">individualPost</string>
+    <string name="title_activity_edit_profile">EditProfile</string>
+    <string name="action_editProfile">Edit Profile</string>
+
+
+</resources>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cardView="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:elevation="5dp"
+    android:layout_marginTop="10dp"
+    android:paddingBottom="10dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginLeft="5dp"
+    cardView:cardBackgroundColor="#ffffff"
+    cardView:cardCornerRadius="1dp">
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:elevation="10dp">
+
+            <LinearLayout
+                android:id="@+id/topPanel"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/primaryColor"
+                android:orientation="horizontal"
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/usernameDisplay"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="3"
+                    android:maxLines="1"
+                    android:paddingLeft="30dp"
+                    android:text="Ankit kumar"
+                    android:textColor="#ffffff" />
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/pastTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:paddingRight="5dp"
+                        android:text="....just"
+                        android:textColor="#ffffff"
+
+                        />
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/upperSection"
+                android:layout_width="match_parent"
+                android:layout_height="118dp"
+                android:layout_below="@+id/topPanel"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+
+                <RelativeLayout
+                    android:id="@+id/leftUpper"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/primaryColor"
+                        android:gravity="center_vertical" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|right">
+
+                        <TextView
+                            android:id="@+id/TagChar"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:background="@drawable/tag_bg"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="A"
+                            android:textColor="@color/primaryColor"
+                            android:textSize="30dp" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/middleUpper"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/textPost"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="13dp"
+                        android:text="hello dear how are u. this is tlest text for the textview.How is the feel of card design . theset seems to be too bcu. hello ankit how are u this is test for uouankd.this ifo not ant thisthandk thandks helllo"
+                        android:textColor="#000000"
+                        android:textSize="15dp" />
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/upperSection"
+                android:background="@drawable/post_divider" />
+
+            <RelativeLayout
+                android:id="@+id/lowerSection"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_below="@+id/divider"
+
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/bottomLeft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="20dp">
+
+                    <ImageView
+                        android:id="@+id/likeImg"
+                        android:layout_width="24dp"
+                        android:layout_height="fill_parent"
+                        android:src="@drawable/upvote_48" />
+
+                    <TextView
+                        android:id="@+id/likeText"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_toRightOf="@+id/likeImg"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="12" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/bottomMiddle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/bottomLeft"
+                    android:paddingRight="40dp">
+
+                    <ImageView
+                        android:id="@+id/unlikeImg"
+                        android:layout_width="24dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/downvote_48" />
+
+                    <TextView
+                        android:id="@+id/unlikeText"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_toRightOf="@+id/unlikeImg"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="1" />
+
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/commentBtnParent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_toRightOf="@+id/bottomMiddle"
+                    >
+
+                    <RelativeLayout
+                        android:padding="10dp"
+                        android:layout_width="40dp"
+                        android:layout_toLeftOf="@+id/commentCount"
+                        android:layout_height="match_parent">
+                        <ImageButton
+                            android:id="@+id/commentImg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/comment2" />
+                    </RelativeLayout>
+
+
+                    <TextView
+                        android:id="@+id/commentCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_vertical"
+                        android:paddingRight="5dp"
+                        android:text="15" />
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

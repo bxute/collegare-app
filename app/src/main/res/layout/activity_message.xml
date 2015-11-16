@@ -1,0 +1,33 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.collegare.com.collegare.Fragments.Messages">
+
+    <TextView
+        android:textColor="@color/primaryColor"
+        android:background="#eeeeee"
+        android:id="@+id/errorPanel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal|center_vertical"
+        android:text="Hello ankit"
+        android:textSize="20sp"
+        android:visibility="gone"
+        />
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresser"
+            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="2">
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/recyclerAnonymous"/>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+
+
+</RelativeLayout>

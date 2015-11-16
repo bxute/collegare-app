@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true" android:drawable="@drawable/upvote_48">
+        <shape android:shape="oval">
+            <solid android:color="#009988"/>
+            <size android:height="48dp" android:width="48dp"/>
+
+        </shape>
+    </item>
+</selector>
