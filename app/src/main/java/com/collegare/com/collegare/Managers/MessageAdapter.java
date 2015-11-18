@@ -8,6 +8,7 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import com.collegare.com.collegare.R;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class MessageAdapter extends RecyclerView
@@ -29,12 +31,25 @@ public class MessageAdapter extends RecyclerView
     private static int MESSAGE_OUT=1;
     String userID;
     Context context;
+    private static MessageAdapter bInstance;
     public ArrayList<CollegareMessage> mDataset;
+
+    public static MessageAdapter getInstance(Context context){
+        if(bInstance==null){
+            bInstance=new MessageAdapter(context);
+        }
+        return bInstance;
+    }
 
 
     public void setMessageDataList(ArrayList<CollegareMessage> list) {
         this.mDataset = list;
         notifyDataSetChanged();
+    }
+
+    public void addMessageToList(CollegareMessage collegareMessage){
+        mDataset.add(0,collegareMessage);
+        notifyItemInserted(0);
     }
 
     public static class IncomingMessageHolder extends RecyclerView.ViewHolder
@@ -127,8 +142,9 @@ public class MessageAdapter extends RecyclerView
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-        String timePast = TimeManager.getInstance().convert("2014-12-03 12:13:45", mDataset.get(position).doc);
+        Date d = new Date();
+        final CharSequence doc  = DateFormat.format(" yyyy-mm-dd hh:mm:ss", d.getTime());
+        String timePast = TimeManager.getInstance().convert(doc.toString(), mDataset.get(position).doc);
 
         if(holder instanceof IncomingMessageHolder){
 

@@ -31,11 +31,9 @@ import java.util.ArrayList;
 public class Feeds extends Fragment implements SendListener , NavigationListener{
     RecyclerView recyclerView;
     postDataAdapter adapter;
-    InternetManager internetManager;
     SwipeRefreshLayout swipeRefreshLayout;
     TextView error;
     DataStore dataStore;
-    private Report rp;
     String groupID;
     ArrayList<CollegareFeed> feedArrayList;
     SessionManager sessionManager;
@@ -47,9 +45,9 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         adapter= postDataAdapter.getInstance(getActivity());
         feedArrayList= new ArrayList<>();
         sessionManager= new SessionManager(getActivity());
-
-        //internetManager=new InternetManager(getActivity(),adapter);
-      //  internetManager.getFeeds();
+        if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
+            InternetManager.getInstance(getActivity()).getFeeds();
+        }
     }
 
     @Override
@@ -62,8 +60,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         groupID =   sessionManager.getLastGroup();
         Log.e("restored gid"," "+groupID);
         dataStore= new DataStore(getActivity());
-        rp= new Report();
-        feedArrayList=dataStore.getFeeds(rp,groupID);
+        feedArrayList=dataStore.getFeeds(groupID);
         if(feedArrayList.size()==0){
             recyclerView.setVisibility(View.GONE);
             error.setVisibility(View.VISIBLE);
@@ -89,18 +86,14 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     public void onResume() {
         super.onResume();
         Log.e(" feeds onResume called"," ");
-
     }
 
     private void refressFeeds() {
-        ArrayList<CollegareFeed> newFeeds= new ArrayList<>();
-        InternetManager.getInstance(getActivity()).getFeeds(newFeeds, rp,groupID);
 
-        if(rp.Status== App_Config.STATUS_OK){
-            adapter.setPostDataList(newFeeds);
-            adapter.notifyDataSetChanged();
+        if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
+            InternetManager.getInstance(getActivity()).getFeeds();
         }
-        Snackbar.make(swipeRefreshLayout,"No Feeds Loaded",Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(swipeRefreshLayout,"No Connectivity !!",Snackbar.LENGTH_SHORT).show();
         swipeRefreshLayout.setRefreshing(false);
     }
 
@@ -118,7 +111,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         adapter= postDataAdapter.getInstance(getActivity());
 
                 Log.e("data"," "+dataStore);
-                        feedArrayList=dataStore.getFeeds(rp,groupID);
+                        feedArrayList=dataStore.getFeeds(groupID);
                         this.adapter.setPostDataList(feedArrayList);
                 Log.e("got  "," "+feedArrayList.size()+" items");
 

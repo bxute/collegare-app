@@ -28,13 +28,19 @@ import android.support.design.widget.FloatingActionButton;
 import com.collegare.com.collegare.Fragments.NavigationFragment;
 import com.collegare.com.collegare.Fragments.SendDailoge;
 import com.collegare.com.collegare.Managers.DataStore;
+import com.collegare.com.collegare.Managers.DatabaseManager;
+import com.collegare.com.collegare.Managers.InternetManager;
 import com.collegare.com.collegare.Managers.SendListener;
 import com.collegare.com.collegare.Managers.SessionManager;
+import com.collegare.com.collegare.Models.CollegareFeed;
+import com.collegare.com.collegare.Models.Report;
 import com.collegare.com.collegare.R;
 import com.collegare.com.collegare.Managers.BPagerAdapter;
 //import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
+
+import java.util.ArrayList;
 
 import javax.security.auth.login.LoginException;
 
@@ -55,13 +61,24 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     //   new DataStore(this).testDB();
+     //   new DataStore(this).testDB()
+
         Log.e("home", "callled");
         sessionManager= new SessionManager(this);
         setContentView(R.layout.activity_home);
 
         Init();
         View view=findViewById(R.id.toolbar);
+
+        tester();
+
+    }
+
+    private void tester() {
+        Log.e("tester"," testing");
+        ArrayList<CollegareFeed> feeds= new ArrayList<>();
+        Report report= new Report();
+        InternetManager.getInstance(this).getFeeds();
 
     }
 
@@ -97,7 +114,7 @@ public class Home extends AppCompatActivity {
                   startActivity(aboutUsIntent);
                 break;
             case R.id.action_LogOut:
-                        finish();
+                        SessionManager.setLoginStatus(false);
                 break;
 
 

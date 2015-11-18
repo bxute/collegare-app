@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,6 +30,7 @@ import com.collegare.com.collegare.R;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class postDataAdapter extends RecyclerView
@@ -58,6 +60,12 @@ public class postDataAdapter extends RecyclerView
 
     public void setPostDataList(ArrayList<CollegareFeed> list) {
         this.mDataset = list;
+        notifyDataSetChanged();
+    }
+
+    public void addToPostDataList(CollegareFeed feed){
+        mDataset.add(0,feed);
+        notifyItemInserted(0);
     }
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder
@@ -200,8 +208,9 @@ public class postDataAdapter extends RecyclerView
 
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
-
-        String timePast = TimeManager.getInstance().convert("2014-12-03 12:12:45", mDataset.get(position).doc);
+        Date d = new Date();
+        final CharSequence doc  = DateFormat.format(" yyyy-mm-dd hh:mm:ss", d.getTime());
+        String timePast = TimeManager.getInstance().convert(doc.toString(), mDataset.get(position).doc);
         holder.post.setText(mDataset.get(position).content);
         holder.commentCount.setText(mDataset.get(position).CommentCount);
         holder.disLikeCount.setText(mDataset.get(position).dislikeCount);

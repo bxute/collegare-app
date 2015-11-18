@@ -39,7 +39,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
         super(context, App_Config.DATABASE_NAME, null, App_Config.DATABASE_VERSION);
         TAG = "DM";
     }
-
+    public void IntiateDataBase(){
+        SQLiteDatabase db= getWritableDatabase();
+    }
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
@@ -80,7 +82,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
             db.execSQL(
                     "CREATE TABLE IF NOT EXISTS Posts (" +
-                            "POSTID INTEGER UNIQUE, " +
+                            "POSTID INTEGER , " +
                             "CONTENT TEXT, " +
                             "USERNAME TEXT, " +
                             "DOC TEXT, " +
@@ -98,7 +100,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             Log.e(TAG, "Posts table created!");
             db.execSQL(
                     "CREATE TABLE IF NOT EXISTS Comments (" +
-                            "COMMENTID INTEGER UNIQUE , " +
+                            "COMMENTID INTEGER , " +
                             "POSTID TEXT , " +
                             "ID TEXT , " +
                             "USERNAME TEXT , " +
@@ -110,7 +112,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             db.execSQL(
                     //msgid, content, username, doc, id;
                     "CREATE TABLE IF NOT EXISTS Messages (" +
-                            "MESSAGEID INTEGER UNIQUE, " +
+                            "MESSAGEID INTEGER , " +
                             "CONTENT TEXT, " +
                             "USERNAME TEXT, " +
                             "DOC TEXT, " +
@@ -162,8 +164,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
         values.put("SEX", user.sex);
         values.put("DOB", user.dob);
         values.put("TOKEN", user.token);
-        long id = db.insert("LoginInfo", null, values);
-
+        long ins = db.insert("LoginInfo", null, values);
+    Log.e("inserted ",""+ins);
         int size = user.groups.size();
         int j = 0;
         for (int i = 0; i < size; i++) {
@@ -182,8 +184,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 admins.put("GROUPID", admins1.get(k).GroupId);
                 admins.put("ID", admins1.get(k).id);
                 admins.put("NAME", admins1.get(k).Name);
-                id=db.insert(App_Config.TABLE_ADMINS,null,admins);
-                Log.e(" inseted admin"," "+id);
+                ins=db.insert(App_Config.TABLE_ADMINS,null,admins);
+                Log.e(" inseted admin"," "+ins);
 
             }
             ArrayList<CollegareGroupMember> mem= user.groups.get(i).memebers;
@@ -191,8 +193,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 admins.put("GROUPID", mem.get(k).GroupId);
                 admins.put("ID", mem.get(k).id);
                 admins.put("NAME", mem.get(k).Name);
-                id=db.insert(App_Config.TABLE_MEMBERS,null,admins);
-                Log.e(" inseted member "," "+id);
+                ins=db.insert(App_Config.TABLE_MEMBERS,null,admins);
+                Log.e(" inseted member "," "+ins);
 
             }
 
@@ -468,22 +470,19 @@ public class DatabaseManager extends SQLiteOpenHelper {
     *
     * */
 
-    public void appendMessage(ArrayList<CollegareMessage> messages) {
+    public void appendMessage(CollegareMessage messages) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues msg = new ContentValues();
         long messagesDone = 0;
-        for (int i = 0; i < messages.size(); i++) {
-            msg.clear();
-            msg.put("MESSAGEID", messages.get(i).msgid);
-            msg.put("CONTENT", messages.get(i).content);
-            msg.put("USERNAME", messages.get(i).username);
-            msg.put("DOC", messages.get(i).doc);
-            msg.put("ID", messages.get(i).id);
+            msg.put("MESSAGEID", messages.msgid);
+            msg.put("CONTENT", messages.content);
+            msg.put("USERNAME", messages.username);
+            msg.put("DOC", messages.doc);
+            msg.put("ID", messages.id);
             if (db.insert(App_Config.TABLE_MESSAGES, null, msg) != -1) {
                 messagesDone++;
             }
-        }
-        Log.e("Added ", messagesDone + " messages");
+        Log.e("Added ", messagesDone + " message");
     }
 
     public ArrayList<CollegareMessage> getMessages() {

@@ -10,6 +10,7 @@ public class App_Config{
     public static String Post_URL="http://collegare.eu5.org/post.php";
     public static String Message_URL="http://collegare.eu5.org/message.php";
     public static String Vote_URL="http://collegare.eu5.org/vote.php";
+    public static String USER_URL="http://collegare.eu5.org/user.php";
     public static final int TYPE_ANONYMOUS=0;
     public static final int TYPE_GROUP=0;
     public static final String STATUS_OK="ok";

@@ -124,24 +124,22 @@ public class DataStore {
         DatabaseManager.getInstance(context).appendFeed(feeds);
         DatabaseManager.getInstance(context).addUser(new CollegareUser("ankit", "kumar", "xute", "201451065", "ankit@collegare.com", "m",groups , "12121994", "asdfkjhjdshfkjhdf"));
         DatabaseManager.getInstance(context).appendComments(cmnts);
-        DatabaseManager.getInstance(context).appendMessage(msgs);
+        //DatabaseManager.getInstance(context).appendMessage(msgs);
 
     }
 
 
-   public ArrayList<CollegareFeed> getFeeds(Report report,String gid) {
-        ArrayList<CollegareFeed> feeds = new ArrayList<>();
-        Report report1 = new Report();
-        InternetManager.getInstance(context).getFeeds(feeds, report1,gid);
-        if (report1.Status != App_Config.STATUS_OK) {
-            feeds = DatabaseManager.getInstance(context).getPosts(gid);
-            if (feeds.size() == 0) {
-                report.Description = "no posts";
-                report.Status = App_Config.STATUS_ERROR;
-            }
-        }
+   public ArrayList<CollegareFeed> getFeeds(String gid) {
+       ArrayList<CollegareFeed> feeds=new ArrayList<>();
 
-        return feeds;
+            if(!InternetManager.getInstance(context).isConnectedToNet()){
+                feeds = DatabaseManager.getInstance(context).getPosts(gid);
+            }
+         else
+            {
+                InternetManager.getInstance(context).getFeeds();
+            }
+            return feeds;
     }
 
     /*
@@ -169,7 +167,7 @@ public class DataStore {
         ArrayList<CollegareMessage> messages=new ArrayList<>();
         Report report1=new Report();
         // first trying to get messages from server
-        InternetManager.getInstance(context).getMessage(messages,report1);
+       // InternetManager.getInstance(context).getMessage(messages,report1);
         if(report1.Status!=App_Config.STATUS_OK){
             report.Description=report1.Description;
             report.Status=report1.Status;
@@ -190,7 +188,7 @@ public class DataStore {
 
         // trying to send message
 
-        InternetManager.getInstance(context).sendMessage(rec, msg, report);
+        InternetManager.getInstance(context).sendMessage(rec, msg);
 
     }
 

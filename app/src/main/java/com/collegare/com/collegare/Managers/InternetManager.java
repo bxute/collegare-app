@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.collegare.com.collegare.Activity.Home;
 import com.collegare.com.collegare.Models.CollegareFeed;
 import com.collegare.com.collegare.Models.CollegareMessage;
+import com.collegare.com.collegare.Models.CollegareMessageSent;
 import com.collegare.com.collegare.Models.CollegarePost;
 import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.Models.Report;
@@ -32,6 +34,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,9 +59,6 @@ public class InternetManager {
     public InternetManager(Context context, postDataAdapter adapter) {
         this.context = context;
         this.adapter = adapter;
-        CollegareUser dbm = DatabaseManager.getInstance(context).getUser();
-        UserId=dbm.id;
-        UserToken=dbm.token;
     }
 
     public boolean isConnectedToNet() {
@@ -79,49 +79,33 @@ public class InternetManager {
     *           MESSAGE SENDER              [STATUS: OK][2]
     *
     * */
-    public void sendMessage(final String Receiver, final String content, final Report report) {
+    public void sendMessage(final String Receiver, final String content) {
 
 
         if(!isConnectedToNet()){
-            Log.e("netFor[msg send]>",""+isConnectedToNet());
-            report.Status=App_Config.STATUS_ERROR;
-            report.Description="not connectivity available !";
             return;
         }
+
+        CollegareUser dbm = DatabaseManager.getInstance(context).getUser();
+        UserId=dbm.id;
+        UserToken=dbm.token;
+
+        Date d = new Date();
+        final CharSequence doc  = DateFormat.format(" yyyy-mm-dd hh:mm:ss", d.getTime());
 
         StringRequest sendMsgReq = new StringRequest(Request.Method.POST,
                 App_Config.Message_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        Log.e("message sent", "");
-                        // yet to be handled
-                        try {
-                            JSONObject object = new JSONObject(s);
-                            String status = object.getString("status");
-                            if (status.equals("0")) {
-                                // report success
-                                report.Description="message sent";
-                                report.Status=App_Config.STATUS_OK;
-                            } else {
-                                // report error to the UI
-                                report.Description="something happened while sending message!!";
-                                report.Status=App_Config.STATUS_ERROR;
-                            }
-
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-
+                        CollegareParser.getInstance(context).parseSentMessage(s,new CollegareMessageSent(content,Receiver,
+                                ""+doc,UserId
+                        ));
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                // not handled yet
-                report.Description="network error!!";
-                report.Status=App_Config.STATUS_ERROR;
+
             }
         }) {
             @Override
@@ -130,8 +114,7 @@ public class InternetManager {
                 params.put("action", "send");
                 params.put("id", UserId);
                 params.put("token", UserToken);
-                Log.e("token not sent", "  not set");
-                params.put("to", Receiver);
+                params.put("recid", Receiver);
                 params.put("content", content);
                 return params;
             }
@@ -141,14 +124,16 @@ public class InternetManager {
 
     }
 
-    public void getMessage(final ArrayList<CollegareMessage> messages, final Report report) {
+   //[1**]
+    public void getMessage() {
 
         if (!isConnectedToNet()){
-            Log.e("netFor[msg get]>",""+isConnectedToNet());
-            report.Status=App_Config.STATUS_ERROR;
-            report.Description="not connectivity available !";
             return;
         }
+
+        CollegareUser dbm = DatabaseManager.getInstance(context).getUser();
+        UserId=dbm.id;
+        UserToken=dbm.token;
 
         StringRequest getMsgReq = new StringRequest(Request.Method.POST,
                 App_Config.Message_URL,
@@ -156,23 +141,12 @@ public class InternetManager {
                     @Override
                     public void onResponse(String s) {
                         Log.e("message received:", "");
-                        // yet to be handled
-                        Report report1=new Report();
-                        new CollegareParser().parseMessage(s, messages,report1);
-                       if(report1.Status==App_Config.STATUS_OK) {
-                           DatabaseManager.getInstance(context).appendMessage(messages);
-                           return;
-                       }
-                        report.Description=report1.Description;
-                        report.Status=App_Config.STATUS_ERROR;
-
+                        CollegareParser.getInstance(context).parseMessage(s);
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 // not handled yet
-                report.Status=App_Config.STATUS_ERROR;
-                report.Description="error  response["+this+"]";
                 Log.e("[IM] ->","No Network Access !!!");
             }
         }) {
@@ -182,49 +156,43 @@ public class InternetManager {
                 params.put("action", "feed");
                 params.put("id", UserId);
                 params.put("token", UserToken);
-                Log.e("token not sent", "  not set");
                 return params;
             }
         };
 
-
+            AppManager.getInstance().addToRequestQueue(getMsgReq,"msgReq",context);
     }
     /*
     *
     *          Feeds      [status:OK][2]
     *
     * */
-    public void getFeeds(final ArrayList<CollegareFeed> feeds, final Report report, final String gid) {
+
+    public void getFeeds() {
+
         String TAG = "feedReq";
+        Log.e("aaa ","req in");
 
         if (!isConnectedToNet()) {
-            Log.e("netFor[feed get]>",""+isConnectedToNet());
-            report.Status=App_Config.STATUS_ERROR;
-            report.Description="not connectivity available !!";
+            Log.e("aaa netFor[feed get]>",""+isConnectedToNet());
             return;
         }
-        report.Description="connecting";
+
+        CollegareUser dbm = DatabaseManager.getInstance(context).getUser();
+        UserId=dbm.id;
+        UserToken=dbm.token;
+
+
         StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("Respose{feeds}> "," "+feeds);
-                Report report1= new Report();
-                new CollegareParser().parseFeed(response, feeds, report1);
-                if(report1.Status==App_Config.STATUS_OK){
-                    // writing feeds to database
-                    DatabaseManager.getInstance(context).appendFeed(feeds);
-                    return;
-                }
-                report.Status=report1.Status;
-                report.Description="error while parsing feed";
+                CollegareParser.getInstance(context).parseFeed(response);
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("", "[error reported]");
-                report.Status=App_Config.STATUS_OK;
-                report.Description="network error";
+
             }
         }) {
             @Override
@@ -233,17 +201,11 @@ public class InternetManager {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("action", "feed");
                 params.put("id", UserId);
-                params.put("groupid",gid);
-                // here id is the user id
-
                 return params;
             }
-
         };
-
       //  Log.e("instanse", "" + AppManager.getInstance()+"in conte "+context);
         AppManager.getInstance().addToRequestQueue(request, TAG, context);
-
 
     }                                               // getting feeds for anonymous post
 
@@ -264,7 +226,7 @@ public class InternetManager {
                 // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
                 Log.e("net>>>>" + response, "");
                 Report report1= new Report();
-                new CollegareParser().parseIndividualPost(response, posts, report1);
+                CollegareParser.getInstance(context).parseIndividualPost(response, posts, report1);
 
                 if(report1.Status==App_Config.STATUS_OK){
                     DatabaseManager.getInstance(context).appendComments(posts.comment);
@@ -511,7 +473,7 @@ public class InternetManager {
                 // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
                 Log.e("net>>>>" + response, "");
                 Report report1= new Report();
-                new CollegareParser().parseUserInfos(response, user,report1);
+//                CollegareParser.getInstance(context).parseUserInfos(response, user, report1);
                 if(report1.Status==App_Config.STATUS_OK){
                     DatabaseManager.getInstance(context).addUser(user);
                     return;
@@ -543,7 +505,7 @@ public class InternetManager {
 
         Log.e("instanse", "" + AppManager.getInstance());
         AppManager.getInstance().addToRequestQueue(request, TAG, context);
-    }
+    }           // [ABANDONED FUNCTION]
 
     public void getUserPicFull( final Report report){
         String TAG = "post_Req_USER_IMAGE";
@@ -561,7 +523,7 @@ public class InternetManager {
                 // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
                 Log.e("net>>>>" + response, "");
                 Report report1= new Report();
-                new CollegareParser().parsePicFullURL(report1);
+                CollegareParser.getInstance(context).parsePicFullURL(report1);
                 if(report1.Status==App_Config.STATUS_OK){
                     report.Description=report1.Description;
                     return;
@@ -610,7 +572,7 @@ public class InternetManager {
                 // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
                 Log.e("net>>>>" + response, "");
                 Report report1= new Report();
-                new CollegareParser().parsePicURL(report1);
+                CollegareParser.getInstance(context).parsePicURL(report1);
                 if(report1.Status==App_Config.STATUS_OK){
                     report.Description=report1.Description;
                     return;

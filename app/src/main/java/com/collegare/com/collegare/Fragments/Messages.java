@@ -88,16 +88,15 @@ public class Messages extends Fragment implements SendListener{
     }
 
     private void refressMessage() {
-        ArrayList<CollegareMessage> newMessages= new ArrayList<>();
 
-        InternetManager.getInstance(getActivity()).getMessage(newMessages, rp);
-        if(rp.Status== App_Config.STATUS_OK){
-            adapter.setMessageDataList(newMessages);
-            adapter.notifyDataSetChanged();
-        }
+       if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
+           InternetManager.getInstance(getActivity()).getMessage();
+       }
+        else{
+           Snackbar.make(swipeRefreshLayout, "No Messages Loaded", Snackbar.LENGTH_SHORT).show();
+           swipeRefreshLayout.setRefreshing(false);
+       }
 
-        Snackbar.make(swipeRefreshLayout, "No Messages Loaded", Snackbar.LENGTH_SHORT).show();
-        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
