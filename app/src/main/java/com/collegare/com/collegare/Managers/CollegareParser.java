@@ -48,17 +48,19 @@ public class CollegareParser {
 
 
     void parseFeed(String response) {
-
+        ArrayList<CollegareFeed> feedlist= new ArrayList<>();
         try {
             JSONObject feedObj = new JSONObject(response);
-
+            Log.e("mmm res>>",""+response);
             if (feedObj.getInt("status") != 0)
             {
                 return;
             }
             else {
                 CollegareFeed feed =null;
+
                 JSONArray posts = feedObj.getJSONArray("posts");
+
                 for (int i = 0; i < posts.length(); i++) {
                     JSONObject post = (JSONObject) posts.get(i);
                     String isLiked=(post.getString("vote").equals("1"))?"true":"false";
@@ -69,7 +71,7 @@ public class CollegareParser {
                                     post.getString("content"),
                                     post.getString("username"),
                                     post.getString("doc"),
-                                    post.getString("groupid"),
+                                    post.getString("gid"),
                                     post.getString("id"),
                                     post.getString("weight"),
                                     post.getString("pollid"),
@@ -80,8 +82,10 @@ public class CollegareParser {
                                     isDisLiked
                             );
                     postDataAdapter.getInstance(context).addToPostDataList(feed);
+                    //feedlist.add(feed);
                 }
 
+              //  postDataAdapter.getInstance(context).setPostDataList(feedlist);
             }
 
         } catch (JSONException e) {

@@ -27,4 +27,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:23.0+'
     compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
+    compile 'com.parse.bolts:bolts-android:1.+'
+    compile 'com.parse:parse-android:1.+'
 }
+

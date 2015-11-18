@@ -202,8 +202,10 @@ public class InternetManager {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("action", "feed");
+                Log.e("ttt for id>>",UserId);
                 params.put("id", UserId);
-                params.put("group",gid);
+                Log.e("ttt for gid >>",gid);
+                //params.put("gid",gid);
                 return params;
             }
         };

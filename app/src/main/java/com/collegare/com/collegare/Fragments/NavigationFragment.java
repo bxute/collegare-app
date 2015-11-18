@@ -3,6 +3,7 @@ package com.collegare.com.collegare.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -20,6 +21,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.collegare.com.collegare.Managers.AppManager;
 import com.collegare.com.collegare.Managers.DataStore;
 import com.collegare.com.collegare.Managers.NavigationDrawerRecyclerViewAdapter;
 import com.collegare.com.collegare.Managers.RecyclerViewDecorator;
@@ -90,6 +95,21 @@ public class NavigationFragment extends Fragment {
     }
 
     public void makeReadyNav(final Activity context,DrawerLayout drawerLayout,Toolbar toolbar){
+        String url="http://collegare.eu5.org/uploads/1.jpg";
+        ImageRequest request = new ImageRequest(url,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        proPic.setImageBitmap(bitmap);
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("errop laodf","img");
+                    }
+                });
+
+        AppManager.getInstance().addToRequestQueue(request,"imgReq",getActivity());
 
         Log.e("passing "," "+drawerLayout);
         navRVadapter= new NavigationDrawerRecyclerViewAdapter(getActivity(),drawerLayout,new Feeds());

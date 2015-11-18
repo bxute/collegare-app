@@ -1,6 +1,7 @@
 package com.collegare.com.collegare.Activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.collegare.com.collegare.Managers.AppManager;
 import com.collegare.com.collegare.Managers.App_Config;
@@ -27,6 +29,9 @@ import com.collegare.com.collegare.Managers.InternetManager;
 import com.collegare.com.collegare.Models.Report;
 import com.collegare.com.collegare.R;
 import com.collegare.com.collegare.Managers.postDataAdapter;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,54 +65,67 @@ public class Profile extends AppCompatActivity {
             return;
         }
 
-        StringRequest request = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
+        StringRequest userReq = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(String s) {
+                Log.e(s + "[response]", "");
 
-                // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
-                Log.e("pic url res>>" + response, "");
-                parseAndSetPic(response);
+                try {
+                    JSONObject userOBJ = new JSONObject(s);
+                    int error_code = userOBJ.getInt("status");
+
+                    Log.e("pro pic ",""+s);
+                    parseAndSetPic(s);
+                } catch (JSONException e) {
+                    Log.e("Parse error in User","");
+                    e.printStackTrace();
+                }
             }
-
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("" + volleyError.toString(), "[error reported]");
-
-            }
-        }) {
+                Log.e("[vol] user:"," "+volleyError);
+            }}){
             @Override
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("action", "getpic");
-                Log.e("pic for user ",""+DatabaseManager.getInstance(Profile.this).getUser().username.toString());
-
-                params.put("id", DatabaseManager.getInstance(Profile.this).getUser().username.toString());
+                params.put("action","getfullpic");
+                String username= DatabaseManager.getInstance(Profile.this).getUser().username;
+                params.put("username", username);
                 return params;
-            }
-
-        };
-
-        Log.e("instanse", "" + AppManager.getInstance());
-        AppManager.getInstance().addToRequestQueue(request, "pic_url_req", this);
+            }};
+        Log.e("reqeust for userinfo","");
+        AppManager.getInstance().addToRequestQueue(userReq, "userinfo", this);
     }
 
     private void parseAndSetPic(String response) {
 
-        String url="";
+        String url=null;
+        try {
+            JSONObject urlObj=new JSONObject(response);
+            url="http://collegare.eu5.org/"+urlObj.getString("url");
+            Log.e("PIC url ",">"+url);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        AppManager.getInstance(this).get(url, new ImageLoader.ImageListener() {
-            @Override
-            public void onResponse(ImageLoader.ImageContainer imageContainer, boolean b) {
-                    v.setImageBitmap(imageContainer.getBitmap());
-            }
 
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
+        ImageRequest request = new ImageRequest(url,
+                new Response.Listener<Bitmap>() {
+                    @Override
+                    public void onResponse(Bitmap bitmap) {
+                        v.setImageBitmap(bitmap);
+                    }
+                }, 0, 0, null,
+                new Response.ErrorListener() {
+                    public void onErrorResponse(VolleyError error) {
+                       Log.e("errop laodf","img");
+                    }
+                });
 
-            }
-        });
+        AppManager.getInstance().addToRequestQueue(request,"imgReq",Profile.this);
+
     }
 
 

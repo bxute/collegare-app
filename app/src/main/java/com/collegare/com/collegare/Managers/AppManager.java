@@ -35,7 +35,7 @@ public class AppManager extends Application
 
     }
 
-    public static synchronized ImageLoader getInstance(Context context){
+    public static synchronized ImageLoader getImageLoader(Context context){
 
         if(imageLoader==null){
             imageLoader= new ImageLoader(Volley.newRequestQueue(context),new ImageLoader.ImageCache(){

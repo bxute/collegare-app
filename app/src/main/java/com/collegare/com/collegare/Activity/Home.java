@@ -39,6 +39,8 @@ import com.collegare.com.collegare.Managers.BPagerAdapter;
 //import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
 
 import java.util.ArrayList;
 
@@ -126,6 +128,11 @@ public class Home extends AppCompatActivity {
 
 
     public void Init() {
+
+
+        Parse.initialize(this, "cVC7Rse3Ueddx5x6GAUIPKT5ROX7zBQIwttUXlbN", "wUS4KAUPagAfa0fbI1lgvrOoBlt9bQb2JAoD7chA");
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
         bTitle = bDrawerTitle = getTitle();
         bDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);

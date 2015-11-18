@@ -143,14 +143,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     if (error_code == 0) {
                         Log.e("status", error_code + "");
                         session.setLoginStatus(true);
-                        Report report= new Report();
-                        RequestUserInfo(loginOBJ.getString("username"), report,loginOBJ.getString("token"));
+                        RequestUserInfo(loginOBJ.getString("username"),loginOBJ.getString("token"));
                     }
                     else {
                         progress.hide();
                         Snackbar.make(uID,"Authenticatio Failed !!",Snackbar.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
+                    progress.hide();
+                    Snackbar.make(loginButton,"Something goes Wrong !!",Snackbar.LENGTH_LONG).show();
                     Log.e("Parsing error in Login "," ");
                     e.printStackTrace();
                 }
@@ -203,7 +204,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
 
-    public void RequestUserInfo(final String username, final Report report, final String token){
+    public void RequestUserInfo(final String username, final String token){
         Log.e("request came for user","");
         final Intent intent= new Intent(this,Home.class);
 
