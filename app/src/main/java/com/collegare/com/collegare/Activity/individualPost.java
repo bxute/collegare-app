@@ -13,9 +13,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.collegare.com.collegare.Managers.AppManager;
 import com.collegare.com.collegare.Managers.App_Config;
+import com.collegare.com.collegare.Managers.CollegareParser;
 import com.collegare.com.collegare.Managers.CommentsAdapter;
 import com.collegare.com.collegare.Managers.DataStore;
+import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.InternetManager;
 import com.collegare.com.collegare.Managers.MessageAdapter;
 import com.collegare.com.collegare.Managers.NavigationDrawerRecyclerViewAdapter;
@@ -25,7 +32,13 @@ import com.collegare.com.collegare.Models.CollegarePost;
 import com.collegare.com.collegare.Models.Report;
 import com.collegare.com.collegare.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class individualPost extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,16 +50,18 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
     Report report;
     DataStore dataStore;
     String pID;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Initialize();
+        RequestData();
     }
 
     private void Initialize() {
         setContentView(R.layout.activity_individual_post);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         userId= (TextView) findViewById(R.id.userId);
         userPic= (ImageView) findViewById(R.id.userPic);
@@ -57,35 +72,27 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
         likeImg = (ImageView) findViewById(R.id.likeImg);
         unlikeImg= (ImageView) findViewById(R.id.unlikeImg);
         commentCount= (TextView) findViewById(R.id.commentCount);
-        report= new Report();
-        dataStore= new DataStore(getApplicationContext());
+
+        dataStore= new DataStore(individualPost.this);
 
         likeImg.setOnClickListener(this);
         unlikeImg.setOnClickListener(this);
+
         if(getIntent()!=null){
             pID=getIntent().getExtras().getString("postId");
         }
-        post=dataStore.getPost(pID);
-        toolbar.setTitle(post.username+"`s Post");
+
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        int resIdL=(post.isLiked.equals("true"))?R.drawable.upvote_48:R.drawable.upvote_48_black;
-        int resIdD= (post.isDisliked.equals("true"))?R.drawable.downvote_48:R.drawable.downvote_48_black;
-        userId.setText(post.id);
-        userPic.setImageResource(R.drawable.user_pic);
-        nameDisplay.setText(post.username);
-        contentText.setText(post.content);
-        likeText.setText(post.LikeCount);
-        unlikeText.setText(post.DisLikeCount);
-        likeImg.setImageResource(resIdL);
-        unlikeImg.setImageResource(resIdD);
-        commentCount.setText(post.comment.size() + "");
-        adapter=new CommentsAdapter(this,post.comment);
+
+        adapter=new CommentsAdapter(this);
         comments= (RecyclerView) findViewById(R.id.commentHolder);
         comments.setLayoutManager(new LinearLayoutManager(this));
         comments.addItemDecoration(new RecyclerViewDecorator(this, 5, true, R.drawable.post_divider));
         comments.setAdapter(adapter);
+
     }
 
 
@@ -186,4 +193,127 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
 
         }
 }
+
+
+    private void RequestData(){
+                Log.e("www Req For PId>>",""+pID);
+        if (!InternetManager.getInstance(this).isConnectedToNet()) {
+            Log.e("not connected","");
+            return;
+        }
+
+        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
+                Log.e("www net>>>>" + response, "");
+               ParseAndSet(response);
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.e("" + volleyError.toString(), "[error reported]");
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("action", "feed");
+                params.put("postid",pID);
+
+                return params;
+            }
+
+        };
+
+        AppManager.getInstance().addToRequestQueue(request, "reqPostSingle",this);
+
+    }
+
+    private void ParseAndSet(String response) {
+
+
+        try {
+            JSONObject postObj = new JSONObject(response);
+
+            if (postObj.getInt("status") != 0){
+                return;
+            }
+
+            CollegareComment comments;
+
+            JSONArray comment = postObj.getJSONArray("comments");
+            for (int i = 0; i < comment.length(); i++) {
+                JSONObject temp = (JSONObject) comment.get(i);
+                comments=new CollegareComment(
+                                postObj.getString("postid"),
+                                temp.getString("commentid"),
+                                temp.getString("id"),
+                                temp.getString("username"),
+                                temp.getString("content"),
+                                temp.getString("doc"));
+                    CommentsAdapter.getInstance(this).addComment(comments);
+
+            }
+
+        /*
+        *
+
+        * */
+
+
+            /*
+            {
+    "postid": "12",
+    "content": "Some stupid not post",
+    "username": "test3",
+    "doc": "2015-09-15 09:17:16",
+    "groupid": 1,
+    "id": "3",
+    "weight": "12",
+    "pollid": null,
+    "upcount": 1,
+    "downcount": 0,
+    "commentcount": 1,
+    "vote": 0,
+
+    "comments": [
+        {
+            "commentid": "$COMMENTID",
+            "id": "$ID",
+            "username": "$USERNAME",
+            "content": "$CONTENT",
+            "doc": "$date"
+        }
+    ]
+}
+            * */
+            userId.setText(postObj.getString("id"));
+            userPic.setImageResource(R.drawable.user_pic);
+            likeText.setText(postObj.getString("upcount"));
+            unlikeText.setText(postObj.getString("downcount"));
+            nameDisplay.setText(postObj.getString("username"));
+            contentText.setText(postObj.getString("content"));
+            commentCount.setText(postObj.getString("commentcount"));
+            toolbar.setTitle(postObj.getString("username") + "`s Post");
+            int resIdL=(postObj.getString("vote").equals("1"))?R.drawable.upvote_48:R.drawable.upvote_48_black;
+            int resIdD= (postObj.getString("vote").equals("-1"))?R.drawable.downvote_48:R.drawable.downvote_48_black;
+
+
+            likeImg.setImageResource(resIdL);
+            unlikeImg.setImageResource(resIdD);
+
+            return;
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return;
+        }
+    }
+
 }

@@ -20,14 +20,31 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
 
     ArrayList<CollegareComment> comments;
     Context context;
-
-    public CommentsAdapter (){}
+    private static CommentsAdapter bInstance;
+    public CommentsAdapter (Context c){this.context=c;bInstance=this;comments=new ArrayList<>();}
 
     public CommentsAdapter(Context context,ArrayList<CollegareComment> list){
         this.comments=list;
         this.context=context;
     }
 
+    public static CommentsAdapter getInstance(Context context){
+        if(bInstance==null){
+            bInstance=new CommentsAdapter(context);
+        }
+        return bInstance;
+    }
+
+
+    public void addComment(CollegareComment collegareComment){
+        comments.add(0,collegareComment);
+        notifyItemInserted(0);
+    }
+
+    public void setComments(ArrayList<CollegareComment> list){
+        comments = list;
+        notifyDataSetChanged();
+    }
 
     @Override
     public CommentHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -145,21 +145,8 @@ public class DataStore {
 
     /*
     *
-    *       getting a single post with comments         [STATUS : OK] [1]
+    *
     * */
-   public CollegarePost getPost(String PostId) {
-        CollegarePost post = new CollegarePost();
-        ArrayList<CollegareComment> comments = new ArrayList<>();
-        CollegareFeed feed = new CollegareFeed();
-        Report report = new Report();
-        InternetManager.getInstance(context).getPost(post, PostId, report);
-        if (report.Status != App_Config.STATUS_OK) {
-            // reading from database
-            post = DatabaseManager.getInstance(context).getPost(PostId);
-        }
-        return post;
-    }
-
     /*
     *
     *       getting messages                        [STATUS : OK] [1]

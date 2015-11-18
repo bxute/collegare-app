@@ -61,6 +61,9 @@ public class CollegareParser {
                 JSONArray posts = feedObj.getJSONArray("posts");
                 for (int i = 0; i < posts.length(); i++) {
                     JSONObject post = (JSONObject) posts.get(i);
+                    String isLiked=(post.getString("vote").equals("1"))?"true":"false";
+                    String isDisLiked=(post.getString("vote").equals("-1"))?"true":"false";
+
                     feed =new CollegareFeed(
                                     post.getString("postid"),
                                     post.getString("content"),
@@ -73,8 +76,8 @@ public class CollegareParser {
                                     post.getString("commentcount"),
                                     post.getString("upcount"),
                                     post.getString("downcount"),
-                                    "true",
-                                    "false"
+                                    isLiked,
+                                    isDisLiked
                             );
                     postDataAdapter.getInstance(context).addToPostDataList(feed);
                 }
@@ -92,58 +95,6 @@ public class CollegareParser {
     *
     *           parse data for a single post with its commets ,,,    used for displaying in indivisual post page        [STATUS: OK][1]
     * */
-    void parseIndividualPost(String response, CollegarePost currentPost,Report report) {
-        currentPost = null;
-        try {
-            JSONObject postObj = new JSONObject(response);
-
-            if (postObj.getInt("status") != 0){
-                report.Description="something is received wrong";
-                report.Status=App_Config.STATUS_ERROR;
-                return;
-            }
-            ArrayList<CollegareComment> comments = new ArrayList<>();
-            JSONArray comment = postObj.getJSONArray("comments");
-            for (int i = 0; i < comment.length(); i++) {
-                JSONObject temp = (JSONObject) comment.get(i);
-                comments.add(new CollegareComment(
-                                temp.getString("postid"),
-                                temp.getString("commentid"),
-                                temp.getString("id"),
-                                temp.getString("username"),
-                                temp.getString("content"),
-                                temp.getString("doc")
-                        )
-                );
-            }
-            currentPost = new CollegarePost(
-                    postObj.getString("postid"),
-                    postObj.getString("content"),
-                    postObj.getString("username"),
-                    postObj.getString("doc"),
-                    postObj.getString("groupid"),
-                    postObj.getString("id"),
-                    postObj.getString("weight"),
-                    postObj.getString("pollid"),
-                    postObj.getString("like"),
-                    postObj.getString("dislike"),
-                    postObj.getString("isliked"),
-                    postObj.getString("isdisliked"),
-                    comments);
-
-            report.Description="all is fine";
-            report.Status=App_Config.STATUS_OK;
-            return;
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            report.Description="parsing error";
-            report.Status=App_Config.STATUS_ERROR;
-            return;
-        }
-    }
-
     /*
     *
     *           parse messages          [STATUS: OK][1]

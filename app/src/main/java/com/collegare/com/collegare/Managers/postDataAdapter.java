@@ -117,7 +117,9 @@ public class postDataAdapter extends RecyclerView
 //            String tag = v.getTag().toString();
             int id= v.getId();
             int currentPosition = getAdapterPosition();
-            CollegareFeed feed = instance.mDataset.get(currentPosition);
+            CollegareFeed feed = instance.mDataset.get(instance.mDataset.size()-currentPosition);
+            Log.e("crnt post >>",""+currentPosition);
+            Log.e("gid ",">>"+feed.postid);
             switch (id) {
 
                // case "likeBtn":
@@ -173,8 +175,8 @@ public class postDataAdapter extends RecyclerView
                     Bundle bundle = new Bundle();
                     bundle.putString("postId", feed.postid);
                     i.putExtras(bundle);
-                    instance.sessionManager.setLastGroup(feed.groupid);
-                    Log.e("stored gid", " " + feed.groupid);
+                   // instance.sessionManager.setLastGroup(feed.groupid);
+                   // Log.e("stored gid", " " + feed.groupid);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     instance.context.startActivity(i);
 

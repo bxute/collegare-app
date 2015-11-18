@@ -212,57 +212,8 @@ public class InternetManager {
 
     }                                               // getting feeds for anonymous post
 
-    public void getPost(final CollegarePost posts, final String PostID, final Report report){
+    public void getPost(final CollegarePost posts, final String PostID){
         String TAG = "postReqGET";
-
-        if (!isConnectedToNet()) {
-            Log.e("netFor[post get]>",""+isConnectedToNet());
-            report.Description="no internet";
-            report.Status=App_Config.STATUS_ERROR;
-            return;
-
-        }
-        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
-                Log.e("net>>>>" + response, "");
-                Report report1= new Report();
-                CollegareParser.getInstance(context).parseIndividualPost(response, posts, report1);
-
-                if(report1.Status==App_Config.STATUS_OK){
-                    DatabaseManager.getInstance(context).appendComments(posts.comment);
-                    return;
-                }
-
-                report.Status=App_Config.STATUS_ERROR;
-                report.Description=report1.Description;
-
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.e("" + volleyError.toString(), "[error reported]");
-                report.Status=App_Config.STATUS_ERROR;
-                report.Description="network error";
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to login url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("action", "feed");
-                params.put("postid", PostID);
-
-                return params;
-            }
-
-        };
-
-        Log.e("instanse", "" + AppManager.getInstance());
-        AppManager.getInstance().addToRequestQueue(request, TAG, context);
 
 
     }
@@ -549,55 +500,6 @@ public class InternetManager {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("action", "getfullpic");
-                params.put("id", UserId);
-                return params;
-            }
-
-        };
-
-        Log.e("instanse", "" + AppManager.getInstance());
-        AppManager.getInstance().addToRequestQueue(request, TAG, context);
-    }
-
-    public void getUserPic(final Report report){
-        String TAG = "post_Req_USER_GET";
-
-        if (!isConnectedToNet()) {
-            Log.e("netFor[user pic get]>",""+isConnectedToNet());
-            report.Status=App_Config.STATUS_ERROR;
-            report.Description="not connectivity available !";
-            return;
-        }
-        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
-                Log.e("net>>>>" + response, "");
-                Report report1= new Report();
-                CollegareParser.getInstance(context).parsePicURL(report1);
-                if(report1.Status==App_Config.STATUS_OK){
-                    report.Description=report1.Description;
-                    return;
-                }
-                report.Status=App_Config.STATUS_ERROR;
-                report.Description="image not available";
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.e("" + volleyError.toString(), "[error reported]");
-                report.Description="network error !";
-                report.Status=App_Config.STATUS_ERROR;
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to login url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("action", "getpic");
                 params.put("id", UserId);
                 return params;
             }
