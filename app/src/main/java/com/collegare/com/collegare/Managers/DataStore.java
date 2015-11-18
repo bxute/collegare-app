@@ -134,10 +134,11 @@ public class DataStore {
 
             if(!InternetManager.getInstance(context).isConnectedToNet()){
                 feeds = DatabaseManager.getInstance(context).getPosts(gid);
+                postDataAdapter.getInstance(context).setPostDataList(feeds);
             }
          else
             {
-                InternetManager.getInstance(context).getFeeds();
+                InternetManager.getInstance(context).getFeeds(gid);
             }
             return feeds;
     }
@@ -163,18 +164,20 @@ public class DataStore {
     *
     *       getting messages                        [STATUS : OK] [1]
     * */
-   public ArrayList<CollegareMessage> getMessages(Report report){
+   public ArrayList<CollegareMessage> getMessages(){
         ArrayList<CollegareMessage> messages=new ArrayList<>();
-        Report report1=new Report();
+
         // first trying to get messages from server
        // InternetManager.getInstance(context).getMessage(messages,report1);
-        if(report1.Status!=App_Config.STATUS_OK){
-            report.Description=report1.Description;
-            report.Status=report1.Status;
-            // syncing is failed due some reasons
-            // so load from database
-            messages=DatabaseManager.getInstance(context).getMessages();
-        }
+       if(!InternetManager.getInstance(context).isConnectedToNet()){
+           messages=DatabaseManager.getInstance(context).getMessages();
+           MessageAdapter.getInstance(context).setMessageDataList(messages);
+       }
+       else {
+           InternetManager.getInstance(context).getMessage();
+       }
+
+
 
         return messages;
     }

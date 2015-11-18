@@ -70,18 +70,18 @@ public class Home extends AppCompatActivity {
         Init();
         View view=findViewById(R.id.toolbar);
 
-        tester();
+     //   tester();
 
     }
 
-    private void tester() {
+    /*private void tester() {
         Log.e("tester"," testing");
         ArrayList<CollegareFeed> feeds= new ArrayList<>();
         Report report= new Report();
         InternetManager.getInstance(this).getFeeds();
 
     }
-
+*/
     @Override
     public void onConfigurationChanged(Configuration configuration){
 
@@ -115,6 +115,7 @@ public class Home extends AppCompatActivity {
                 break;
             case R.id.action_LogOut:
                         SessionManager.setLoginStatus(false);
+                        finish();
                 break;
 
 

@@ -213,7 +213,9 @@ public class CollegareParser {
         ArrayList<CollegareGroup> groups= new ArrayList<>();
         try {
             JSONObject userObj= new JSONObject(response);
-            Log.e("parsing res:",""+response);
+            Log.e("qqq rec-token:",""+token);
+            Log.e("qqq rec-id:", userObj.getString("id"));
+
             Log.e("fname",(userObj.getString("firstname")));
             user=new CollegareUser(userObj.getString("firstname"),userObj.getString("lastname"),userObj.getString("username"),
                     userObj.getString("id"),userObj.getString("email"),userObj.getString("sex"),groups,userObj.getString("dob"),token);

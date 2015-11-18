@@ -57,19 +57,16 @@ public class Messages extends Fragment implements SendListener{
         recyclerView=(RecyclerView) view.findViewById(R.id.recyclerAnonymous);
         recyclerView.addItemDecoration(new RecyclerViewDecorator(getActivity(),5,true,R.drawable.post_divider));
         dataStore= new DataStore(getActivity());
-        rp= new Report();
-
         /*
         *
         *       simulating data storage
         * */
-        dataList = dataStore.getMessages(rp);
-        if(dataList.size()==0){
+        dataList = dataStore.getMessages();
+        /*if(dataList.size()==0){
             recyclerView.setVisibility(View.GONE);
             error.setVisibility(View.VISIBLE);
             error.setText("Data Not Available");
-        }
-
+        }*/
         adapter.setMessageDataList(dataList);
        // Toast.makeText(getActivity(), "" + rp.Description + " " + rp.Status, Toast.LENGTH_LONG).show();
 
@@ -91,9 +88,10 @@ public class Messages extends Fragment implements SendListener{
 
        if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
            InternetManager.getInstance(getActivity()).getMessage();
+           swipeRefreshLayout.setRefreshing(false);
        }
         else{
-           Snackbar.make(swipeRefreshLayout, "No Messages Loaded", Snackbar.LENGTH_SHORT).show();
+           Snackbar.make(swipeRefreshLayout, "No Connectivity", Snackbar.LENGTH_SHORT).show();
            swipeRefreshLayout.setRefreshing(false);
        }
 

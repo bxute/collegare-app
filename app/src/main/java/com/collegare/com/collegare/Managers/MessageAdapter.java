@@ -143,7 +143,7 @@ public class MessageAdapter extends RecyclerView
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Date d = new Date();
-        final CharSequence doc  = DateFormat.format(" yyyy-mm-dd hh:mm:ss", d.getTime());
+        final CharSequence doc  = DateFormat.format("yyyy-mm-dd hh:mm:ss", d.getTime());
         String timePast = TimeManager.getInstance().convert(doc.toString(), mDataset.get(position).doc);
 
         if(holder instanceof IncomingMessageHolder){

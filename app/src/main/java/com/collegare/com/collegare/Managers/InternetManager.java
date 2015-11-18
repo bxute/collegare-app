@@ -140,7 +140,7 @@ public class InternetManager {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        Log.e("message received:", "");
+                        Log.e("message received:", ""+s);
                         CollegareParser.getInstance(context).parseMessage(s);
                     }
                 }, new Response.ErrorListener() {
@@ -155,6 +155,8 @@ public class InternetManager {
                 Map<String, String> params = new HashMap<>();
                 params.put("action", "feed");
                 params.put("id", UserId);
+                Log.e("qqq userid>>",UserId);
+                Log.e("qqq token>>",UserToken);
                 params.put("token", UserToken);
                 return params;
             }
@@ -168,7 +170,7 @@ public class InternetManager {
     *
     * */
 
-    public void getFeeds() {
+    public void getFeeds(final String gid) {
 
         String TAG = "feedReq";
         Log.e("aaa ","req in");
@@ -201,6 +203,7 @@ public class InternetManager {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("action", "feed");
                 params.put("id", UserId);
+                params.put("group",gid);
                 return params;
             }
         };

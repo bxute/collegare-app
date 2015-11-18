@@ -44,9 +44,10 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         super.onCreate(savedInstanceState);
         adapter= postDataAdapter.getInstance(getActivity());
         feedArrayList= new ArrayList<>();
+        groupID =   sessionManager.getLastGroup();
         sessionManager= new SessionManager(getActivity());
         if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
-            InternetManager.getInstance(getActivity()).getFeeds();
+            InternetManager.getInstance(getActivity()).getFeeds(groupID);
         }
     }
 
@@ -57,16 +58,17 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         Log.e("feeds oncreateView cld","");
         swipeRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.refresser);
         recyclerView=(RecyclerView) view.findViewById(R.id.recyclerGroups);
-        groupID =   sessionManager.getLastGroup();
         Log.e("restored gid"," "+groupID);
         dataStore= new DataStore(getActivity());
+
         feedArrayList=dataStore.getFeeds(groupID);
-        if(feedArrayList.size()==0){
+        /*if(feedArrayList.size()==0){
             recyclerView.setVisibility(View.GONE);
             error.setVisibility(View.VISIBLE);
             error.setText("Data Not Available");
-        }
-        adapter.setPostDataList(feedArrayList);
+        }*/
+
+
         //Toast.makeText(getActivity()," "+rp.Description+" sta "+rp.Status,Toast.LENGTH_LONG).show();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -91,10 +93,13 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     private void refressFeeds() {
 
         if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
-            InternetManager.getInstance(getActivity()).getFeeds();
+            InternetManager.getInstance(getActivity()).getFeeds(groupID);
+            swipeRefreshLayout.setRefreshing(false);
+        }else{
+            Snackbar.make(swipeRefreshLayout,"No Connectivity !!",Snackbar.LENGTH_SHORT).show();
+            swipeRefreshLayout.setRefreshing(false);
         }
-        Snackbar.make(swipeRefreshLayout,"No Connectivity !!",Snackbar.LENGTH_SHORT).show();
-        swipeRefreshLayout.setRefreshing(false);
+
     }
 
     @Override

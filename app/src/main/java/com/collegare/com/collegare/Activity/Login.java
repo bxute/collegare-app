@@ -62,7 +62,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         Log.e("at login", "");
         DatabaseManager.getInstance(this).IntiateDataBase();
         session = new SessionManager(getApplicationContext());
-        session.setLastGroup("0");
+        session.setLastGroup("1");
         showPass = (CheckBox) findViewById(R.id.showPass);         //
         pass = (EditText) findViewById(R.id.passBox);              //  Set views by IDs
         uID = (EditText) findViewById(R.id.uIDBox);              //  from xml file

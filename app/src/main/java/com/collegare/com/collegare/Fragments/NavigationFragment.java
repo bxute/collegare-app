@@ -65,8 +65,8 @@ public class NavigationFragment extends Fragment {
         user=dataStore.getUser();
         groupList=user.groups;
         Log.e("Navigation fra(oCreate)"," getUsers");
-        groupList.add(new CollegareGroup("0","PUBLIC","2013-12-12 12:12:12",admins,members));
-        groupList.add(new CollegareGroup("1","Admins","2013-12-12 12:12:12",admins,members));
+        groupList.add(new CollegareGroup("1","PUBLIC","2013-12-12 12:12:12",admins,members));
+        groupList.add(new CollegareGroup("2","Admins","2013-12-12 12:12:12",admins,members));
 
     }
 
