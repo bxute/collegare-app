@@ -18,7 +18,7 @@ public class Contexter extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Parse.initialize(this, "cVC7Rse3Ueddx5x6GAUIPKT5ROX7zBQIwttUXlbN", "wUS4KAUPagAfa0fbI1lgvrOoBlt9bQb2JAoD7chA");
-        ParseInstallation.getCurrentInstallation().saveInBackground();
+       /* Parse.initialize(this, "cVC7Rse3Ueddx5x6GAUIPKT5ROX7zBQIwttUXlbN", "wUS4KAUPagAfa0fbI1lgvrOoBlt9bQb2JAoD7chA");
+        ParseInstallation.getCurrentInstallation().saveInBackground();*/
     }
 }

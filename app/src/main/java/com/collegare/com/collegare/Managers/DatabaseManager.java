@@ -165,7 +165,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         values.put("DOB", user.dob);
         values.put("TOKEN", user.token);
         long ins = db.insert("LoginInfo", null, values);
-    Log.e("inserted ",""+ins);
+    Log.e("lll inserted ","user >"+ins);
         int size = user.groups.size();
         int j = 0;
         for (int i = 0; i < size; i++) {
@@ -226,7 +226,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex("TOKEN"))
             );
         }
-        Log.e("Retriever ", cursor.getCount() + " User");
+        Log.e("lll Retrieved ", cursor.getCount() + " User");
         return user;
     }
 
@@ -341,7 +341,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
 
         db.close();
-        Log.e("Added ", id + " Feeds");
+        Log.e("lll Added ", id + " Feeds");
 
     }
 
@@ -405,7 +405,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             ));
             hasMore = cursor.moveToNext();
         }
-        Log.e("Retrieved ", posts.size() + " Posts");
+        Log.e("lll Retrieved ", posts.size() + " Posts");
         return posts;
     }
 

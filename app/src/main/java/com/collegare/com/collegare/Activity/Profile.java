@@ -6,29 +6,23 @@ import android.graphics.Color;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.collegare.com.collegare.Managers.AppManager;
 import com.collegare.com.collegare.Managers.App_Config;
-import com.collegare.com.collegare.Managers.CollegareParser;
 import com.collegare.com.collegare.Managers.DatabaseManager;
+import com.collegare.com.collegare.Managers.Imager;
 import com.collegare.com.collegare.Managers.InternetManager;
-import com.collegare.com.collegare.Models.Report;
 import com.collegare.com.collegare.R;
-import com.collegare.com.collegare.Managers.postDataAdapter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -110,21 +104,27 @@ public class Profile extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        if(Imager.getInstance(this).isProfileImageAvailable()){
+            v.setImageBitmap(Imager.getInstance(this).getFullImage());
+        }
+        else{
+            ImageRequest request = new ImageRequest(url,
+                    new Response.Listener<Bitmap>() {
+                        @Override
+                        public void onResponse(Bitmap bitmap) {
+                            v.setImageBitmap(bitmap);
+                            Imager.getInstance(Profile.this).saveFullImage(bitmap);
+                        }
+                    }, 0, 0, null,
+                    new Response.ErrorListener() {
+                        public void onErrorResponse(VolleyError error) {
+                            Log.e("errop laodf","img");
+                        }
+                    });
 
-        ImageRequest request = new ImageRequest(url,
-                new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
-                        v.setImageBitmap(bitmap);
-                    }
-                }, 0, 0, null,
-                new Response.ErrorListener() {
-                    public void onErrorResponse(VolleyError error) {
-                       Log.e("errop laodf","img");
-                    }
-                });
+            AppManager.getInstance().addToRequestQueue(request,"imgReq",Profile.this);
 
-        AppManager.getInstance().addToRequestQueue(request,"imgReq",Profile.this);
+        }
 
     }
 

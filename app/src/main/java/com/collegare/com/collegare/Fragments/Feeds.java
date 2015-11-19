@@ -60,7 +60,6 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         recyclerView=(RecyclerView) view.findViewById(R.id.recyclerGroups);
         Log.e("restored gid"," "+groupID);
         dataStore= new DataStore(getActivity());
-
         feedArrayList=dataStore.getFeeds(groupID);
         /*if(feedArrayList.size()==0){
             recyclerView.setVisibility(View.GONE);

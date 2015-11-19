@@ -21,22 +21,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.collegare.com.collegare.Managers.AppManager;
+import com.collegare.com.collegare.Managers.App_Config;
 import com.collegare.com.collegare.Managers.DataStore;
+import com.collegare.com.collegare.Managers.DatabaseManager;
+import com.collegare.com.collegare.Managers.Imager;
+import com.collegare.com.collegare.Managers.InternetManager;
 import com.collegare.com.collegare.Managers.NavigationDrawerRecyclerViewAdapter;
 import com.collegare.com.collegare.Managers.RecyclerViewDecorator;
+import com.collegare.com.collegare.Managers.SessionManager;
 import com.collegare.com.collegare.Models.CollegareAdmin;
 import com.collegare.com.collegare.Models.CollegareGroup;
 import com.collegare.com.collegare.Models.CollegareGroupMember;
 import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.lang.ref.SoftReference;
 import java.net.PortUnreachableException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -85,31 +97,62 @@ public class NavigationFragment extends Fragment {
         email= (TextView) view.findViewById(R.id.email);
         userid= (TextView) view.findViewById(R.id.userId);
         username= (TextView) view.findViewById(R.id.username);
-        email.setText(user.email+"");
-        userid.setText(user.id+"");
-        username.setText(user.firstname+" "+user.lastname);
+        email.setText(user.email + "");
+        userid.setText(user.id + "");
+        username.setText(user.firstname + " " + user.lastname);
 
 
 
         return view;
     }
+        public void RequestImage(){
+            if (!InternetManager.getInstance(getActivity()).isConnectedToNet()) {
+                return;
+            }
+
+            StringRequest userReq = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String s) {
+                    Log.e(s + "[response]", "");
+
+                    try {
+                        JSONObject userOBJ = new JSONObject(s);
+                        int error_code = userOBJ.getInt("status");
+                        if(error_code==0){
+                            String url=null;
+                            url="http://collegare.eu5.org/"+userOBJ.getString("url");
+                            SessionManager.setPicPath(url);
+                        }
+                        Log.e("nav pic ", "" + s);
+
+
+                    } catch (JSONException e) {
+                        Log.e("Parse error in User","");
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    Log.e("[vol] user:"," "+volleyError);
+                }}){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to login url
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("action","getpic");
+                    String username= DatabaseManager.getInstance(getActivity()).getUser().username;
+                    params.put("username", username);
+                    return params;
+                }};
+            Log.e("reqeust for userinfo","");
+            AppManager.getInstance().addToRequestQueue(userReq, "userinfo", getActivity());
+        }
 
     public void makeReadyNav(final Activity context,DrawerLayout drawerLayout,Toolbar toolbar){
-        String url="http://collegare.eu5.org/uploads/1.jpg";
-        ImageRequest request = new ImageRequest(url,
-                new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
-                        proPic.setImageBitmap(bitmap);
-                    }
-                }, 0, 0, null,
-                new Response.ErrorListener() {
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("errop laodf","img");
-                    }
-                });
 
-        AppManager.getInstance().addToRequestQueue(request,"imgReq",getActivity());
+    RequestImage();
+
 
         Log.e("passing "," "+drawerLayout);
         navRVadapter= new NavigationDrawerRecyclerViewAdapter(getActivity(),drawerLayout,new Feeds());

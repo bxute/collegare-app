@@ -60,13 +60,13 @@ public class postDataAdapter extends RecyclerView
     }
 
     public void setPostDataList(ArrayList<CollegareFeed> list) {
-        Log.e("ccc","postlist set");
+        //Log.e("ccc","postlist set");
         this.mDataset = list;
         notifyDataSetChanged();
     }
 
     public void addToPostDataList(CollegareFeed feed){
-        Log.e("ccc feed added to adapter","");
+       // Log.e("ccc feed added to adapter","");
         mDataset.add(0,feed);
         notifyItemInserted(0);
     }
@@ -236,7 +236,7 @@ public class postDataAdapter extends RecyclerView
 
     @Override
     public int getItemCount() {
-        Log.e("size", mDataset.size() + "");
+       // Log.e("size", mDataset.size() + "");
         return mDataset.size();
 
     }

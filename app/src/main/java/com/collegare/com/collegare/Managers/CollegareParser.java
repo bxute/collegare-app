@@ -82,10 +82,16 @@ public class CollegareParser {
                                     isDisLiked
                             );
                     postDataAdapter.getInstance(context).addToPostDataList(feed);
-                    //feedlist.add(feed);
+                    feedlist.add(feed);
+                    Log.e("lll hiesght id is",""+SessionManager.getLastPostID());
+                    if(Integer.parseInt(SessionManager.getLastPostID()) < Integer.parseInt(post.getString("postid"))){
+                        SessionManager.setLastPostID(post.getString("postid"));
+                        Log.e("lll now highest is :",""+post.getString("postid"));
+                    }
+
                 }
 
-              //  postDataAdapter.getInstance(context).setPostDataList(feedlist);
+                DatabaseManager.getInstance(context).appendFeed(feedlist);
             }
 
         } catch (JSONException e) {

@@ -129,10 +129,6 @@ public class Home extends AppCompatActivity {
 
     public void Init() {
 
-
-        Parse.initialize(this, "cVC7Rse3Ueddx5x6GAUIPKT5ROX7zBQIwttUXlbN", "wUS4KAUPagAfa0fbI1lgvrOoBlt9bQb2JAoD7chA");
-        ParseInstallation.getCurrentInstallation().saveInBackground();
-
         bTitle = bDrawerTitle = getTitle();
         bDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
