@@ -29,12 +29,14 @@
 
     <string name="title_activity_post_fragment">postFragment</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_individual_post">individualPost</string>
     <string name="title_activity_edit_profile">EditProfile</string>
     <string name="action_editProfile">Edit Profile</string>
+    <string name="title_activity_post_send">Send</string>
+    <string name="title_activity_message_send">MessageSend</string>
 
 
 </resources>

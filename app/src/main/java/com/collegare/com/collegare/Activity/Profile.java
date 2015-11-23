@@ -3,6 +3,7 @@ package com.collegare.com.collegare.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +11,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -19,9 +24,11 @@ import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.collegare.com.collegare.Managers.AppManager;
 import com.collegare.com.collegare.Managers.App_Config;
+import com.collegare.com.collegare.Managers.CollegareParser;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.Imager;
 import com.collegare.com.collegare.Managers.InternetManager;
+import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.R;
 
 import org.json.JSONException;
@@ -30,9 +37,18 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Profile extends AppCompatActivity {
+public class Profile extends AppCompatActivity implements OnClickListener {
     ImageView v;
     Toolbar toolbar;
+    String username;
+
+    CollapsingToolbarLayout toolbarLayout;
+    TextView bio;
+    TextView contact;
+    TextView email;
+    TextView holiness;
+    RelativeLayout callBtn,emailBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,18 +62,38 @@ public class Profile extends AppCompatActivity {
         collapsingToolbar.setTitle("ankit");
         collapsingToolbar.setCollapsedTitleTextColor(Color.WHITE);
         collapsingToolbar.setExpandedTitleColor(Color.WHITE);
-
         v= (ImageView) findViewById(R.id.profile_image);
-        RequestAndSet();
+        toolbarLayout= (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        bio= (TextView) findViewById(R.id.shortbio);
+        contact= (TextView) findViewById(R.id.phone);
+        email= (TextView) findViewById(R.id.email);
+        holiness= (TextView) findViewById(R.id.holiness);
+        callBtn= (RelativeLayout) findViewById(R.id.callBtn);
+        emailBtn= (RelativeLayout) findViewById(R.id.emailBtn);
+       // username=getIntent().getExtras().getString("username");
+        username="ankit";
+        callBtn.setOnClickListener(this);
+        emailBtn.setOnClickListener(this);
 
+        /*if(Imager.getInstance(this).isProfileImageAvailable()){
+            Log.e("img","available");
+            v.setImageBitmap(Imager.getInstance(this).getFullImage());
+        }
+        else{
+            RequestAndSet();
+        }*/
+
+        if(InternetManager.getInstance(this).isConnectedToNet()){
+            RequestAndSetPic();
+            RequestUserInfo(username);
+        }
+            toolbarLayout.setTitle(username);
 
     }
 
-    public void RequestAndSet(){
 
-        if (!InternetManager.getInstance(this).isConnectedToNet()) {
-            return;
-        }
+    public void RequestAndSetPic(){
+
 
         StringRequest userReq = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
             @Override
@@ -78,18 +114,17 @@ public class Profile extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("[vol] user:"," "+volleyError);
+
             }}){
             @Override
             protected Map<String, String> getParams() {
-                // Posting parameters to login url
+
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("action","getfullpic");
-                String username= DatabaseManager.getInstance(Profile.this).getUser().username;
                 params.put("username", username);
                 return params;
             }};
-        Log.e("reqeust for userinfo","");
+
         AppManager.getInstance().addToRequestQueue(userReq, "userinfo", this);
     }
 
@@ -104,16 +139,12 @@ public class Profile extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if(Imager.getInstance(this).isProfileImageAvailable()){
-            v.setImageBitmap(Imager.getInstance(this).getFullImage());
-        }
-        else{
             ImageRequest request = new ImageRequest(url,
                     new Response.Listener<Bitmap>() {
                         @Override
                         public void onResponse(Bitmap bitmap) {
                             v.setImageBitmap(bitmap);
-                            Imager.getInstance(Profile.this).saveFullImage(bitmap);
+                           // Imager.getInstance(Profile.this).saveFullImage(bitmap);
                         }
                     }, 0, 0, null,
                     new Response.ErrorListener() {
@@ -125,6 +156,48 @@ public class Profile extends AppCompatActivity {
             AppManager.getInstance().addToRequestQueue(request,"imgReq",Profile.this);
 
         }
+
+
+    public void RequestUserInfo(final String username) {
+
+        StringRequest userReq = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Log.e(s + "[response]", "");
+
+                try {
+                    JSONObject userOBJ = new JSONObject(s);
+                    int error_code = userOBJ.getInt("status");
+                    if (error_code == 0) {
+                        bio.setText(userOBJ.getString("bio"));
+                        contact.setText(userOBJ.getString("contact"));
+                        holiness.setText(userOBJ.getString("holiness"));
+                        email.setText(userOBJ.getString("email"));
+                        toolbarLayout.setTitle(username);
+                    }
+                } catch (JSONException e) {
+                    Log.e("Parse error in User", "");
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.e("[vol] user:", " " + volleyError);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("action", "get");
+                params.put("username", username);
+                return params;
+            }
+        };
+        Log.e("reqeust for userinfo", "");
+        AppManager.getInstance().addToRequestQueue(userReq, "userinfo", this);
+
 
     }
 
@@ -149,5 +222,28 @@ public class Profile extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id=view.getId();
+
+        if(id==R.id.emailBtn){
+            Log.e("a", "sdf");
+
+            Intent intent=new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_EMAIL, "" + email.getText());
+            intent.putExtra(Intent.EXTRA_EMAIL, "" + email.getText());
+            startActivity(Intent.createChooser(intent,"Choose For Email"));
+
+        }
+        if(id==R.id.callBtn){
+            Intent intent=new Intent(Intent.ACTION_DIAL);
+            intent.setData(Uri.parse("tel:"+contact.getText()));
+            startActivity(intent);
+
+        }
+
     }
 }

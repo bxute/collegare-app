@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.collegare.com.collegare.Activity.MessageSend">
+
+    <include layout="@layout/toolbar" android:id="@+id/toolbar"/>
+
+    <RelativeLayout
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:hint="Receivers ID"
+            android:inputType="number"
+            android:id="@+id/rec"
+            android:layout_marginTop="48dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@drawable/post_box"
+            android:layout_width="match_parent"
+            android:layout_height="48dp" />
+
+        <EditText
+            android:layout_below="@+id/rec"
+            android:background="@drawable/post_box"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Type Message here"
+            android:id="@+id/msgContent"
+            android:layout_width="match_parent"
+            android:layout_height="170dp" />
+
+        <Button
+            android:textColor="#ffffff"
+            android:background="@color/collegareBtn"
+            android:layout_marginTop="48dp"
+            android:layout_below="@+id/msgContent"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="72dp"
+            android:text="Send"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:id="@+id/send" />
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

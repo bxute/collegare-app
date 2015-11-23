@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.collegare.com.collegare.Models.CollegareMessage;
+import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.R;
 
 
@@ -103,7 +104,11 @@ public class MessageAdapter extends RecyclerView
     public MessageAdapter(Context context) {
         mDataset = new ArrayList<>();
         this.context=context;
-        userID=DatabaseManager.getInstance(context).getUser().id;
+        CollegareUser user=DatabaseManager.getInstance(context).getUser();
+
+        if(user!=null){
+            userID=user.id;
+        }
     }
 
     public MessageAdapter(ArrayList<CollegareMessage> myDataset) {
@@ -136,14 +141,12 @@ public class MessageAdapter extends RecyclerView
         }
 
 
-
-
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Date d = new Date();
-        final CharSequence doc  = DateFormat.format("yyyy-mm-dd hh:mm:ss", d.getTime());
+        final CharSequence doc  = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime());
         String timePast = TimeManager.getInstance().convert(doc.toString(), mDataset.get(position).doc);
 
         if(holder instanceof IncomingMessageHolder){

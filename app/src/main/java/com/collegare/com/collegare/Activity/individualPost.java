@@ -21,6 +21,7 @@ import com.collegare.com.collegare.Managers.AppManager;
 import com.collegare.com.collegare.Managers.App_Config;
 import com.collegare.com.collegare.Managers.CollegareParser;
 import com.collegare.com.collegare.Managers.CommentsAdapter;
+import com.collegare.com.collegare.Managers.Contexter;
 import com.collegare.com.collegare.Managers.DataStore;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.InternetManager;
@@ -47,7 +48,6 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
     ImageView userPic,likeImg,unlikeImg;
     TextView nameDisplay,userId,contentText,likeText,unlikeText,commentCount;
     CollegarePost post;
-    Report report;
     DataStore dataStore;
     String pID;
     private Toolbar toolbar;
@@ -56,7 +56,39 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Initialize();
-        RequestData();
+
+        if(getIntent()!=null){
+            pID=getIntent().getExtras().getString("postId");
+        }
+
+        if(!InternetManager.getInstance(this).isConnectedToNet()){
+            //
+            // database reading for offline data loading
+            //
+            post= DatabaseManager.getInstance(this).getPost(pID);
+
+            userId.setText(post.id);
+            userPic.setImageResource(R.drawable.user_pic);
+            likeText.setText(post.LikeCount);
+            unlikeText.setText(post.DisLikeCount);
+            nameDisplay.setText(post.username);
+            contentText.setText(post.content);
+            commentCount.setText(post.comment.size()+"");
+            getSupportActionBar().setTitle(post.username + "`s Post");
+            int resIdL=(post.isLiked.equals("true"))?R.drawable.upvote_48:R.drawable.upvote_48_black;
+            int resIdD= (post.isDisliked.equals("true"))?R.drawable.downvote_48:R.drawable.downvote_48_black;
+
+            likeImg.setImageResource(resIdL);
+            unlikeImg.setImageResource(resIdD);
+
+            adapter.setComments(post.comment);
+
+
+
+        }else{
+            RequestData();
+        }
+
     }
 
     private void Initialize() {
@@ -77,12 +109,6 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
 
         likeImg.setOnClickListener(this);
         unlikeImg.setOnClickListener(this);
-
-        if(getIntent()!=null){
-            pID=getIntent().getExtras().getString("postId");
-        }
-
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -103,104 +129,183 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
         switch (id) {
 
             // case "likeBtn":
-            case R.id.likeImg :
-                if (post.isLiked.equals("false") && post.isDisliked.equals("false")) {
-                    post.LikeCount = String.format("%s", Integer.parseInt(post.LikeCount)+1);
-                    post.isLiked="true";
-                    Log.e("liked ", " ");
-                    likeText.setText(post.LikeCount);
-                    likeImg.setImageResource(R.drawable.upvote_48);
-                    /*InternetManager.getInstance(this).like(post.postid,report);
-                    if(report.Status== App_Config.STATUS_OK){
-                       likeText.setText(post.LikeCount);
-                        likeImg.setImageResource(R.drawable.upvote_48);
-                    }
-                    else{
-                        Snackbar.make(likeImg,"Cannot Perform Action !!",Snackbar.LENGTH_SHORT).show();
-                    }
-                    */
+            case R.id.likeImg:
+                if (InternetManager.getInstance(this).isConnectedToNet()) {
 
 
-                }
-                else if (post.isDisliked.equals("true")) {
+                    if (post.isLiked.equals("false") && post.isDisliked.equals("false")) {
 
-                    //feed.likeCount = String.format("%s", Integer.parseInt(instance.mDataset.get(currentPosition).likeCount) + 1);
-                    post.DisLikeCount = String.format("%s", Integer.parseInt(post.DisLikeCount) - 1);
-                    //feed.isLiked="true";
-                    post.isDisliked="false";
-                    Log.e("nulled "," ");
-                    unlikeText.setText(post.DisLikeCount);
-                    unlikeImg.setImageResource(R.drawable.downvote_48_black);
-                    /*InternetManager.getInstance(this).like(post.postid,report);
-                    if(report.Status== App_Config.STATUS_OK){
-                       unlikeText.setText(post.DisLikeCount);
-                    unlikeImg.setImageResource(R.drawable.upvote_48_black);
-                    }
-                    else{
-                        Snackbar.make(likeImg,"Cannot Perform Action !!",Snackbar.LENGTH_SHORT).show();
-                    }
-                    */
+                        String Userid = DatabaseManager.getInstance(this).getUser().id;
+                        String Usertoken = DatabaseManager.getInstance(this).getUser().token;
 
+                        likeText.setText(String.format("%s", Integer.parseInt(post.LikeCount) + 1));
+                        Log.e("liked ", " ");
+                        like(post.postid, Userid, Usertoken);
+
+                    }
+
+
+                 else if (post.isDisliked.equals("true")) {
+
+                    if (InternetManager.getInstance(this).isConnectedToNet()) {
+                        String Userid = DatabaseManager.getInstance(this).getUser().id;
+                        String Usertoken = DatabaseManager.getInstance(this).getUser().token;
+
+                        unlikeText.setText(String.format("%s", Integer.parseInt(post.LikeCount) - 1));
+                        Log.e("nulled ", " ");
+                        like(post.postid, Userid, Usertoken);
+                    }
                 } else {
-
-                }
+                }}
+         else{
+            Snackbar.make(commentCount,"No Internet Connectivity",Snackbar.LENGTH_LONG).show();
+         }
 
 
                 break;
             //  case "unlikeBtn":
             case R.id.unlikeImg:
-                if (post.isLiked.equals("false") && post.isDisliked.equals("false")) {
 
-                    post.DisLikeCount = String.format("%s", Integer.parseInt(post.DisLikeCount)+1);
-                    post.isDisliked="true";
-                    Log.e("disliked ", " ");
-                    unlikeText.setText(post.DisLikeCount);
-                    unlikeImg.setImageResource(R.drawable.downvote_48);
-                    /*InternetManager.getInstance(this).dislike(post.postid,report);
-                    if(report.Status== App_Config.STATUS_OK){
-                        unlikeText.setText(post.DisLikeCount);
-                    unlikeImg.setImageResource(R.drawable.downvote_48);
+                if(InternetManager.getInstance(this).isConnectedToNet()){
+
+                    if (post.isLiked.equals("false") && post.isDisliked.equals("false")) {
+
+
+                        String Userid=DatabaseManager.getInstance(this).getUser().id;
+                        String Usertoken=DatabaseManager.getInstance(this).getUser().token;
+
+                        unlikeText.setText(String.format("%s", Integer.parseInt(post.LikeCount) + 1));
+                        Log.e("disliked ", " ");
+                        dislike(post.postid, Userid, Usertoken);
+
+
+
+                    } else if (post.isLiked.equals("true")) {
+
+                        String Userid=DatabaseManager.getInstance(this).getUser().id;
+                        String Usertoken=DatabaseManager.getInstance(this).getUser().token;
+
+                        likeText.setText(String.format("%s", Integer.parseInt(post.LikeCount) - 1));
+                        Log.e("disliked ", " ");
+                        dislike(post.postid, Userid, Usertoken);
+
+                    } else {
                     }
-                    else{
-                        Snackbar.make(likeImg,"Cannot Perform Action !!",Snackbar.LENGTH_SHORT).show();
-                    }
-                    */
-
-                } else if (post.isLiked.equals("true")) {
-
-                    post.LikeCount = String.format("%s", Integer.parseInt(post.LikeCount) - 1);
-                    post.isLiked="false";
-                    Log.e("nulled ", " ");
-                    likeText.setText(post.LikeCount);
-                    likeImg.setImageResource(R.drawable.upvote_48_black);
-                    /*InternetManager.getInstance(this).dislike(post.postid,report);
-                    if(report.Status== App_Config.STATUS_OK){
-                       likeText.setText(post.LikeCount);
-                    likeImg.setImageResource(R.drawable.upvote_48_black);
-                    }
-                    else{
-                        Snackbar.make(likeImg,"Cannot Perform Action !!",Snackbar.LENGTH_SHORT).show();
-                    }
-                    */
-
-
-                } else {
-
-
+                }
+                else{
+                    Snackbar.make(contentText,"No Internet Connectivity",Snackbar.LENGTH_LONG).show();
                 }
 
-                break;
+
+
+
 
         }
+
 }
 
+    private void like(final String PostID,final String UserId,final String UserToken) {
+
+        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
+                Log.e("net>>>>" + response, "");
+                try {
+                    JSONObject object= new JSONObject(response);
+                    if(object.getString("status").equals("0")){
+                        // report the UI with success of the message
+                        Log.e("liked","");
+                    }
+                    else{
+
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.e("" + volleyError.toString(), "[error reported]");
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("action", "like");
+                params.put("id", UserId);
+                params.put("postid",PostID);
+                params.put("token",UserToken);
+                return params;
+            }
+
+        };
+
+        Log.e("instanse", "" + AppManager.getInstance());
+        AppManager.getInstance().addToRequestQueue(request, "likeReq", new Contexter().getContext());
+
+    }
+
+    public void dislike(final String PostID,final String UserId,final String UserToken){
+        String TAG = "dislikeReqSEND";
+
+        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
+                Log.e("net>>>>" + response, "");
+                try {
+                    JSONObject object= new JSONObject(response);
+                    if(object.getString("status").equals("0")){
+                        // report the UI with success of the message
+                        Log.e("disliked","");
+                    }
+                    else{
+
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.e("" + volleyError.toString(), "[error reported]");
+
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("action", "dislike");
+                params.put("id", UserId);
+                params.put("postid",PostID);
+                params.put("token",UserToken);
+                return params;
+            }
+
+        };
+
+        Log.e("instanse", "" + AppManager.getInstance());
+        AppManager.getInstance().addToRequestQueue(request, "dislikeReq",new Contexter().getContext());
+
+
+
+    }
 
     private void RequestData(){
-                Log.e("www Req For PId>>",""+pID);
-        if (!InternetManager.getInstance(this).isConnectedToNet()) {
-            Log.e("not connected","");
-            return;
-        }
 
         StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
             @Override
@@ -235,18 +340,13 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
     }
 
     private void ParseAndSet(String response) {
-
+        CollegareComment comments;
 
         try {
             JSONObject postObj = new JSONObject(response);
 
-            if (postObj.getInt("status") != 0){
-                return;
-            }
-
-            CollegareComment comments;
-
             JSONArray comment = postObj.getJSONArray("comments");
+            // comments parsing
             for (int i = 0; i < comment.length(); i++) {
                 JSONObject temp = (JSONObject) comment.get(i);
                 comments=new CollegareComment(

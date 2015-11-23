@@ -5,13 +5,14 @@
     android:id="@+id/cardview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:elevation="5dp"
     android:layout_marginTop="10dp"
     android:paddingBottom="10dp"
     android:layout_marginRight="5dp"
     android:layout_marginLeft="5dp"
     cardView:cardBackgroundColor="#ffffff"
-    cardView:cardCornerRadius="1dp">
+    cardView:cardCornerRadius="1dp"
+    android:elevation="10dp"
+    >
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

@@ -89,8 +89,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         int id = v.getId();
 
-       // startActivity(new Intent(this,Home.class));
-       switch (id) {
+        startActivity(new Intent(this, Home.class));
+      /* switch (id) {
             case R.id.showPass:
                 toggleCheckBox();
                 break;
@@ -101,7 +101,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
             default:
                 break;
-        }
+        }*/
     }
 
     private void attemptLogin() {
@@ -110,21 +110,20 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         progress.setMessage("Taking you in...");
         progress.setIndeterminate(true);
         progress.show();
-       if(Validate()){
-           if(InternetManager.getInstance(this).isConnectedToNet()){
-               String hashVal = getHash(pass.getText().toString());
-               Authenticate(uID.getText().toString(), hashVal);
-               loginButton.setEnabled(true);
-           }
-           else{
-               loginButton.setEnabled(true);
-               progress.hide();
-               Snackbar.make(uID,"No Connection !!",Snackbar.LENGTH_LONG).show();
+        if (Validate()) {
+            if (InternetManager.getInstance(this).isConnectedToNet()) {
+                String hashVal = getHash(pass.getText().toString());
+                Authenticate(uID.getText().toString(), hashVal);
+                loginButton.setEnabled(true);
+            } else {
+                loginButton.setEnabled(true);
+                progress.hide();
+                Snackbar.make(uID, "No Connection !!", Snackbar.LENGTH_LONG).show();
 
-           }
-       }else{
-           loginButton.setEnabled(true);
-       }
+            }
+        } else {
+            loginButton.setEnabled(true);
+        }
 
 
     }
@@ -143,24 +142,24 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     if (error_code == 0) {
                         Log.e("status", error_code + "");
                         session.setLoginStatus(true);
-                        RequestUserInfo(loginOBJ.getString("username"),loginOBJ.getString("token"));
-                    }
-                    else {
+                        RequestUserInfo(loginOBJ.getString("username"), loginOBJ.getString("token"));
+                    } else {
                         progress.hide();
-                        Snackbar.make(uID,"Authenticatio Failed !!",Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(uID, "Authenticatio Failed !!", Snackbar.LENGTH_LONG).show();
                     }
                 } catch (JSONException e) {
                     progress.hide();
-                    Snackbar.make(loginButton,"Something goes Wrong !!",Snackbar.LENGTH_LONG).show();
-                    Log.e("Parsing error in Login "," ");
+                    Snackbar.make(loginButton, "Something goes Wrong !!", Snackbar.LENGTH_LONG).show();
+                    Log.e("Parsing error in Login ", " ");
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("volley error in login:"," "+volleyError);
-            }}){
+                Log.e("volley error in login:", " " + volleyError);
+            }
+        }) {
             @Override
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
@@ -168,8 +167,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 params.put("username", username);
                 params.put("password", pass);
                 return params;
-            }};
-        Log.e("reqeust for login","");
+            }
+        };
+        Log.e("reqeust for login", "");
         AppManager.getInstance().addToRequestQueue(request, "login", this);
     }
 
@@ -183,32 +183,31 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     public boolean Validate() {
         View focusView = null;
-        boolean cancel=false;
+        boolean cancel = false;
 
-        if(uID.length()<3){
-            focusView=uID;
-            cancel=true;
+        if (uID.length() < 3) {
+            focusView = uID;
+            cancel = true;
         }
-        if(pass.length()<4 || pass.length()>16){
-            focusView=pass;
-            cancel=true;
+        if (pass.length() < 4 || pass.length() > 16) {
+            focusView = pass;
+            cancel = true;
         }
 
-        if(cancel){
+        if (cancel) {
             focusView.requestFocus();
             progress.hide();
-            Snackbar.make(pass,"Fields Cannot Be Blank !!",Snackbar.LENGTH_LONG).show();
+            Snackbar.make(pass, "Fields Cannot Be Blank !!", Snackbar.LENGTH_LONG).show();
             return false;
         }
         return true;
     }
 
+    public void RequestUserInfo(final String username, final String token) {
+        Log.e("request came for user", "");
+        final Intent intent = new Intent(this, Home.class);
 
-    public void RequestUserInfo(final String username, final String token){
-        Log.e("request came for user","");
-        final Intent intent= new Intent(this,Home.class);
-
-        final CollegareUser user=null;
+        final CollegareUser user = null;
         StringRequest userReq = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -219,33 +218,37 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     int error_code = userOBJ.getInt("status");
                     if (error_code == 0) {
                         Log.e("Ustatus>>", error_code + "");
-                        DatabaseManager.getInstance(getApplicationContext()).addUser(CollegareParser.getInstance(getApplicationContext()).parseUserInfos(s, token));
+                        DatabaseManager.getInstance(getApplicationContext())
+                                .addUser(CollegareParser
+                                        .getInstance(getApplicationContext())
+                                        .parseUserInfos(s, token));
                         startActivity(intent);
                     }
                 } catch (JSONException e) {
-                    Log.e("Parse error in User","");
+                    Log.e("Parse error in User", "");
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("[vol] user:"," "+volleyError);
-            }}){
+                Log.e("[vol] user:", " " + volleyError);
+            }
+        }) {
             @Override
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("action","get");
+                params.put("action", "get");
                 params.put("username", username);
                 return params;
-            }};
-        Log.e("reqeust for userinfo","");
+            }
+        };
+        Log.e("reqeust for userinfo", "");
         AppManager.getInstance().addToRequestQueue(userReq, "userinfo", this);
 
 
     }
-
 
 
     @Override

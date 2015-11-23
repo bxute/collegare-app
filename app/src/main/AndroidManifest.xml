@@ -1,34 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.collegare.com.collegare" >
+    package="com.collegare.com.collegare">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-
-
-    <!--
-      IMPORTANT: Change "com.parse.starter.permission.C2D_MESSAGE" in the lines below
-      to match your app's package name + ".permission.C2D_MESSAGE".
-    -->
-    <permission android:protectionLevel="signature"
-        android:name="com.parse.starter.permission.C2D_MESSAGE" />
-    <uses-permission android:name="com.collegare.com.collegare.permission.C2D_MESSAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    
 
     <application
-        android:screenOrientation="portrait"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme">
         <activity
             android:name=".Activity.Home"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.apkacollegare.collegare.HOME" />
 
@@ -38,7 +29,7 @@
         <activity
             android:name=".Activity.Profile"
             android:label="@string/app_name"
-            android:parentActivityName=".Activity.Home" >
+            android:parentActivityName=".Activity.Home">
             <intent-filter>
                 <action android:name="com.collegare.com.collegare.PROFILE" />
 
@@ -47,7 +38,7 @@
         </activity>
         <activity
             android:name=".Activity.Login"
-            android:label="@string/title_activity_home" >
+            android:label="@string/title_activity_home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,45 +46,28 @@
             </intent-filter>
         </activity>
         <activity
-            android:parentActivityName=".Activity.Home"
             android:name=".Activity.individualPost"
             android:label="@string/title_activity_individual_post"
-            android:theme="@style/AppTheme" >
-        </activity>
-        <activity
             android:parentActivityName=".Activity.Home"
+            android:theme="@style/AppTheme"></activity>
+        <activity
             android:name=".Activity.EditProfile"
             android:label="@string/title_activity_edit_profile"
-            android:theme="@style/AppTheme" >
-        </activity>
+            android:parentActivityName=".Activity.Home"
+            android:theme="@style/AppTheme"></activity>
         <activity
             android:name=".Activity.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme" >
-        </activity>
-
-
-        <service android:name="com.parse.PushService" />
-        <receiver android:name="com.parse.ParsePushBroadcastReceiver"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.parse.push.intent.RECEIVE" />
-                <action android:name="com.parse.push.intent.DELETE" />
-                <action android:name="com.parse.push.intent.OPEN" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <!--
-                  IMPORTANT: Change "com.parse.starter" to match your app's package name.
-                -->
-                <category android:name="com.collegare.com.collegare" />
-            </intent-filter>
-        </receiver>
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".Activity.postSend"
+            android:label="@string/title_activity_post_send"
+            android:parentActivityName=".Activity.Home"></activity>
+        <activity
+            android:parentActivityName=".Activity.Home"
+            android:name=".Activity.MessageSend"
+            android:label="@string/title_activity_message_send"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

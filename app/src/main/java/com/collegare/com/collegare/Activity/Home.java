@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -16,6 +17,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +27,8 @@ import android.widget.ImageButton;
 import android.support.v7.widget.Toolbar;
 import android.widget.ImageView;
 import android.support.design.widget.FloatingActionButton;
+import android.widget.Toast;
+
 import com.collegare.com.collegare.Fragments.NavigationFragment;
 import com.collegare.com.collegare.Fragments.SendDailoge;
 import com.collegare.com.collegare.Managers.DataStore;
@@ -39,10 +43,10 @@ import com.collegare.com.collegare.Managers.BPagerAdapter;
 //import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
 import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
-import com.parse.Parse;
-import com.parse.ParseInstallation;
+
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.security.auth.login.LoginException;
 
@@ -60,11 +64,17 @@ public class Home extends AppCompatActivity {
     ViewPager viewPager;
     SessionManager sessionManager;
     PagerAdapter pagerAdapter;
+    Fragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
      //   new DataStore(this).testDB()
-
+       /* Date d= new Date();
+        final CharSequence doc  = DateFormat.format("yyyy-mm-dd hh:mm:ss", d.getTime());
+        final CharSequence doc1  = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime());*/
+        /*Log.v("doc:"," "+doc);
+        Log.v("doc1"," "+doc1);*/
         Log.e("home", "callled");
         sessionManager= new SessionManager(this);
         setContentView(R.layout.activity_home);
@@ -169,7 +179,7 @@ public class Home extends AppCompatActivity {
         //getSupportActionBar().setIcon(R.drawable.icon);
 
         NavigationFragment navigationFragment= (NavigationFragment) getFragmentManager().findFragmentById(R.id.fragmentNav);
-        NavigationFragment navigationFragmentRight= (NavigationFragment) getFragmentManager().findFragmentById(R.id.fragmentNavRight);
+   //     NavigationFragment navigationFragmentRight= (NavigationFragment) getFragmentManager().findFragmentById(R.id.fragmentNavRight);
         Log.e("making drawer ready","");
        navigationFragment.makeReadyNav(this, bDrawerLayout, toolbar);
         Log.e("drawer made","");
@@ -202,7 +212,6 @@ public class Home extends AppCompatActivity {
 *
 * setting up own fab
 * */
-
         final SendDailoge sendDailoge= new SendDailoge(this);
         sendDailoge.setCancelable(true);
         sendDailoge.setTitle("Sending Post");
@@ -211,15 +220,13 @@ public class Home extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Fragment fragment= (Fragment) pagerAdapter.instantiateItem(viewPager,viewPager.getCurrentItem());
+                 fragment= (Fragment) pagerAdapter.instantiateItem(viewPager,viewPager.getCurrentItem());
                 if(fragment instanceof SendListener){
                     ((SendListener) fragment).send();
-                    sendDailoge.show();
                 }
             }
         });
 
     }
-
 
 }

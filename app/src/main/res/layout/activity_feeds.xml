@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.collegare.com.collegare.Fragments.Feeds">
+    tools:context="com.collegare.com.collegare.Fragments.Feeds"
+    android:background="#dddddd">
 
 
     <TextView
@@ -23,6 +24,7 @@
         android:layout_width="match_parent">
 
         <android.support.v7.widget.RecyclerView
+            android:elevation="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/recyclerGroups"/>

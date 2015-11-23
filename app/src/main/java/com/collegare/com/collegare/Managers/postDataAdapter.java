@@ -4,10 +4,14 @@ package com.collegare.com.collegare.Managers;
  * Created by Vishal on 03-10-2015.
  */
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.format.DateFormat;
@@ -23,14 +27,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.collegare.com.collegare.Activity.Home;
+import com.collegare.com.collegare.Activity.Profile;
 import com.collegare.com.collegare.Activity.individualPost;
+import com.collegare.com.collegare.Fragments.Feeds;
 import com.collegare.com.collegare.Models.CollegareFeed;
 import com.collegare.com.collegare.Models.CollegarePost;
 import com.collegare.com.collegare.R;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class postDataAdapter extends RecyclerView
@@ -99,72 +115,130 @@ public class postDataAdapter extends RecyclerView
             comment = (ImageView) itemView.findViewById(R.id.commentImg);
             like = (ImageView) itemView.findViewById(R.id.likeImg);
             unlike = (ImageView) itemView.findViewById(R.id.unlikeImg);
-            comment.setTag("comment");
-            like.setTag("likeBtn");
-            unlike.setTag("unlikeBtn");
-            post.setTag("post");
+
             itemView.setOnClickListener(this);
             like.setOnClickListener(this);
             unlike.setOnClickListener(this);
             comment.setOnClickListener(this);
             post.setOnClickListener(this);
+            tagChar.setOnClickListener(this);
+            userName.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
 
             postDataAdapter instance = postDataAdapter.getInstance(new Contexter().getContext());
-//            String tag = v.getTag().toString();
+
+            Fragment feedFragment= (Fragment)new Feeds();
+
+            String Userid= DatabaseManager.getInstance(instance.context).getUser().id;
+            String Usertoken=DatabaseManager.getInstance(instance.context).getUser().token;
             int id= v.getId();
             int currentPosition = getAdapterPosition();
-            CollegareFeed feed = instance.mDataset.get(instance.mDataset.size()-currentPosition);
-            Log.e("crnt post >>",""+currentPosition);
-            Log.e("gid ",">>"+feed.postid);
+            CollegareFeed feed = instance.mDataset.get(currentPosition);
+
+            Log.e("crnt post >>", "" + currentPosition);
+            Log.e("gid ", ">>" + feed.postid);
+
             switch (id) {
+
+                case R.id.usernameDisplay:
+                    if(InternetManager.getInstance(instance.context).isConnectedToNet()){
+                        Intent proIntent= new Intent(instance.context, Profile.class);
+                        proIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        Bundle bundle= new Bundle();
+                        bundle.putString("username","test1");
+                        proIntent.putExtras(bundle);
+                        instance.context.startActivity(proIntent);
+
+                    }else
+                    {
+                        ((SendListener)feedFragment).alert("No Internet Connectivity",instance.context);
+                    }
+
+
+                    break;
+
+                case R.id.TagChar :
+                    if(InternetManager.getInstance(instance.context).isConnectedToNet()){
+                    Intent proIntent= new Intent(instance.context, Profile.class);
+                    proIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Bundle bundle= new Bundle();
+                    bundle.putString("username","test1");
+                    proIntent.putExtras(bundle);
+                    instance.context.startActivity(proIntent);
+                    }else
+                    {
+                        ((SendListener)feedFragment).alert("No Internet Connectivity",instance.context);
+                    }
+                    break;
 
                // case "likeBtn":
 
                 case R.id.likeImg :
-                    if (feed.isLiked.equals("false") && feed.isDisliked.equals("false")) {
-                        feed.likeCount = String.format("%s", Integer.parseInt(feed.likeCount)+1);
-                        feed.isLiked="true";
-                        Log.e("liked ", " " + currentPosition);
-                        instance.notifyItemChanged(currentPosition);
+                    if(InternetManager.getInstance(instance.context).isConnectedToNet()){
+                        if (feed.isLiked.equals("false") && feed.isDisliked.equals("false")) {
 
+                                feed.likeCount = String.format("%s", Integer.parseInt(feed.likeCount)+1);
+                                feed.isLiked="true";
+                                Log.e("liked ", " " + currentPosition);
+
+                                like(feed.postid,Userid,Usertoken);
+
+                                instance.notifyItemChanged(currentPosition);
+                            }
+
+                        else if (feed.isDisliked.equals("true")) {
+
+                            //feed.likeCount = String.format("%s", Integer.parseInt(instance.mDataset.get(currentPosition).likeCount) + 1);
+                            feed.dislikeCount = String.format("%s", Integer.parseInt(feed.dislikeCount) - 1);
+                            //feed.isLiked="true";
+                            feed.isDisliked="false";
+
+                            like(feed.postid,Userid,Usertoken);
+
+                            Log.e("nulled "," "+currentPosition);
+                            instance.notifyItemChanged(currentPosition);
+
+                        } else{ }
                     }
-                    else if (feed.isDisliked.equals("true")) {
-
-                        //feed.likeCount = String.format("%s", Integer.parseInt(instance.mDataset.get(currentPosition).likeCount) + 1);
-                        feed.dislikeCount = String.format("%s", Integer.parseInt(feed.dislikeCount) - 1);
-                        //feed.isLiked="true";
-                        feed.isDisliked="false";
-                        Log.e("nulled "," "+currentPosition);
-                        instance.notifyItemChanged(currentPosition);
-
-                    } else {
-
+                    else{
+                        ((SendListener)feedFragment).alert("No Internet Connectivity",instance.context);
                     }
 
 
                     break;
               //  case "unlikeBtn":
                 case R.id.unlikeImg:
-                    if (feed.isLiked.equals("false") && feed.isDisliked.equals("false")) {
+                    if(InternetManager.getInstance(instance.context).isConnectedToNet()){
 
-                       feed.dislikeCount = String.format("%s", Integer.parseInt(feed.dislikeCount)+1);
-                        feed.isDisliked="true";
-                        Log.e("disliked "," "+currentPosition);
-                        instance.notifyItemChanged(currentPosition);
+                        if (feed.isLiked.equals("false") && feed.isDisliked.equals("false")) {
 
-                    } else if (feed.isLiked.equals("true")) {
+                            feed.dislikeCount = String.format("%s", Integer.parseInt(feed.dislikeCount)+1);
+                            feed.isDisliked="true";
+                            Log.e("disliked ", " " + currentPosition);
 
-                        feed.likeCount = String.format("%s", Integer.parseInt(feed.likeCount) - 1);
-                        feed.isLiked="false";
-                        Log.e("nulled "," "+currentPosition);
-                        instance.notifyItemChanged(currentPosition);
+                            dislike(feed.postid, Userid, Usertoken);
 
-                    } else {
+                            instance.notifyItemChanged(currentPosition);
 
+                        } else if (feed.isLiked.equals("true")) {
+
+                            feed.likeCount = String.format("%s", Integer.parseInt(feed.likeCount) - 1);
+                            feed.isLiked="false";
+
+                            dislike(feed.postid,Userid,Usertoken);
+
+                            Log.e("nulled "," "+currentPosition);
+                            instance.notifyItemChanged(currentPosition);
+
+                        } else {
+
+                        }
+
+                    }else{
+                        ((SendListener)feedFragment).alert("No Internet Connectivity",instance.context);
                     }
 
                     break;
@@ -172,8 +246,8 @@ public class postDataAdapter extends RecyclerView
                 case R.id.textPost:
 
                     Intent i = new Intent(instance.context, individualPost.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("postId", feed.postid);
+                  Bundle   bundle = new Bundle();
+                     bundle.putString("postId", feed.postid);
                     i.putExtras(bundle);
                    // instance.sessionManager.setLastGroup(feed.groupid);
                    // Log.e("stored gid", " " + feed.groupid);
@@ -199,6 +273,107 @@ public class postDataAdapter extends RecyclerView
 
 
         }
+
+        private void like(final String PostID,final String UserId,final String UserToken) {
+
+            StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
+                    Log.e("net>>>>" + response, "");
+                    try {
+                        JSONObject object= new JSONObject(response);
+                        if(object.getString("status").equals("0")){
+                            // report the UI with success of the message
+                            Log.e("liked","");
+                        }
+                        else{
+
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    Log.e("" + volleyError.toString(), "[error reported]");
+
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to login url
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("action", "like");
+                    params.put("id", UserId);
+                    params.put("postid",PostID);
+                    params.put("token",UserToken);
+                    return params;
+                }
+
+            };
+
+            Log.e("instanse", "" + AppManager.getInstance());
+            AppManager.getInstance().addToRequestQueue(request, "likeReq", new Contexter().getContext());
+
+        }
+
+        public void dislike(final String PostID,final String UserId,final String UserToken){
+            String TAG = "dislikeReqSEND";
+
+            StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+
+                    // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
+                    Log.e("net>>>>" + response, "");
+                    try {
+                        JSONObject object= new JSONObject(response);
+                        if(object.getString("status").equals("0")){
+                            // report the UI with success of the message
+                            Log.e("disliked","");
+                        }
+                        else{
+
+
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    Log.e("" + volleyError.toString(), "[error reported]");
+
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to login url
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("action", "dislike");
+                    params.put("id", UserId);
+                    params.put("postid",PostID);
+                    params.put("token",UserToken);
+                    return params;
+                }
+
+            };
+
+            Log.e("instanse", "" + AppManager.getInstance());
+            AppManager.getInstance().addToRequestQueue(request, "dislikeReq",new Contexter().getContext());
+
+
+
+        }
     }
 
 
@@ -214,7 +389,7 @@ public class postDataAdapter extends RecyclerView
     @Override
     public void onBindViewHolder(DataObjectHolder holder, int position) {
         Date d = new Date();
-        final CharSequence doc  = DateFormat.format("yyyy-mm-dd hh:mm:ss", d.getTime());
+        final CharSequence doc  = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime());
         String timePast = TimeManager.getInstance().convert(doc.toString(), mDataset.get(position).doc);
         holder.post.setText(mDataset.get(position).content);
         holder.commentCount.setText(mDataset.get(position).CommentCount);

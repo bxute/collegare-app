@@ -1,0 +1,54 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.collegare.com.collegare.Activity.postSend">
+    <include layout="@layout/toolbar" android:id="@+id/toolbar"/>
+
+    <RelativeLayout
+
+        android:layout_below="@+id/toolbar"
+        android:id="@+id/holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <EditText
+            android:maxLines="9"
+            android:background="@drawable/post_box"
+            android:layout_marginTop="48dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:hint="Type Message here"
+            android:id="@+id/postContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:padding="10dp"
+            android:layout_marginRight="16dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/postContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Make Anonymous"
+            android:id="@+id/anonyCheck"
+            />
+
+        <Button
+            android:textColor="#ffffff"
+            android:background="@color/collegareBtn"
+            android:layout_marginTop="72dp"
+            android:layout_below="@+id/postContent"
+            android:layout_marginLeft="72dp"
+            android:layout_marginRight="72dp"
+            android:text="Send"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:id="@+id/send" />
+
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

@@ -1,5 +1,7 @@
 package com.collegare.com.collegare.Fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -14,7 +16,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.collegare.com.collegare.Activity.Home;
+import com.collegare.com.collegare.Activity.postSend;
 import com.collegare.com.collegare.Managers.App_Config;
+import com.collegare.com.collegare.Managers.Contexter;
+import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.InternetManager;
 import com.collegare.com.collegare.Managers.NavigationListener;
 import com.collegare.com.collegare.Managers.SendListener;
@@ -37,6 +43,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     String groupID;
     ArrayList<CollegareFeed> feedArrayList;
     SessionManager sessionManager;
+    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,13 +54,14 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         groupID =   sessionManager.getLastGroup();
         sessionManager= new SessionManager(getActivity());
         if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
-            InternetManager.getInstance(getActivity()).getFeeds(groupID);
+            String lastId=SessionManager.getLastPostID();
+            InternetManager.getInstance(getActivity()).getFeeds(groupID,lastId);
         }
     }
 
     @Override
    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
-        View view= inflater.inflate(R.layout.activity_feeds,container,false);
+         view= inflater.inflate(R.layout.activity_feeds,container,false);
         error= (TextView) view.findViewById(R.id.errorPanel);
         Log.e("feeds oncreateView cld","");
         swipeRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.refresser);
@@ -92,7 +100,8 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     private void refressFeeds() {
 
         if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
-            InternetManager.getInstance(getActivity()).getFeeds(groupID);
+            String lastLoadedId= SessionManager.getLastPostID();
+            InternetManager.getInstance(getActivity()).getFeeds(groupID,lastLoadedId);
             swipeRefreshLayout.setRefreshing(false);
         }else{
             Snackbar.make(swipeRefreshLayout,"No Connectivity !!",Snackbar.LENGTH_SHORT).show();
@@ -103,6 +112,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
 
     @Override
     public void send(){
+        startActivity(new Intent(getActivity(),postSend.class));
     }
 
     @Override
@@ -121,4 +131,13 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
 
         this.adapter.notifyDataSetChanged();
     }
+
+    @Override
+    public void alert(String msg,Context context){
+        Log.e("msg is"," >"+msg+"[this]"+ context);
+        Toast.makeText(context,""+msg,Toast.LENGTH_SHORT).show();
+
+
+    }
+
 }

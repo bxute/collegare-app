@@ -3,8 +3,6 @@ package com.collegare.com.collegare.Managers;
 import android.app.Application;
 import android.content.Context;
 
-import com.parse.Parse;
-import com.parse.ParseInstallation;
 
 /**
  * Created by RadhePC on 13-11-2015.

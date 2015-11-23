@@ -1,5 +1,7 @@
 package com.collegare.com.collegare.Fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
@@ -16,6 +18,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.collegare.com.collegare.Activity.MessageSend;
+import com.collegare.com.collegare.Activity.postSend;
 import com.collegare.com.collegare.Managers.App_Config;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.InternetManager;
@@ -61,14 +65,12 @@ public class Messages extends Fragment implements SendListener{
         *
         *       simulating data storage
         * */
+        dataList=new ArrayList<>();
         dataList = dataStore.getMessages();
-        /*if(dataList.size()==0){
-            recyclerView.setVisibility(View.GONE);
-            error.setVisibility(View.VISIBLE);
-            error.setText("Data Not Available");
-        }*/
-        adapter.setMessageDataList(dataList);
-       // Toast.makeText(getActivity(), "" + rp.Description + " " + rp.Status, Toast.LENGTH_LONG).show();
+        if(dataList!=null){
+            adapter.setMessageDataList(dataList);
+        }
+
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -99,6 +101,12 @@ public class Messages extends Fragment implements SendListener{
 
     @Override
     public void send() {
+        startActivity(new Intent(getActivity(),MessageSend.class));
+
+    }
+
+    @Override
+    public void alert(String msg,Context context) {
 
     }
 }

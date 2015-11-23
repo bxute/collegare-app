@@ -91,16 +91,18 @@ public class InternetManager {
         UserToken=dbm.token;
 
         Date d = new Date();
-        final CharSequence doc  = DateFormat.format(" yyyy-mm-dd hh:mm:ss", d.getTime());
+        final CharSequence doc  = DateFormat.format("yyyy-mm-dd hh:mm:ss", d.getTime());
 
         StringRequest sendMsgReq = new StringRequest(Request.Method.POST,
                 App_Config.Message_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        CollegareParser.getInstance(context).parseSentMessage(s,new CollegareMessageSent(content,Receiver,
-                                ""+doc,UserId
-                        ));
+
+                        Log.e("msg rpt ", "" + s);
+                        /*CollegareParser.getInstance(context).parseSentMessage(s,new CollegareMessageSent(content,Receiver,
+                                ""+doc,UserId*/
+
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -156,7 +158,7 @@ public class InternetManager {
                 params.put("action", "feed");
                 params.put("id", UserId);
                 Log.e("qqq userid>>",UserId);
-                Log.e("qqq token>>",UserToken);
+                Log.e("qqq token>>", UserToken);
                 params.put("token", UserToken);
                 return params;
             }
@@ -170,7 +172,7 @@ public class InternetManager {
     *
     * */
 
-    public void getFeeds(final String gid) {
+    public void getFeeds(final String gid, final String lastId) {
 
         String TAG = "feedReq";
         Log.e("aaa ","req in");
@@ -202,10 +204,11 @@ public class InternetManager {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("action", "feed");
-                Log.e("ttt for id>>",UserId);
+                Log.e("ttt for id>>", UserId);
                 params.put("id", UserId);
-                Log.e("ttt for gid >>",gid);
-                //params.put("gid",gid);
+                Log.e("ttt for gid >>", gid);
+                params.put("gid", gid);
+                params.put("lastid",lastId);
                 return params;
             }
         };
@@ -214,203 +217,6 @@ public class InternetManager {
 
     }                                               // getting feeds for anonymous post
 
-    public void getPost(final CollegarePost posts, final String PostID){
-        String TAG = "postReqGET";
-
-
-    }
-
-    public void sendPost(final String content,final boolean isAnonymous , final Report report ){
-        String TAG = "postReqSEND";
-
-        if (!isConnectedToNet()) {
-            Log.e("netFor[post send]>",""+isConnectedToNet());
-
-                report.Status=App_Config.STATUS_ERROR;
-            report.Description="no internet";
-            return;
-        }
-        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
-                Log.e("net>>>>" + response, "");
-                try {
-                    JSONObject object= new JSONObject(response);
-                    if(object.getString("status").equals("0")){
-                        // report the UI with success of the message
-                        report.Description="sent";
-                        report.Status=App_Config.STATUS_OK;
-                    }
-                    else{
-                        report.Description="not sent";
-                        report.Status=App_Config.STATUS_ERROR;
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.e("" + volleyError.toString(), "[error reported]");
-                report.Description="network error !";
-                report.Status=App_Config.STATUS_ERROR;
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to login url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("action", "set");
-                params.put("id", UserId);
-                params.put("content",content);
-                params.put("token",UserToken);
-                params.put("manke_anon",isAnonymous+"");
-                return params;
-            }
-
-        };
-
-        Log.e("instanse", "" + AppManager.getInstance());
-        AppManager.getInstance().addToRequestQueue(request, TAG, context);
-
-
-
-    }
-
-    public void like(final String PostID, final Report report){
-        String TAG = "likeReqSEND";
-
-        if (!isConnectedToNet()) {
-            Log.e("netFor[like]>",""+isConnectedToNet());
-            report.Status=App_Config.STATUS_ERROR;
-            report.Description="no internet";
-            return;
-        }
-        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
-                Log.e("net>>>>" + response, "");
-                try {
-                    JSONObject object= new JSONObject(response);
-                    if(object.getString("status").equals("0")){
-                        // report the UI with success of the message
-                        report.Description="liked";
-                        report.Status=App_Config.STATUS_OK;
-                    }
-                    else{
-                        report.Description="not liked";
-                        report.Status=App_Config.STATUS_ERROR;
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.e("" + volleyError.toString(), "[error reported]");
-                report.Description="network error !";
-                report.Status=App_Config.STATUS_ERROR;
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to login url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("action", "like");
-                params.put("id", UserId);
-                params.put("postid",PostID);
-                params.put("token",UserToken);
-                return params;
-            }
-
-        };
-
-        Log.e("instanse", "" + AppManager.getInstance());
-        AppManager.getInstance().addToRequestQueue(request, TAG, context);
-
-
-
-    }
-
-    public void dislike(final String PostID, final Report report){
-        String TAG = "dislikeReqSEND";
-
-        if (!isConnectedToNet()) {
-            Log.e("netFor[dislike]>",""+isConnectedToNet());
-            report.Status=App_Config.STATUS_ERROR;
-            report.Description="no internet";
-            return;
-        }
-        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
-                Log.e("net>>>>" + response, "");
-                try {
-                    JSONObject object= new JSONObject(response);
-                    if(object.getString("status").equals("0")){
-                        // report the UI with success of the message
-                        report.Description="disliked";
-                        report.Status=App_Config.STATUS_OK;
-                    }
-                    else{
-                        report.Description="not disliked";
-                        report.Status=App_Config.STATUS_ERROR;
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.e("" + volleyError.toString(), "[error reported]");
-                report.Description="network error !";
-                report.Status=App_Config.STATUS_ERROR;
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to login url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("action", "dislike");
-                params.put("id", UserId);
-                params.put("postid",PostID);
-                params.put("token",UserToken);
-                return params;
-            }
-
-        };
-
-        Log.e("instanse", "" + AppManager.getInstance());
-        AppManager.getInstance().addToRequestQueue(request, TAG, context);
-
-
-
-    }
-
-    /*
-    *
-    *
-    *       User Infos
-    *
-    * */
 
     public void getUserInfo(final CollegareUser user, final Report report){
         String TAG = "post_Req_USER_GET";
@@ -463,54 +269,6 @@ public class InternetManager {
         AppManager.getInstance().addToRequestQueue(request, TAG, context);
     }           // [ABANDONED FUNCTION]
 
-    public void getUserPicFull( final Report report){
-        String TAG = "post_Req_USER_IMAGE";
-
-        if (!isConnectedToNet()) {
-            Log.e("netFor[pic full get]>",""+isConnectedToNet());
-            report.Status=App_Config.STATUS_ERROR;
-            report.Description="not connectivity available !";
-            return;
-        }
-        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-
-                // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
-                Log.e("net>>>>" + response, "");
-                Report report1= new Report();
-                CollegareParser.getInstance(context).parsePicFullURL(report1);
-                if(report1.Status==App_Config.STATUS_OK){
-                    report.Description=report1.Description;
-                    return;
-                }
-                report.Status=App_Config.STATUS_ERROR;
-                report.Description="image not available";
-            }
-
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.e("" + volleyError.toString(), "[error reported]");
-                report.Description="network error !";
-                report.Status=App_Config.STATUS_ERROR;
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                // Posting parameters to login url
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("action", "getfullpic");
-                params.put("id", UserId);
-                return params;
-            }
-
-        };
-
-        Log.e("instanse", "" + AppManager.getInstance());
-        AppManager.getInstance().addToRequestQueue(request, TAG, context);
-    }
 
     public void uploadPic(final String filePath,Report report){
         int serverResponseCode=-1;

@@ -158,13 +158,7 @@ public class CollegareParser {
 
     }
 
-    public void parsePicFullURL(Report report1)
-    {
-    }
 
-    public void parsePicURL(Report report1)
-    {
-    }
 //(String firstname, String lastname, String username, String id, String email, String sex,
 // ArrayList<CollegareGroup> groups, String dob,String token)
 

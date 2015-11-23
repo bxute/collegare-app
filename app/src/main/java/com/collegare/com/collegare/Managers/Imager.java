@@ -64,7 +64,7 @@ public class Imager {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        SessionManager.setProPicPath(fileDir.getAbsolutePath());
+        SessionManager.setPicPath(fileDir.getAbsolutePath());
     }
 
 

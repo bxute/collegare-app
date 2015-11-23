@@ -139,7 +139,7 @@ public class DataStore {
             }
          else
             {
-                InternetManager.getInstance(context).getFeeds(gid);
+                InternetManager.getInstance(context).getFeeds(gid,SessionManager.getLastPostID());
             }
             return feeds;
     }
@@ -188,11 +188,6 @@ public class DataStore {
     *       sending post
     * */
 
-    public void submitPost(boolean isAnonu,String content,Report report){
-
-        InternetManager.getInstance(context).sendPost(content,isAnonu,report);
-
-    }
 
     public ArrayList<CollegareFeed> getFeedsFromAdmins(Report rp) {
         /*public String postid, content, username, doc, groupid, id, weight, pollid,CommentCount,likeCount,dislikeCount;

@@ -3,6 +3,7 @@ package com.collegare.com.collegare.Fragments;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
+import com.collegare.com.collegare.Activity.EditProfile;
 import com.collegare.com.collegare.Managers.AppManager;
 import com.collegare.com.collegare.Managers.App_Config;
 import com.collegare.com.collegare.Managers.DataStore;
@@ -53,7 +55,7 @@ import java.util.Map;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NavigationFragment extends Fragment {
+public class NavigationFragment extends Fragment implements View.OnClickListener {
 
     RecyclerView navRv;
     RecyclerView.Adapter navRVadapter;
@@ -80,11 +82,12 @@ public class NavigationFragment extends Fragment {
         members= new ArrayList<>();
         dataStore= new DataStore(getActivity());
         user=dataStore.getUser();
-        groupList=user.groups;
-        Log.e("Navigation fra(oCreate)"," getUsers");
-        groupList.add(new CollegareGroup("1","PUBLIC","2013-12-12 12:12:12",admins,members));
-        groupList.add(new CollegareGroup("2","Admins","2013-12-12 12:12:12",admins,members));
-
+        if(user!=null) {
+            groupList = user.groups;
+            Log.e("Navigation fra(oCreate)", " getUsers");
+            groupList.add(new CollegareGroup("1", "PUBLIC", "2013-12-12 12:12:12", admins, members));
+            groupList.add(new CollegareGroup("2", "Admins", "2013-12-12 12:12:12", admins, members));
+        }
     }
 
     @Override
@@ -97,61 +100,36 @@ public class NavigationFragment extends Fragment {
         email= (TextView) view.findViewById(R.id.email);
         userid= (TextView) view.findViewById(R.id.userId);
         username= (TextView) view.findViewById(R.id.username);
-        email.setText(user.email + "");
-        userid.setText(user.id + "");
-        username.setText(user.firstname + " " + user.lastname);
+        proPic.setOnClickListener(this);
 
 
+        if(user!=null){
+            email.setText(user.email + "");
+            userid.setText(user.id + "");
+            username.setText(user.firstname + " " + user.lastname);
+
+        }
 
         return view;
     }
-        public void RequestImage(){
-            if (!InternetManager.getInstance(getActivity()).isConnectedToNet()) {
-                return;
-            }
 
-            StringRequest userReq = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String s) {
-                    Log.e(s + "[response]", "");
-
-                    try {
-                        JSONObject userOBJ = new JSONObject(s);
-                        int error_code = userOBJ.getInt("status");
-                        if(error_code==0){
-                            String url=null;
-                            url="http://collegare.eu5.org/"+userOBJ.getString("url");
-                            SessionManager.setPicPath(url);
-                        }
-                        Log.e("nav pic ", "" + s);
-
-
-                    } catch (JSONException e) {
-                        Log.e("Parse error in User","");
-                        e.printStackTrace();
-                    }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError volleyError) {
-                    Log.e("[vol] user:"," "+volleyError);
-                }}){
-                @Override
-                protected Map<String, String> getParams() {
-                    // Posting parameters to login url
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("action","getpic");
-                    String username= DatabaseManager.getInstance(getActivity()).getUser().username;
-                    params.put("username", username);
-                    return params;
-                }};
-            Log.e("reqeust for userinfo","");
-            AppManager.getInstance().addToRequestQueue(userReq, "userinfo", getActivity());
-        }
 
     public void makeReadyNav(final Activity context,DrawerLayout drawerLayout,Toolbar toolbar){
 
-    RequestImage();
+        if(Imager.getInstance(getActivity()).isImageAvailable()){
+            Log.e("nav pic ","aval");
+            proPic.setImageBitmap(Imager.getInstance(getActivity()).getImage());
+        }
+        else{
+            if (InternetManager.getInstance(getActivity()).isConnectedToNet()) {
+                RequestImage();
+            }
+            else {
+                proPic.setImageResource(R.drawable.ankit);
+            }
+
+        }
+
 
 
         Log.e("passing "," "+drawerLayout);
@@ -194,4 +172,73 @@ public class NavigationFragment extends Fragment {
 
     }
 
+    public void RequestImage(){
+
+        StringRequest userReq = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String s) {
+                Log.e(s + "[response]", "");
+
+                try {
+                    JSONObject userOBJ = new JSONObject(s);
+                    int error_code = userOBJ.getInt("status");
+                    if(error_code==0){
+                        String url=null;
+                        url="http://collegare.eu5.org/"+userOBJ.getString("url");
+                        parseAndSet(url);
+
+                    }
+                    Log.e("nav pic ", "" + s);
+
+
+                } catch (JSONException e) {
+                    Log.e("Parse error in User","");
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.e("[vol] user:"," "+volleyError);
+            }}){
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("action","getpic");
+                String username= DatabaseManager.getInstance(getActivity()).getUser().username;
+                params.put("username", username);
+                return params;
+            }};
+        Log.e("reqeust for userinfo", "");
+        AppManager.getInstance().addToRequestQueue(userReq, "userinfo", getActivity());
+    }
+
+    public void parseAndSet(String url){
+
+        ImageRequest imageRequest= new ImageRequest(url, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap bitmap) {
+                    proPic.setImageBitmap(bitmap);
+                    Imager.getInstance(getActivity()).saveImage(bitmap);
+            }
+        },0,0,null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                    Log.e("error","nav pic fetch up");
+            }
+        });
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        int id= view.getId();
+
+        if(id==R.id.profile_image){
+
+            startActivity(new Intent(getActivity(), EditProfile.class));
+
+        }
+    }
 }
