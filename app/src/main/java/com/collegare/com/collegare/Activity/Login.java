@@ -89,8 +89,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         int id = v.getId();
 
-        startActivity(new Intent(this, Home.class));
-      /* switch (id) {
+    //    startActivity(new Intent(this, Home.class));
+       switch (id) {
             case R.id.showPass:
                 toggleCheckBox();
                 break;
@@ -101,7 +101,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
             default:
                 break;
-        }*/
+        }
     }
 
     private void attemptLogin() {
