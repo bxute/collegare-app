@@ -127,6 +127,7 @@ public class Home extends AppCompatActivity {
                 break;
             case R.id.action_LogOut:
                         SessionManager.setLoginStatus(false);
+                        startActivity(new Intent(this,Login.class));
                         finish();
                 break;
 
