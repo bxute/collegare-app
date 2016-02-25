@@ -75,18 +75,19 @@ public class MessageSend extends AppCompatActivity implements View.OnClickListen
         CollegareUser user= DatabaseManager.getInstance(this).getUser();
         final String UserId= user.id;
         final String UserToken=user.token;
-
-        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL,
+        Log.e("TT"," msg from "+UserId+" token:"+UserToken + "to "+receiver);
+        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Message_URL,
                 new Response.Listener<String>() {
 
                     @Override
                     public void onResponse(String response) {
 
+                        Log.e("TT"," msg resp>>"+response);
                         try {
                             JSONObject object= new JSONObject(response);
 
                             if(object.getString("status").equals("0")){
-                                Log.e("post sent", "");
+                                Log.e("msg sent", "");
                             }
                             else{
 
@@ -108,10 +109,10 @@ public class MessageSend extends AppCompatActivity implements View.OnClickListen
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("action", "set");
+                params.put("action","send");
                 params.put("id", UserId);
                 params.put("content",msg);
-                params.put("rec",receiver);
+                params.put("recid",receiver);
                 params.put("token",UserToken);
                 return params;
             }

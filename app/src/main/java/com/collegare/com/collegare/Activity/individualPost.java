@@ -28,8 +28,10 @@ import com.collegare.com.collegare.Managers.InternetManager;
 import com.collegare.com.collegare.Managers.MessageAdapter;
 import com.collegare.com.collegare.Managers.NavigationDrawerRecyclerViewAdapter;
 import com.collegare.com.collegare.Managers.RecyclerViewDecorator;
+import com.collegare.com.collegare.Models.CollegareAdmin;
 import com.collegare.com.collegare.Models.CollegareComment;
 import com.collegare.com.collegare.Models.CollegarePost;
+import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.Models.Report;
 import com.collegare.com.collegare.R;
 
@@ -59,6 +61,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
 
         if(getIntent()!=null){
             pID=getIntent().getExtras().getString("postId");
+            Log.e("ip"," "+pID);
         }
 
         if(!InternetManager.getInstance(this).isConnectedToNet()){
@@ -66,7 +69,6 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
             // database reading for offline data loading
             //
             post= DatabaseManager.getInstance(this).getPost(pID);
-
             userId.setText(post.id);
             userPic.setImageResource(R.drawable.user_pic);
             likeText.setText(post.LikeCount);
@@ -77,10 +79,8 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
             getSupportActionBar().setTitle(post.username + "`s Post");
             int resIdL=(post.isLiked.equals("true"))?R.drawable.upvote_48:R.drawable.upvote_48_black;
             int resIdD= (post.isDisliked.equals("true"))?R.drawable.downvote_48:R.drawable.downvote_48_black;
-
             likeImg.setImageResource(resIdL);
             unlikeImg.setImageResource(resIdD);
-
             adapter.setComments(post.comment);
 
 
@@ -307,12 +307,14 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
 
     private void RequestData(){
 
+        final CollegareUser user= DatabaseManager.getInstance(this).getUser();
+        Log.e("TT","user id :"+user.id);
         StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
-                Log.e("www net>>>>" + response, "");
+                Log.e("TT  " ,response +"");
                ParseAndSet(response);
             }
 
@@ -327,8 +329,9 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("action", "feed");
+                params.put("action", "get");
                 params.put("postid",pID);
+                params.put("id",user.id);
 
                 return params;
             }

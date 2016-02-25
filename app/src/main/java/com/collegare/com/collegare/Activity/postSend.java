@@ -77,7 +77,7 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
     public void sendPost(final String content,final boolean isAnonymous  ){
         String TAG = "postReqSEND";
 
-
+                Log.e("TT"," sending....."+content);
         CollegareUser user= DatabaseManager.getInstance(this).getUser();
         final String UserId= user.id;
         final String UserToken=user.token;
@@ -88,11 +88,12 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onResponse(String response) {
 
+                    Log.e("TT"," on msg rec.."+response);
                 try {
                     JSONObject object= new JSONObject(response);
 
                     if(object.getString("status").equals("0")){
-                        Log.e("post sent","");
+                        Log.e("TT","post sent");
                     }
                     else{
 
@@ -115,10 +116,11 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("action", "set");
+                Log.e("TT"," for "+UserId+" token: "+UserToken);
                 params.put("id", UserId);
                 params.put("content",content);
                 params.put("token",UserToken);
-                params.put("manke_anon",isAnonymous+"");
+               // params.put("make_anon",isAnonymous+"");
                 return params;
             }
 
