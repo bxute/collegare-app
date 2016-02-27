@@ -51,8 +51,8 @@ public class Messages extends Fragment implements SendListener,RefressListener {
     TextView error;
     ArrayList<CollegareMessage> dataList;
     SwipeRefreshLayout swipeRefreshLayout;
-    private DataStore dataStore;
     Report rp;
+    private DataStore dataStore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -82,17 +82,16 @@ public class Messages extends Fragment implements SendListener,RefressListener {
             @Override
             public void onRefresh() {
                 Log.e("[msg] refress ", " triggered");
-                refressMessage();
+                refreshMessage();
             }
         });
         return view;
     }
 
-    private void refressMessage() {
+    private void refreshMessage() {
 
         if (swipeRefreshLayout.isRefreshing()) {
             Log.e("message", "already refressing");
-            swipeRefreshLayout.setRefreshing(false);
             return;
         }
         if (InternetManager.getInstance(getActivity()).isConnectedToNet()) {
@@ -167,6 +166,6 @@ public class Messages extends Fragment implements SendListener,RefressListener {
     @Override
     public void refress() {
         Log.e("Message","interface call:: to refress()");
-        refressMessage();
+        refreshMessage();
     }
 }

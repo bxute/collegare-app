@@ -13,7 +13,7 @@ public class SessionManager
     private static final String TAG=SessionManager.class.getSimpleName();
     static SharedPreferences.Editor editor;
     static SharedPreferences preferences;
-    int Mode = 0;
+    int Mode=0;
     Context _context;
 
     public SessionManager(Context context)
@@ -25,56 +25,59 @@ public class SessionManager
 
     public static void setLoginStatus(boolean state)
     {
-        editor.putBoolean(KEY, state);
+        editor.putBoolean(KEY,state);
         editor.commit();
     }
 
-    public static String getLastGroup() {
-        return preferences.getString("gid", "0");
+    public static String getLastGroup(){
+        return preferences.getString("gid","0");
     }
 
-    public static void setLastGroup(String gid) {
+    public static void setLastGroup(String gid){
         editor.putString("gid", gid);
         editor.commit();
     }
 
-    public static String getLastPostID() {
-        return preferences.getString("LPid", "0");
+    public static String getLastPostID(){
+        return preferences.getString("LPid","0");
     }
 
-    public static void setLastPostID(String lastPostID) {
-        editor.putString("LPid", lastPostID);
+    public static void setLastPostID(String lastPostID){
+        editor.putString("LPid",lastPostID);
         editor.commit();
     }
 
-    public static String getProPicPath() {
-        return preferences.getString("Propicpath", "null");
+    public static String getProPicPath(){
+     return    preferences.getString("Propicpath","null");
     }
 
-    public static void setProPicPath(String path) {
-        editor.putString("Propicpath", path);
+    public static void setProPicPath(String path){
+        editor.putString("Propicpath",path);
         editor.commit();
     }
 
-    public static String getPicPath() {
-        return preferences.getString("picpath", "null");
+    public static String getPicPath(){
+        return    preferences.getString("picpath","null");
     }
 
-    public static void setPicPath(String path) {
-        editor.putString("picpath", path);
+    public static void setPicPath(String path){
+        editor.putString("picpath",path);
         editor.commit();
     }
 
-    public boolean isLoggedIn() {
-        return preferences.getBoolean(KEY, false);
+    public boolean isLoggedIn()
+    {
+        return preferences.getBoolean(KEY,false);
     }
 
-    public int getFeedSortType() {
-        return preferences.getInt("sortType", 0);
+    public int getFeedSortType()
+    {
+        return preferences.getInt("sortType",0);
     }
 
-    public void setFeedSortType(int t) {
-        editor.putInt("sortType", t);
+    public void setFeedSortType(int t)
+    {
+        editor.putInt("sortType",t);
         editor.commit();
     }
 }

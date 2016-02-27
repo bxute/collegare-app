@@ -61,7 +61,7 @@ public class CollegareParser {
 
                 JSONArray posts = feedObj.getJSONArray("posts");
 
-                for (int i = 0; i < posts.length(); i++) {
+                for (int i = posts.length()-1; i >= 0; i--) {
                     JSONObject post = (JSONObject) posts.get(i);
                     String isLiked=(post.getString("vote").equals("1"))?"true":"false";
                     String isDisLiked=(post.getString("vote").equals("-1"))?"true":"false";
@@ -121,7 +121,7 @@ public class CollegareParser {
                 return;
             }
             JSONArray msgArray = msgObj.getJSONArray("messages");
-            for (int i = 0; i < msgArray.length(); i++) {
+            for (int i = msgArray.length()-1; i >= 0 ; i--) {
                 JSONObject temp = (JSONObject) msgArray.get(i);
                 message= new CollegareMessage(
                                 temp.getString("msgid"),

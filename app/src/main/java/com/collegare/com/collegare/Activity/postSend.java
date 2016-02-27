@@ -140,8 +140,8 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
     public void callback_postSent(){
 
         progress.hide();
-      //  Intent homeIntent= new Intent(this,Home.class);
-     //   startActivity(homeIntent);
+        Intent homeIntent= new Intent(this,Home.class);
+        startActivity(homeIntent);
        /* Home hobj= new Home();
         hobj.Sent(0);*/
     }

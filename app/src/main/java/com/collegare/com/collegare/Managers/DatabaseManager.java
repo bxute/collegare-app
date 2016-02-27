@@ -28,6 +28,11 @@ public class DatabaseManager extends SQLiteOpenHelper {
     *
     * */
 
+    public DatabaseManager(Context context) {
+        super(context, App_Config.DATABASE_NAME, null, App_Config.DATABASE_VERSION);
+        TAG = "DM";
+    }
+
     public static DatabaseManager getInstance(Context context) {
         if (instance == null) {
             instance = new DatabaseManager(context);
@@ -35,10 +40,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return instance;
     }
 
-    public DatabaseManager(Context context) {
-        super(context, App_Config.DATABASE_NAME, null, App_Config.DATABASE_VERSION);
-        TAG = "DM";
-    }
     public void IntiateDataBase(){
         SQLiteDatabase db= getWritableDatabase();
         rolldown_Tables(db);
@@ -92,7 +93,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
             db.execSQL(
                     "CREATE TABLE IF NOT EXISTS Posts (" +
-                            "POSTID INTEGER , " +
+                            "POSTID INTEGER PRIMARY KEY, " +
                             "CONTENT TEXT, " +
                             "USERNAME TEXT, " +
                             "DOC TEXT, " +
@@ -110,7 +111,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             Log.e(TAG, "Posts table created!");
             db.execSQL(
                     "CREATE TABLE IF NOT EXISTS Comments (" +
-                            "COMMENTID INTEGER , " +
+                            "COMMENTID INTEGER PRIMARY KEY, " +
                             "POSTID TEXT , " +
                             "ID TEXT , " +
                             "USERNAME TEXT , " +
@@ -122,7 +123,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             db.execSQL(
                     //msgid, content, username, doc, id;
                     "CREATE TABLE IF NOT EXISTS Messages (" +
-                            "MESSAGEID INTEGER , " +
+                            "MESSAGEID INTEGER PRIMARY KEY, " +
                             "CONTENT TEXT, " +
                             "USERNAME TEXT, " +
                             "DOC TEXT, " +
@@ -138,19 +139,19 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void rollback_Database(){
         SQLiteDatabase db= getWritableDatabase();
         //dropTable(db,"LoginInfo");
-        db.execSQL("DELETE FROM LoginInfo");
+        db.execSQL("DELETE FROM LoginInfo;");
         Log.e("DM", "deleted all cols: LoginInfo");
-        db.execSQL("DELETE FROM Members");
+        db.execSQL("DELETE FROM Members;");
         Log.e("DM", "deleted all cols: Members");
-        db.execSQL("DELETE FROM Admins");
+        db.execSQL("DELETE FROM Admins;");
         Log.e("DM", "deleted all cols: Admins");
-        db.execSQL("DELETE FROM Posts");
+        db.execSQL("DELETE FROM Posts;");
         Log.e("DM", "deleted all cols: Posts");
-        db.execSQL("DELETE FROM Comments");
+        db.execSQL("DELETE FROM Comments;");
         Log.e("DM", "deleted all cols: Comments");
-        db.execSQL("DELETE FROM Messages");
+        db.execSQL("DELETE FROM Messages;");
         Log.e("DM", "deleted all cols: Messages");
-        db.execSQL("DELETE FROM Groups");
+        db.execSQL("DELETE FROM Groups;");
         Log.e("DM", "deleted all cols: Groups");
         Log.e("DM","Successfully deleted all tables datas !!!");
     }

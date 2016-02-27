@@ -132,9 +132,9 @@ public class MessageSend extends AppCompatActivity implements View.OnClickListen
     }
     protected void callback_messageSent(){
         progress.hide();
-       // Intent homeIntent= new Intent(this,Home.class);
+        Intent homeIntent= new Intent(this,Home.class);
         Log.e("MsgSend", "callback_msg");
-     //   startActivity(homeIntent);
+        startActivity(homeIntent);
         /*Home hobj= new Home();
         hobj.Sent(1);*/
         finish();

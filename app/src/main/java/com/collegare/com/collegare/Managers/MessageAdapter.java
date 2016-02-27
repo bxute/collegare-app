@@ -30,80 +30,10 @@ public class MessageAdapter extends RecyclerView
 
     private static int MESSAGE_IN=0;
     private static int MESSAGE_OUT=1;
-    String userID;
-    Context context;
     private static MessageAdapter bInstance;
     public ArrayList<CollegareMessage> mDataset;
-
-    public static MessageAdapter getInstance(Context context){
-        if(bInstance==null){
-            bInstance=new MessageAdapter(context);
-        }
-        return bInstance;
-    }
-
-
-    public void setMessageDataList(ArrayList<CollegareMessage> list) {
-        this.mDataset = list;
-        Log.e("MessageAdapter","msg list set:size:"+list.size());
-        notifyDataSetChanged();
-    }
-
-    public void addMessageToList(CollegareMessage collegareMessage){
-        mDataset.add(0,collegareMessage);
-        Log.e("Msg Adapter", "msg added");
-        Log.e("MessageAdapter", "msg list set:size:" + mDataset.size());
-        notifyDataSetChanged();
-        notifyItemInserted(0);
-    }
-
-    public static class IncomingMessageHolder extends RecyclerView.ViewHolder
-            implements View
-            .OnClickListener {
-
-        TextView sender_name;
-        TextView timeSpan;
-        TextView message;
-        ImageView send_receiveImg;
-
-        public IncomingMessageHolder(View itemView) {
-            super(itemView);
-            send_receiveImg= (ImageView) itemView.findViewById(R.id.indicator);
-            sender_name = (TextView) itemView.findViewById(R.id.sender_name);
-            message = (TextView) itemView.findViewById(R.id.messageText);
-            timeSpan = (TextView) itemView.findViewById(R.id.pastTime);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-
-        }
-    }
-    public static class OutgoingMessageHolder extends RecyclerView.ViewHolder
-            implements View
-            .OnClickListener {
-
-        TextView receiver_name;
-        TextView timeSpan;
-        TextView message;
-        ImageView send_receiveImg;
-
-
-        public OutgoingMessageHolder(View itemView) {
-            super(itemView);
-            send_receiveImg= (ImageView) itemView.findViewById(R.id.indicator);
-            receiver_name = (TextView) itemView.findViewById(R.id.receiver_name);
-            message = (TextView) itemView.findViewById(R.id.messageText);
-            timeSpan = (TextView) itemView.findViewById(R.id.pastTime);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-
-        }
-    }
+    String userID;
+    Context context;
 
     public MessageAdapter(Context context) {
         mDataset = new ArrayList<>();
@@ -115,8 +45,35 @@ public class MessageAdapter extends RecyclerView
         }
     }
 
+
     public MessageAdapter(ArrayList<CollegareMessage> myDataset) {
         mDataset = myDataset;
+    }
+
+    public static MessageAdapter getInstance(Context context){
+        if(bInstance==null){
+            bInstance=new MessageAdapter(context);
+        }
+        return bInstance;
+    }
+
+    public void setMessageDataList(ArrayList<CollegareMessage> list) {
+        this.mDataset = list;
+        notifyDataSetChanged();
+    }
+
+    public void addMessageToList(CollegareMessage collegareMessage){
+        boolean insert = true;
+        int i = 0;
+
+        while(insert && (i < mDataset.size()))
+            if(mDataset.get(i++).msgid.matches(collegareMessage.msgid))
+                insert = false;
+
+        if(insert)
+            mDataset.add(0,collegareMessage);
+
+        notifyDataSetChanged();
     }
 
     @Override
@@ -182,5 +139,54 @@ public class MessageAdapter extends RecyclerView
 
 
         return mDataset.size();
+    }
+
+    public static class IncomingMessageHolder extends RecyclerView.ViewHolder
+            implements View
+            .OnClickListener {
+
+        TextView sender_name;
+        TextView timeSpan;
+        TextView message;
+        ImageView send_receiveImg;
+
+        public IncomingMessageHolder(View itemView) {
+            super(itemView);
+            send_receiveImg= (ImageView) itemView.findViewById(R.id.indicator);
+            sender_name = (TextView) itemView.findViewById(R.id.sender_name);
+            message = (TextView) itemView.findViewById(R.id.messageText);
+            timeSpan = (TextView) itemView.findViewById(R.id.pastTime);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
+
+    public static class OutgoingMessageHolder extends RecyclerView.ViewHolder
+            implements View
+            .OnClickListener {
+
+        TextView receiver_name;
+        TextView timeSpan;
+        TextView message;
+        ImageView send_receiveImg;
+
+
+        public OutgoingMessageHolder(View itemView) {
+            super(itemView);
+            send_receiveImg= (ImageView) itemView.findViewById(R.id.indicator);
+            receiver_name = (TextView) itemView.findViewById(R.id.receiver_name);
+            message = (TextView) itemView.findViewById(R.id.messageText);
+            timeSpan = (TextView) itemView.findViewById(R.id.pastTime);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
     }
 }

@@ -93,7 +93,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-               refressFeeds();
+               refreshFeeds();
                 Log.e("[feed] refress "," triggered");
             }});
 
@@ -107,10 +107,9 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         Log.e(" feeds onResume called"," ");
     }
 
-    private void refressFeeds() {
+    private void refreshFeeds() {
 
          if (swipeRefreshLayout.isRefreshing()){
-             swipeRefreshLayout.setRefreshing(false);
              Log.e("feeds", "already refressing");
             return;
         }
@@ -192,7 +191,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
                 params.put("id", UserId);
                 Log.e("ttt for gid >>", gid);
                 params.put("gid", gid);
-                params.put("lastid",lastId);
+                params.put("after",lastId);
                 return params;
             }
         };
@@ -208,6 +207,6 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     @Override
     public void refress() {
         Log.e("Feed","interface call:: to refress()");
-        refressFeeds();
+        refreshFeeds();
     }
 }
