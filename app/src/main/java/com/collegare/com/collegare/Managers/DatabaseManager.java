@@ -41,9 +41,19 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
     public void IntiateDataBase(){
         SQLiteDatabase db= getWritableDatabase();
+        rolldown_Tables(db);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
+        rolldown_Tables(db);
+    }
+
+    public void dropTable(SQLiteDatabase db, String tableName) {
+        db.execSQL("DROP TABLE IF EXISTS " + tableName + ";");
+        Log.e("table " + tableName, "droped");
+    }
+
+    public void rolldown_Tables(SQLiteDatabase db){
         try {
             db.execSQL(
                     "CREATE TABLE IF NOT EXISTS LoginInfo (" +
@@ -123,13 +133,26 @@ public class DatabaseManager extends SQLiteOpenHelper {
         } catch (Exception e) {
             Log.e("[TABLE CREATION ERROR]", e.toString());
         }
-
-
     }
 
-    public void dropTable(SQLiteDatabase db, String tableName) {
-        db.execSQL("DROP TABLE IF EXISTS " + tableName + ";");
-        Log.e("table " + tableName, "droped");
+    public void rollback_Database(){
+        SQLiteDatabase db= getWritableDatabase();
+        //dropTable(db,"LoginInfo");
+        db.execSQL("DELETE FROM LoginInfo");
+        Log.e("DM", "deleted all cols: LoginInfo");
+        db.execSQL("DELETE FROM Members");
+        Log.e("DM", "deleted all cols: Members");
+        db.execSQL("DELETE FROM Admins");
+        Log.e("DM", "deleted all cols: Admins");
+        db.execSQL("DELETE FROM Posts");
+        Log.e("DM", "deleted all cols: Posts");
+        db.execSQL("DELETE FROM Comments");
+        Log.e("DM", "deleted all cols: Comments");
+        db.execSQL("DELETE FROM Messages");
+        Log.e("DM", "deleted all cols: Messages");
+        db.execSQL("DELETE FROM Groups");
+        Log.e("DM", "deleted all cols: Groups");
+        Log.e("DM","Successfully deleted all tables datas !!!");
     }
 
     @Override

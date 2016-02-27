@@ -1,5 +1,7 @@
 package com.collegare.com.collegare.Activity;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,7 +36,7 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
     Toolbar toolbar;
     EditText postcontent;
     Button sendBtn;
-
+    ProgressDialog progress;
     CheckBox anonyCheck;
 
     @Override
@@ -45,7 +47,7 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
+        progress =new ProgressDialog(this);
         postcontent= (EditText) findViewById(R.id.postContent);
         sendBtn= (Button) findViewById(R.id.send);
         anonyCheck= (CheckBox) findViewById(R.id.anonyCheck);
@@ -58,10 +60,13 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
 
         if(id==R.id.send){
             String post=postcontent.getText().toString();
-            if(post.length()>5){
-                Toast.makeText(this,""+anonyCheck.isChecked(),Toast.LENGTH_LONG).show();
+            if(post.length()>0){
+                //Toast.makeText(this,""+anonyCheck.isChecked(),Toast.LENGTH_LONG).show();
 
                 if (InternetManager.getInstance(this).isConnectedToNet()) {
+                    progress.setMessage("Sending....");
+                    progress.setIndeterminate(true);
+                    progress.show();
                     sendPost(post, anonyCheck.isChecked());
                 }
                 else{
@@ -94,6 +99,7 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
 
                     if(object.getString("status").equals("0")){
                         Log.e("TT","post sent");
+                        callback_postSent();
                     }
                     else{
 
@@ -131,8 +137,21 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
 
 
     }
+    public void callback_postSent(){
 
+        progress.hide();
+      //  Intent homeIntent= new Intent(this,Home.class);
+     //   startActivity(homeIntent);
+       /* Home hobj= new Home();
+        hobj.Sent(0);*/
+    }
 
+    @Override
+    public void onPause(){
+        super.onPause();
+        Log.e("PSend","onPause");
+        finish();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

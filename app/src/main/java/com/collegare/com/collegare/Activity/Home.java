@@ -11,6 +11,7 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -29,11 +30,14 @@ import android.widget.ImageView;
 import android.support.design.widget.FloatingActionButton;
 import android.widget.Toast;
 
+import com.collegare.com.collegare.Fragments.Feeds;
 import com.collegare.com.collegare.Fragments.NavigationFragment;
 import com.collegare.com.collegare.Fragments.SendDailoge;
+import com.collegare.com.collegare.Managers.CallbackListener;
 import com.collegare.com.collegare.Managers.DataStore;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.InternetManager;
+import com.collegare.com.collegare.Managers.RefressListener;
 import com.collegare.com.collegare.Managers.SendListener;
 import com.collegare.com.collegare.Managers.SessionManager;
 import com.collegare.com.collegare.Models.CollegareFeed;
@@ -50,7 +54,7 @@ import java.util.Date;
 
 import javax.security.auth.login.LoginException;
 
-public class Home extends AppCompatActivity {
+public class Home extends AppCompatActivity implements CallbackListener {
 
     // private members
     CharSequence bTitle;
@@ -69,20 +73,20 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     //   new DataStore(this).testDB()
+        //   new DataStore(this).testDB()
        /* Date d= new Date();
         final CharSequence doc  = DateFormat.format("yyyy-mm-dd hh:mm:ss", d.getTime());
         final CharSequence doc1  = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime());*/
         /*Log.v("doc:"," "+doc);
         Log.v("doc1"," "+doc1);*/
         Log.e("home", "callled");
-        sessionManager= new SessionManager(this);
+        sessionManager = new SessionManager(this);
         setContentView(R.layout.activity_home);
 
         Init();
-        View view=findViewById(R.id.toolbar);
+        View view = findViewById(R.id.toolbar);
 
-     //   tester();
+        //   tester();
 
     }
 
@@ -95,12 +99,13 @@ public class Home extends AppCompatActivity {
     }
 */
     @Override
-    public void onConfigurationChanged(Configuration configuration){
+    public void onConfigurationChanged(Configuration configuration) {
 
         super.onConfigurationChanged(configuration);
         bDrawerToggle.onConfigurationChanged(configuration);
 
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -114,21 +119,22 @@ public class Home extends AppCompatActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
 
-        int id=item.getItemId();
+        int id = item.getItemId();
 
-        switch (id){
-            case R.id.action_Profile :
+        switch (id) {
+            case R.id.action_Profile:
 
-               // bDrawerLayout.openDrawer(Gravity.RIGHT);
+                // bDrawerLayout.openDrawer(Gravity.RIGHT);
 
-                Intent aboutUsIntent= new Intent(this, Profile.class);
+                Intent aboutUsIntent = new Intent(this, Profile.class);
                 Log.e("inte", "");
-                  startActivity(aboutUsIntent);
+                startActivity(aboutUsIntent);
                 break;
             case R.id.action_LogOut:
-                        SessionManager.setLoginStatus(false);
-                        startActivity(new Intent(this,Login.class));
-                        finish();
+                SessionManager.setLoginStatus(false);
+                DatabaseManager.getInstance(this).rollback_Database();
+                startActivity(new Intent(this, Login.class));
+                finish();
                 break;
 
 
@@ -146,13 +152,13 @@ public class Home extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        tabLayout=(TabLayout) findViewById(R.id.tab_layout);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Feeds"));
         tabLayout.addTab(tabLayout.newTab().setText("Messages"));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        viewPager=(ViewPager) findViewById(R.id.pager);
-        pagerAdapter =new BPagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount());
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        pagerAdapter = new BPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -179,11 +185,11 @@ public class Home extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         //getSupportActionBar().setIcon(R.drawable.icon);
 
-        NavigationFragment navigationFragment= (NavigationFragment) getFragmentManager().findFragmentById(R.id.fragmentNav);
-   //     NavigationFragment navigationFragmentRight= (NavigationFragment) getFragmentManager().findFragmentById(R.id.fragmentNavRight);
-        Log.e("making drawer ready","");
-       navigationFragment.makeReadyNav(this, bDrawerLayout, toolbar);
-        Log.e("drawer made","");
+        NavigationFragment navigationFragment = (NavigationFragment) getFragmentManager().findFragmentById(R.id.fragmentNav);
+        //     NavigationFragment navigationFragmentRight= (NavigationFragment) getFragmentManager().findFragmentById(R.id.fragmentNavRight);
+        Log.e("making drawer ready", "");
+        navigationFragment.makeReadyNav(this, bDrawerLayout, toolbar);
+        Log.e("drawer made", "");
         /*
         *
         *           setting up the floating action menus
@@ -213,16 +219,17 @@ public class Home extends AppCompatActivity {
 *
 * setting up own fab
 * */
-        final SendDailoge sendDailoge= new SendDailoge(this);
+        final SendDailoge sendDailoge = new SendDailoge(this);
         sendDailoge.setCancelable(true);
         sendDailoge.setTitle("Sending Post");
-        fab=(FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 fragment= (Fragment) pagerAdapter.instantiateItem(viewPager,viewPager.getCurrentItem());
-                if(fragment instanceof SendListener){
+                fragment = (Fragment) pagerAdapter.instantiateItem(viewPager, viewPager.getCurrentItem());
+                Log.e("Home","vp type:"+viewPager.getCurrentItem()+"");
+                if (fragment instanceof SendListener) {
                     ((SendListener) fragment).send();
                 }
             }
@@ -230,4 +237,25 @@ public class Home extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void Sent(int type) {
+        Log.e("Home","interface call:: to Sent()");
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        Log.e("Home","current vp:"+viewPager.getCurrentItem());
+        fragment = (Fragment) pagerAdapter.instantiateItem(viewPager, type);
+        if (type == 0) {
+            Log.e("Home","fragment type "+type);
+            viewPager.setCurrentItem(0);
+            if(fragment instanceof RefressListener){
+                ((RefressListener) fragment).refress();
+            }
+        } else {
+            Log.e("Home","fragment type "+type);
+            viewPager.setCurrentItem(1);
+            if(fragment instanceof RefressListener){
+                ((RefressListener) fragment).refress();
+            }
+        }
+    }
 }

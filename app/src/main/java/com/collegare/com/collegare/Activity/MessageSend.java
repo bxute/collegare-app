@@ -1,11 +1,13 @@
 package com.collegare.com.collegare.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.collegare.com.collegare.Managers.AppManager;
 import com.collegare.com.collegare.Managers.App_Config;
+import com.collegare.com.collegare.Managers.CallbackListener;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.InternetManager;
 import com.collegare.com.collegare.Models.CollegareUser;
@@ -33,7 +36,7 @@ public class MessageSend extends AppCompatActivity implements View.OnClickListen
     EditText rec;
     EditText msg;
     Button btn;
-
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +46,7 @@ public class MessageSend extends AppCompatActivity implements View.OnClickListen
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
+        progress= new ProgressDialog(this);
         rec= (EditText) findViewById(R.id.rec);
         msg= (EditText) findViewById(R.id.msgContent);
         btn= (Button) findViewById(R.id.send);
@@ -57,8 +60,11 @@ public class MessageSend extends AppCompatActivity implements View.OnClickListen
         if(id==R.id.send){
             String post=msg.getText().toString();
             String receiver=rec.getText().toString();
-            if(post.length()>5){
+            if(post.length()>0){
                 if (InternetManager.getInstance(this).isConnectedToNet()) {
+                    progress.setIndeterminate(true);
+                    progress.setMessage("Sending Message....");
+                    progress.show();
                     sendMsg(post,receiver);
                 }
                 else{
@@ -88,6 +94,7 @@ public class MessageSend extends AppCompatActivity implements View.OnClickListen
 
                             if(object.getString("status").equals("0")){
                                 Log.e("msg sent", "");
+                                callback_messageSent();
                             }
                             else{
 
@@ -122,5 +129,20 @@ public class MessageSend extends AppCompatActivity implements View.OnClickListen
         AppManager.getInstance().addToRequestQueue(request, "postSendReq", this);
 
 
+    }
+    protected void callback_messageSent(){
+        progress.hide();
+       // Intent homeIntent= new Intent(this,Home.class);
+        Log.e("MsgSend", "callback_msg");
+     //   startActivity(homeIntent);
+        /*Home hobj= new Home();
+        hobj.Sent(1);*/
+        finish();
+    }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+        finish();
     }
 }

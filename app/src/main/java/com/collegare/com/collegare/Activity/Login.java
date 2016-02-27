@@ -56,10 +56,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        Log.e("Login","onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);    // show login page
-        Log.e("at login", "");
         DatabaseManager.getInstance(this).IntiateDataBase();
         session = new SessionManager(getApplicationContext());
         session.setLastGroup("1");
@@ -80,8 +79,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        Log.e("Login","onResume");
+    }
+    @Override
     protected void onPause() {
         super.onPause();
+        Log.e("Login","onPause");
         finish();
     }
 

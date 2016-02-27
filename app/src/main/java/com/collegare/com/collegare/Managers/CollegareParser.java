@@ -47,7 +47,7 @@ public class CollegareParser {
 
 
 
-    void parseFeed(String response) {
+    public void parseFeed(String response) {
         ArrayList<CollegareFeed> feedlist= new ArrayList<>();
         try {
             JSONObject feedObj = new JSONObject(response);
@@ -110,7 +110,7 @@ public class CollegareParser {
     *           parse messages          [STATUS: OK][1]
     * */
 
-    void parseMessage(String response)
+    public void parseMessage(String response)
     {
        CollegareMessage message = null;
 
@@ -130,6 +130,7 @@ public class CollegareParser {
                                 temp.getString("doc"),
                                 temp.getString("id")
                         );
+                Log.e("msg parser","msg:"+temp.getString("content"));
                MessageAdapter.getInstance(context).addMessageToList(message);
                DatabaseManager.getInstance(context).appendMessage(message);
             }

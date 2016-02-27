@@ -247,7 +247,17 @@ public class postDataAdapter extends RecyclerView
 
                     Intent i = new Intent(instance.context, individualPost.class);
                   Bundle   bundle = new Bundle();
-                     bundle.putString("postId", feed.postid);
+                    bundle.putString("postId", feed.postid);
+                    bundle.putString("content",feed.content);
+                    bundle.putString("likes",feed.likeCount);
+                    bundle.putString("dislikes",feed.dislikeCount);
+                    bundle.putString("comments",feed.CommentCount);
+                    bundle.putString("username",feed.username);
+                    bundle.putString("isLiked",feed.isLiked);
+                    bundle.putString("isDisliked",feed.isDisliked);
+                    bundle.putString("lc",feed.likeCount);
+                    bundle.putString("dc",feed.dislikeCount);
+                    bundle.putString("uid",feed.id);
                     i.putExtras(bundle);
                    // instance.sessionManager.setLastGroup(feed.groupid);
                    // Log.e("stored gid", " " + feed.groupid);

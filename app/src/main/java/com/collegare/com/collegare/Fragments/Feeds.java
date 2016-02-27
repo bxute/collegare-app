@@ -16,25 +16,35 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.collegare.com.collegare.Activity.Home;
 import com.collegare.com.collegare.Activity.postSend;
+import com.collegare.com.collegare.Managers.AppManager;
 import com.collegare.com.collegare.Managers.App_Config;
+import com.collegare.com.collegare.Managers.CollegareParser;
 import com.collegare.com.collegare.Managers.Contexter;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.InternetManager;
 import com.collegare.com.collegare.Managers.NavigationListener;
+import com.collegare.com.collegare.Managers.RefressListener;
 import com.collegare.com.collegare.Managers.SendListener;
 import com.collegare.com.collegare.Managers.SessionManager;
 import com.collegare.com.collegare.Models.CollegareFeed;
+import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.Models.Report;
 import com.collegare.com.collegare.R;
 import com.collegare.com.collegare.Managers.DataStore;
 import com.collegare.com.collegare.Managers.postDataAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
-public class Feeds extends Fragment implements SendListener , NavigationListener{
+public class Feeds extends Fragment implements SendListener , NavigationListener, RefressListener{
     RecyclerView recyclerView;
     postDataAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -55,7 +65,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         sessionManager= new SessionManager(getActivity());
         if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
             String lastId=SessionManager.getLastPostID();
-            InternetManager.getInstance(getActivity()).getFeeds(groupID,lastId);
+            getFeeds(groupID,lastId);
         }
     }
 
@@ -79,7 +89,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         //Toast.makeText(getActivity()," "+rp.Description+" sta "+rp.Status,Toast.LENGTH_LONG).show();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        swipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.CYAN);
+        swipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -99,10 +109,15 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
 
     private void refressFeeds() {
 
+         if (swipeRefreshLayout.isRefreshing()){
+             swipeRefreshLayout.setRefreshing(false);
+             Log.e("feeds", "already refressing");
+            return;
+        }
         if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
             String lastLoadedId= SessionManager.getLastPostID();
-            InternetManager.getInstance(getActivity()).getFeeds(groupID,lastLoadedId);
-            swipeRefreshLayout.setRefreshing(false);
+            getFeeds(groupID,lastLoadedId);
+
         }else{
             Snackbar.make(swipeRefreshLayout,"No Connectivity !!",Snackbar.LENGTH_SHORT).show();
             swipeRefreshLayout.setRefreshing(false);
@@ -127,7 +142,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
                 Log.e("data"," "+dataStore);
                         feedArrayList=dataStore.getFeeds(groupID);
                         this.adapter.setPostDataList(feedArrayList);
-                Log.e("got  "," "+feedArrayList.size()+" items");
+                Log.e("got  ", " " + feedArrayList.size() + " items");
 
         this.adapter.notifyDataSetChanged();
     }
@@ -136,8 +151,63 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     public void alert(String msg,Context context){
         Log.e("msg is"," >"+msg+"[this]"+ context);
         Toast.makeText(context,""+msg,Toast.LENGTH_SHORT).show();
-
-
     }
 
+    public void getFeeds(final String gid, final String lastId) {
+
+        String TAG = "feedReq";
+        Log.e("aaa ","req in");
+
+        if (!InternetManager.getInstance(getActivity()).isConnectedToNet()) {
+            Log.e("Feed","no newtwork");
+            swipeRefreshLayout.setRefreshing(false);
+            return;
+        }
+
+        CollegareUser dbm = DatabaseManager.getInstance(getActivity()).getUser();
+        final String UserId=dbm.id;
+        final String UserToken=dbm.token;
+
+
+        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("AA",response+"");
+                CollegareParser.getInstance(getActivity()).parseFeed(response);
+                callback_postReceived();
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                    Log.e("Feeds",""+volleyError);
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("action", "feed");
+                Log.e("ttt for id>>", UserId);
+                params.put("id", UserId);
+                Log.e("ttt for gid >>", gid);
+                params.put("gid", gid);
+                params.put("lastid",lastId);
+                return params;
+            }
+        };
+        //  Log.e("instanse", "" + AppManager.getInstance()+"in conte "+context);
+        AppManager.getInstance().addToRequestQueue(request, TAG, getActivity());
+
+    }                                               // getting feeds for anonymous post
+
+    protected void callback_postReceived(){
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void refress() {
+        Log.e("Feed","interface call:: to refress()");
+        refressFeeds();
+    }
 }

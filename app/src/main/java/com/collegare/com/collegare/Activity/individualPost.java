@@ -107,6 +107,19 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
 
         dataStore= new DataStore(individualPost.this);
 
+        Bundle bucket= getIntent().getExtras();
+        userId.setText(bucket.getString("uid"));
+        nameDisplay.setText(bucket.getString("username"));
+        contentText.setText(bucket.getString("content"));
+        likeText.setText(bucket.getString("lc"));
+        unlikeText.setText(bucket.getString("dc"));
+        commentCount.setText(bucket.getString("comments"));
+        int resIdL=(bucket.getString("isLiked").equals("true"))?R.drawable.upvote_48:R.drawable.upvote_48_black;
+        int resIdD= (bucket.getString("isDisliked").equals("true"))?R.drawable.downvote_48:R.drawable.downvote_48_black;
+        likeImg.setImageResource(resIdL);
+        unlikeImg.setImageResource(resIdD);
+
+
         likeImg.setOnClickListener(this);
         unlikeImg.setOnClickListener(this);
         setSupportActionBar(toolbar);

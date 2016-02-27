@@ -45,11 +45,15 @@ public class MessageAdapter extends RecyclerView
 
     public void setMessageDataList(ArrayList<CollegareMessage> list) {
         this.mDataset = list;
+        Log.e("MessageAdapter","msg list set:size:"+list.size());
         notifyDataSetChanged();
     }
 
     public void addMessageToList(CollegareMessage collegareMessage){
         mDataset.add(0,collegareMessage);
+        Log.e("Msg Adapter", "msg added");
+        Log.e("MessageAdapter", "msg list set:size:" + mDataset.size());
+        notifyDataSetChanged();
         notifyItemInserted(0);
     }
 
@@ -119,7 +123,10 @@ public class MessageAdapter extends RecyclerView
     public int getItemViewType(int position) {
          super.getItemViewType(position);
 
+
+        Log.e("Msg Adapter","uid:"+userID+" msg_Uid"+mDataset.get(position).id);
         int type=(mDataset.get(position).id.equals(userID))?MESSAGE_OUT:MESSAGE_IN;
+       // Log.e("Msg Adapter","msg type:"+type);
         return type;
 
     }
@@ -130,12 +137,14 @@ public class MessageAdapter extends RecyclerView
         if(viewType==MESSAGE_IN){
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.message_layout_in, parent, false);
+            Log.e("Msg Adapter","msg in inflation");
             return new IncomingMessageHolder(view);
         }
         else{
 
             View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.message_layout_out, parent, false);
+            Log.e("Msg Adapter","msg out inflation");
             return new OutgoingMessageHolder(view);
 
         }
@@ -146,6 +155,7 @@ public class MessageAdapter extends RecyclerView
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Date d = new Date();
+        Log.e("Msg Adapter","binding");
         final CharSequence doc  = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime());
         String timePast = TimeManager.getInstance().convert(doc.toString(), mDataset.get(position).doc);
 
@@ -169,6 +179,8 @@ public class MessageAdapter extends RecyclerView
 
     @Override
     public int getItemCount() {
+
+
         return mDataset.size();
     }
 }
