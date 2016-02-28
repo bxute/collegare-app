@@ -1,62 +1,36 @@
-package  com.collegare.com.collegare.Activity;
+package com.collegare.com.collegare.Activity;
 
 
-import android.app.ActionBar;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.graphics.Color;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.support.v7.widget.Toolbar;
-import android.widget.ImageView;
-import android.support.design.widget.FloatingActionButton;
-import android.widget.Toast;
 
-import com.collegare.com.collegare.Fragments.Feeds;
 import com.collegare.com.collegare.Fragments.NavigationFragment;
 import com.collegare.com.collegare.Fragments.SendDailoge;
+import com.collegare.com.collegare.Managers.BPagerAdapter;
 import com.collegare.com.collegare.Managers.CallbackListener;
-import com.collegare.com.collegare.Managers.DataStore;
 import com.collegare.com.collegare.Managers.DatabaseManager;
-import com.collegare.com.collegare.Managers.InternetManager;
 import com.collegare.com.collegare.Managers.RefressListener;
 import com.collegare.com.collegare.Managers.SendListener;
 import com.collegare.com.collegare.Managers.SessionManager;
-import com.collegare.com.collegare.Models.CollegareFeed;
-import com.collegare.com.collegare.Models.Report;
 import com.collegare.com.collegare.R;
-import com.collegare.com.collegare.Managers.BPagerAdapter;
-//import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
-
-import java.util.ArrayList;
-import java.util.Date;
-
-import javax.security.auth.login.LoginException;
 
 public class Home extends AppCompatActivity implements CallbackListener {
 
-    // private members
     CharSequence bTitle;
     CharSequence bDrawerTitle;
     NavigationView bNavigationView;
@@ -73,34 +47,14 @@ public class Home extends AppCompatActivity implements CallbackListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //   new DataStore(this).testDB()
-       /* Date d= new Date();
-        final CharSequence doc  = DateFormat.format("yyyy-mm-dd hh:mm:ss", d.getTime());
-        final CharSequence doc1  = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime());*/
-        /*Log.v("doc:"," "+doc);
-        Log.v("doc1"," "+doc1);*/
-        Log.e("home", "callled");
         sessionManager = new SessionManager(this);
         setContentView(R.layout.activity_home);
-
         Init();
         View view = findViewById(R.id.toolbar);
-
-        //   tester();
-
     }
 
-    /*private void tester() {
-        Log.e("tester"," testing");
-        ArrayList<CollegareFeed> feeds= new ArrayList<>();
-        Report report= new Report();
-        InternetManager.getInstance(this).getFeeds();
-
-    }
-*/
     @Override
     public void onConfigurationChanged(Configuration configuration) {
-
         super.onConfigurationChanged(configuration);
         bDrawerToggle.onConfigurationChanged(configuration);
 
@@ -108,39 +62,28 @@ public class Home extends AppCompatActivity implements CallbackListener {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_home, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
         int id = item.getItemId();
 
         switch (id) {
             case R.id.action_Profile:
-
-                // bDrawerLayout.openDrawer(Gravity.RIGHT);
-
                 Intent aboutUsIntent = new Intent(this, Profile.class);
-                Log.e("inte", "");
                 startActivity(aboutUsIntent);
                 break;
             case R.id.action_LogOut:
                 SessionManager.setLoginStatus(false);
                 DatabaseManager.getInstance(this).rollback_Database();
+                SessionManager.setLastPostID("0");
                 startActivity(new Intent(this, Login.class));
                 finish();
                 break;
-
-
         }
         return false;
-
     }
 
 
@@ -183,79 +126,48 @@ public class Home extends AppCompatActivity implements CallbackListener {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        //getSupportActionBar().setIcon(R.drawable.icon);
 
         NavigationFragment navigationFragment = (NavigationFragment) getFragmentManager().findFragmentById(R.id.fragmentNav);
-        //     NavigationFragment navigationFragmentRight= (NavigationFragment) getFragmentManager().findFragmentById(R.id.fragmentNavRight);
-        Log.e("making drawer ready", "");
         navigationFragment.makeReadyNav(this, bDrawerLayout, toolbar);
-        Log.e("drawer made", "");
-        /*
-        *
-        *           setting up the floating action menus
-        *
-        * *//*
-
-        ImageView menuImg=new ImageView(this);
-        menuImg.setImageResource(R.drawable.edit);
-        ImageView moveToTopImg = new ImageView(this);
-        moveToTopImg.setImageResource(R.drawable.to_top);
-        ImageView addImg= new ImageView(this);
-        addImg.setImageResource(R.drawable.add2);
-        ImageView  otherImg = new ImageView(this);
-        otherImg.setImageResource(R.drawable.add1);
-
-        FloatingActionButton fab= new FloatingActionButton.Builder(this)
-                .setContentView(menuImg).build();
-        SubActionButton moveToTopBtn = new SubActionButton.Builder(this).setContentView(moveToTopImg).build();
-        SubActionButton sendBtn = new SubActionButton.Builder(this).setContentView(addImg).build();
-        SubActionButton otherBtn = new SubActionButton.Builder(this).setContentView(otherImg).build();
-
-        FloatingActionMenu actionMenu= new FloatingActionMenu.Builder(this)
-                .attachTo(fab)
-                .build();*/
-/*
-*
-*
-* setting up own fab
-* */
         final SendDailoge sendDailoge = new SendDailoge(this);
         sendDailoge.setCancelable(true);
         sendDailoge.setTitle("Sending Post");
         fab = (FloatingActionButton) findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fragment = (Fragment) pagerAdapter.instantiateItem(viewPager, viewPager.getCurrentItem());
-                Log.e("Home","vp type:"+viewPager.getCurrentItem()+"");
-                if (fragment instanceof SendListener) {
-                    ((SendListener) fragment).send();
-                }
-            }
-        });
+                                   @Override
+                                   public void onClick(View view) {
+                                       fragment = (Fragment) pagerAdapter.instantiateItem(viewPager, viewPager.getCurrentItem());
+
+                                       if (fragment instanceof SendListener) {
+                                           ((SendListener) fragment).send();
+                                       }
+                                   }
+                               }
+        );
 
     }
 
 
     @Override
     public void Sent(int type) {
-        Log.e("Home","interface call:: to Sent()");
+
         viewPager = (ViewPager) findViewById(R.id.pager);
-        Log.e("Home","current vp:"+viewPager.getCurrentItem());
+
         fragment = (Fragment) pagerAdapter.instantiateItem(viewPager, type);
+
         if (type == 0) {
-            Log.e("Home","fragment type "+type);
             viewPager.setCurrentItem(0);
-            if(fragment instanceof RefressListener){
+            if (fragment instanceof RefressListener) {
                 ((RefressListener) fragment).refress();
             }
+
         } else {
-            Log.e("Home","fragment type "+type);
             viewPager.setCurrentItem(1);
-            if(fragment instanceof RefressListener){
+            if (fragment instanceof RefressListener) {
                 ((RefressListener) fragment).refress();
             }
         }
+
     }
 }

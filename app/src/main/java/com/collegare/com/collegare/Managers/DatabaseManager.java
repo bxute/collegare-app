@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.collegare.com.collegare.Activity.Home;
 import com.collegare.com.collegare.Models.*;
 import com.collegare.com.collegare.Models.CollegareComment;
 import com.collegare.com.collegare.Models.CollegareFeed;
@@ -57,7 +58,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void rolldown_Tables(SQLiteDatabase db){
         try {
             db.execSQL(
-                    "CREATE TABLE IF NOT EXISTS LoginInfo (" +
+                    "drop table if exists logininfo;"
+            );
+            db.execSQL(
+                    "CREATE TABLE LoginInfo (" +
                             "FIRSTNAME TEXT, " +
                             "LASTNAME TEXT, " +
                             "USERNAME TEXT, " +
@@ -69,7 +73,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             ");"
             );
             Log.e(TAG, "LoginInfo table created!");
-            db.execSQL("CREATE TABLE IF NOT EXISTS Groups (" +
+
+            db.execSQL(
+                    "drop table if exists groups;"
+            );
+            db.execSQL(
+                    "CREATE TABLE Groups (" +
                             "GROUPID INTEGER PRIMARY KEY ," +
                             "TITLE TEXT ," +
                             "DOC TEXT ," +
@@ -77,13 +86,19 @@ public class DatabaseManager extends SQLiteOpenHelper {
             );
             Log.e("Groups table created !", "");
 
-            db.execSQL("CREATE TABLE IF NOT EXISTS Members (" +
+            db.execSQL(
+                    "drop table if exists members;"
+            );
+            db.execSQL("CREATE TABLE Members (" +
                             "GROUPID TEXT ," +
                             "NAME TEXT ," +
                             "ID TEXT );"
             );
             Log.e("Members table created !", "");
 
+            db.execSQL(
+                    "drop table if exists admins;"
+            );
             db.execSQL("CREATE TABLE IF NOT EXISTS Admins (" +
                             "GROUPID TEXT ," +
                             "NAME TEXT ," +
@@ -92,7 +107,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
             Log.e("Admins table created !", "");
 
             db.execSQL(
-                    "CREATE TABLE IF NOT EXISTS Posts (" +
+                    "drop table if exists posts;"
+            );
+            db.execSQL(
+                    "CREATE TABLE Posts (" +
                             "POSTID INTEGER PRIMARY KEY, " +
                             "CONTENT TEXT, " +
                             "USERNAME TEXT, " +
@@ -109,8 +127,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             ");"
             );
             Log.e(TAG, "Posts table created!");
+
             db.execSQL(
-                    "CREATE TABLE IF NOT EXISTS Comments (" +
+                    "drop table if exists comments;"
+            );
+            db.execSQL(
+                    "CREATE TABLE Comments (" +
                             "COMMENTID INTEGER PRIMARY KEY, " +
                             "POSTID TEXT , " +
                             "ID TEXT , " +
@@ -120,9 +142,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             ");"
             );
             Log.e(TAG, "Comments table created!");
+
             db.execSQL(
-                    //msgid, content, username, doc, id;
-                    "CREATE TABLE IF NOT EXISTS Messages (" +
+                    "drop table if exists messages;"
+            );
+            db.execSQL(
+                    "CREATE TABLE Messages (" +
                             "MESSAGEID INTEGER PRIMARY KEY, " +
                             "CONTENT TEXT, " +
                             "USERNAME TEXT, " +
@@ -137,24 +162,16 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     public void rollback_Database(){
-        SQLiteDatabase db= getWritableDatabase();
-        //dropTable(db,"LoginInfo");
-        db.execSQL("DELETE FROM LoginInfo;");
-        Log.e("DM", "deleted all cols: LoginInfo");
-        db.execSQL("DELETE FROM Members;");
-        Log.e("DM", "deleted all cols: Members");
-        db.execSQL("DELETE FROM Admins;");
-        Log.e("DM", "deleted all cols: Admins");
-        db.execSQL("DELETE FROM Posts;");
-        Log.e("DM", "deleted all cols: Posts");
-        db.execSQL("DELETE FROM Comments;");
-        Log.e("DM", "deleted all cols: Comments");
-        db.execSQL("DELETE FROM Messages;");
-        Log.e("DM", "deleted all cols: Messages");
-        db.execSQL("DELETE FROM Groups;");
-        Log.e("DM", "deleted all cols: Groups");
-        Log.e("DM","Successfully deleted all tables datas !!!");
-    }
+/*        SQLiteDatabase db= getWritableDatabase();
+        db.execSQL("drop table LoginInfo;");
+        db.execSQL("drop table Members;");
+        db.execSQL("drop table Admins;");
+        db.execSQL("drop table Posts;");
+        db.execSQL("drop table Comments;");
+        db.execSQL("drop table Messages;");
+        db.execSQL("drop table Groups;");
+        rolldown_Tables(db);
+*/    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -166,13 +183,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
         onCreate(db);
         Log.e("database up graded", "");
     }
-    /*
-    *
-    *
-    *       Part for user info          [READ/WRITE]    OPERATION
-    *
-    *
-    */
 
     public void addUser(CollegareUser user) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -266,7 +276,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             admins.add(new CollegareAdmin(cursor.getString(cursor.getColumnIndex("GROUPID")),
                     cursor.getString(cursor.getColumnIndex("ID")),
                     cursor.getString(cursor.getColumnIndex("NAME"))));
-            hasNext=cursor.moveToNext();
+            hasNext =cursor.moveToNext();
         }
         Log.e("retrieved ", " " + admins.size() + " admins");
         return admins;
@@ -429,7 +439,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             ));
             hasMore = cursor.moveToNext();
         }
-        Log.e("lll Retrieved ", posts.size() + " Posts");
+        Log.e("DM", posts.size() + " Posts from db");
         return posts;
     }
 

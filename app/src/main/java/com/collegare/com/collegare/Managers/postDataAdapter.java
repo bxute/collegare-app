@@ -338,25 +338,9 @@ public class postDataAdapter extends RecyclerView
 
         private void like(final String PostID,final String UserId,final String UserToken) {
 
-            StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-
-                    // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
-                    Log.e("net>>>>" + response, "");
-                    try {
-                        JSONObject object= new JSONObject(response);
-                        if(object.getString("status").equals("0")){
-                            // report the UI with success of the message
-                            Log.e("liked","");
-                        }
-                        else{
-
-
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+            StringRequest request = new StringRequest(Request.Method.POST, App_Config.Vote_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
 
                 }
 
@@ -371,7 +355,7 @@ public class postDataAdapter extends RecyclerView
                 protected Map<String, String> getParams() {
                     // Posting parameters to login url
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("action", "like");
+                    params.put("action", "upvote");
                     params.put("id", UserId);
                     params.put("postid",PostID);
                     params.put("token",UserToken);
@@ -380,7 +364,6 @@ public class postDataAdapter extends RecyclerView
 
             };
 
-            Log.e("instanse", "" + AppManager.getInstance());
             AppManager.getInstance().addToRequestQueue(request, "likeReq", new Contexter().getContext());
 
         }
@@ -432,8 +415,6 @@ public class postDataAdapter extends RecyclerView
 
             Log.e("instanse", "" + AppManager.getInstance());
             AppManager.getInstance().addToRequestQueue(request, "dislikeReq", new Contexter().getContext());
-
-
 
         }
     }

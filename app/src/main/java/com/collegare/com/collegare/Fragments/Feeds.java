@@ -171,7 +171,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e("AA",response+"");
+                Log.e("Feeds:",response+"");
                 CollegareParser.getInstance(getActivity()).parseFeed(response);
                 callback_postReceived();
             }
