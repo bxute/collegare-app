@@ -23,9 +23,11 @@ import com.collegare.com.collegare.Fragments.SendDailoge;
 import com.collegare.com.collegare.Managers.BPagerAdapter;
 import com.collegare.com.collegare.Managers.CallbackListener;
 import com.collegare.com.collegare.Managers.DatabaseManager;
+import com.collegare.com.collegare.Managers.LogoutListener;
 import com.collegare.com.collegare.Managers.RefressListener;
 import com.collegare.com.collegare.Managers.SendListener;
 import com.collegare.com.collegare.Managers.SessionManager;
+import com.collegare.com.collegare.Managers.postDataAdapter;
 import com.collegare.com.collegare.R;
 
 
@@ -76,16 +78,20 @@ public class Home extends AppCompatActivity implements CallbackListener {
                 startActivity(aboutUsIntent);
                 break;
             case R.id.action_LogOut:
-                SessionManager.setLoginStatus(false);
-                DatabaseManager.getInstance(this).rollback_Database();
-                SessionManager.setLastPostID("0");
-                startActivity(new Intent(this, Login.class));
-                finish();
+                Logout();
                 break;
         }
         return false;
     }
 
+    public void Logout(){
+        SessionManager.setLoginStatus(false);
+        DatabaseManager.getInstance(this).rollback_Database();
+        SessionManager.setLastPostID("0");
+        startActivity(new Intent(this, Login.class));
+        ((LogoutListener) postDataAdapter.getInstance(this)).Reset();
+        finish();
+    }
 
     public void Init() {
 

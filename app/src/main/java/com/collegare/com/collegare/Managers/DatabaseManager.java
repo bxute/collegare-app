@@ -57,11 +57,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     public void rolldown_Tables(SQLiteDatabase db){
         try {
+
             db.execSQL(
-                    "drop table if exists logininfo;"
-            );
-            db.execSQL(
-                    "CREATE TABLE LoginInfo (" +
+                    "CREATE TABLE if not exists LoginInfo (" +
                             "FIRSTNAME TEXT, " +
                             "LASTNAME TEXT, " +
                             "USERNAME TEXT, " +
@@ -75,10 +73,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             Log.e(TAG, "LoginInfo table created!");
 
             db.execSQL(
-                    "drop table if exists groups;"
-            );
-            db.execSQL(
-                    "CREATE TABLE Groups (" +
+                    "CREATE TABLE if not exists Groups (" +
                             "GROUPID INTEGER PRIMARY KEY ," +
                             "TITLE TEXT ," +
                             "DOC TEXT ," +
@@ -86,19 +81,15 @@ public class DatabaseManager extends SQLiteOpenHelper {
             );
             Log.e("Groups table created !", "");
 
-            db.execSQL(
-                    "drop table if exists members;"
-            );
-            db.execSQL("CREATE TABLE Members (" +
+
+            db.execSQL("CREATE TABLE if not exists Members (" +
                             "GROUPID TEXT ," +
                             "NAME TEXT ," +
                             "ID TEXT );"
             );
             Log.e("Members table created !", "");
 
-            db.execSQL(
-                    "drop table if exists admins;"
-            );
+
             db.execSQL("CREATE TABLE IF NOT EXISTS Admins (" +
                             "GROUPID TEXT ," +
                             "NAME TEXT ," +
@@ -106,11 +97,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
             );
             Log.e("Admins table created !", "");
 
+
             db.execSQL(
-                    "drop table if exists posts;"
-            );
-            db.execSQL(
-                    "CREATE TABLE Posts (" +
+                    "CREATE TABLE  if not exists Posts (" +
                             "POSTID INTEGER PRIMARY KEY, " +
                             "CONTENT TEXT, " +
                             "USERNAME TEXT, " +
@@ -128,11 +117,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
             );
             Log.e(TAG, "Posts table created!");
 
+
             db.execSQL(
-                    "drop table if exists comments;"
-            );
-            db.execSQL(
-                    "CREATE TABLE Comments (" +
+                    "CREATE TABLE if not exists Comments (" +
                             "COMMENTID INTEGER PRIMARY KEY, " +
                             "POSTID TEXT , " +
                             "ID TEXT , " +
@@ -143,11 +130,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
             );
             Log.e(TAG, "Comments table created!");
 
+
             db.execSQL(
-                    "drop table if exists messages;"
-            );
-            db.execSQL(
-                    "CREATE TABLE Messages (" +
+                    "CREATE TABLE if not exists Messages (" +
                             "MESSAGEID INTEGER PRIMARY KEY, " +
                             "CONTENT TEXT, " +
                             "USERNAME TEXT, " +
@@ -162,7 +147,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     public void rollback_Database(){
-/*        SQLiteDatabase db= getWritableDatabase();
+        SQLiteDatabase db= getWritableDatabase();
         db.execSQL("drop table LoginInfo;");
         db.execSQL("drop table Members;");
         db.execSQL("drop table Admins;");
@@ -171,7 +156,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL("drop table Messages;");
         db.execSQL("drop table Groups;");
         rolldown_Tables(db);
-*/    }
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

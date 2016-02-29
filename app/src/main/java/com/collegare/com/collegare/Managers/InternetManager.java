@@ -142,7 +142,7 @@ public class InternetManager {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        Log.e("message received:", ""+s);
+                        Log.e("IM", ""+s);
                         CollegareParser.getInstance(context).parseMessage(s);
                     }
                 }, new Response.ErrorListener() {
@@ -157,8 +157,6 @@ public class InternetManager {
                 Map<String, String> params = new HashMap<>();
                 params.put("action", "feed");
                 params.put("id", UserId);
-                Log.e("qqq userid>>",UserId);
-                Log.e("qqq token>>", UserToken);
                 params.put("token", UserToken);
                 return params;
             }
@@ -175,10 +173,9 @@ public class InternetManager {
     public void getFeeds(final String gid, final String lastId) {
 
         String TAG = "feedReq";
-        Log.e("aaa ","req in");
 
         if (!isConnectedToNet()) {
-            Log.e("aaa netFor[feed get]>",""+isConnectedToNet());
+            Log.e("IM",""+isConnectedToNet());
             return;
         }
 
@@ -190,6 +187,7 @@ public class InternetManager {
         StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                Log.e("IM",""+response);
                 CollegareParser.getInstance(context).parseFeed(response);
             }
 
@@ -204,9 +202,9 @@ public class InternetManager {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("action", "feed");
-                Log.e("ttt for id>>", UserId);
+
                 params.put("id", UserId);
-                Log.e("ttt for gid >>", gid);
+
                 params.put("gid", gid);
                 params.put("lastid",lastId);
                 return params;

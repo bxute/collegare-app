@@ -51,7 +51,7 @@ import java.util.Map;
 
 public class postDataAdapter extends RecyclerView
         .Adapter<postDataAdapter
-        .DataObjectHolder> {
+        .DataObjectHolder> implements LogoutListener{
 
     static postDataAdapter bInstance;
     public ArrayList<CollegareFeed> mDataset;
@@ -95,8 +95,11 @@ public class postDataAdapter extends RecyclerView
             i++;
         }
 
-        if(insert)
+        if(insert){
             mDataset.add(0,feed);
+            Log.e("PDA"," pid:"+mDataset.get(0).postid+" iliked:"+mDataset.get(0).isLiked);
+        }
+
 
         notifyDataSetChanged();
     }
@@ -126,7 +129,7 @@ public class postDataAdapter extends RecyclerView
 
         int resIdL = (mDataset.get(position).isLiked.equals("true")) ? R.drawable.upvote_48 : R.drawable.upvote_48_black;
         int resIdD = (mDataset.get(position).isDisliked.equals("true")) ? R.drawable.downvote_48 : R.drawable.downvote_48_black;
-
+        Log.e("PDA","pid:"+mDataset.get(position).content+" vote:"+mDataset.get(position).isLiked);
         holder.like.setImageResource(resIdL);
         holder.unlike.setImageResource(resIdD);
 
@@ -137,6 +140,12 @@ public class postDataAdapter extends RecyclerView
        // Log.e("size", mDataset.size() + "");
         return mDataset.size();
 
+    }
+
+    @Override
+    public void Reset() {
+        Log.e("PDA","Done Reset DataSet");
+        mDataset.clear();
     }
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder
@@ -341,7 +350,7 @@ public class postDataAdapter extends RecyclerView
             StringRequest request = new StringRequest(Request.Method.POST, App_Config.Vote_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                    Log.e("PDA","like>"+response);
                 }
 
             }, new Response.ErrorListener() {
@@ -371,27 +380,11 @@ public class postDataAdapter extends RecyclerView
         public void dislike(final String PostID,final String UserId,final String UserToken){
             String TAG = "dislikeReqSEND";
 
-            StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
+            StringRequest request = new StringRequest(Request.Method.POST, App_Config.Vote_URL, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-
-                    // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
-                    Log.e("net>>>>" + response, "");
-                    try {
-                        JSONObject object= new JSONObject(response);
-                        if(object.getString("status").equals("0")){
-                            // report the UI with success of the message
-                            Log.e("disliked","");
-                        }
-                        else{
-
-
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                }
+                            Log.e("PDA","dislike >"+response);
+                       }
 
             }, new Response.ErrorListener() {
                 @Override
@@ -404,7 +397,7 @@ public class postDataAdapter extends RecyclerView
                 protected Map<String, String> getParams() {
                     // Posting parameters to login url
                     Map<String, String> params = new HashMap<String, String>();
-                    params.put("action", "dislike");
+                    params.put("action", "downvote");
                     params.put("id", UserId);
                     params.put("postid",PostID);
                     params.put("token",UserToken);

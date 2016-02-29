@@ -72,7 +72,7 @@
             android:textSize="15dp"
             android:textStyle="normal"
             android:textColor="#ffffff"
-            android:checked="true"
+            android:checked="false"
             android:theme="@style/AppTheme" />
 
         <Button

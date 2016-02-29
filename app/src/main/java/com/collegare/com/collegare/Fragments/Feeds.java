@@ -3,6 +3,7 @@ package com.collegare.com.collegare.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -54,6 +55,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     ArrayList<CollegareFeed> feedArrayList;
     SessionManager sessionManager;
     private View view;
+    Handler handler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +65,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         feedArrayList= new ArrayList<>();
         groupID =   sessionManager.getLastGroup();
         sessionManager= new SessionManager(getActivity());
+        handler= new Handler();
         if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
             String lastId=SessionManager.getLastPostID();
             getFeeds(groupID,lastId);
@@ -93,8 +96,13 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-               refreshFeeds();
-                Log.e("[feed] refress "," triggered");
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshFeeds();
+                        Log.e("Handler","posted");
+                    }
+                },100);
             }});
 
 
@@ -109,14 +117,11 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
 
     private void refreshFeeds() {
 
-         if (swipeRefreshLayout.isRefreshing()){
-             Log.e("feeds", "already refressing");
-            return;
-        }
         if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
             String lastLoadedId= SessionManager.getLastPostID();
             getFeeds(groupID,lastLoadedId);
-
+            swipeRefreshLayout.setRefreshing(true);
+            swipeRefreshLayout.setEnabled(false);
         }else{
             Snackbar.make(swipeRefreshLayout,"No Connectivity !!",Snackbar.LENGTH_SHORT).show();
             swipeRefreshLayout.setRefreshing(false);
@@ -154,12 +159,12 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
 
     public void getFeeds(final String gid, final String lastId) {
 
-        String TAG = "feedReq";
-        Log.e("aaa ","req in");
+        String TAG = "feed";
 
         if (!InternetManager.getInstance(getActivity()).isConnectedToNet()) {
             Log.e("Feed","no newtwork");
             swipeRefreshLayout.setRefreshing(false);
+            swipeRefreshLayout.setEnabled(true);
             return;
         }
 
@@ -202,6 +207,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
 
     protected void callback_postReceived(){
         swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setEnabled(true);
     }
 
     @Override

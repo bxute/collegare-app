@@ -3,6 +3,7 @@ package com.collegare.com.collegare.Fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -51,15 +52,14 @@ public class Messages extends Fragment implements SendListener,RefressListener {
     TextView error;
     ArrayList<CollegareMessage> dataList;
     SwipeRefreshLayout swipeRefreshLayout;
-    Report rp;
+    Handler hadler;
     private DataStore dataStore;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         adapter = MessageAdapter.getInstance(getActivity());
-        //internetManager=new InternetManager(getActivity(),adapter);
-        //  internetManager.getFeeds();
+        hadler= new Handler();
     }
 
     @Override
@@ -81,24 +81,27 @@ public class Messages extends Fragment implements SendListener,RefressListener {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Log.e("[msg] refress ", " triggered");
-                refreshMessage();
+                hadler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        refreshMessage();
+                        Log.e("Handler", "posted");
+                    }
+                }, 100);
+
             }
         });
         return view;
     }
 
     private void refreshMessage() {
-
-        if (swipeRefreshLayout.isRefreshing()) {
-            Log.e("message", "already refressing");
-            return;
-        }
         if (InternetManager.getInstance(getActivity()).isConnectedToNet()) {
             getMessage();
+            swipeRefreshLayout.setEnabled(false);
         } else {
             Snackbar.make(swipeRefreshLayout, "No Connectivity", Snackbar.LENGTH_SHORT).show();
             swipeRefreshLayout.setRefreshing(false);
+            swipeRefreshLayout.setEnabled(false);
         }
     }
 
@@ -118,6 +121,7 @@ public class Messages extends Fragment implements SendListener,RefressListener {
 
         if (!InternetManager.getInstance(getActivity()).isConnectedToNet()) {
             swipeRefreshLayout.setRefreshing(false);
+            swipeRefreshLayout.setEnabled(true);
             Log.e("Message", "no newtwork");
             return;
         }
@@ -131,15 +135,12 @@ public class Messages extends Fragment implements SendListener,RefressListener {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String s) {
-                        Log.e("message received:", "" + s);
-                        Log.e("AA", s + "");
                         CollegareParser.getInstance(getActivity()).parseMessage(s);
                         callback_msgReceived();
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                // not handled yet
                 Log.e("Message", "" + volleyError);
             }
         }) {
@@ -148,8 +149,6 @@ public class Messages extends Fragment implements SendListener,RefressListener {
                 Map<String, String> params = new HashMap<>();
                 params.put("action", "feed");
                 params.put("id", UserId);
-                Log.e("qqq userid>>", UserId);
-                Log.e("qqq token>>", UserToken);
                 params.put("token", UserToken);
                 return params;
             }
@@ -159,8 +158,8 @@ public class Messages extends Fragment implements SendListener,RefressListener {
     }
 
     protected void callback_msgReceived() {
-        Log.e("AA", "msg rec callback");
         swipeRefreshLayout.setRefreshing(false);
+        swipeRefreshLayout.setEnabled(true);
     }
 
     @Override

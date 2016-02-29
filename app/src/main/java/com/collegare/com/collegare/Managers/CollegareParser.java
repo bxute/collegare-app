@@ -65,7 +65,7 @@ public class CollegareParser {
                     JSONObject post = (JSONObject) posts.get(i);
                     String isLiked=(post.getString("vote").equals("1"))?"true":"false";
                     String isDisLiked=(post.getString("vote").equals("-1"))?"true":"false";
-
+                    Log.e("CP","vote:"+post.getString("vote")+" pid:"+post.getString("postid"));
                     feed =new CollegareFeed(
                                     post.getString("postid"),
                                     post.getString("content"),

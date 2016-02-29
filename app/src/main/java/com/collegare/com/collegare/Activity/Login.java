@@ -86,7 +86,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.e("Login","onPause");
+        Log.e("Login", "onPause");
         finish();
     }
 
@@ -146,7 +146,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     int error_code = loginOBJ.getInt("status");
                     if (error_code == 0) {
                         Log.e("status", error_code + "");
-                        session.setLoginStatus(true);
                         RequestUserInfo(loginOBJ.getString("username"), loginOBJ.getString("token"));
                     } else {
                         progress.hide();
@@ -154,7 +153,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     }
                 } catch (JSONException e) {
                     progress.hide();
-                    Snackbar.make(loginButton, "Something goes Wrong !!", Snackbar.LENGTH_LONG).show();
+
                     Log.e("Parsing error in Login ", " ");
                     e.printStackTrace();
                 }
@@ -163,6 +162,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e("volley error in login:", " " + volleyError);
+                TimeOut();
             }
         }) {
             @Override
@@ -176,6 +176,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         };
         Log.e("reqeust for login", "");
         AppManager.getInstance().addToRequestQueue(request, "login", this);
+    }
+    private void TimeOut(){
+        progress.hide();
+        Snackbar.make(loginButton, "TimeOut! Try Again", Snackbar.LENGTH_LONG).show();
     }
 
     private void toggleCheckBox() {
@@ -227,6 +231,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 .addUser(CollegareParser
                                         .getInstance(getApplicationContext())
                                         .parseUserInfos(s, token));
+                        session.setLoginStatus(true);
                         startActivity(intent);
                     }
                 } catch (JSONException e) {
@@ -238,6 +243,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e("[vol] user:", " " + volleyError);
+                TimeOut();
             }
         }) {
             @Override

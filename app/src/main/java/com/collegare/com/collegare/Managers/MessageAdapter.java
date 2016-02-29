@@ -26,7 +26,7 @@ import java.util.Date;
 
 
 public class MessageAdapter extends RecyclerView
-        .Adapter<RecyclerView.ViewHolder> {
+        .Adapter<RecyclerView.ViewHolder> implements LogoutListener {
 
     private static int MESSAGE_IN=0;
     private static int MESSAGE_OUT=1;
@@ -81,7 +81,7 @@ public class MessageAdapter extends RecyclerView
          super.getItemViewType(position);
 
 
-        Log.e("Msg Adapter","uid:"+userID+" msg_Uid"+mDataset.get(position).id);
+      //  Log.e("Msg Adapter","uid:"+userID+" msg_Uid"+mDataset.get(position).id);
         int type=(mDataset.get(position).id.equals(userID))?MESSAGE_OUT:MESSAGE_IN;
        // Log.e("Msg Adapter","msg type:"+type);
         return type;
@@ -94,14 +94,14 @@ public class MessageAdapter extends RecyclerView
         if(viewType==MESSAGE_IN){
             View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.message_layout_in, parent, false);
-            Log.e("Msg Adapter","msg in inflation");
+            //Log.e("Msg Adapter","msg in inflation");
             return new IncomingMessageHolder(view);
         }
         else{
 
             View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.message_layout_out, parent, false);
-            Log.e("Msg Adapter","msg out inflation");
+          //  Log.e("Msg Adapter","msg out inflation");
             return new OutgoingMessageHolder(view);
 
         }
@@ -112,7 +112,7 @@ public class MessageAdapter extends RecyclerView
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Date d = new Date();
-        Log.e("Msg Adapter","binding");
+        //Log.e("Msg Adapter","binding");
         final CharSequence doc  = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime());
         String timePast = TimeManager.getInstance().convert(doc.toString(), mDataset.get(position).doc);
 
@@ -120,6 +120,9 @@ public class MessageAdapter extends RecyclerView
 
             ((IncomingMessageHolder) holder).message.setText(mDataset.get(position).content);
             ((IncomingMessageHolder) holder).timeSpan.setText(timePast);
+            if(mDataset.get(position).id.equals(userID)){
+                ((IncomingMessageHolder) holder).sender_name.setText("Me");
+            }else
             ((IncomingMessageHolder) holder).sender_name.setText(mDataset.get(position).username);
 
 
@@ -128,6 +131,9 @@ public class MessageAdapter extends RecyclerView
         else{
             ((OutgoingMessageHolder) holder).message.setText(mDataset.get(position).content);
             ((OutgoingMessageHolder) holder).timeSpan.setText(timePast);
+            if(mDataset.get(position).id.equals(userID)){
+                ((OutgoingMessageHolder) holder).receiver_name.setText("Me");
+            }else
             ((OutgoingMessageHolder) holder).receiver_name.setText(mDataset.get(position).username);
         }
 
@@ -139,6 +145,11 @@ public class MessageAdapter extends RecyclerView
 
 
         return mDataset.size();
+    }
+
+    @Override
+    public void Reset() {
+        mDataset.clear();
     }
 
     public static class IncomingMessageHolder extends RecyclerView.ViewHolder
