@@ -4,49 +4,37 @@ package com.collegare.com.collegare.Managers;
  * Created by Vishal on 03-10-2015.
  */
 
-import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-/**
- * Created by Vishal on 27-09-2015.
- */
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.collegare.com.collegare.Activity.Home;
 import com.collegare.com.collegare.Activity.Profile;
 import com.collegare.com.collegare.Activity.individualPost;
 import com.collegare.com.collegare.Fragments.Feeds;
 import com.collegare.com.collegare.Models.CollegareFeed;
-import com.collegare.com.collegare.Models.CollegarePost;
 import com.collegare.com.collegare.R;
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+/**
+ * Created by Vishal on 27-09-2015.
+ */
 
 
 public class postDataAdapter extends RecyclerView
@@ -311,14 +299,15 @@ public class postDataAdapter extends RecyclerView
                     bundle.putString("postId", feed.postid);
                     bundle.putString("content",feed.content);
                     bundle.putString("likes",feed.likeCount);
-                    bundle.putString("dislikes",feed.dislikeCount);
                     bundle.putString("comments",feed.CommentCount);
                     bundle.putString("username",feed.username);
                     bundle.putString("isLiked",feed.isLiked);
                     bundle.putString("isDisliked",feed.isDisliked);
+                    bundle.putString("weight", feed.weight);
                     bundle.putString("lc",feed.likeCount);
                     bundle.putString("dc",feed.dislikeCount);
                     bundle.putString("uid",feed.id);
+                    bundle.putString("doc", feed.doc);
                     i.putExtras(bundle);
                    // instance.sessionManager.setLastGroup(feed.groupid);
                    // Log.e("stored gid", " " + feed.groupid);

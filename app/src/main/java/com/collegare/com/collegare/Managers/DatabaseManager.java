@@ -8,16 +8,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.collegare.com.collegare.Activity.Home;
-import com.collegare.com.collegare.Models.*;
+import com.collegare.com.collegare.Models.CollegareAdmin;
 import com.collegare.com.collegare.Models.CollegareComment;
 import com.collegare.com.collegare.Models.CollegareFeed;
+import com.collegare.com.collegare.Models.CollegareGroup;
+import com.collegare.com.collegare.Models.CollegareGroupMember;
 import com.collegare.com.collegare.Models.CollegareMessage;
 import com.collegare.com.collegare.Models.CollegarePost;
 import com.collegare.com.collegare.Models.CollegareUser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class DatabaseManager extends SQLiteOpenHelper {
     private static DatabaseManager instance;
@@ -41,10 +41,11 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return instance;
     }
 
-    public void IntiateDataBase(){
-        SQLiteDatabase db= getWritableDatabase();
+    public void IntiateDataBase() {
+        SQLiteDatabase db = getWritableDatabase();
         rolldown_Tables(db);
     }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         rolldown_Tables(db);
@@ -55,7 +56,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         Log.e("table " + tableName, "droped");
     }
 
-    public void rolldown_Tables(SQLiteDatabase db){
+    public void rolldown_Tables(SQLiteDatabase db) {
         try {
 
             db.execSQL(
@@ -146,8 +147,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
         }
     }
 
-    public void rollback_Database(){
-        SQLiteDatabase db= getWritableDatabase();
+    public void rollback_Database() {
+        SQLiteDatabase db = getWritableDatabase();
         db.execSQL("drop table LoginInfo;");
         db.execSQL("drop table Members;");
         db.execSQL("drop table Admins;");
@@ -172,8 +173,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void addUser(CollegareUser user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        ContentValues members= new ContentValues();
-        ContentValues admins= new ContentValues();
+        ContentValues members = new ContentValues();
+        ContentValues admins = new ContentValues();
 
         values.put("FIRSTNAME", user.firstname);
         values.put("LASTNAME", user.lastname);
@@ -184,7 +185,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         values.put("DOB", user.dob);
         values.put("TOKEN", user.token);
         long ins = db.insert("LoginInfo", null, values);
-    Log.e("lll inserted ","user >"+ins);
+        Log.e("lll inserted ", "user >" + ins);
         int size = user.groups.size();
         int j = 0;
         for (int i = 0; i < size; i++) {
@@ -197,27 +198,25 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 j++;
             }
 
-            int k=0;
-            ArrayList<CollegareAdmin> admins1= user.groups.get(i).admins;
-            for(k=0;k<admins1.size();k++){
+            int k = 0;
+            ArrayList<CollegareAdmin> admins1 = user.groups.get(i).admins;
+            for (k = 0; k < admins1.size(); k++) {
                 admins.put("GROUPID", admins1.get(k).GroupId);
                 admins.put("ID", admins1.get(k).id);
                 admins.put("NAME", admins1.get(k).Name);
-                ins=db.insert(App_Config.TABLE_ADMINS,null,admins);
-                Log.e(" inseted admin"," "+ins);
+                ins = db.insert(App_Config.TABLE_ADMINS, null, admins);
+                Log.e(" inseted admin", " " + ins);
 
             }
-            ArrayList<CollegareGroupMember> mem= user.groups.get(i).memebers;
-            for(k=0;k<mem.size();k++){
+            ArrayList<CollegareGroupMember> mem = user.groups.get(i).memebers;
+            for (k = 0; k < mem.size(); k++) {
                 admins.put("GROUPID", mem.get(k).GroupId);
                 admins.put("ID", mem.get(k).id);
                 admins.put("NAME", mem.get(k).Name);
-                ins=db.insert(App_Config.TABLE_MEMBERS,null,admins);
-                Log.e(" inseted member "," "+ins);
+                ins = db.insert(App_Config.TABLE_MEMBERS, null, admins);
+                Log.e(" inseted member ", " " + ins);
 
             }
-
-
 
 
         }
@@ -234,7 +233,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
-            user=new CollegareUser(cursor.getString(cursor.getColumnIndex("FIRSTNAME")),
+            user = new CollegareUser(cursor.getString(cursor.getColumnIndex("FIRSTNAME")),
                     cursor.getString(cursor.getColumnIndex("LASTNAME")),
                     cursor.getString(cursor.getColumnIndex("USERNAME")),
                     cursor.getString(cursor.getColumnIndex("ID")),
@@ -250,7 +249,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     }
 
     public ArrayList<CollegareAdmin> getAdmins(String grpId) {
-      //  Log.e("call for grp id "," "+grpId+" admin");
+        //  Log.e("call for grp id "," "+grpId+" admin");
         SQLiteDatabase db = getReadableDatabase();
         boolean hasNext = true;
         ArrayList<CollegareAdmin> admins = new ArrayList<>();
@@ -261,14 +260,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
             admins.add(new CollegareAdmin(cursor.getString(cursor.getColumnIndex("GROUPID")),
                     cursor.getString(cursor.getColumnIndex("ID")),
                     cursor.getString(cursor.getColumnIndex("NAME"))));
-            hasNext =cursor.moveToNext();
+            hasNext = cursor.moveToNext();
         }
         Log.e("retrieved ", " " + admins.size() + " admins");
         return admins;
     }
 
     public ArrayList<CollegareGroupMember> getMembers(String grpId) {
-      //  Log.e("call for grp id "," "+grpId+" members");
+        //  Log.e("call for grp id "," "+grpId+" members");
         SQLiteDatabase db = getReadableDatabase();
         boolean hasNext = true;
         ArrayList<CollegareGroupMember> members = new ArrayList<>();
@@ -279,37 +278,35 @@ public class DatabaseManager extends SQLiteOpenHelper {
             members.add(new CollegareGroupMember(cursor.getString(cursor.getColumnIndex("GROUPID")),
                     cursor.getString(cursor.getColumnIndex("ID")),
                     cursor.getString(cursor.getColumnIndex("NAME"))));
-            hasNext=cursor.moveToNext();
+            hasNext = cursor.moveToNext();
         }
         Log.e("retrieved ", " " + members.size() + " members");
         return members;
     }
 
     public ArrayList<CollegareGroup> getGroups(String Id) {
-        Log.e("call for groups "," id>"+Id);
+        Log.e("call for groups ", " id>" + Id);
         SQLiteDatabase db = getReadableDatabase();
         boolean hasNext = true;
         ArrayList<CollegareGroup> members = new ArrayList<>();
 
-        Cursor cursor = db.query(App_Config.TABLE_GROUPS, new String[]{"GROUPID", "ID", "TITLE","DOC"},
+        Cursor cursor = db.query(App_Config.TABLE_GROUPS, new String[]{"GROUPID", "ID", "TITLE", "DOC"},
                 "ID = ?", new String[]{Id}, null, null, null);
         //Log.e(" size "," "+cursor.getCount());
         cursor.moveToFirst();
         while (hasNext && cursor.getCount() > 0) {
-         //   Log.e(" grp id "," "+cursor.getString(1));
+            //   Log.e(" grp id "," "+cursor.getString(1));
             members.add(new CollegareGroup(cursor.getString(cursor.getColumnIndex("GROUPID")),
                             cursor.getString(cursor.getColumnIndex("TITLE")),
                             cursor.getString(cursor.getColumnIndex("ID")),
                             getAdmins(cursor.getString(cursor.getColumnIndex("GROUPID"))),
                             getMembers(cursor.getString(cursor.getColumnIndex("GROUPID"))))
             );
-            hasNext=cursor.moveToNext();
+            hasNext = cursor.moveToNext();
         }
         Log.e("retrieved ", " " + members.size() + " groups");
         return members;
     }
-
-
 
     /*
     *
@@ -320,26 +317,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
     *
     */
 
-
     // appending the collegare post i.e. public posts
     public void appendFeed(ArrayList<CollegareFeed> feeds) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         long id = 0;
         for (int i = 0; i < feeds.size(); i++) {
-
-            /*
-            * "POSTID INTEGER UNIQUE, " +
-                            "CONTENT TEXT, " +
-                            "USERNAME TEXT, " +
-                            "DOC TEXT, " +
-                            "GROUPID TEXT, " +
-                            "ID TEXT, " +
-                            "WEIGHT TEXT, " +
-                            "POLLID TEXT, " +
-                            "CommentCount TEXT, " +
-                            " DisLikeCount ," +
-                            " LikeCount " +*/
             values.put("POSTID", feeds.get(i).postid);
             values.put("CONTENT", feeds.get(i).content);
             values.put("USERNAME", feeds.get(i).username);
@@ -401,7 +384,6 @@ public class DatabaseManager extends SQLiteOpenHelper {
         boolean hasMore = true;
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<CollegareFeed> posts = new ArrayList<>();
-        //ArrayList<CollegareComment> comments = new ArrayList<>();
         Cursor cursor = db.query(App_Config.TABLE_POST, new String[]{"POSTID", "CONTENT", "USERNAME", "DOC", "GROUPID",
                         "ID", "WEIGHT", "POLLID", "CommentCount", "LikeCount", "DisLikeCount", "LIKED", "DISLIKED"},
                 "GROUPID = ? ", new String[]{gid}, null, null, null);
@@ -493,14 +475,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues msg = new ContentValues();
         long messagesDone = 0;
-            msg.put("MESSAGEID", messages.msgid);
-            msg.put("CONTENT", messages.content);
-            msg.put("USERNAME", messages.username);
-            msg.put("DOC", messages.doc);
-            msg.put("ID", messages.id);
-            if (db.insert(App_Config.TABLE_MESSAGES, null, msg) != -1) {
-                messagesDone++;
-            }
+        msg.put("MESSAGEID", messages.msgid);
+        msg.put("CONTENT", messages.content);
+        msg.put("USERNAME", messages.username);
+        msg.put("DOC", messages.doc);
+        msg.put("ID", messages.id);
+        if (db.insert(App_Config.TABLE_MESSAGES, null, msg) != -1) {
+            messagesDone++;
+        }
         Log.e("Added ", messagesDone + " message");
     }
 

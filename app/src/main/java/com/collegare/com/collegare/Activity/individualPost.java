@@ -1,5 +1,6 @@
 package com.collegare.com.collegare.Activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +46,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
     CollegarePost post;
     DataStore dataStore;
     String pID;
+    ProgressDialog dial;
     private Toolbar toolbar;
 
     @Override
@@ -93,6 +96,12 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
 
         dataStore = new DataStore(individualPost.this);
 
+        dial = new ProgressDialog(this);
+        dial.setIndeterminate(true);
+        dial.setMessage("Crunching latest data...");
+        dial.setCancelable(false);
+        dial.show();
+
         Bundle bucket = getIntent().getExtras();
         userId.setText(bucket.getString("uid"));
         nameDisplay.setText(bucket.getString("username"));
@@ -104,6 +113,22 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
         int resIdD = (bucket.getString("isDisliked").equals("true")) ? R.drawable.downvote_48 : R.drawable.downvote_48_black;
         likeImg.setImageResource(resIdL);
         unlikeImg.setImageResource(resIdD);
+
+        post = new CollegarePost(
+                bucket.getString("postid"),
+                bucket.getString("content"),
+                bucket.getString("username"),
+                bucket.getString("doc"),
+                bucket.getString("groupid"),
+                bucket.getString("id"),
+                bucket.getString("weight"),
+                bucket.getString("pollid"),
+                bucket.getString("lc"),
+                bucket.getString("dc"),
+                bucket.getString("isLiked"),
+                bucket.getString("isDisliked"),
+                null
+        );
 
 
         likeImg.setOnClickListener(this);
@@ -125,63 +150,59 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
 
         int id = view.getId();
+        CollegareUser curr = DatabaseManager.getInstance(this).getUser();
         switch (id) {
 
             // case "likeBtn":
             case R.id.likeImg:
                 if (InternetManager.getInstance(this).isConnectedToNet()) {
 
+                    if (post.isDisliked.equals("true")) {
+                        post.isDisliked = "false";
+                        post.DisLikeCount = String.valueOf(Integer.parseInt(post.DisLikeCount) - 1);
 
-                    if (post.isLiked.equals("false") && post.isDisliked.equals("false")) {
+                        unlikeImg.setImageResource(R.drawable.downvote_48_black);
+                        unlikeText.setText(post.DisLikeCount);
 
-                        String Userid = DatabaseManager.getInstance(this).getUser().id;
-                        String Usertoken = DatabaseManager.getInstance(this).getUser().token;
+                        dislike(post.postid, curr.id, curr.token);
+                    } else if (post.isLiked.matches("false")) {
+                        post.isLiked = "true";
+                        post.LikeCount = String.valueOf(Integer.parseInt(post.LikeCount) + 1);
 
-                        likeText.setText(String.format("%s", Integer.parseInt(post.LikeCount) + 1));
-                        like(post.postid, Userid, Usertoken);
+                        likeImg.setImageResource(R.drawable.upvote_48);
+                        likeText.setText(post.LikeCount);
 
-                    } else if (post.isDisliked.equals("true")) {
-
-                        if (InternetManager.getInstance(this).isConnectedToNet()) {
-                            String Userid = DatabaseManager.getInstance(this).getUser().id;
-                            String Usertoken = DatabaseManager.getInstance(this).getUser().token;
-
-                            unlikeText.setText(String.format("%s", Integer.parseInt(post.LikeCount) - 1));
-                            like(post.postid, Userid, Usertoken);
-                        }
-                    } else {
+                        like(post.postid, curr.id, curr.token);
                     }
+
                 } else {
                     Snackbar.make(commentCount, "No Internet Connectivity", Snackbar.LENGTH_LONG).show();
                 }
-
-
                 break;
+
             //  case "unlikeBtn":
             case R.id.unlikeImg:
 
                 if (InternetManager.getInstance(this).isConnectedToNet()) {
 
-                    if (post.isLiked.equals("false") && post.isDisliked.equals("false")) {
+                    if (post.isLiked.matches("true")) {
+                        post.isLiked = "false";
+                        post.LikeCount = String.valueOf(Integer.parseInt(post.LikeCount) - 1);
 
+                        likeImg.setImageResource(R.drawable.upvote_48_black);
+                        likeText.setText(post.LikeCount);
 
-                        String Userid = DatabaseManager.getInstance(this).getUser().id;
-                        String Usertoken = DatabaseManager.getInstance(this).getUser().token;
+                        dislike(post.postid, curr.id, curr.token);
+                    } else if (post.isDisliked.matches("false")) {
+                        post.isDisliked = "true";
+                        post.DisLikeCount = String.valueOf(Integer.parseInt(post.DisLikeCount) + 1);
 
-                        unlikeText.setText(String.format("%s", Integer.parseInt(post.LikeCount) + 1));
-                        dislike(post.postid, Userid, Usertoken);
+                        unlikeImg.setImageResource(R.drawable.downvote_48);
+                        unlikeText.setText(post.DisLikeCount);
 
-
-                    } else if (post.isLiked.equals("true")) {
-
-                        String Userid = DatabaseManager.getInstance(this).getUser().id;
-                        String Usertoken = DatabaseManager.getInstance(this).getUser().token;
-
-                        likeText.setText(String.format("%s", Integer.parseInt(post.LikeCount) - 1));
-                        dislike(post.postid, Userid, Usertoken);
-
-                    } else {
+                        dislike(post.postid, curr.id, curr.token);
                     }
+
                 } else {
                     Snackbar.make(contentText, "No Internet Connectivity", Snackbar.LENGTH_LONG).show();
                 }
@@ -193,12 +214,12 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
 
     private void like(final String PostID, final String UserId, final String UserToken) {
 
-        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Vote_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
                 // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
-                Log.e("net>>>>" + response, "");
+                Log.e("Response" + response, "");
                 try {
                     JSONObject object = new JSONObject(response);
                     if (object.getString("status").equals("0")) {
@@ -225,7 +246,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("action", "like");
+                params.put("action", "upvote");
                 params.put("id", UserId);
                 params.put("postid", PostID);
                 params.put("token", UserToken);
@@ -242,10 +263,11 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
     public void dislike(final String PostID, final String UserId, final String UserToken) {
         String TAG = "dislikeReqSEND";
 
-        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Vote_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
+                Log.e("Response", response);
                 try {
                     JSONObject object = new JSONObject(response);
                     if (object.getString("status").equals("0")) {
@@ -269,7 +291,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("action", "dislike");
+                params.put("action", "dowvote");
                 params.put("id", UserId);
                 params.put("postid", PostID);
                 params.put("token", UserToken);
@@ -294,6 +316,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
                 // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
                 Log.e("TT  ", response + "");
                 ParseAndSet(response);
+                dial.hide();
             }
 
         }, new Response.ErrorListener() {
@@ -321,7 +344,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
     }
 
     private void ParseAndSet(String response) {
-        CollegareComment comments;
+        ArrayList<CollegareComment> comments = new ArrayList<>();
 
         try {
             JSONObject postObj = new JSONObject(response);
@@ -330,49 +353,21 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
             // comments parsing
             for (int i = 0; i < comment.length(); i++) {
                 JSONObject temp = (JSONObject) comment.get(i);
-                comments = new CollegareComment(
+                comments.add(new CollegareComment(
                         postObj.getString("postid"),
                         temp.getString("commentid"),
                         temp.getString("id"),
                         temp.getString("username"),
                         temp.getString("content"),
-                        temp.getString("doc"));
-                CommentsAdapter.getInstance(this).addComment(comments);
-
+                                temp.getString("doc"))
+                );
+                CommentsAdapter.getInstance(this).setComments(comments);
             }
 
-        /*
-        *
+            post.DisLikeCount = postObj.getString("downcount");
+            post.LikeCount = postObj.getString("upcount");
+            post.content = postObj.getString("content");
 
-        * */
-
-
-            /*
-            {
-    "postid": "12",
-    "content": "Some stupid not post",
-    "username": "test3",
-    "doc": "2015-09-15 09:17:16",
-    "groupid": 1,
-    "id": "3",
-    "weight": "12",
-    "pollid": null,
-    "upcount": 1,
-    "downcount": 0,
-    "commentcount": 1,
-    "vote": 0,
-
-    "comments": [
-        {
-            "commentid": "$COMMENTID",
-            "id": "$ID",
-            "username": "$USERNAME",
-            "content": "$CONTENT",
-            "doc": "$date"
-        }
-    ]
-}
-            * */
             userId.setText(postObj.getString("id"));
             userPic.setImageResource(R.drawable.user_pic);
             likeText.setText(postObj.getString("upcount"));
