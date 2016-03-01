@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.collegare.com.collegare.Managers.BPagerAdapter;
 import com.collegare.com.collegare.Managers.CallbackListener;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.LogoutListener;
+import com.collegare.com.collegare.Managers.MessageAdapter;
 import com.collegare.com.collegare.Managers.RefressListener;
 import com.collegare.com.collegare.Managers.SendListener;
 import com.collegare.com.collegare.Managers.SessionManager;
@@ -31,7 +33,7 @@ import com.collegare.com.collegare.Managers.postDataAdapter;
 import com.collegare.com.collegare.R;
 
 
-public class Home extends AppCompatActivity implements CallbackListener {
+public class Home extends AppCompatActivity {
 
     CharSequence bTitle;
     CharSequence bDrawerTitle;
@@ -53,6 +55,16 @@ public class Home extends AppCompatActivity implements CallbackListener {
         setContentView(R.layout.activity_home);
         Init();
         View view = findViewById(R.id.toolbar);
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.e("Home", "vp stat ::" + viewPager);
+        if(SessionManager.getSendType().equals("1")){
+            viewPager.setCurrentItem(1);
+            SessionManager.setSendType("0");
+        }
     }
 
     @Override
@@ -90,6 +102,7 @@ public class Home extends AppCompatActivity implements CallbackListener {
         SessionManager.setLastPostID("0");
         startActivity(new Intent(this, Login.class));
         ((LogoutListener) postDataAdapter.getInstance(this)).Reset();
+        ((LogoutListener) MessageAdapter.getInstance(this)).Reset();
         finish();
     }
 
@@ -109,6 +122,7 @@ public class Home extends AppCompatActivity implements CallbackListener {
         viewPager = (ViewPager) findViewById(R.id.pager);
         pagerAdapter = new BPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
+
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -154,11 +168,9 @@ public class Home extends AppCompatActivity implements CallbackListener {
 
     }
 
-
+/*
     @Override
     public void Sent(int type) {
-
-        viewPager = (ViewPager) findViewById(R.id.pager);
 
         fragment = (Fragment) pagerAdapter.instantiateItem(viewPager, type);
 
@@ -175,5 +187,5 @@ public class Home extends AppCompatActivity implements CallbackListener {
             }
         }
 
-    }
+    }*/
 }

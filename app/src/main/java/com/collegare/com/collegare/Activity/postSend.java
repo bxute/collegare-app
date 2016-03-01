@@ -23,6 +23,7 @@ import com.collegare.com.collegare.Managers.AppManager;
 import com.collegare.com.collegare.Managers.App_Config;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.InternetManager;
+import com.collegare.com.collegare.Managers.SessionManager;
 import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.R;
 
@@ -142,8 +143,6 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
         progress.hide();
         Intent homeIntent= new Intent(this,Home.class);
         startActivity(homeIntent);
-       /* Home hobj= new Home();
-        hobj.Sent(0);*/
     }
 
     @Override

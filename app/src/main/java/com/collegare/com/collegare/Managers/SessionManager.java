@@ -38,6 +38,14 @@ public class SessionManager
         editor.commit();
     }
 
+    public static void setSendType(String type){
+        editor.putString("sentType",type);
+        editor.commit();
+    }
+
+    public static String getSendType(){
+        return preferences.getString("sentType","0");
+    }
     public static String getLastPostID(){
         return preferences.getString("LPid","0");
     }

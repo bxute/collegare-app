@@ -149,7 +149,9 @@ public class MessageAdapter extends RecyclerView
 
     @Override
     public void Reset() {
+
         mDataset.clear();
+        Log.e("MA", "cleared data with size:" + mDataset.size());
     }
 
     public static class IncomingMessageHolder extends RecyclerView.ViewHolder
