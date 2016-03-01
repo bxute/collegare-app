@@ -22,6 +22,7 @@ import com.collegare.com.collegare.Managers.App_Config;
 import com.collegare.com.collegare.Managers.CallbackListener;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.InternetManager;
+import com.collegare.com.collegare.Managers.SessionManager;
 import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.R;
 
@@ -135,8 +136,7 @@ public class MessageSend extends AppCompatActivity implements View.OnClickListen
         Intent homeIntent= new Intent(this,Home.class);
         Log.e("MsgSend", "callback_msg");
         startActivity(homeIntent);
-        /*Home hobj= new Home();
-        hobj.Sent(1);*/
+        SessionManager.setSendType("1");
         finish();
     }
 

@@ -113,6 +113,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     public void onResume() {
         super.onResume();
         Log.e(" feeds onResume called"," ");
+
     }
 
     private void refreshFeeds() {

@@ -2,6 +2,7 @@ package com.collegare.com.collegare.Activity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +25,8 @@ import com.collegare.com.collegare.Managers.DataStore;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.InternetManager;
 import com.collegare.com.collegare.Managers.RecyclerViewDecorator;
+import com.collegare.com.collegare.Managers.UpdateListener;
+import com.collegare.com.collegare.Managers.postDataAdapter;
 import com.collegare.com.collegare.Models.CollegareComment;
 import com.collegare.com.collegare.Models.CollegarePost;
 import com.collegare.com.collegare.Models.CollegareUser;
@@ -46,9 +49,10 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
     CollegarePost post;
     DataStore dataStore;
     String pID;
-    ProgressDialog dial;
+    ProgressDialog progressDialoge;
     private Toolbar toolbar;
-
+    private int position;
+    private postDataAdapter pda;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,12 +99,12 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
         commentCount = (TextView) findViewById(R.id.commentCount);
 
         dataStore = new DataStore(individualPost.this);
-
-        dial = new ProgressDialog(this);
-        dial.setIndeterminate(true);
-        dial.setMessage("Crunching latest data...");
-        dial.setCancelable(false);
-        dial.show();
+        pda=postDataAdapter.getInstance(this);
+        progressDialoge = new ProgressDialog(this);
+        progressDialoge.setIndeterminate(true);
+        progressDialoge.setMessage("Crunching latest data...");
+        progressDialoge.setCancelable(false);
+        progressDialoge.show();
 
         Bundle bucket = getIntent().getExtras();
         userId.setText(bucket.getString("uid"));
@@ -109,11 +113,12 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
         likeText.setText(bucket.getString("lc"));
         unlikeText.setText(bucket.getString("dc"));
         commentCount.setText(bucket.getString("comments"));
+        toolbar.setTitle(bucket.getString("username") + "`s Post");
         int resIdL = (bucket.getString("isLiked").equals("true")) ? R.drawable.upvote_48 : R.drawable.upvote_48_black;
         int resIdD = (bucket.getString("isDisliked").equals("true")) ? R.drawable.downvote_48 : R.drawable.downvote_48_black;
         likeImg.setImageResource(resIdL);
         unlikeImg.setImageResource(resIdD);
-
+        position = Integer.parseInt(bucket.getString("position"));
         post = new CollegarePost(
                 bucket.getString("postid"),
                 bucket.getString("content"),
@@ -130,7 +135,6 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
                 null
         );
 
-
         likeImg.setOnClickListener(this);
         unlikeImg.setOnClickListener(this);
         setSupportActionBar(toolbar);
@@ -145,6 +149,18 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    @Override
+    public void onPause(){
+        Log.e("IP","onPause()");
+        super.onPause();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Log.e("IP","thread dispatched");
+                ((UpdateListener) pda).Update(post, position);
+            }
+        },2000);
+    }
 
     @Override
     public void onClick(View view) {
@@ -223,7 +239,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
                 try {
                     JSONObject object = new JSONObject(response);
                     if (object.getString("status").equals("0")) {
-                        // report the UI with success of the message
+                      // ((UpdateListener) pda).Update(post, position);
                         Log.e("liked", "");
                     } else {
 
@@ -238,7 +254,9 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("" + volleyError.toString(), "[error reported]");
+                Log.e("IP",""+volleyError);
+                Snackbar.make(userId, "Connection Problem ! ", Snackbar.LENGTH_LONG);
+
 
             }
         }) {
@@ -247,16 +265,19 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("action", "upvote");
+                Log.e("IP", UserId);
                 params.put("id", UserId);
                 params.put("postid", PostID);
+                Log.e("IP", PostID);
                 params.put("token", UserToken);
+                Log.e("IP", UserToken);;
                 return params;
             }
 
         };
 
         Log.e("instanse", "" + AppManager.getInstance());
-        AppManager.getInstance().addToRequestQueue(request, "likeReq", new Contexter().getContext());
+        AppManager.getInstance().addToRequestQueue(request, "lrq",this);
 
     }
 
@@ -271,7 +292,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
                 try {
                     JSONObject object = new JSONObject(response);
                     if (object.getString("status").equals("0")) {
-                        // report the UI with success of the message
+                      //  ((UpdateListener) pda).Update(post, position);
                     } else {
 
 
@@ -285,22 +306,28 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                Log.e("IP",""+volleyError);
+                Snackbar.make(userId, "Connection Problem ! ", Snackbar.LENGTH_LONG);
             }
         }) {
             @Override
             protected Map<String, String> getParams() {
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("action", "dowvote");
+                params.put("action", "downvote");
+
                 params.put("id", UserId);
+
                 params.put("postid", PostID);
+
                 params.put("token", UserToken);
+
                 return params;
             }
 
         };
 
-        AppManager.getInstance().addToRequestQueue(request, "dislikeReq", new Contexter().getContext());
+        AppManager.getInstance().addToRequestQueue(request, "drq", this);
 
 
     }
@@ -314,15 +341,16 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
             public void onResponse(String response) {
 
                 // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
-                Log.e("TT  ", response + "");
+                Log.e("IP", response + "");
                 ParseAndSet(response);
-                dial.hide();
+                progressDialoge.hide();
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("" + volleyError.toString(), "[error reported]");
+                Snackbar.make(userId, "TimeOut !! Try Again", Snackbar.LENGTH_LONG);
+                Log.e("volley",volleyError+"");
 
             }
         }) {
@@ -363,25 +391,27 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
                 );
                 CommentsAdapter.getInstance(this).setComments(comments);
             }
-
+            post.comment=comments;
             post.DisLikeCount = postObj.getString("downcount");
             post.LikeCount = postObj.getString("upcount");
             post.content = postObj.getString("content");
+            post.postid = postObj.getString("postid");
 
             userId.setText(postObj.getString("id"));
             userPic.setImageResource(R.drawable.user_pic);
             likeText.setText(postObj.getString("upcount"));
+
             unlikeText.setText(postObj.getString("downcount"));
+
             nameDisplay.setText(postObj.getString("username"));
             contentText.setText(postObj.getString("content"));
             commentCount.setText(postObj.getString("commentcount"));
-            toolbar.setTitle(postObj.getString("username") + "`s Post");
             int resIdL = (postObj.getString("vote").equals("1")) ? R.drawable.upvote_48 : R.drawable.upvote_48_black;
             int resIdD = (postObj.getString("vote").equals("-1")) ? R.drawable.downvote_48 : R.drawable.downvote_48_black;
 
-
             likeImg.setImageResource(resIdL);
             unlikeImg.setImageResource(resIdD);
+
 
             return;
 

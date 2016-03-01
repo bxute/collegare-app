@@ -137,10 +137,7 @@ public class DataStore {
                 Log.e("posts from db>>",""+feeds.size());
                 postDataAdapter.getInstance(context).setPostDataList(feeds);
             }
-         else
-            {
-                InternetManager.getInstance(context).getFeeds(gid,SessionManager.getLastPostID());
-            }
+
             return feeds;
     }
 
@@ -161,13 +158,7 @@ public class DataStore {
            messages=DatabaseManager.getInstance(context).getMessages();
            MessageAdapter.getInstance(context).setMessageDataList(messages);
        }
-       else {
-           InternetManager.getInstance(context).getMessage();
-       }
-
-
-
-        return messages;
+               return messages;
     }
 
     /*

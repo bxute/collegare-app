@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -25,6 +26,7 @@ import com.collegare.com.collegare.Activity.Profile;
 import com.collegare.com.collegare.Activity.individualPost;
 import com.collegare.com.collegare.Fragments.Feeds;
 import com.collegare.com.collegare.Models.CollegareFeed;
+import com.collegare.com.collegare.Models.CollegarePost;
 import com.collegare.com.collegare.R;
 
 import java.util.ArrayList;
@@ -39,7 +41,7 @@ import java.util.Map;
 
 public class postDataAdapter extends RecyclerView
         .Adapter<postDataAdapter
-        .DataObjectHolder> implements LogoutListener{
+        .DataObjectHolder> implements LogoutListener , UpdateListener{
 
     static postDataAdapter bInstance;
     public ArrayList<CollegareFeed> mDataset;
@@ -134,6 +136,19 @@ public class postDataAdapter extends RecyclerView
     public void Reset() {
         Log.e("PDA","Done Reset DataSet");
         mDataset.clear();
+    }
+
+    @Override
+    public void Update(CollegarePost post,int position) {
+    Log.e("size",""+mDataset.size());
+        mDataset.get(position).isLiked=post.isLiked;
+        mDataset.get(position).isDisliked=post.isDisliked;
+
+        mDataset.get(position).likeCount=post.LikeCount;
+        mDataset.get(position).dislikeCount=post.DisLikeCount;
+
+        mDataset.get(position).CommentCount=post.comment.size()+"";
+        notifyItemChanged(position);
     }
 
     public static class DataObjectHolder extends RecyclerView.ViewHolder
@@ -308,6 +323,7 @@ public class postDataAdapter extends RecyclerView
                     bundle.putString("dc",feed.dislikeCount);
                     bundle.putString("uid",feed.id);
                     bundle.putString("doc", feed.doc);
+                    bundle.putString("position",currentPosition+"");
                     i.putExtras(bundle);
                    // instance.sessionManager.setLastGroup(feed.groupid);
                    // Log.e("stored gid", " " + feed.groupid);
@@ -335,7 +351,7 @@ public class postDataAdapter extends RecyclerView
         }
 
         private void like(final String PostID,final String UserId,final String UserToken) {
-
+            String TAG = "Up Vote";
             StringRequest request = new StringRequest(Request.Method.POST, App_Config.Vote_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -367,7 +383,7 @@ public class postDataAdapter extends RecyclerView
         }
 
         public void dislike(final String PostID,final String UserId,final String UserToken){
-            String TAG = "dislikeReqSEND";
+            String TAG = "Down Vote";
 
             StringRequest request = new StringRequest(Request.Method.POST, App_Config.Vote_URL, new Response.Listener<String>() {
                 @Override
@@ -399,6 +415,8 @@ public class postDataAdapter extends RecyclerView
             AppManager.getInstance().addToRequestQueue(request, "dislikeReq", new Contexter().getContext());
 
         }
+
+
     }
 
 }
