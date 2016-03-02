@@ -87,6 +87,9 @@ public class Home extends AppCompatActivity {
         switch (id) {
             case R.id.action_Profile:
                 Intent aboutUsIntent = new Intent(this, Profile.class);
+                Bundle data=new Bundle();
+                data.putString("username",DatabaseManager.getInstance(this).getUser().username);
+                aboutUsIntent.putExtras(data);
                 startActivity(aboutUsIntent);
                 break;
             case R.id.action_LogOut:

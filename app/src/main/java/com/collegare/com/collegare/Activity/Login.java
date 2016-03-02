@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -178,7 +179,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Vi
                 return params;
             }
         };
-        //Log.e("reqeust for login", "");
+        request.setRetryPolicy(new DefaultRetryPolicy(10000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         AppManager.getInstance().addToRequestQueue(request, "login", this);
     }
     private void TimeOut(){

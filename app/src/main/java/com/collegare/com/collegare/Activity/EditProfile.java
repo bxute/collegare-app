@@ -1,5 +1,6 @@
 package com.collegare.com.collegare.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -15,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.collegare.com.collegare.Managers.DatabaseManager;
+import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.R;
 
 public class EditProfile extends AppCompatActivity implements View.OnClickListener {
@@ -22,21 +26,21 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     ImageView proImage;
     TextView emailDisplay;
     ImageView editEmailImg, saveEmailImg;
-    EditText editEmailBox;
+    EditText editEmailBox,editNameBox;
     LinearLayout editHolder, displayHolder;
 
     Toolbar toolbar;
 
-    TextView contactDisplay;
-    ImageView editContactImg, saveContactImg;
+    TextView contactDisplay,username;
+    ImageView editContactImg, saveContactImg,saveNameImg,editNameImg;
     EditText editContactBox;
-    LinearLayout editcontactHolder, displayContactHolder;
+    LinearLayout editcontactHolder, displayContactHolder ,displayNameHolder;
 
-    TextView bioDisplay;
+    TextView bioDisplay,nameDisplay;
     ImageView editBioImg, saveBioImg;
     EditText editBioBox;
-    LinearLayout editBioHolder, displayBioHolder;
-
+    LinearLayout editBioHolder, displayBioHolder,editNameHolder;
+    ProgressDialog progressDialog;
     RelativeLayout proImageLayout;
 
     @Override
@@ -47,7 +51,9 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        progressDialog= new ProgressDialog(this);
 
+        username=(TextView)findViewById(R.id.username);
         proImage = (ImageView) findViewById(R.id.image);
         emailDisplay = (TextView) findViewById(R.id.Email);
         editEmailImg = (ImageView) findViewById(R.id.editEmailImage);
@@ -56,18 +62,26 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         editHolder = (LinearLayout) findViewById(R.id.editEmailHolder);
         displayHolder = (LinearLayout) findViewById(R.id.displayEmailHolder);
 
+
         contactDisplay = (TextView) findViewById(R.id.Contact);
         editContactImg = (ImageView) findViewById(R.id.editContactImage);
         saveContactImg = (ImageView) findViewById(R.id.saveContact);
+        saveNameImg= (ImageView) findViewById(R.id.saveName);
+        editNameBox= (EditText) findViewById(R.id.nameEditBox);
         editContactBox = (EditText) findViewById(R.id.contactEditBox);
         editcontactHolder = (LinearLayout) findViewById(R.id.editContactHolder);
         displayContactHolder = (LinearLayout) findViewById(R.id.displayContactHolder);
-
-
+        displayNameHolder= (LinearLayout) findViewById(R.id.displayNameHolder);
+        nameDisplay = (TextView) findViewById(R.id.Name);
         bioDisplay = (TextView) findViewById(R.id.Bio);
         editBioImg = (ImageView) findViewById(R.id.editBioImage);
         saveBioImg = (ImageView) findViewById(R.id.saveBio);
+        editNameImg= (ImageView) findViewById(R.id.editNameImage);
+
         editBioBox = (EditText) findViewById(R.id.bioEditBox);
+        editNameBox= (EditText) findViewById(R.id.nameEditBox);
+
+        editNameHolder= (LinearLayout) findViewById(R.id.editNameHolder);
         editBioHolder = (LinearLayout) findViewById(R.id.editBioHolder);
         displayBioHolder = (LinearLayout) findViewById(R.id.displayBioHolder);
 
@@ -84,8 +98,22 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
         saveBioImg.setOnClickListener(this);
         editBioImg.setOnClickListener(this);
 
+        saveNameImg.setOnClickListener(this);
+        editNameImg.setOnClickListener(this);
+
+        progressDialog.setMessage("Saving Back....");
+        progressDialog.setIndeterminate(true);
     }
 
+    public void Intialize(){
+        CollegareUser user= DatabaseManager.getInstance(this).getUser();
+
+        username.setText(user.firstname+" "+user.lastname);
+        emailDisplay.setText(user.email);
+        contactDisplay.setText("000-000000-00");
+        bioDisplay.setText("null for now");
+
+    }
     @Override
     public void onClick(View view) {
         int id = view.getId();
@@ -129,6 +157,16 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
                 editBioBox.setText(bioDisplay.getText().toString());
                 break;
 
+            case R.id.saveName:
+                editNameHolder.setVisibility(View.GONE);
+                displayNameHolder.setVisibility(View.VISIBLE);
+                nameDisplay.setText(editNameBox.getText().toString());
+                break;
+            case R.id.editNameImage:
+                editNameHolder.setVisibility(View.VISIBLE);
+                displayNameHolder.setVisibility(View.GONE);
+                editNameBox.setText(nameDisplay.getText().toString());
+                break;
         }
 
     }
@@ -140,6 +178,9 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
 
     }
 
+    private void SaveChanges(){
+
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 

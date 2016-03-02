@@ -1,10 +1,12 @@
 package com.collegare.com.collegare.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,6 +49,7 @@ public class Profile extends AppCompatActivity implements OnClickListener {
     TextView email;
     TextView holiness;
     RelativeLayout callBtn,emailBtn;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +61,9 @@ public class Profile extends AppCompatActivity implements OnClickListener {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         CollapsingToolbarLayout collapsingToolbar = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbar.setTitle("ankit");
         collapsingToolbar.setCollapsedTitleTextColor(Color.WHITE);
         collapsingToolbar.setExpandedTitleColor(Color.WHITE);
+        progress= new ProgressDialog(this);
         v= (ImageView) findViewById(R.id.profile_image);
         toolbarLayout= (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         bio= (TextView) findViewById(R.id.shortbio);
@@ -70,8 +73,8 @@ public class Profile extends AppCompatActivity implements OnClickListener {
         callBtn= (RelativeLayout) findViewById(R.id.callBtn);
         emailBtn= (RelativeLayout) findViewById(R.id.emailBtn);
         username=getIntent().getExtras().getString("username");
-       Log.e("Profile",""+username);
-       //// username="ankit";
+        Log.e("Profile",""+username);
+        collapsingToolbar.setTitle(username);
         callBtn.setOnClickListener(this);
         emailBtn.setOnClickListener(this);
 
@@ -89,11 +92,14 @@ public class Profile extends AppCompatActivity implements OnClickListener {
         }
             toolbarLayout.setTitle(username);
 
+
+        progress.setMessage("Retrieving Infos");
+        progress.setIndeterminate(true);
+        progress.show();
     }
 
 
     public void RequestAndSetPic(){
-
 
         StringRequest userReq = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
             @Override
@@ -169,11 +175,12 @@ public class Profile extends AppCompatActivity implements OnClickListener {
                     JSONObject userOBJ = new JSONObject(s);
                     int error_code = userOBJ.getInt("status");
                     if (error_code == 0) {
-                        bio.setText(userOBJ.getString("bio"));
-                        contact.setText(userOBJ.getString("contact"));
+                        progress.dismiss();
+                       // bio.setText();
+                        //contact.setText(userOBJ.getString("contact"));
                         holiness.setText(userOBJ.getString("holiness"));
                         email.setText(userOBJ.getString("email"));
-                        toolbarLayout.setTitle(username);
+
                     }
                 } catch (JSONException e) {
                     Log.e("Profile",""+e);
@@ -184,6 +191,7 @@ public class Profile extends AppCompatActivity implements OnClickListener {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e("Profile", " " + volleyError);
+                Snackbar.make(callBtn,"Cannot Update Infos",Snackbar.LENGTH_LONG).show();
             }
         }) {
             @Override

@@ -46,6 +46,7 @@
             </intent-filter>
         </activity>
         <activity
+            android:screenOrientation="portrait"
             android:name=".Activity.individualPost"
             android:label="@string/title_activity_individual_post"
             android:parentActivityName=".Activity.Home"

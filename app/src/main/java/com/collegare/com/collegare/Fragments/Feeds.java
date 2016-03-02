@@ -56,7 +56,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     SessionManager sessionManager;
     private View view;
     Handler handler;
-
+    private int MAX_ATTEMPT=10;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.e("Feeds","onCreate");
@@ -132,7 +132,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
 
     @Override
     public void send(){
-        startActivity(new Intent(getActivity(),postSend.class));
+        startActivity(new Intent(getActivity(), postSend.class));
     }
 
     @Override
@@ -155,7 +155,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     @Override
     public void alert(String msg,Context context){
         Log.e("msg is"," >"+msg+"[this]"+ context);
-        Toast.makeText(context,""+msg,Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "" + msg, Toast.LENGTH_SHORT).show();
     }
 
     public void getFeeds(final String gid, final String lastId) {
@@ -186,6 +186,12 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                     Log.e("Feeds",""+volleyError);
+                    if(MAX_ATTEMPT>0){
+                        MAX_ATTEMPT--;
+                        refreshFeeds();
+                    }else{
+                        TimeOut();
+                    }
             }
         }) {
             @Override
@@ -211,6 +217,10 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         swipeRefreshLayout.setEnabled(true);
     }
 
+    private void TimeOut(){
+        Snackbar.make(swipeRefreshLayout,"Connection Problem ! Please Pull to Reload ",Snackbar.LENGTH_LONG).show();
+
+    }
     @Override
     public void refress() {
         Log.e("Feed","interface call:: to refress()");

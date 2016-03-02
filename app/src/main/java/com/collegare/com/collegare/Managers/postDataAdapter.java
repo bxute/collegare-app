@@ -55,7 +55,9 @@ public class postDataAdapter extends RecyclerView
     public postDataAdapter(Context context) {
         sessionManager = new SessionManager(context);
         this.context = context;
+        //Log.e("PDA","constructor");
         mDataset=new ArrayList<>();
+        SessionManager.setLastPostID("0");
     }
 
     public static postDataAdapter getInstance(Context context) {
@@ -86,8 +88,8 @@ public class postDataAdapter extends RecyclerView
         }
 
         if(insert){
-            mDataset.add(0,feed);
-            Log.e("PDA"," pid:"+mDataset.get(0).postid+" iliked:"+mDataset.get(0).isLiked);
+            mDataset.add(0, feed);
+           // Log.e("PDA"," pid:"+mDataset.get(0).postid+" iliked:"+mDataset.get(0).isLiked);
         }
 
 
@@ -119,7 +121,7 @@ public class postDataAdapter extends RecyclerView
 
         int resIdL = (mDataset.get(position).isLiked.equals("true")) ? R.drawable.upvote_48 : R.drawable.upvote_48_black;
         int resIdD = (mDataset.get(position).isDisliked.equals("true")) ? R.drawable.downvote_48 : R.drawable.downvote_48_black;
-        Log.e("PDA","pid:"+mDataset.get(position).content+" vote:"+mDataset.get(position).isLiked);
+       // Log.e("PDA","pid:"+mDataset.get(position).content+" vote:"+mDataset.get(position).isLiked);
         holder.like.setImageResource(resIdL);
         holder.unlike.setImageResource(resIdD);
 
@@ -140,7 +142,7 @@ public class postDataAdapter extends RecyclerView
 
     @Override
     public void Update(CollegarePost post,int position) {
-    Log.e("size",""+mDataset.size());
+   // Log.e("size",""+mDataset.size());
         mDataset.get(position).isLiked=post.isLiked;
         mDataset.get(position).isDisliked=post.isDisliked;
 
@@ -202,8 +204,8 @@ public class postDataAdapter extends RecyclerView
             int currentPosition = getAdapterPosition();
             CollegareFeed feed = instance.mDataset.get(currentPosition);
 
-            Log.e("crnt post >>", "" + currentPosition);
-            Log.e("gid ", ">>" + feed.postid);
+          //  Log.e("crnt post >>", "" + currentPosition);
+           // Log.e("gid ", ">>" + feed.postid);
 
             switch (id) {
 
@@ -212,7 +214,7 @@ public class postDataAdapter extends RecyclerView
                         Intent proIntent= new Intent(instance.context, Profile.class);
                         proIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         Bundle bundle= new Bundle();
-                        bundle.putString("username","test1");
+                        bundle.putString("username",feed.username);
                         proIntent.putExtras(bundle);
                         instance.context.startActivity(proIntent);
 
@@ -246,7 +248,7 @@ public class postDataAdapter extends RecyclerView
 
                                 feed.likeCount = String.format("%s", Integer.parseInt(feed.likeCount)+1);
                                 feed.isLiked="true";
-                                Log.e("liked ", " " + currentPosition);
+                               // Log.e("liked ", " " + currentPosition);
 
                                 like(feed.postid,Userid,Usertoken);
 
@@ -260,9 +262,9 @@ public class postDataAdapter extends RecyclerView
                             //feed.isLiked="true";
                             feed.isDisliked="false";
 
-                            like(feed.postid,Userid,Usertoken);
+                            backoff(feed.postid, Userid, Usertoken);
 
-                            Log.e("nulled "," "+currentPosition);
+                          //  Log.e("nulled "," "+currentPosition);
                             instance.notifyItemChanged(currentPosition);
 
                         } else{ }
@@ -281,7 +283,7 @@ public class postDataAdapter extends RecyclerView
 
                             feed.dislikeCount = String.format("%s", Integer.parseInt(feed.dislikeCount)+1);
                             feed.isDisliked="true";
-                            Log.e("disliked ", " " + currentPosition);
+                          //  Log.e("disliked ", " " + currentPosition);
 
                             dislike(feed.postid, Userid, Usertoken);
 
@@ -292,9 +294,9 @@ public class postDataAdapter extends RecyclerView
                             feed.likeCount = String.format("%s", Integer.parseInt(feed.likeCount) - 1);
                             feed.isLiked="false";
 
-                            dislike(feed.postid,Userid,Usertoken);
+                            backoff(feed.postid, Userid, Usertoken);
 
-                            Log.e("nulled "," "+currentPosition);
+                           // Log.e("nulled "," "+currentPosition);
                             instance.notifyItemChanged(currentPosition);
 
                         } else {
@@ -335,9 +337,21 @@ public class postDataAdapter extends RecyclerView
                     i = new Intent(instance.context, individualPost.class);
                     bundle = new Bundle();
                     bundle.putString("postId", feed.postid);
+                    bundle.putString("content",feed.content);
+                    bundle.putString("likes",feed.likeCount);
+                    bundle.putString("comments",feed.CommentCount);
+                    bundle.putString("username",feed.username);
+                    bundle.putString("isLiked",feed.isLiked);
+                    bundle.putString("isDisliked",feed.isDisliked);
+                    bundle.putString("weight", feed.weight);
+                    bundle.putString("lc",feed.likeCount);
+                    bundle.putString("dc",feed.dislikeCount);
+                    bundle.putString("uid",feed.id);
+                    bundle.putString("doc", feed.doc);
+                    bundle.putString("position",currentPosition+"");
                     i.putExtras(bundle);
                     instance.sessionManager.setLastGroup(feed.groupid);
-                    Log.e("stored gid"," "+feed.groupid);
+                   // Log.e("stored gid"," "+feed.groupid);
                     i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     instance.context.startActivity(i);
 
@@ -380,6 +394,37 @@ public class postDataAdapter extends RecyclerView
 
             AppManager.getInstance().addToRequestQueue(request, "likeReq", new Contexter().getContext());
 
+        }
+
+        private void backoff(final String PostID,final String UserId,final String UserToken){
+            String TAG = "Backoff Vote";
+            StringRequest request = new StringRequest(Request.Method.POST, App_Config.Vote_URL, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    Log.e("PDA","backoff>"+response);
+                }
+
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError volleyError) {
+                    Log.e("" + volleyError.toString(), "[error reported]");
+
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    // Posting parameters to login url
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("action", "none");
+                    params.put("id", UserId);
+                    params.put("postid",PostID);
+                    params.put("token",UserToken);
+                    return params;
+                }
+
+            };
+
+            AppManager.getInstance().addToRequestQueue(request, "likeReq", new Contexter().getContext());
         }
 
         public void dislike(final String PostID,final String UserId,final String UserToken){

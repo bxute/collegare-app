@@ -54,6 +54,7 @@ public class Messages extends Fragment implements SendListener,RefressListener {
     SwipeRefreshLayout swipeRefreshLayout;
     Handler hadler;
     private DataStore dataStore;
+    private int MAX_ATTEMPT=10;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -142,6 +143,13 @@ public class Messages extends Fragment implements SendListener,RefressListener {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e("Message", "" + volleyError);
+               if(MAX_ATTEMPT>0){
+                   MAX_ATTEMPT--;
+                   refreshMessage();
+               }
+                else{
+                   TimeOut();
+               }
             }
         }) {
             @Override
@@ -157,6 +165,9 @@ public class Messages extends Fragment implements SendListener,RefressListener {
         AppManager.getInstance().addToRequestQueue(getMsgReq, "msgReq", getActivity());
     }
 
+    private void TimeOut(){
+        Snackbar.make(swipeRefreshLayout, "Connection Problem ! Please Pull to Reload ", Snackbar.LENGTH_LONG).show();
+    }
     protected void callback_msgReceived() {
         swipeRefreshLayout.setRefreshing(false);
         swipeRefreshLayout.setEnabled(true);

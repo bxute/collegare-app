@@ -79,6 +79,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
             adapter.setComments(post.comment);
 
         } else {
+            progressDialoge.show();
             RequestData();
         }
 
@@ -104,7 +105,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
         progressDialoge.setIndeterminate(true);
         progressDialoge.setMessage("Crunching latest data...");
         progressDialoge.setCancelable(false);
-        progressDialoge.show();
+
 
         Bundle bucket = getIntent().getExtras();
         userId.setText(bucket.getString("uid"));
@@ -180,7 +181,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
                         unlikeImg.setImageResource(R.drawable.downvote_48_black);
                         unlikeText.setText(post.DisLikeCount);
 
-                        dislike(post.postid, curr.id, curr.token);
+                        backoff(post.postid, curr.id, curr.token);
                     } else if (post.isLiked.matches("false")) {
                         post.isLiked = "true";
                         post.LikeCount = String.valueOf(Integer.parseInt(post.LikeCount) + 1);
@@ -208,7 +209,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
                         likeImg.setImageResource(R.drawable.upvote_48_black);
                         likeText.setText(post.LikeCount);
 
-                        dislike(post.postid, curr.id, curr.token);
+                        backoff(post.postid, curr.id, curr.token);
                     } else if (post.isDisliked.matches("false")) {
                         post.isDisliked = "true";
                         post.DisLikeCount = String.valueOf(Integer.parseInt(post.DisLikeCount) + 1);
@@ -228,6 +229,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
 
     }
 
+
     private void like(final String PostID, final String UserId, final String UserToken) {
 
         StringRequest request = new StringRequest(Request.Method.POST, App_Config.Vote_URL, new Response.Listener<String>() {
@@ -235,27 +237,14 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
             public void onResponse(String response) {
 
                 // Toast.makeText(context,response,Toast.LENGTH_LONG).show();
-                Log.e("Response" + response, "");
-                try {
-                    JSONObject object = new JSONObject(response);
-                    if (object.getString("status").equals("0")) {
-                      // ((UpdateListener) pda).Update(post, position);
-                        Log.e("liked", "");
-                    } else {
-
-
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
+                Log.e("IP", ""+response);
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e("IP",""+volleyError);
-                Snackbar.make(userId, "Connection Problem ! ", Snackbar.LENGTH_LONG);
+                Snackbar.make(userId, "Connection Problem ! ", Snackbar.LENGTH_LONG).show();
 
 
             }
@@ -276,10 +265,46 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
 
         };
 
-        Log.e("instanse", "" + AppManager.getInstance());
+       // Log.e("instanse", "" + AppManager.getInstance());
         AppManager.getInstance().addToRequestQueue(request, "lrq",this);
 
     }
+
+
+    private void backoff(final String PostID,final String UserId,final String UserToken){
+        String TAG = "Backoff Vote";
+        StringRequest request = new StringRequest(Request.Method.POST, App_Config.Vote_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e("IP","backoff>"+response);
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                Log.e("IP",""+volleyError);
+                Snackbar.make(userId,"Connection Problem !",Snackbar.LENGTH_LONG).show();
+
+
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                // Posting parameters to login url
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("action", "none");
+                params.put("id", UserId);
+                params.put("postid",PostID);
+                params.put("token", UserToken);
+                return params;
+            }
+
+        };
+
+        AppManager.getInstance().addToRequestQueue(request, "likeReq", new Contexter().getContext());
+    }
+
 
     public void dislike(final String PostID, final String UserId, final String UserToken) {
         String TAG = "dislikeReqSEND";
@@ -307,7 +332,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onErrorResponse(VolleyError volleyError) {
                 Log.e("IP",""+volleyError);
-                Snackbar.make(userId, "Connection Problem ! ", Snackbar.LENGTH_LONG);
+                Snackbar.make(userId, "Connection Problem ! ", Snackbar.LENGTH_LONG).show();
             }
         }) {
             @Override
@@ -332,10 +357,11 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
 
     }
 
+
     private void RequestData() {
 
         final CollegareUser user = DatabaseManager.getInstance(this).getUser();
-        Log.e("TT", "user id :" + user.id);
+       // Log.e("TT", "user id :" + user.id);
         StringRequest request = new StringRequest(Request.Method.POST, App_Config.Post_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -349,8 +375,8 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Snackbar.make(userId, "TimeOut !! Try Again", Snackbar.LENGTH_LONG);
-                Log.e("volley",volleyError+"");
+                TimeOut();
+                Log.e("volley", volleyError + "");
 
             }
         }) {
@@ -370,6 +396,14 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
         AppManager.getInstance().addToRequestQueue(request, "reqPostSingle", this);
 
     }
+
+
+    private void TimeOut(){
+        progressDialoge.dismiss();
+        Snackbar.make(userId,"TimeOut !!",Snackbar.LENGTH_LONG).show();
+
+    }
+
 
     private void ParseAndSet(String response) {
         ArrayList<CollegareComment> comments = new ArrayList<>();
