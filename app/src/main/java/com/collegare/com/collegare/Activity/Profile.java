@@ -41,7 +41,6 @@ public class Profile extends AppCompatActivity implements OnClickListener {
     ImageView v;
     Toolbar toolbar;
     String username;
-
     CollapsingToolbarLayout toolbarLayout;
     TextView bio;
     TextView contact;
@@ -70,8 +69,9 @@ public class Profile extends AppCompatActivity implements OnClickListener {
         holiness= (TextView) findViewById(R.id.holiness);
         callBtn= (RelativeLayout) findViewById(R.id.callBtn);
         emailBtn= (RelativeLayout) findViewById(R.id.emailBtn);
-       // username=getIntent().getExtras().getString("username");
-        username="ankit";
+        username=getIntent().getExtras().getString("username");
+       Log.e("Profile",""+username);
+       //// username="ankit";
         callBtn.setOnClickListener(this);
         emailBtn.setOnClickListener(this);
 
@@ -98,16 +98,16 @@ public class Profile extends AppCompatActivity implements OnClickListener {
         StringRequest userReq = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e(s + "[response]", "");
+               Log.e("Profile",""+s);
 
                 try {
                     JSONObject userOBJ = new JSONObject(s);
                     int error_code = userOBJ.getInt("status");
 
-                    Log.e("pro pic ",""+s);
+               //     Log.e("pro pic ",""+s);
                     parseAndSetPic(s);
                 } catch (JSONException e) {
-                    Log.e("Parse error in User","");
+                    Log.e("Profile",""+e);
                     e.printStackTrace();
                 }
             }
@@ -134,7 +134,7 @@ public class Profile extends AppCompatActivity implements OnClickListener {
         try {
             JSONObject urlObj=new JSONObject(response);
             url="http://collegare.eu5.org/"+urlObj.getString("url");
-            Log.e("PIC url ",">"+url);
+            //Log.e("PIC url ",">"+url);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -149,7 +149,7 @@ public class Profile extends AppCompatActivity implements OnClickListener {
                     }, 0, 0, null,
                     new Response.ErrorListener() {
                         public void onErrorResponse(VolleyError error) {
-                            Log.e("errop laodf","img");
+                           // Log.e("errop laodf","img");
                         }
                     });
 
@@ -163,7 +163,7 @@ public class Profile extends AppCompatActivity implements OnClickListener {
         StringRequest userReq = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e(s + "[response]", "");
+                Log.e("Profile", ""+s);
 
                 try {
                     JSONObject userOBJ = new JSONObject(s);
@@ -176,14 +176,14 @@ public class Profile extends AppCompatActivity implements OnClickListener {
                         toolbarLayout.setTitle(username);
                     }
                 } catch (JSONException e) {
-                    Log.e("Parse error in User", "");
+                    Log.e("Profile",""+e);
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("[vol] user:", " " + volleyError);
+                Log.e("Profile", " " + volleyError);
             }
         }) {
             @Override
@@ -195,7 +195,7 @@ public class Profile extends AppCompatActivity implements OnClickListener {
                 return params;
             }
         };
-        Log.e("reqeust for userinfo", "");
+        //Log.e("reqeust for userinfo", "");
         AppManager.getInstance().addToRequestQueue(userReq, "userinfo", this);
 
 
@@ -229,7 +229,7 @@ public class Profile extends AppCompatActivity implements OnClickListener {
         int id=view.getId();
 
         if(id==R.id.emailBtn){
-            Log.e("a", "sdf");
+          //  Log.e("a", "sdf");
 
             Intent intent=new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");

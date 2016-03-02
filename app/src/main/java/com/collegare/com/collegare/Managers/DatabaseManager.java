@@ -53,7 +53,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     public void dropTable(SQLiteDatabase db, String tableName) {
         db.execSQL("DROP TABLE IF EXISTS " + tableName + ";");
-        Log.e("table " + tableName, "droped");
+        Log.e("DM" + tableName, "droped");
     }
 
     public void rolldown_Tables(SQLiteDatabase db) {
@@ -71,7 +71,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "TOKEN TEXT" +
                             ");"
             );
-            Log.e(TAG, "LoginInfo table created!");
+            Log.e("DM", "LoginInfo table created!");
 
             db.execSQL(
                     "CREATE TABLE if not exists Groups (" +
@@ -80,7 +80,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "DOC TEXT ," +
                             "ID TEXT );"
             );
-            Log.e("Groups table created !", "");
+            Log.e("DM","Groups table created !");
 
 
             db.execSQL("CREATE TABLE if not exists Members (" +
@@ -88,7 +88,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "NAME TEXT ," +
                             "ID TEXT );"
             );
-            Log.e("Members table created !", "");
+            Log.e("DM","Members table created !");
 
 
             db.execSQL("CREATE TABLE IF NOT EXISTS Admins (" +
@@ -96,7 +96,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "NAME TEXT ," +
                             "ID TEXT );"
             );
-            Log.e("Admins table created !", "");
+            Log.e("DM","Admins table created !");
 
 
             db.execSQL(
@@ -116,7 +116,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "DISLIKED TEXT  " +
                             ");"
             );
-            Log.e(TAG, "Posts table created!");
+            Log.e("DM", "Posts table created!");
 
 
             db.execSQL(
@@ -129,7 +129,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "DOC TEXT " +
                             ");"
             );
-            Log.e(TAG, "Comments table created!");
+            Log.e("DM", "Comments table created!");
 
 
             db.execSQL(
@@ -141,9 +141,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "ID TEXT" +
                             ");"
             );
-            Log.e(TAG, "Messages table created!");
+            Log.e("DM", "Messages table created!");
         } catch (Exception e) {
-            Log.e("[TABLE CREATION ERROR]", e.toString());
+            Log.e("DM","[TABLE CREATION ERROR]");
         }
     }
 
@@ -167,7 +167,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         dropTable(db, App_Config.TABLE_COMMENTS);
         dropTable(db, App_Config.TABLE_GROUPS);
         onCreate(db);
-        Log.e("database up graded", "");
+        Log.e("DM","database up graded");
     }
 
     public void addUser(CollegareUser user) {
@@ -185,7 +185,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         values.put("DOB", user.dob);
         values.put("TOKEN", user.token);
         long ins = db.insert("LoginInfo", null, values);
-        Log.e("lll inserted ", "user >" + ins);
+      //  Log.e("lll inserted ", "user >" + ins);
         int size = user.groups.size();
         int j = 0;
         for (int i = 0; i < size; i++) {
@@ -205,7 +205,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 admins.put("ID", admins1.get(k).id);
                 admins.put("NAME", admins1.get(k).Name);
                 ins = db.insert(App_Config.TABLE_ADMINS, null, admins);
-                Log.e(" inseted admin", " " + ins);
+        //        Log.e(" inseted admin", " " + ins);
 
             }
             ArrayList<CollegareGroupMember> mem = user.groups.get(i).memebers;
@@ -214,7 +214,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 admins.put("ID", mem.get(k).id);
                 admins.put("NAME", mem.get(k).Name);
                 ins = db.insert(App_Config.TABLE_MEMBERS, null, admins);
-                Log.e(" inseted member ", " " + ins);
+          //      Log.e(" inseted member ", " " + ins);
 
             }
 
@@ -244,7 +244,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex("TOKEN"))
             );
         }
-        Log.e("lll Retrieved ", cursor.getCount() + " User");
+       // Log.e("lll Retrieved ", cursor.getCount() + " User");
         return user;
     }
 
@@ -262,7 +262,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex("NAME"))));
             hasNext = cursor.moveToNext();
         }
-        Log.e("retrieved ", " " + admins.size() + " admins");
+      //  Log.e("retrieved ", " " + admins.size() + " admins");
         return admins;
     }
 
@@ -280,12 +280,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex("NAME"))));
             hasNext = cursor.moveToNext();
         }
-        Log.e("retrieved ", " " + members.size() + " members");
+        //Log.e("retrieved ", " " + members.size() + " members");
         return members;
     }
 
     public ArrayList<CollegareGroup> getGroups(String Id) {
-        Log.e("call for groups ", " id>" + Id);
+        //Log.e("call for groups ", " id>" + Id);
         SQLiteDatabase db = getReadableDatabase();
         boolean hasNext = true;
         ArrayList<CollegareGroup> members = new ArrayList<>();
@@ -304,7 +304,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             );
             hasNext = cursor.moveToNext();
         }
-        Log.e("retrieved ", " " + members.size() + " groups");
+        //Log.e("retrieved ", " " + members.size() + " groups");
         return members;
     }
 
@@ -343,7 +343,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
 
         db.close();
-        Log.e("lll Added ", id + " Feeds");
+        //Log.e("lll Added ", id + " Feeds");
 
     }
 
@@ -376,7 +376,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     getComments(PostId));
 
         }
-        Log.e("Retrieved ", cursor.getCount() + " Post");
+        //Log.e("Retrieved ", cursor.getCount() + " Post");
         return feed;
     }
 
@@ -419,7 +419,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     * */
 
     ArrayList<CollegareComment> getComments(String PostID) {
-        Log.e("for post id", " " + PostID);
+       // Log.e("for post id", " " + PostID);
         boolean hasMore = true;
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<CollegareComment> comments = new ArrayList<>();
@@ -438,7 +438,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             ));
             hasMore = cr.moveToNext();
         }
-        Log.e("Retrieved ", comments.size() + " Comments");
+        //Log.e("Retrieved ", comments.size() + " Comments");
         return comments;
 
     }
@@ -460,7 +460,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             }
         }
 
-        Log.e("Added ", rowInserted + " comments");
+        //Log.e("Added ", rowInserted + " comments");
     }
 
     /*
@@ -483,7 +483,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         if (db.insert(App_Config.TABLE_MESSAGES, null, msg) != -1) {
             messagesDone++;
         }
-        Log.e("Added ", messagesDone + " message");
+     //   Log.e("Added ", messagesDone + " message");
     }
 
     public ArrayList<CollegareMessage> getMessages() {
@@ -504,7 +504,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             ));
             hasMore = cursor.moveToNext();
         }
-        Log.e("Retrived ", messages.size() + " messages");
+       // Log.e("Retrived ", messages.size() + " messages");
         return messages;
     }
 

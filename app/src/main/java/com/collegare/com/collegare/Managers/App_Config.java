@@ -27,4 +27,11 @@ public class App_Config{
     public static final String TABLE_GROUPS="Groups";
     public static final String TABLE_MEMBERS="Members";
     public static final String TABLE_ADMINS="Admins";
+
+    // push notification configs
+
+    public static final String SERVER_URL="";
+    public static final String SENDER_ID="collegare-1238";
+
+
 }

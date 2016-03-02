@@ -134,7 +134,7 @@ public class DataStore {
 
             if(!InternetManager.getInstance(context).isConnectedToNet()){
                 feeds = DatabaseManager.getInstance(context).getPosts(gid);
-                Log.e("posts from db>>",""+feeds.size());
+                Log.e("DS",""+feeds.size());
                 postDataAdapter.getInstance(context).setPostDataList(feeds);
             }
 

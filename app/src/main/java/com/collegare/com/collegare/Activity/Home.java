@@ -60,7 +60,7 @@ public class Home extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        Log.e("Home", "vp stat ::" + viewPager);
+     //   Log.e("Home", "vp stat ::" + viewPager);
         if(SessionManager.getSendType().equals("1")){
             viewPager.setCurrentItem(1);
             SessionManager.setSendType("0");

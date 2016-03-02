@@ -70,7 +70,7 @@ public class NavigationDrawerRecyclerViewAdapter extends RecyclerView.Adapter<Na
         View view;
         public GroupsViewHolder(View itemView) {
             super(itemView);
-            Log.e("ABC viewHolder","called ");
+          //  Log.e("ABC viewHolder","called ");
             gName=(TextView) itemView.findViewById(R.id.grpName);
             gIcon=(ImageView) itemView.findViewById(R.id.grpIcon);
             gName.setOnClickListener(this);
@@ -85,14 +85,14 @@ public class NavigationDrawerRecyclerViewAdapter extends RecyclerView.Adapter<Na
         @Override
         public void onClick(View view) {
             int currentPostion=getAdapterPosition();
-            Log.e(" aaa whitening "+Selected," th item");
+            //Log.e(" aaa whitening "+Selected," th item");
             if(Selected!=currentPostion) itemsViews.get(Selected).setBackgroundColor(Color.WHITE);
-            Log.e("aaa pre >> " + Selected, "selected");
+            //Log.e("aaa pre >> " + Selected, "selected");
             Selected=currentPostion;
             itemsViews.get(Selected).setBackgroundColor(Color.LTGRAY);
-            Log.e("aaa now >> " + Selected, "selected");
+            //Log.e("aaa now >> " + Selected, "selected");
                navigationListeners.LoadData(groupsList.get(currentPostion).GroupID);
-                Log.e("aaa clicked ", " " + groupsList.get(currentPostion).Title);
+              //  Log.e("aaa clicked ", " " + groupsList.get(currentPostion).Title);
                 drawerLayout.closeDrawer(Gravity.LEFT);
 
         }
@@ -100,7 +100,7 @@ public class NavigationDrawerRecyclerViewAdapter extends RecyclerView.Adapter<Na
 
     @Override
     public NavigationDrawerRecyclerViewAdapter.GroupsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.e("ABC create ViewHolder", "called ");
+      //  Log.e("ABC create ViewHolder", "called ");
        return new GroupsViewHolder(LayoutInflater.from(context).inflate(R.layout.item_group_layout,parent,false));
     }
 
@@ -109,13 +109,13 @@ public class NavigationDrawerRecyclerViewAdapter extends RecyclerView.Adapter<Na
 
         String selectedPos=sessionManager.getLastGroup();
         if(groupsList.get(position).GroupID.equals(selectedPos)){
-            Log.e("[]pos rest "," "+selectedPos);
+        //    Log.e("[]pos rest "," "+selectedPos);
             holder.view.setBackgroundColor(Color.LTGRAY);
         }
           holder.gName.setText(groupsList.get(position).Title);
            holder.gIcon.setImageResource(R.drawable.user_pic);
             itemsViews.add(position,holder.view);
-        Log.e("ABC binder", "called >"+ position);
+        //Log.e("ABC binder", "called >"+ position);
     }
 
     @Override

@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +46,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
+public class Login extends AppCompatActivity implements View.OnClickListener, View.OnKeyListener {
     CheckBox showPass;  //Password Show CheckBo
     EditText pass;  //password text edit field
     EditText uID;   //user id text edit field
@@ -67,7 +68,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         uID = (EditText) findViewById(R.id.uIDBox);              //  from xml file
         loginButton = (Button) findViewById(R.id.loginButtonId);  //
         showPass.setOnClickListener(this);  //listener for show password checkbox
-        loginButton.setOnClickListener(this);   //listener for login button click
+        loginButton.setOnClickListener(this);
+        loginButton.setOnKeyListener(this);
         progress = new ProgressDialog(this);
         progress.setCancelable(false);
 
@@ -87,6 +89,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     protected void onPause() {
         super.onPause();
         Log.e("Login", "onPause");
+        progress.dismiss();
         finish();
     }
 
@@ -100,7 +103,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 toggleCheckBox();
                 break;
             case R.id.loginButtonId:
-                Log.e("login"," pressed");
+              //  Log.e("login"," pressed");
                 attemptLogin();
 
                 break;
@@ -118,7 +121,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         if (Validate()) {
             if (InternetManager.getInstance(this).isConnectedToNet()) {
                 String hashVal = getHash(pass.getText().toString());
-                Authenticate(uID.getText().toString(), hashVal);
+
+                Authenticate(uID.getText().toString().trim(), hashVal);
                 loginButton.setEnabled(true);
             } else {
                 loginButton.setEnabled(true);
@@ -139,13 +143,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         StringRequest request = new StringRequest(Request.Method.POST, App_Config.Login_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e(s + "[response]", "");
+                //Log.e(s + "[response]", "");
 
                 try {
                     JSONObject loginOBJ = new JSONObject(s);
                     int error_code = loginOBJ.getInt("status");
                     if (error_code == 0) {
-                        Log.e("status", error_code + "");
+                  //      Log.e("status", error_code + "");
                         RequestUserInfo(loginOBJ.getString("username"), loginOBJ.getString("token"));
                     } else {
                         progress.hide();
@@ -154,14 +158,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 } catch (JSONException e) {
                     progress.hide();
 
-                    Log.e("Parsing error in Login ", " ");
+                    Log.e("Login", " "+e);
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("volley error in login:", " " + volleyError);
+                Log.e("Login", " " + volleyError);
                 TimeOut();
             }
         }) {
@@ -174,7 +178,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 return params;
             }
         };
-        Log.e("reqeust for login", "");
+        //Log.e("reqeust for login", "");
         AppManager.getInstance().addToRequestQueue(request, "login", this);
     }
     private void TimeOut(){
@@ -213,20 +217,20 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void RequestUserInfo(final String username, final String token) {
-        Log.e("request came for user", "");
+        //Log.e("request came for user", "");
         final Intent intent = new Intent(this, Home.class);
 
         final CollegareUser user = null;
         StringRequest userReq = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e(s + "[response]", "");
+          //      Log.e(s + "[response]", "");
 
                 try {
                     JSONObject userOBJ = new JSONObject(s);
                     int error_code = userOBJ.getInt("status");
                     if (error_code == 0) {
-                        Log.e("Ustatus>>", error_code + "");
+            //            Log.e("Ustatus>>", error_code + "");
                         DatabaseManager.getInstance(getApplicationContext())
                                 .addUser(CollegareParser
                                         .getInstance(getApplicationContext())
@@ -235,14 +239,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         startActivity(intent);
                     }
                 } catch (JSONException e) {
-                    Log.e("Parse error in User", "");
+                    Log.e("Login", ""+e);
                     e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                Log.e("[vol] user:", " " + volleyError);
+                Log.e("Login", " " + volleyError);
                 TimeOut();
             }
         }) {
@@ -255,7 +259,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 return params;
             }
         };
-        Log.e("reqeust for userinfo", "");
+       // Log.e("reqeust for userinfo", "");
         AppManager.getInstance().addToRequestQueue(userReq, "userinfo", this);
 
 
@@ -299,5 +303,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             e.printStackTrace();
         }
         return sb.toString();
+    }
+
+    @Override
+    public boolean onKey(View view, int i, KeyEvent keyEvent) {
+
+        if(i== KeyEvent.ACTION_DOWN && i== KeyEvent.KEYCODE_ENTER){
+            Log.e("Login","enter from");
+            attemptLogin();
+        }
+        return false;
     }
 }

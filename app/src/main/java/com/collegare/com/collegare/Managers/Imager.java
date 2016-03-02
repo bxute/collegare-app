@@ -42,7 +42,7 @@ public class Imager {
         try {
             os = new FileOutputStream(file);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, os);
-            Log.e("image","written to im");
+            Log.e("Imager","written to im");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -60,7 +60,7 @@ public class Imager {
         try {
             os = new FileOutputStream(file);
             bmp.compress(Bitmap.CompressFormat.PNG, 100, os);
-            Log.e("image","written to im");
+            Log.e("Imager","written to im");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -76,7 +76,7 @@ public class Imager {
             try {
 
                 bitmap = BitmapFactory.decodeStream(new FileInputStream(file));
-                Log.e("Image Read","from im");
+                Log.e("Imager"," read from im");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
@@ -101,12 +101,12 @@ public class Imager {
     }
 
     public boolean isProfileImageAvailable() {
-        Log.e("image status>>",!SessionManager.getProPicPath().equals("null")+"");
+        //Log.e("image status>>",!SessionManager.getProPicPath().equals("null")+"");
         return (!SessionManager.getProPicPath().equals("null"));
     }
 
     public boolean isImageAvailable(){
-        Log.e("image status>>",!SessionManager.getPicPath().equals("null")+"");
+        //Log.e("image status>>",!SessionManager.getPicPath().equals("null")+"");
         return (!SessionManager.getPicPath().equals("null"));
     }
 }

@@ -84,7 +84,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
         user=dataStore.getUser();
         if(user!=null) {
             groupList = user.groups;
-            Log.e("Navigation fra(oCreate)", " getUsers");
+           // Log.e("Navigation fra(oCreate)", " getUsers");
             groupList.add(new CollegareGroup("1", "PUBLIC", "2013-12-12 12:12:12", admins, members));
             groupList.add(new CollegareGroup("2", "Admins", "2013-12-12 12:12:12", admins, members));
         }
@@ -117,7 +117,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
     public void makeReadyNav(final Activity context,DrawerLayout drawerLayout,Toolbar toolbar){
 
         if(Imager.getInstance(getActivity()).isImageAvailable()){
-            Log.e("nav pic ","aval");
+            //Log.e("nav pic ","aval");
             proPic.setImageBitmap(Imager.getInstance(getActivity()).getImage());
         }
         else{
@@ -132,7 +132,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
 
 
 
-        Log.e("passing "," "+drawerLayout);
+        //Log.e("passing "," "+drawerLayout);
         navRVadapter= new NavigationDrawerRecyclerViewAdapter(getActivity(),drawerLayout,new Feeds());
         NavigationDrawerRecyclerViewAdapter.getInstance(getActivity()).setGroupsList(groupList);
         navRv.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -177,7 +177,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
         StringRequest userReq = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
-                Log.e(s + "[response]", "");
+             //   Log.e(s + "[response]", "");
 
                 try {
                     JSONObject userOBJ = new JSONObject(s);
@@ -188,11 +188,11 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
                         parseAndSet(url);
 
                     }
-                    Log.e("nav pic ", "" + s);
+               //     Log.e("nav pic ", "" + s);
 
 
                 } catch (JSONException e) {
-                    Log.e("Parse error in User","");
+                    Log.e("Nav",""+e);
                     e.printStackTrace();
                 }
             }
@@ -210,7 +210,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
                 params.put("username", username);
                 return params;
             }};
-        Log.e("reqeust for userinfo", "");
+       // Log.e("reqeust for userinfo", "");
         AppManager.getInstance().addToRequestQueue(userReq, "userinfo", getActivity());
     }
 
@@ -225,7 +225,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
         },0,0,null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
-                    Log.e("error","nav pic fetch up");
+                   // Log.e("error","nav pic fetch up");
             }
         });
 

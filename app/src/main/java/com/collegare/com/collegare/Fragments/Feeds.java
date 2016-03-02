@@ -59,7 +59,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.e("feeds oncreate called"," ");
+        Log.e("Feeds","onCreate");
         super.onCreate(savedInstanceState);
         adapter= postDataAdapter.getInstance(getActivity());
         feedArrayList= new ArrayList<>();
@@ -76,10 +76,10 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
    public View onCreateView(LayoutInflater inflater,ViewGroup container,Bundle savedInstanceState) {
          view= inflater.inflate(R.layout.activity_feeds,container,false);
         error= (TextView) view.findViewById(R.id.errorPanel);
-        Log.e("feeds oncreateView cld","");
+        Log.e("Feeds","onCreateView");
         swipeRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.refresser);
         recyclerView=(RecyclerView) view.findViewById(R.id.recyclerGroups);
-        Log.e("restored gid"," "+groupID);
+        //Log.e("restored gid"," "+groupID);
         dataStore= new DataStore(getActivity());
         feedArrayList=dataStore.getFeeds(groupID);
         /*if(feedArrayList.size()==0){
@@ -100,7 +100,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
                     @Override
                     public void run() {
                         refreshFeeds();
-                        Log.e("Handler","posted");
+                        Log.e("Feeds","handler posted");
                     }
                 },100);
             }});
@@ -112,7 +112,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     @Override
     public void onResume() {
         super.onResume();
-        Log.e(" feeds onResume called"," ");
+        Log.e("Feeds","onResume");
 
     }
 
@@ -144,10 +144,10 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         dataStore=new DataStore(getActivity());
         adapter= postDataAdapter.getInstance(getActivity());
 
-                Log.e("data"," "+dataStore);
+              //  Log.e("data"," "+dataStore);
                         feedArrayList=dataStore.getFeeds(groupID);
                         this.adapter.setPostDataList(feedArrayList);
-                Log.e("got  ", " " + feedArrayList.size() + " items");
+                //Log.e("got  ", " " + feedArrayList.size() + " items");
 
         this.adapter.notifyDataSetChanged();
     }
@@ -193,9 +193,9 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("action", "feed");
-                Log.e("ttt for id>>", UserId);
+               // Log.e("ttt for id>>", UserId);
                 params.put("id", UserId);
-                Log.e("ttt for gid >>", gid);
+               // Log.e("ttt for gid >>", gid);
                 params.put("gid", gid);
                 params.put("after",lastId);
                 return params;

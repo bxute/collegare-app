@@ -51,7 +51,7 @@ public class CollegareParser {
         ArrayList<CollegareFeed> feedlist= new ArrayList<>();
         try {
             JSONObject feedObj = new JSONObject(response);
-            Log.e("mmm res>>",""+response);
+        //    Log.e("mmm res>>",""+response);
             if (feedObj.getInt("status") != 0)
             {
                 return;
@@ -65,7 +65,7 @@ public class CollegareParser {
                     JSONObject post = (JSONObject) posts.get(i);
                     String isLiked=(post.getString("vote").equals("1"))?"true":"false";
                     String isDisLiked=(post.getString("vote").equals("-1"))?"true":"false";
-                    Log.e("CP","vote:"+post.getString("vote")+" pid:"+post.getString("postid"));
+          //          Log.e("CP","vote:"+post.getString("vote")+" pid:"+post.getString("postid"));
                     feed =new CollegareFeed(
                                     post.getString("postid"),
                                     post.getString("content"),
@@ -83,10 +83,10 @@ public class CollegareParser {
                             );
                     postDataAdapter.getInstance(context).addToPostDataList(feed);
                     feedlist.add(feed);
-                    Log.e("lll hiesght id is",""+SessionManager.getLastPostID());
+            //        Log.e("lll hiesght id is",""+SessionManager.getLastPostID());
                     if(Integer.parseInt(SessionManager.getLastPostID()) < Integer.parseInt(post.getString("postid"))){
                         SessionManager.setLastPostID(post.getString("postid"));
-                        Log.e("lll now highest is :",""+post.getString("postid"));
+              //          Log.e("lll now highest is :",""+post.getString("postid"));
                     }
 
                 }
@@ -130,7 +130,7 @@ public class CollegareParser {
                                 temp.getString("doc"),
                                 temp.getString("id")
                         );
-                Log.e("msg parser","msg:"+temp.getString("content"));
+                //Log.e("msg parser","msg:"+temp.getString("content"));
                MessageAdapter.getInstance(context).addMessageToList(message);
                DatabaseManager.getInstance(context).appendMessage(message);
             }
@@ -164,15 +164,15 @@ public class CollegareParser {
 // ArrayList<CollegareGroup> groups, String dob,String token)
 
     public CollegareUser parseUserInfos(String response,String token) {
-        Log.e("request in for parsenU","");
+        //Log.e("request in for parsenU","");
         CollegareUser user=null;
         ArrayList<CollegareGroup> groups= new ArrayList<>();
         try {
             JSONObject userObj= new JSONObject(response);
-            Log.e("qqq rec-token:",""+token);
-            Log.e("qqq rec-id:", userObj.getString("id"));
+          //  Log.e("qqq rec-token:",""+token);
+//            Log.e("qqq rec-id:", userObj.getString("id"));
 
-            Log.e("fname",(userObj.getString("firstname")));
+  //          Log.e("fname",(userObj.getString("firstname")));
             user=new CollegareUser(userObj.getString("firstname"),userObj.getString("lastname"),userObj.getString("username"),
                     userObj.getString("id"),userObj.getString("email"),userObj.getString("sex"),groups,userObj.getString("dob"),token);
         } catch (JSONException e) {

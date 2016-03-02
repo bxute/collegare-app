@@ -83,7 +83,7 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
     public void sendPost(final String content,final boolean isAnonymous  ){
         String TAG = "postReqSEND";
 
-                Log.e("TT"," sending....."+content);
+              //  Log.e("TT"," sending....."+content);
         CollegareUser user= DatabaseManager.getInstance(this).getUser();
         final String UserId= user.id;
         final String UserToken=user.token;
@@ -94,12 +94,12 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
             @Override
             public void onResponse(String response) {
 
-                    Log.e("TT"," on msg rec.."+response);
+                  //  Log.e("TT"," on msg rec.."+response);
                 try {
                     JSONObject object= new JSONObject(response);
 
                     if(object.getString("status").equals("0")){
-                        Log.e("TT","post sent");
+                      //  Log.e("TT","post sent");
                         callback_postSent();
                     }
                     else{
@@ -114,6 +114,7 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                callback_postNotSent();
                 Log.e("" + volleyError.toString(), "[error reported]");
 
             }
@@ -123,7 +124,6 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
                 // Posting parameters to login url
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("action", "set");
-                Log.e("TT"," for "+UserId+" token: "+UserToken);
                 params.put("id", UserId);
                 params.put("content",content);
                 params.put("token",UserToken);
@@ -138,6 +138,11 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
 
 
     }
+    public void callback_postNotSent(){
+        progress.hide();
+        Snackbar.make(postcontent,"TimeOut !!",Snackbar.LENGTH_LONG).show();
+    }
+
     public void callback_postSent(){
 
         progress.hide();
@@ -149,6 +154,7 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
     public void onPause(){
         super.onPause();
         Log.e("PSend","onPause");
+        progress.dismiss();
         finish();
     }
     @Override

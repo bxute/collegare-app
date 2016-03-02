@@ -76,25 +76,23 @@ public class MessageSend extends AppCompatActivity implements View.OnClickListen
     }
 
     private void sendMsg(final String msg,final String receiver) {
-        String TAG = "postReqSEND";
+        String TAG = "msgReqSEND";
 
 
         CollegareUser user= DatabaseManager.getInstance(this).getUser();
         final String UserId= user.id;
         final String UserToken=user.token;
-        Log.e("TT"," msg from "+UserId+" token:"+UserToken + "to "+receiver);
         StringRequest request = new StringRequest(Request.Method.POST, App_Config.Message_URL,
                 new Response.Listener<String>() {
 
                     @Override
                     public void onResponse(String response) {
 
-                        Log.e("TT"," msg resp>>"+response);
+                        Log.e("MS",""+response);
                         try {
                             JSONObject object= new JSONObject(response);
 
                             if(object.getString("status").equals("0")){
-                                Log.e("msg sent", "");
                                 callback_messageSent();
                             }
                             else{
@@ -109,6 +107,7 @@ public class MessageSend extends AppCompatActivity implements View.OnClickListen
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError volleyError) {
+                callback_messageNotSent();
                 Log.e("" + volleyError.toString(), "[error reported]");
 
             }
@@ -140,9 +139,14 @@ public class MessageSend extends AppCompatActivity implements View.OnClickListen
         finish();
     }
 
+    protected void callback_messageNotSent(){
+        progress.hide();
+        Snackbar.make(msg,"TimeOut !!",Snackbar.LENGTH_LONG).show();
+    }
     @Override
     public void onPause(){
         super.onPause();
+        progress.dismiss();
         finish();
     }
 }
