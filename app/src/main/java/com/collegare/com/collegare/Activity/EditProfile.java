@@ -212,9 +212,10 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             String imgStr= getStringImage(BitmapFactory.decodeFile(path));
              Bitmap bmp=null;
 
+            // cross-test for decode and encode
                 byte[] barr= Base64.decode(imgStr,Base64.DEFAULT);
                 bmp= BitmapFactory.decodeByteArray(barr, 0,barr.length);
-
+            // end
 
 
             proImage.setImageBitmap(bmp);

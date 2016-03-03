@@ -66,6 +66,8 @@ public class ImageUploader {
             valuse.put("action","setpic");
             valuse.put("id",user.id);
             valuse.put("token",user.token);
+
+
             return valuse;
         }
         };
