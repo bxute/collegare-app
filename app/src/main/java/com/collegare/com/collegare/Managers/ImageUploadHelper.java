@@ -2,6 +2,9 @@ package com.collegare.com.collegare.Managers;
 
 import android.content.Context;
 import android.util.Log;
+
+import com.collegare.com.collegare.Models.CollegareUser;
+
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,7 +17,7 @@ import java.net.URL;
 public class ImageUploadHelper {
     int serverResponseCode = 0;
     Context context;
-    ImageUploadHelper bInstance;
+    static ImageUploadHelper bInstance;
 
     public ImageUploadHelper() {
     }
@@ -23,9 +26,9 @@ public class ImageUploadHelper {
         this.context = context;
     }
 
-    public ImageUploadHelper getInstanse() {
-        if (bInstance != null) {
-            bInstance = new ImageUploadHelper();
+    public static ImageUploadHelper getInstance(Context context) {
+        if (bInstance == null) {
+            bInstance = new ImageUploadHelper(context);
         }
      return bInstance;
     }
@@ -33,7 +36,7 @@ public class ImageUploadHelper {
     public int Upload(String filePath) {
 
         String fileName = filePath;
-
+    Log.e("IUH","filepath:"+fileName);
         // setting up the stuffs for future use
         HttpURLConnection conn = null;
         DataOutputStream dos = null;
@@ -58,7 +61,7 @@ public class ImageUploadHelper {
 
                 // open a URL connection to the Servlet
                 FileInputStream fileInputStream = new FileInputStream(sourceFile);
-                URL url = new URL("url of remote server");
+                URL url = new URL(App_Config.USER_URL);
 
                 // Open a HTTP  connection to  the URL
                 conn = (HttpURLConnection) url.openConnection();
@@ -69,8 +72,10 @@ public class ImageUploadHelper {
                 conn.setRequestProperty("Connection", "Keep-Alive");
                 conn.setRequestProperty("ENCTYPE", "multipart/form-data");
                 conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
-                conn.setRequestProperty("uploaded_file", fileName);
-
+                CollegareUser user= DatabaseManager.getInstance(new Contexter().getContext()).getUser();
+                conn.setRequestProperty("id",user.id);
+                conn.setRequestProperty("token",user.token);
+                conn.setRequestProperty("action", "setpic");
                 dos = new DataOutputStream(conn.getOutputStream());
 
                 dos.writeBytes(twoHyphens + boundary + lineEnd);
@@ -89,7 +94,7 @@ public class ImageUploadHelper {
                 bytesRead = fileInputStream.read(buffer, 0, bufferSize);
 
                 while (bytesRead > 0) {
-
+                    Log.e("IUH","writing...");
                     dos.write(buffer, 0, bufferSize);
                     bytesAvailable = fileInputStream.available();
                     bufferSize = Math.min(bytesAvailable, maxBufferSize);
@@ -100,16 +105,16 @@ public class ImageUploadHelper {
                 // send multipart form data necesssary after file data...
                 dos.writeBytes(lineEnd);
                 dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
-
-                // Responses from the server (code and message)
+                    Log.e("IUH","written.");
+                            // Responses from the server (code and message)
                 serverResponseCode = conn.getResponseCode();
                 String serverResponseMessage = conn.getResponseMessage();
 
-                Log.i("uploadFile", "HTTP Response is : "
+                Log.e("IUH", "HTTP Response is : "
                         + serverResponseMessage + ": " + serverResponseCode);
 
-                if (serverResponseCode == 200) {
-
+                if (serverResponseCode == 0) {
+                        Log.e("IUH"," "+serverResponseMessage);
                     // do something ... i.e. pic is uploaded successfully
                 }
 

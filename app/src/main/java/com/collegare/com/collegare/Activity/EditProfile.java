@@ -3,12 +3,15 @@ package com.collegare.com.collegare.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -17,9 +20,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.collegare.com.collegare.Managers.Contexter;
 import com.collegare.com.collegare.Managers.DatabaseManager;
+import com.collegare.com.collegare.Managers.ImageUploadHelper;
+import com.collegare.com.collegare.Managers.ImageUploader;
+import com.collegare.com.collegare.Managers.InternetManager;
 import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.R;
+
+import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 
 public class EditProfile extends AppCompatActivity implements View.OnClickListener {
 
@@ -181,6 +191,14 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
     private void SaveChanges(){
 
     }
+    public String getStringImage(Bitmap bmp){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -189,10 +207,31 @@ public class EditProfile extends AppCompatActivity implements View.OnClickListen
             String[] pathCols = {MediaStore.Images.Media.DATA};
             Cursor cursor = getContentResolver().query(Selectionuri, pathCols, null, null, null);
             cursor.moveToFirst();
-            String path = cursor.getString(cursor.getColumnIndex(pathCols[0]));
+            final String path = cursor.getString(cursor.getColumnIndex(pathCols[0]));
             cursor.close();
-            proImage.setImageBitmap(BitmapFactory.decodeFile(path));
+            String imgStr= getStringImage(BitmapFactory.decodeFile(path));
+             Bitmap bmp=null;
 
+                byte[] barr= Base64.decode(imgStr,Base64.DEFAULT);
+                bmp= BitmapFactory.decodeByteArray(barr, 0,barr.length);
+
+
+
+            proImage.setImageBitmap(bmp);
+            // proImage.setImageBitmap(BitmapFactory.decodeFile(path));
+
+            if(InternetManager.getInstance(this).isConnectedToNet()){
+                Log.e("EP", "trying upload");
+                Handler handler= new Handler();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.e("EP", "thread dispatched");
+                        ImageUploader.getInstance(new Contexter().getContext()).Upload(BitmapFactory.decodeFile(path));
+                    }
+                });
+
+            }
 
         }
 
