@@ -6,16 +6,7 @@ import java.io.InputStreamReader;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Base64;
-import android.util.Log;
-import com.collegare.com.collegare.Models.CollegareUser;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.HttpMultipartMode;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.ByteArrayBody;
-import org.apache.http.entity.mime.content.StringBody;
-import org.apache.http.impl.client.DefaultHttpClient;
+
 
 /**
  * Created by Radhe on 03-03-2016.
