@@ -49,7 +49,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minLines="2"
-            android:padding="10dp"
+           android:paddingRight="10dp"
+            android:paddingLeft="10dp"
             android:text="This is a comment just to test that our app is working properly and there are no bugs. If there are any bugs we will have to delete everything and start from scrat   sdsa."/>
     </RelativeLayout>
 </RelativeLayout>
