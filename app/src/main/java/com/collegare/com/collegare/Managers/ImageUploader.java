@@ -1,6 +1,5 @@
 package com.collegare.com.collegare.Managers;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
 import android.content.Context;
