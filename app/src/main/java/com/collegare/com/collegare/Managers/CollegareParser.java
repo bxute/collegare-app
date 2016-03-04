@@ -40,13 +40,6 @@ public class CollegareParser {
         return bInstance;
     }
 
-
-
-
-
-
-
-
     public void parseFeed(String response) {
         ArrayList<CollegareFeed> feedlist= new ArrayList<>();
         try {
@@ -117,6 +110,7 @@ public class CollegareParser {
         try {
             JSONObject msgObj = new JSONObject(response);
 
+            Log.e("CP","Message send status : " + msgObj.getInt("status"));
             if (msgObj.getInt("status") != 0){
                 return;
             }
