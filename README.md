@@ -1,7 +1,7 @@
 # collegare-app
 -----
 
-The unofficial app of IIIT Vadodara.
+The unofficial app of [IIIT Vadodara](iiitvadodara.ac.in).
 
 
 -----
