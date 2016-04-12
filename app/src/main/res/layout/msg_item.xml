@@ -10,12 +10,19 @@
         android:layout_height="55dp">
 
 
+<ImageView
+    android:padding="0dp"
+    android:background="#009988"
+    android:id="@+id/MsgTag_bg"
+    android:src="@drawable/tags"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
+
         <TextView
-            android:background="@drawable/user_tag_bg_msg_wall"
             android:id="@+id/msgTag"
             android:textColor="#ffffff"
             android:gravity="center_horizontal|center_vertical"
-            android:textSize="30sp"
+            android:textSize="28sp"
             android:text="A"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
