@@ -29,6 +29,7 @@
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/msgBounds"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="56dp">

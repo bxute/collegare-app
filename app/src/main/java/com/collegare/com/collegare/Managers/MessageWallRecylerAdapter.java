@@ -1,19 +1,25 @@
 package com.collegare.com.collegare.Managers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.collegare.com.collegare.Activity.MessageRoom;
 import com.collegare.com.collegare.Models.Message;
 import com.collegare.com.collegare.R;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -81,10 +87,13 @@ public class MessageWallRecylerAdapter extends RecyclerView.Adapter<MessageWallR
 
     @Override
     public void onBindViewHolder(MessageWallRecylerAdapter.MessageHolder holder, int position) {
+        Date d = new Date();
+        final CharSequence doc  = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime());
+        String timePast = TimeManager.getInstance().convert(doc.toString(), msgOrder.get(position).time);
 
         holder.sender.setText(msgOrder.get(position).username+"");
         holder.msg.setText(msgMap.get(msgOrder.get(position).id));
-        holder.time.setText(msgOrder.get(position).time);
+        holder.time.setText(timePast);
         holder.tagBgImage.setBackgroundColor(Color.parseColor(new com.collegare.com.collegare.Managers.Color().getColor()));
         String tag = String.format("%c", msgOrder.get(position).username.toUpperCase().charAt(0));
         holder.userTag.setText(tag);
@@ -106,6 +115,7 @@ public class MessageWallRecylerAdapter extends RecyclerView.Adapter<MessageWallR
 
         TextView sender,msg,tag,time,userTag;
         ImageView tagBgImage;
+        LinearLayout bound;
         public MessageHolder(View tempView) {
             super(tempView);
             sender= (TextView) tempView.findViewById(R.id.sender);
@@ -114,6 +124,26 @@ public class MessageWallRecylerAdapter extends RecyclerView.Adapter<MessageWallR
             time= (TextView) tempView.findViewById(R.id.lTime);
             userTag= (TextView) tempView.findViewById(R.id.msgTag);
             tagBgImage= (ImageView) tempView.findViewById(R.id.MsgTag_bg);
+            bound= (LinearLayout) tempView.findViewById(R.id.msgBounds);
+            bound.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO navigate to msg page
+                    Bundle bundle= new Bundle();
+                    bundle.putInt("userid",msgOrder.get(getAdapterPosition()).userID);
+                    Intent intent= new Intent(context, MessageRoom.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtras(bundle);
+                    context.startActivity(intent);
+                }
+            });
+            userTag.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //TODO get the user id and open the profile page
+                }
+            });
+
         }
     }
 }

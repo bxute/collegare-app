@@ -1,14 +1,47 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
     tools:context="com.collegare.com.collegare.Activity.MessageRoom">
+<FrameLayout
+    android:layout_weight="1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/msgRoomMessageRV"/>
+</FrameLayout>
+    <FrameLayout
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:weightSum="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:background="@drawable/customeditbox"
+                android:padding="4dp"
+                android:layout_weight="1"
+                android:hint="Hi Ankit"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+            <FrameLayout
+                android:padding="6dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp">
+                <ImageView
+                    android:background="@drawable/send_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </FrameLayout>
 
-</RelativeLayout>
+        </LinearLayout>
+
+    </FrameLayout>
+
+</LinearLayout>

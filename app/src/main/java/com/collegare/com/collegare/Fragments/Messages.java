@@ -78,7 +78,6 @@ public class Messages extends Fragment implements SendListener,RefressListener {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         swipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
