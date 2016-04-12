@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="option_holder" type="id"/>
+    <item name="tag_holder" type="id"/>
+    <item name="option_tag" type="id"/>
+    <item name="option_Value" type="id"/>
+
+</resources>

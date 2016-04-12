@@ -14,6 +14,7 @@ import com.collegare.com.collegare.Models.CollegareFeed;
 import com.collegare.com.collegare.Models.CollegareGroup;
 import com.collegare.com.collegare.Models.CollegareGroupMember;
 import com.collegare.com.collegare.Models.CollegareMessage;
+import com.collegare.com.collegare.Models.CollegarePollOption;
 import com.collegare.com.collegare.Models.CollegarePost;
 import com.collegare.com.collegare.Models.CollegareUser;
 
@@ -142,6 +143,16 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             ");"
             );
             Log.e("DM", "Messages table created!");
+
+            db.execSQL(
+                    "CREATE TABLE if not exists PollOptions (" +
+                            "POLLID INTEGER, " +
+                            "CONTENT TEXT, " +
+                            "TAG TEXT " +
+                            ");"
+            );
+            Log.e("DM", "PollOptions table created!");
+
         } catch (Exception e) {
             Log.e("DM","[TABLE CREATION ERROR]");
         }
@@ -156,6 +167,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         db.execSQL("drop table Comments;");
         db.execSQL("drop table Messages;");
         db.execSQL("drop table Groups;");
+        db.execSQL("drop table PollOptions;");
         rolldown_Tables(db);
     }
 
@@ -165,6 +177,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         dropTable(db, App_Config.TABLE_MESSAGES);
         dropTable(db, App_Config.TABLE_LOGIN);
         dropTable(db, App_Config.TABLE_COMMENTS);
+        dropTable(db, App_Config.TABLE_GROUPS);
         dropTable(db, App_Config.TABLE_GROUPS);
         onCreate(db);
         Log.e("DM","database up graded");
@@ -347,6 +360,40 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     }
 
+    public void appendPollOptions(ArrayList<CollegarePollOption> pollOptionList){
+        SQLiteDatabase db =getWritableDatabase();
+        ContentValues pollValues= new ContentValues();
+        for(int i=0;i<pollOptionList.size();i++){
+            CollegarePollOption option=pollOptionList.get(i);
+            pollValues.put("POLLID",option.pollId);
+            pollValues.put("CONTENT",option.optionValue);
+            pollValues.put("TAG",option.tagValue);
+            long id=db.insert("PollOptions",null,pollValues);
+        }
+        Log.e("DM", "appended poll options");
+
+    }
+
+    public ArrayList<CollegarePollOption> getPollOptions(String pollId){
+        SQLiteDatabase db = getReadableDatabase();
+        boolean hasMore = true;
+
+        ArrayList<CollegarePollOption> options =  new ArrayList<>();
+        Cursor cursor= db.query("PollOptions",new String[]{"POLLID","CONTENT","TAG"},"POLLID = ?",new String[]{pollId},null,null,null);
+        cursor.moveToFirst();
+        while(hasMore && cursor.getCount()>0){
+            options.add(new CollegarePollOption(
+                    cursor.getString(cursor.getColumnIndex("POLLID")),
+                    cursor.getString(cursor.getColumnIndex("CONTENT")),
+                    cursor.getString(cursor.getColumnIndex("TAG"))
+
+            ));
+            hasMore=cursor.moveToNext();
+        }
+        Log.e("DM", options.size() + " Options from db");
+        return options;
+
+    }
     // getting a single complete post with comments
     public CollegarePost getPost(String PostId) {
         SQLiteDatabase db = getReadableDatabase();
@@ -401,7 +448,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex("LikeCount")),
                     cursor.getString(cursor.getColumnIndex("DisLikeCount")),
                     cursor.getString(cursor.getColumnIndex("LIKED")),
-                    cursor.getString(cursor.getColumnIndex("DISLIKED"))
+                    cursor.getString(cursor.getColumnIndex("DISLIKED")),null,null
 
             ));
             hasMore = cursor.moveToNext();

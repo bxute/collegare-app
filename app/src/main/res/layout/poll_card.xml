@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:cardView="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/poll_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:elevation="10dp"
+        android:paddingBottom="10dp"
+        cardView:cardBackgroundColor="#ffffff"
+        cardView:cardCornerRadius="1dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            >
+
+            <RelativeLayout
+                android:id="@+id/sidebar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#00ac33">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:background="#ffffff">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:id="@+id/Header"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:layout_weight="1"
+                                android:id="@+id/content"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:text="who is best ?"
+                                android:textColor="#000000"
+                                android:textSize="24dp" />
+
+                            <RelativeLayout
+                                android:paddingLeft="5dp"
+                                android:paddingTop="3dp"
+                                android:paddingBottom="5dp"
+                                android:id="@+id/lockHolder"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp">
+                                <ImageView
+                                    android:id="@+id/lock"
+                                    android:src="@drawable/lock_normal"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent" />
+                            </RelativeLayout>
+
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/duration"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/Header"
+                            android:gravity="right"
+                            android:padding="5dp"
+                            android:text="34 min "
+                            android:textColor="#aaaaaa"
+                            android:textSize="10dp" />
+                        <ListView
+                            android:listSelector="#ffffff"
+                            android:divider="#ffffff"
+                            android:dividerHeight="0dp"
+                            android:scrollbars="none"
+                            android:paddingBottom="10dp"
+                            android:layout_below="@+id/duration"
+                            android:id="@+id/Polloptions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

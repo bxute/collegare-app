@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:id="@+id/optionHolder"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#eeeeee">
+        <RelativeLayout
+            android:id="@+id/tag_holder"
+            android:padding="6dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp">
+            <TextView
+                android:textColor="#ff0000"
+                android:background="@drawable/poll_tag_bg"
+                android:textSize="12dp"
+                android:gravity="center"
+                android:text=""
+                android:id="@+id/tag"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_toRightOf="@+id/tag_holder"
+            android:gravity="center"
+            android:text="Ankit Kumar"
+            android:textColor="#111111"
+            android:padding="5dp"
+            android:id="@+id/optionValue"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+</LinearLayout>

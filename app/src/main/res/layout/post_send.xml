@@ -4,9 +4,13 @@
     tools:context="com.collegare.com.collegare.Activity.postSend">
     <include layout="@layout/toolbar" android:id="@+id/toolbar"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
     <RelativeLayout
 
-        android:layout_below="@+id/toolbar"
         android:id="@+id/holder"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -14,7 +18,7 @@
         <EditText
             android:maxLines="9"
             android:background="@drawable/post_box"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="72dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:hint="Type Message here"
@@ -24,20 +28,70 @@
 
         <CheckBox
             android:padding="10dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/postContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Make Anonymous"
-            android:id="@+id/anonyCheck"
+            android:text="Make Poll"
+            android:id="@+id/pollCheck"
             />
+        <RelativeLayout
 
+            android:padding="16dp"
+            android:layout_below="@+id/pollCheck"
+            android:id="@+id/PolloptionsHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="#111111"
+                android:textSize="20dp"
+                android:layout_marginLeft="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/title"
+                android:text="Add Options "/>
+
+            <ListView
+                android:dividerHeight="2dp"
+                android:divider="#ffffff"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:id="@+id/pollOptionList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_below="@+id/pollOptionList"
+                android:id="@+id/inputHolder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:layout_weight="1"
+                    android:layout_marginLeft="24dp"
+                    android:background="@drawable/post_box"
+                    android:id="@+id/optionInputBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp" />
+                <ImageView
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="24dp"
+                    android:padding="6dp"
+                    android:src="@drawable/add2"
+                    android:id="@+id/addBtn"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"/>
+            </LinearLayout>
+
+        </RelativeLayout>
         <Button
             android:textColor="#ffffff"
             android:background="@color/collegareBtn"
             android:layout_marginTop="72dp"
-            android:layout_below="@+id/postContent"
+            android:layout_below="@+id/PolloptionsHolder"
             android:layout_marginLeft="72dp"
             android:layout_marginRight="72dp"
             android:text="Send"
@@ -48,7 +102,7 @@
 
     </RelativeLayout>
 
-
+    </ScrollView>
 
 
 </RelativeLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:padding="16dp"
+        android:layout_below="@+id/pollCheck"
+        android:id="@+id/PolloptionsHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="20dp"
+            android:layout_marginLeft="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/title"
+            android:text="Add Options "/>
+
+        <ListView
+            android:dividerHeight="2dp"
+            android:divider="#ffffff"
+            android:layout_marginTop="32dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
+            android:id="@+id/pollOptionList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+        <LinearLayout
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:layout_below="@+id/pollOptionList"
+            android:id="@+id/inputHolder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:layout_weight="1"
+                android:layout_marginLeft="24dp"
+                android:background="@drawable/post_box"
+                android:id="@+id/optionInputBox"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"/>
+            <ImageView
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:padding="6dp"
+                android:src="@drawable/add2"
+                android:id="@+id/addBtn"
+                android:layout_width="32dp"
+                android:layout_height="32dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>

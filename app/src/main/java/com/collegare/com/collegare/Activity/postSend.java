@@ -13,6 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -23,6 +26,7 @@ import com.collegare.com.collegare.Managers.AppManager;
 import com.collegare.com.collegare.Managers.App_Config;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.InternetManager;
+import com.collegare.com.collegare.Managers.PollOptionsEditListAdapter;
 import com.collegare.com.collegare.Managers.SessionManager;
 import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.R;
@@ -35,11 +39,14 @@ import java.util.Map;
 
 public class postSend extends AppCompatActivity implements View.OnClickListener {
     Toolbar toolbar;
-    EditText postcontent;
+    EditText postcontent,inputBox;
     Button sendBtn;
     ProgressDialog progress;
-    CheckBox anonyCheck;
-
+    CheckBox pollCheck;
+    RelativeLayout optionEditHolder;
+    ListView optionsListView;
+    ImageView addBtn;
+    PollOptionsEditListAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,10 +58,22 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
         progress =new ProgressDialog(this);
         postcontent= (EditText) findViewById(R.id.postContent);
         sendBtn= (Button) findViewById(R.id.send);
-        anonyCheck= (CheckBox) findViewById(R.id.anonyCheck);
+        pollCheck= (CheckBox) findViewById(R.id.pollCheck);
+        optionEditHolder= (RelativeLayout) findViewById(R.id.PolloptionsHolder);
         sendBtn.setOnClickListener(this);
+        pollCheck.setOnClickListener(this);
+    }
+
+    private void addOptions(){
+        optionEditHolder.setVisibility(View.VISIBLE);
+        optionsListView = (ListView) findViewById(R.id.pollOptionList);
+        inputBox= (EditText) findViewById(R.id.optionInputBox);
+        addBtn= (ImageView) findViewById(R.id.addBtn);
+        addBtn.setOnClickListener(this);
+        adapter= new PollOptionsEditListAdapter(this);
 
     }
+
     @Override
     public void onClick(View view) {
         int id=view.getId();
@@ -68,7 +87,7 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
                     progress.setMessage("Sending....");
                     progress.setIndeterminate(true);
                     progress.show();
-                    sendPost(post, anonyCheck.isChecked());
+                    sendPost(post,false);
                 }
                 else{
                     Snackbar.make(postcontent,"No Internet Connectivity",Snackbar.LENGTH_SHORT).show();
@@ -76,6 +95,16 @@ public class postSend extends AppCompatActivity implements View.OnClickListener 
 
 
             }
+        }
+        if(id==R.id.pollCheck){
+            if(pollCheck.isChecked())addOptions();
+            else {
+                optionEditHolder.setVisibility(View.GONE);
+                adapter.Destroy();
+            }
+        }
+        if (id==R.id.addBtn){
+            adapter.add(inputBox.getText().toString());
         }
 
     }

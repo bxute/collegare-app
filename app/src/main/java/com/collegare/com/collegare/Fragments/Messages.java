@@ -31,6 +31,7 @@ import com.collegare.com.collegare.Managers.CollegareParser;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.InternetManager;
 import com.collegare.com.collegare.Managers.MessageAdapter;
+import com.collegare.com.collegare.Managers.MessageWallRecylerAdapter;
 import com.collegare.com.collegare.Managers.RecyclerViewDecorator;
 import com.collegare.com.collegare.Managers.RefressListener;
 import com.collegare.com.collegare.Managers.SendListener;
@@ -47,7 +48,7 @@ import java.util.Map;
 
 public class Messages extends Fragment implements SendListener,RefressListener {
     RecyclerView recyclerView;
-    MessageAdapter adapter;
+    MessageWallRecylerAdapter adapter;
     InternetManager internetManager;
     TextView error;
     ArrayList<CollegareMessage> dataList;
@@ -59,7 +60,7 @@ public class Messages extends Fragment implements SendListener,RefressListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = MessageAdapter.getInstance(getActivity());
+        adapter = MessageWallRecylerAdapter.getmInstance(getActivity());
         hadler= new Handler();
     }
 
@@ -69,7 +70,7 @@ public class Messages extends Fragment implements SendListener,RefressListener {
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         error = (TextView) view.findViewById(R.id.errorPanel);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresser);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerAnonymous);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerMessageWall);
         recyclerView.addItemDecoration(new RecyclerViewDecorator(getActivity(), 5, true, R.drawable.post_divider));
         dataStore = new DataStore(getActivity());
 

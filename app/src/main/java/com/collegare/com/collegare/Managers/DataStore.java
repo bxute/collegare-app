@@ -86,16 +86,6 @@ public class DataStore {
         ArrayList<CollegareGroup> groups= new ArrayList<>();
         ArrayList<CollegareGroupMember> members= new ArrayList<>();
         ArrayList<CollegareAdmin> admins= new ArrayList<>();
-
-        feeds.add(new CollegareFeed("1","hello man how","ankit","2014-12-03 10:10:45","0","201451065","12","1","1","1","2","true","false"));
-        feeds.add(new CollegareFeed("2","hello man how","Mofid","2014-12-03 10:10:45","0","201451065","12","1","1","1","2","false","false"));
-        feeds.add(new CollegareFeed("3","There is some fault","Admins","2014-12-03 10:10:45","1","201451065","12","1","1","1","2","false","true"));
-        feeds.add(new CollegareFeed("4","sorry for the inconvinience !!","Admins","2014-12-03 10:10:45","1","201451065","12","1","1","1","2","true","false"));
-
-        feeds.add(new CollegareFeed("5","hello all users !!!","Ravi Patel","2014-12-03 10:10:45","2","201452056","12","1","1","1","2","false","true"));
-        feeds.add(new CollegareFeed("6","kya bol raha hai be !!","Rajeev","2014-12-03 10:10:45","2","201452062","12","1","1","1","2","true","false"));
-
-
         msgs.add(new CollegareMessage("232", "hello ankit \n fine this", "Rahul", "2014-12-03 12:13:45", "201451062"));
         msgs.add(new CollegareMessage("821", "how are you ????", "Raju Kaushik", "2014-12-03 12:11:45", "201451061"));
         msgs.add(new CollegareMessage("3281", "im fine !!!", "xute", "2014-12-03 12:09:45", "201451065"));
@@ -186,10 +176,7 @@ public class DataStore {
     public String isDisliked;
         * */
         ArrayList<CollegareFeed> adminFeeds= new ArrayList<>();
-        adminFeeds.add(new CollegareFeed("11","hi users !! ","Admins","2014-11-10 12:10:05","0","none","1","none","1","1","1","true","false"));
-        adminFeeds.add(new CollegareFeed("21","mention some critical issues with the system !! ","Admins","2014-11-10 12:11:05","0","none","1","none","1","1","1","false","true"));
-        adminFeeds.add(new CollegareFeed("31","hi users !! ","Admins","2014-11-10 12:10:05","0","none","1","none","1","1","1","true","false"));
-        adminFeeds.add(new CollegareFeed("41", "mention some critical issues with the system !! ", "Admins", "2014-11-10 12:11:05", "0", "none", "1", "none", "1", "1", "1", "false", "true"));
+
 
         return  adminFeeds;
     }

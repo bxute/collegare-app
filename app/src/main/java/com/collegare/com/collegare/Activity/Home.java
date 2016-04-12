@@ -95,6 +95,8 @@ public class Home extends AppCompatActivity {
             case R.id.action_LogOut:
                 Logout();
                 break;
+            case R.id.action_CreatePoll:
+                break;
         }
         return false;
     }
@@ -102,7 +104,7 @@ public class Home extends AppCompatActivity {
     public void Logout(){
         SessionManager.setLoginStatus(false);
         DatabaseManager.getInstance(this).rollback_Database();
-        SessionManager.setLastPostID("0");
+        SessionManager.setLastPostID(SessionManager.getLastGroup(),"0");
         startActivity(new Intent(this, Login.class));
         ((LogoutListener) postDataAdapter.getInstance(this)).Reset();
         ((LogoutListener) MessageAdapter.getInstance(this)).Reset();
@@ -170,4 +172,25 @@ public class Home extends AppCompatActivity {
         );
 
     }
+
+/*
+    @Override
+    public void Sent(int type) {
+
+        fragment = (Fragment) pagerAdapter.instantiateItem(viewPager, type);
+
+        if (type == 0) {
+            viewPager.setCurrentItem(0);
+            if (fragment instanceof RefressListener) {
+                ((RefressListener) fragment).refress();
+            }
+
+        } else {
+            viewPager.setCurrentItem(1);
+            if (fragment instanceof RefressListener) {
+                ((RefressListener) fragment).refress();
+            }
+        }
+
+    }*/
 }

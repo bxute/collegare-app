@@ -37,6 +37,10 @@
     <string name="action_editProfile">Edit Profile</string>
     <string name="title_activity_post_send">Send</string>
     <string name="title_activity_message_send">MessageSend</string>
+    <string name="title_activity_custom_poll_card">CustomPollCard</string>
+    <string name="title_activity_dynamic_layout_test">DynamicLayoutTest</string>
+    <string name="title_activity_poll_test">PollTest</string>
+    <string name="title_activity_message_room">MessageRoom</string>
 
 
 </resources>

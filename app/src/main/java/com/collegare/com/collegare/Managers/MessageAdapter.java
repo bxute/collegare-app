@@ -124,9 +124,6 @@ public class MessageAdapter extends RecyclerView
                 ((IncomingMessageHolder) holder).sender_name.setText("Me");
             }else
             ((IncomingMessageHolder) holder).sender_name.setText(mDataset.get(position).username);
-
-
-
         }
         else{
             ((OutgoingMessageHolder) holder).message.setText(mDataset.get(position).content);

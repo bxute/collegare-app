@@ -24,7 +24,8 @@
         </RelativeLayout>
 
         <TextView
-            android:textSize="10dp"
+            android:textColor="#000000"
+            android:textSize="12dp"
             android:layout_marginLeft="72dp"
             android:id="@+id/grpName"
             android:gravity="center_vertical"

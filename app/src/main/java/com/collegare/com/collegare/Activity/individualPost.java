@@ -160,7 +160,7 @@ public class individualPost extends AppCompatActivity implements View.OnClickLis
                 Log.e("IP","thread dispatched");
                 ((UpdateListener) pda).Update(post, position);
             }
-        },100);
+        },2000);
     }
 
     @Override

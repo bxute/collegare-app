@@ -9,8 +9,10 @@ import com.collegare.com.collegare.Models.CollegareFeed;
 import com.collegare.com.collegare.Models.CollegareGroup;
 import com.collegare.com.collegare.Models.CollegareMessage;
 import com.collegare.com.collegare.Models.CollegareMessageSent;
+import com.collegare.com.collegare.Models.CollegarePollOption;
 import com.collegare.com.collegare.Models.CollegarePost;
 import com.collegare.com.collegare.Models.CollegareUser;
+import com.collegare.com.collegare.Models.Message;
 import com.collegare.com.collegare.Models.Report;
 
 import org.json.JSONArray;
@@ -40,6 +42,13 @@ public class CollegareParser {
         return bInstance;
     }
 
+
+
+
+
+
+
+
     public void parseFeed(String response) {
         ArrayList<CollegareFeed> feedlist= new ArrayList<>();
         try {
@@ -56,30 +65,62 @@ public class CollegareParser {
 
                 for (int i = posts.length()-1; i >= 0; i--) {
                     JSONObject post = (JSONObject) posts.get(i);
-                    String isLiked=(post.getString("vote").equals("1"))?"true":"false";
-                    String isDisLiked=(post.getString("vote").equals("-1"))?"true":"false";
-          //          Log.e("CP","vote:"+post.getString("vote")+" pid:"+post.getString("postid"));
-                    feed =new CollegareFeed(
-                                    post.getString("postid"),
-                                    post.getString("content"),
-                                    post.getString("username"),
-                                    post.getString("doc"),
-                                    post.getString("gid"),
-                                    post.getString("id"),
-                                    post.getString("weight"),
-                                    post.getString("pollid"),
-                                    post.getString("commentcount"),
-                                    post.getString("upcount"),
-                                    post.getString("downcount"),
-                                    isLiked,
-                                    isDisLiked
-                            );
+
+                    if(post.getString("pollid").equals("null")){
+                        String isLiked=(post.getString("vote").equals("1"))?"true":"false";
+                        String isDisLiked=(post.getString("vote").equals("-1"))?"true":"false";
+                        //          Log.e("CP","vote:"+post.getString("vote")+" pid:"+post.getString("postid"));
+                        feed =new CollegareFeed(
+                                post.getString("postid"),
+                                post.getString("content"),
+                                post.getString("username"),
+                                post.getString("doc"),
+                                post.getString("gid"),
+                                post.getString("id"),
+                                post.getString("weight"),
+                                post.getString("pollid"),
+                                post.getString("commentcount"),
+                                post.getString("upcount"),
+                                post.getString("downcount"),
+                                isLiked,
+                                isDisLiked,null,null
+                        );
+                    }else{          // else it is poll
+
+                        JSONArray pollOptions = post.getJSONArray("options");
+                        ArrayList<CollegarePollOption> options= new ArrayList<>();
+
+                        for(i=pollOptions.length()-1;i>=0;i--){
+                            JSONObject op= (JSONObject) pollOptions.get(i);
+                            options.add(new CollegarePollOption(op.getString("pollid"),op.getString("tagValue"),op.getString("optionValue")));
+                        }
+
+                        feed =new CollegareFeed(
+                                post.getString("postid"),
+                                post.getString("content"),
+                                post.getString("username"),
+                                post.getString("doc"),
+                                post.getString("gid"),
+                                post.getString("id"),
+                                post.getString("weight"),
+                                post.getString("pollid"),
+                                null,
+                                null,
+                                null,
+                                null,
+                                null,options,post.getString("selected")
+                        );
+                    }
+
+
+
+
                     postDataAdapter.getInstance(context).addToPostDataList(feed);
                     feedlist.add(feed);
             //        Log.e("lll hiesght id is",""+SessionManager.getLastPostID());
-                    if(Integer.parseInt(SessionManager.getLastPostID()) < Integer.parseInt(post.getString("postid"))){
-                        SessionManager.setLastPostID(post.getString("postid"));
-              //          Log.e("lll now highest is :",""+post.getString("postid"));
+                    if(Integer.parseInt(SessionManager.getLastPostID(SessionManager.getLastGroup())) < Integer.parseInt(post.getString("postid"))){
+                        SessionManager.setLastPostID(SessionManager.getLastGroup(),post.getString("postid"));
+                        //          Log.e("lll now highest is :",""+post.getString("postid"));
                     }
 
                 }
@@ -110,7 +151,6 @@ public class CollegareParser {
         try {
             JSONObject msgObj = new JSONObject(response);
 
-            Log.e("CP","Message send status : " + msgObj.getInt("status"));
             if (msgObj.getInt("status") != 0){
                 return;
             }
@@ -125,7 +165,8 @@ public class CollegareParser {
                                 temp.getString("id")
                         );
                 //Log.e("msg parser","msg:"+temp.getString("content"));
-               MessageAdapter.getInstance(context).addMessageToList(message);
+                MessageWallRecylerAdapter.getmInstance(context).addMessage(new Message(Integer.parseInt(message.id),message.username, 1,message.doc,message.content ));
+              // MessageAdapter.getInstance(context).addMessageToList(message);
                DatabaseManager.getInstance(context).appendMessage(message);
             }
 

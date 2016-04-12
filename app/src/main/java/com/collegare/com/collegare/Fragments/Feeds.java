@@ -67,7 +67,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         sessionManager= new SessionManager(getActivity());
         handler= new Handler();
         if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
-            String lastId=SessionManager.getLastPostID();
+            String lastId=SessionManager.getLastPostID(groupID);
             getFeeds(groupID,lastId);
         }
     }
@@ -102,7 +102,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
                         refreshFeeds();
                         Log.e("Feeds","handler posted");
                     }
-                },100);
+                },0);
             }});
 
 
@@ -119,7 +119,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     private void refreshFeeds() {
 
         if(InternetManager.getInstance(getActivity()).isConnectedToNet()){
-            String lastLoadedId= SessionManager.getLastPostID();
+            String lastLoadedId= SessionManager.getLastPostID(groupID);
             getFeeds(groupID,lastLoadedId);
             swipeRefreshLayout.setRefreshing(true);
             swipeRefreshLayout.setEnabled(false);
@@ -138,18 +138,11 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     @Override
     public void LoadData(String gid) {
         if(groupID==gid){
+            Log.e("Feeds"," loading no data");
             return;
         }
         groupID=gid;
-        dataStore=new DataStore(getActivity());
-        adapter= postDataAdapter.getInstance(getActivity());
-
-              //  Log.e("data"," "+dataStore);
-                        feedArrayList=dataStore.getFeeds(groupID);
-                        this.adapter.setPostDataList(feedArrayList);
-                //Log.e("got  ", " " + feedArrayList.size() + " items");
-
-        this.adapter.notifyDataSetChanged();
+        getFeeds(groupID,SessionManager.getLastPostID(groupID));
     }
 
     @Override
@@ -219,7 +212,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
 
     private void TimeOut(){
         Snackbar.make(swipeRefreshLayout,"Connection Problem ! Please Pull to Reload ",Snackbar.LENGTH_LONG).show();
-
+        swipeRefreshLayout.setRefreshing(false);
     }
     @Override
     public void refress() {

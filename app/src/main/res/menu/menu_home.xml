@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".Home">
     <item android:id="@+id/action_Profile" android:title="Profile"
         android:orderInCategory="100" app:showAsAction="never" />
-       <item android:id="@+id/action_LogOut" android:title="LogOut"
+    <item android:id="@+id/action_CreatePoll" android:title="Create Poll"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_LogOut" android:title="LogOut"
         android:orderInCategory="100" app:showAsAction="never" />
 </menu>

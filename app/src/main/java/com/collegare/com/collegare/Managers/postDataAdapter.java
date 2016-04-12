@@ -1,7 +1,7 @@
 package com.collegare.com.collegare.Managers;
 
 /**
- * Created by Vishal on 03-10-2015.
+ * Created by Ankit on 03-10-2015.
  */
 
 import android.content.Context;
@@ -9,14 +9,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -40,16 +42,20 @@ import java.util.Map;
 
 
 public class postDataAdapter extends RecyclerView
-        .Adapter<postDataAdapter
-        .DataObjectHolder> implements LogoutListener , UpdateListener{
+        .Adapter<RecyclerView.ViewHolder> implements LogoutListener , UpdateListener{
 
     static postDataAdapter bInstance;
     public ArrayList<CollegareFeed> mDataset;
     public SessionManager sessionManager;
     Context context;
 
+    private static int TYPE_POLL=0;
+    private static int TYPE_POST=1;
+
+
     public postDataAdapter(ArrayList<CollegareFeed> myDataset) {
         mDataset = myDataset;
+        // polls = pollList;
     }
 
     public postDataAdapter(Context context) {
@@ -57,7 +63,10 @@ public class postDataAdapter extends RecyclerView
         this.context = context;
         //Log.e("PDA","constructor");
         mDataset=new ArrayList<>();
-        SessionManager.setLastPostID("0");
+        SessionManager.setLastPostID(SessionManager.getLastGroup(),"0");
+
+
+
     }
 
     public static postDataAdapter getInstance(Context context) {
@@ -96,34 +105,73 @@ public class postDataAdapter extends RecyclerView
         notifyDataSetChanged();
     }
 
-    @Override
-    public DataObjectHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.post_layout, parent, false);
 
-        DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
-        return dataObjectHolder;
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        if(viewType==TYPE_POST){
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.post_layout, parent, false);
+            return new PostHolder(view);
+        }
+        else {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.post_layout, parent, false);
+            return new PollHolder(view);
+        }
+
+
     }
 
     @Override
-    public void onBindViewHolder(DataObjectHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         Date d = new Date();
         final CharSequence doc  = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime());
         String timePast = TimeManager.getInstance().convert(doc.toString(), mDataset.get(position).doc);
-        holder.post.setText(mDataset.get(position).content);
-        holder.commentCount.setText(mDataset.get(position).CommentCount);
-        holder.disLikeCount.setText(mDataset.get(position).dislikeCount);
-        holder.likeCount.setText(mDataset.get(position).likeCount);
-        String tag = String.format("%c", mDataset.get(position).username.toUpperCase().charAt(0));
-        holder.tagChar.setText(tag);
-        holder.timeSpan.setText(timePast);
-        holder.userName.setText(mDataset.get(position).username);
 
-        int resIdL = (mDataset.get(position).isLiked.equals("true")) ? R.drawable.upvote_48 : R.drawable.upvote_48_black;
-        int resIdD = (mDataset.get(position).isDisliked.equals("true")) ? R.drawable.downvote_48 : R.drawable.downvote_48_black;
-       // Log.e("PDA","pid:"+mDataset.get(position).content+" vote:"+mDataset.get(position).isLiked);
-        holder.like.setImageResource(resIdL);
-        holder.unlike.setImageResource(resIdD);
+        if(mDataset.get(position).pollid.equals("null")){
+            Log.e("PDA", "binding post");
+            Log.e("type",""+holder.getClass());
+            ( (PostHolder) holder).post.setText(mDataset.get(position).content);
+            ( (PostHolder) holder).commentCount.setText(mDataset.get(position).CommentCount);
+            ( (PostHolder) holder).disLikeCount.setText(mDataset.get(position).dislikeCount);
+            ( (PostHolder) holder).likeCount.setText(mDataset.get(position).likeCount);
+            String tag = String.format("%c", mDataset.get(position).username.toUpperCase().charAt(0));
+            ( (PostHolder) holder).tagChar.setText(tag);
+            ( (PostHolder) holder).timeSpan.setText(timePast);
+            ( (PostHolder) holder).userName.setText(mDataset.get(position).username);
+            int resIdL = (mDataset.get(position).isLiked.equals("true")) ? R.drawable.upvote_48 : R.drawable.upvote_48_black;
+            int resIdD = (mDataset.get(position).isDisliked.equals("true")) ? R.drawable.downvote_48 : R.drawable.downvote_48_black;
+            // Log.e("PDA","pid:"+mDataset.get(position).content+" vote:"+mDataset.get(position).isLiked);
+            ( (PostHolder) holder).like.setImageResource(resIdL);
+            ( (PostHolder) holder).unlike.setImageResource(resIdD);
+        }
+        else{
+            Log.e("PDA", "binding poll");
+            ((PollHolder) holder).content.setText(mDataset.get(position).content);
+            ((PollHolder) holder).duration.setText(timePast);
+            final PollOptionsAdapter adapter= new PollOptionsAdapter(context,mDataset.get(position).pollOptions,mDataset.get(position).pollOptionSelected);
+                    ((PollHolder) holder).pollOptions.setAdapter(adapter);
+
+            if(!mDataset.get(position).pollOptionSelected.equals("")){
+                adapter.setSelected(Integer.parseInt(mDataset.get(position).pollOptionSelected));
+                ((PollHolder) holder).lock.setImageResource(R.drawable.lock_pressed);
+
+            }else{
+                ((PollHolder) holder).lockHolder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (adapter.getSelected() == -1) return;
+                        ((PollHolder) holder).lock.setImageResource(R.drawable.lock_pressed);
+                        adapter.show();
+
+                    }
+                });
+            }
+
+
+
+        }
 
     }
 
@@ -153,7 +201,17 @@ public class postDataAdapter extends RecyclerView
         notifyItemChanged(position);
     }
 
-    public static class DataObjectHolder extends RecyclerView.ViewHolder
+    @Override
+    public int getItemViewType(int position){
+        super.getItemViewType(position);
+            if(mDataset.get(position).pollid.equals("null")){
+                return TYPE_POST;
+            }
+       return TYPE_POLL;
+    }
+
+
+    public static class PostHolder extends RecyclerView.ViewHolder
             implements View
             .OnClickListener {
         TextView likeCount;
@@ -168,7 +226,7 @@ public class postDataAdapter extends RecyclerView
         ImageView unlike;
         ImageView comment;
 
-        public DataObjectHolder(View itemView) {
+        public PostHolder(View itemView) {
             super(itemView);
             likeCount = (TextView) itemView.findViewById(R.id.likeText);
             disLikeCount = (TextView) itemView.findViewById(R.id.unlikeText);
@@ -461,6 +519,25 @@ public class postDataAdapter extends RecyclerView
 
         }
 
+
+    }
+
+    public static class PollHolder extends RecyclerView.ViewHolder{
+
+        TextView content;
+        TextView duration;
+        ListView pollOptions;
+        RelativeLayout lockHolder;
+        ImageView lock;
+
+        public PollHolder(View itemView) {
+            super(itemView);
+            content= (TextView) itemView.findViewById(R.id.content);
+            duration= (TextView) itemView.findViewById(R.id.duration);
+            pollOptions= (ListView) itemView.findViewById(R.id.Polloptions);
+            lockHolder= (RelativeLayout) itemView.findViewById(R.id.lockHolder);
+            lock = (ImageView) itemView.findViewById(R.id.lock);
+        }
 
     }
 

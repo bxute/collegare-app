@@ -14,6 +14,9 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -68,6 +71,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Vi
         pass = (EditText) findViewById(R.id.passBox);              //  Set views by IDs
         uID = (EditText) findViewById(R.id.uIDBox);              //  from xml file
         loginButton = (Button) findViewById(R.id.loginButtonId);  //
+
+        //Animation
+        Animation anim= AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
+        anim.setInterpolator(new DecelerateInterpolator(50f));
+        anim.setDuration(1000);
+        anim.setInterpolator(new DecelerateInterpolator());
+
+        loginButton.startAnimation(anim);
+
+
         showPass.setOnClickListener(this);  //listener for show password checkbox
         loginButton.setOnClickListener(this);
         loginButton.setOnKeyListener(this);

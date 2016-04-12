@@ -91,6 +91,7 @@ public class NavigationDrawerRecyclerViewAdapter extends RecyclerView.Adapter<Na
             Selected=currentPostion;
             itemsViews.get(Selected).setBackgroundColor(Color.LTGRAY);
             //Log.e("aaa now >> " + Selected, "selected");
+            SessionManager.setLastGroup(groupsList.get(currentPostion).GroupID);
                navigationListeners.LoadData(groupsList.get(currentPostion).GroupID);
               //  Log.e("aaa clicked ", " " + groupsList.get(currentPostion).Title);
                 drawerLayout.closeDrawer(Gravity.LEFT);

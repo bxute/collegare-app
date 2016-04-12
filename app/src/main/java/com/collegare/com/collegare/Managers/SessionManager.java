@@ -46,12 +46,12 @@ public class SessionManager
     public static String getSendType(){
         return preferences.getString("sentType","0");
     }
-    public static String getLastPostID(){
-        return preferences.getString("LPid","0");
+    public static String getLastPostID(String GrpID){
+        return preferences.getString("LPid"+GrpID,"0");
     }
 
-    public static void setLastPostID(String lastPostID){
-        editor.putString("LPid",lastPostID);
+    public static void setLastPostID(String lastPostID , String GrpID){
+        editor.putString("LPid"+GrpID,lastPostID);
         editor.commit();
     }
 
