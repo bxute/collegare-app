@@ -2,6 +2,8 @@ package com.collegare.com.collegare.Managers;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -85,8 +87,14 @@ public class MessageWallRecylerAdapter extends RecyclerView.Adapter<MessageWallR
         holder.sender.setText(msgOrder.get(position).username+"");
         holder.msg.setText(msgMap.get(msgOrder.get(position).id));
         holder.time.setText(msgOrder.get(position).time);
-        holder.tagBgImage.setBackgroundColor(Color.parseColor(new com.collegare.com.collegare.Managers.Color().getColor()));
+
         String tag = String.format("%c", msgOrder.get(position).username.toUpperCase().charAt(0));
+
+        Drawable backDrawable=holder.userTag.getBackground();
+        if(backDrawable instanceof GradientDrawable){
+            GradientDrawable drawable= (GradientDrawable) backDrawable;
+            drawable.setColor(Color.parseColor(new com.collegare.com.collegare.Converters.ColorConverter().getColor((int)msgOrder.get(position).username.toUpperCase().charAt(0))));
+        }
         holder.userTag.setText(tag);
 
         if(msgOrder.get(position).count>0){
@@ -105,7 +113,6 @@ public class MessageWallRecylerAdapter extends RecyclerView.Adapter<MessageWallR
     public class MessageHolder extends RecyclerView.ViewHolder {
 
         TextView sender,msg,tag,time,userTag;
-        ImageView tagBgImage;
         public MessageHolder(View tempView) {
             super(tempView);
             sender= (TextView) tempView.findViewById(R.id.sender);
@@ -113,7 +120,6 @@ public class MessageWallRecylerAdapter extends RecyclerView.Adapter<MessageWallR
             tag= (TextView) tempView.findViewById(R.id.msgCount);
             time= (TextView) tempView.findViewById(R.id.lTime);
             userTag= (TextView) tempView.findViewById(R.id.msgTag);
-            tagBgImage= (ImageView) tempView.findViewById(R.id.MsgTag_bg);
         }
     }
 }
