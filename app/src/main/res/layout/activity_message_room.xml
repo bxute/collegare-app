@@ -3,7 +3,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1"
-    tools:context="com.collegare.com.collegare.Activity.MessageRoom">
+    tools:context="com.collegare.com.collegare.Activity.MessageRoom"
+    android:background="@drawable/chat_bg">
 <FrameLayout
     android:layout_weight="1"
     android:layout_width="match_parent"
@@ -15,10 +16,14 @@
         android:id="@+id/msgRoomMessageRV"/>
 </FrameLayout>
     <FrameLayout
+        android:layout_marginBottom="2dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
+            android:background="@drawable/customeditbox"
             android:orientation="horizontal"
             android:weightSum="1"
             android:layout_width="match_parent"
@@ -30,7 +35,14 @@
                 android:hint="Hi Ankit"
                 android:layout_width="match_parent"
                 android:layout_height="40dp" />
+            <ImageView
+                android:layout_marginRight="4dp"
+                android:background="@drawable/pi"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
             <FrameLayout
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/send_btn_states"
                 android:padding="6dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp">

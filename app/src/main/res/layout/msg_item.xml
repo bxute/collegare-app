@@ -19,6 +19,7 @@
     android:layout_height="match_parent" />
 
         <TextView
+            android:visibility="invisible"
             android:id="@+id/msgTag"
             android:textColor="#ffffff"
             android:gravity="center_horizontal|center_vertical"

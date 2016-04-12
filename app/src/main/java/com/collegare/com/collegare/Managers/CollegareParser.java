@@ -165,7 +165,7 @@ public class CollegareParser {
                                 temp.getString("id")
                         );
                 //Log.e("msg parser","msg:"+temp.getString("content"));
-                MessageWallRecylerAdapter.getmInstance(context).addMessage(new Message(Integer.parseInt(message.id),message.username, 1,message.doc,message.content ));
+                MessageWallRecylerAdapter.getmInstance(context).addMessage(new Message(Integer.parseInt(message.msgid),Integer.parseInt(message.id),message.username, 1,message.doc,message.content ));
               // MessageAdapter.getInstance(context).addMessageToList(message);
                DatabaseManager.getInstance(context).appendMessage(message);
             }
