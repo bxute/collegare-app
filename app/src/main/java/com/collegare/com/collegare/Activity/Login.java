@@ -31,6 +31,7 @@ import com.collegare.com.collegare.Managers.CollegareParser;
 import com.collegare.com.collegare.Managers.DataStore;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.InternetManager;
+import com.collegare.com.collegare.Managers.Segmentor;
 import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.Models.Report;
 import com.collegare.com.collegare.R;
@@ -45,6 +46,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.DataTruncation;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -86,6 +88,28 @@ public class Login extends AppCompatActivity implements View.OnClickListener, Vi
         loginButton.setOnKeyListener(this);
         progress = new ProgressDialog(this);
         progress.setCancelable(false);
+
+        if(App_Config.OFFLINE){
+
+            //testing segmentor
+            Segmentor segmentor = new Segmentor();
+            String test_line = "#201451065#201452012#";
+            ArrayList<String> ids;
+            ids = segmentor.getParts(test_line, '#');
+            for (String id :
+                    ids) {
+                Log.e("id>",id);
+            }
+
+
+
+
+
+            Log.e("Login","redirecting");
+            Intent intent = new Intent(Login.this, Home.class);
+            startActivity(intent);
+            finish();
+        }
 
         if (session.isLoggedIn()) {
             Intent intent = new Intent(Login.this, Home.class);

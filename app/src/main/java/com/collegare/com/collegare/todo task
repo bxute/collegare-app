@@ -1,0 +1,2 @@
+create event listeners for database/new msg arrival
+simulating handler adding msg at regular interval

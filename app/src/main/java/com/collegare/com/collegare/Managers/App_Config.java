@@ -6,6 +6,8 @@ package com.collegare.com.collegare.Managers;
 
 public class App_Config{
 
+    public static Boolean OFFLINE = true;
+
     public static String Login_URL="http://collegare.eu5.org/login.php";
     public static String Post_URL="http://collegare.eu5.org/post.php";
     public static String Message_URL="http://collegare.eu5.org/message.php";

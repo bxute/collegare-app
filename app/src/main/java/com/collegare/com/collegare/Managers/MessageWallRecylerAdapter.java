@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.collegare.com.collegare.Activity.MessageRoom;
+import com.collegare.com.collegare.Models.CollegareWallMessageModel;
 import com.collegare.com.collegare.Models.Message;
 import com.collegare.com.collegare.R;
 
@@ -28,56 +29,48 @@ import java.util.HashMap;
 public class MessageWallRecylerAdapter extends RecyclerView.Adapter<MessageWallRecylerAdapter.MessageHolder> {
 
     private static Context context;
-    HashMap<Integer,String> msgMap;
-    ArrayList<Message> msgOrder;
     private static MessageWallRecylerAdapter mInstance;
+    private ArrayList<CollegareWallMessageModel> wallMessages;
 
     public MessageWallRecylerAdapter(Context context){
         this.context=context;
-        msgMap= new HashMap<>();
-        msgOrder=new ArrayList<>();
+        this.wallMessages = new ArrayList<>();
     }
 
-    public static MessageWallRecylerAdapter getmInstance(Context context){
+    public static MessageWallRecylerAdapter getInstance(Context context){
         if(mInstance==null){
             mInstance=new MessageWallRecylerAdapter(context);
         }
         return mInstance;
     }
 
-    public int getIndex(int id){
-        int index=-1;
-        for(int i=1;i<msgOrder.size();i++){
-            if(msgOrder.get(i).id==id){
-                Log.e("indez:",""+i);
-                index=i;
-            }
-        }
+//    public int getIndex(int id){
+//        int index=-1;
+//        for(int i=1;i<msgOrder.size();i++){
+//            if(msgOrder.get(i).id==id){
+//                Log.e("indez:",""+i);
+//                index=i;
+//            }
+//        }
+//
+//        return index;
+//    }
 
-        return index;
-    }
-
-    public void remove(int index){
-        msgOrder.remove(index);
-    }
-
-    public void addMessage(Message msg){
-        msgMap.put(msg.id, msg.msg);
-        msgOrder.add(0,msg);
-        if(getIndex(msg.id)!=-1){
-            msgOrder.get(0).count+= msgOrder.get(getIndex(msg.id)).count;
-            remove(getIndex(msg.id));
-        }
+//    public void remove(int index){
+//        msgOrder.remove(index);
+//    }
+//
+    public void addMessage(CollegareWallMessageModel msg){
+        wallMessages.add(msg);
         notifyItemInserted(0);
     }
 
-    public void setSeen(int pos){
-        msgOrder.get(pos).count=0;
-        for(int i=0;i<msgOrder.size();i++){
-            Log.e("" + i, " co>>" + msgOrder.get(i).count);
-        }
-
+    public void setMessageList(ArrayList<CollegareWallMessageModel> msgs){
+        this.wallMessages = msgs;
+        Log.e("MesgAda","new list set");
+        notifyDataSetChanged();
     }
+
 
     @Override
     public MessageWallRecylerAdapter.MessageHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -89,60 +82,42 @@ public class MessageWallRecylerAdapter extends RecyclerView.Adapter<MessageWallR
     public void onBindViewHolder(MessageWallRecylerAdapter.MessageHolder holder, int position) {
         Date d = new Date();
         final CharSequence doc  = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime());
-        String timePast = TimeManager.getInstance().convert(doc.toString(), msgOrder.get(position).time);
+        String timePast = TimeManager.getInstance().convert(doc.toString(), wallMessages.get(position).time);
 
-        holder.sender.setText(msgOrder.get(position).username+"");
-        holder.msg.setText(msgMap.get(msgOrder.get(position).id));
+        String wall_user_tag = String.format("%c", wallMessages.get(position).user_name.toUpperCase().charAt(0));
+        CollegareWallMessageModel wallMessageModel = wallMessages.get(position);
+
+        holder.wall_user_tag.setText(wall_user_tag);
+        holder.msg.setText(wallMessageModel.message);
         holder.time.setText(timePast);
-        holder.tagBgImage.setBackgroundColor(Color.parseColor(new com.collegare.com.collegare.Managers.Color().getColor()));
-        String tag = String.format("%c", msgOrder.get(position).username.toUpperCase().charAt(0));
-        holder.userTag.setText(tag);
-
-        if(msgOrder.get(position).count>0){
-            holder.tag.setVisibility(View.VISIBLE);
-            holder.tag.setText(msgOrder.get(position).count + "");
-            holder.msg.setTextColor(Color.parseColor("#000011"));
+        if(wallMessageModel.unread_count>0){
+            holder.unread_tag.setVisibility(View.VISIBLE);
+            holder.unread_tag.setText(wallMessageModel.unread_count+"");
         }
+        holder.sender.setText(wallMessageModel.user_name);
+
 
     }
 
     @Override
     public int getItemCount() {
-        return msgOrder.size();
+        return wallMessages.size();
     }
 
     public class MessageHolder extends RecyclerView.ViewHolder {
 
-        TextView sender,msg,tag,time,userTag;
-        ImageView tagBgImage;
-        LinearLayout bound;
+        TextView sender,msg,unread_tag,time,wall_user_tag;
+        ImageView wall_user_tag_img;
+
         public MessageHolder(View tempView) {
             super(tempView);
-            sender= (TextView) tempView.findViewById(R.id.sender);
-            msg= (TextView) tempView.findViewById(R.id.msg);
-            tag= (TextView) tempView.findViewById(R.id.msgCount);
-            time= (TextView) tempView.findViewById(R.id.lTime);
-            userTag= (TextView) tempView.findViewById(R.id.msgTag);
-            tagBgImage= (ImageView) tempView.findViewById(R.id.MsgTag_bg);
-            bound= (LinearLayout) tempView.findViewById(R.id.msgBounds);
-            bound.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO navigate to msg page
-                    Bundle bundle= new Bundle();
-                    bundle.putInt("userid",msgOrder.get(getAdapterPosition()).userID);
-                    Intent intent= new Intent(context, MessageRoom.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtras(bundle);
-                    context.startActivity(intent);
-                }
-            });
-            userTag.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //TODO get the user id and open the profile page
-                }
-            });
+
+            sender = (TextView) tempView.findViewById(R.id.sender);
+            msg = (TextView) tempView.findViewById(R.id.msg);
+            unread_tag = (TextView) tempView.findViewById(R.id.unread_tag);
+            time = (TextView) tempView.findViewById(R.id.wall_msg_time);
+            wall_user_tag = (TextView) tempView.findViewById(R.id.wall_user_tag_char);
+            wall_user_tag_img = (ImageView) tempView.findViewById(R.id.wall_user_tag_img);
 
         }
     }

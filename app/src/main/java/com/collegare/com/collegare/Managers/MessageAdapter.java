@@ -82,7 +82,7 @@ public class MessageAdapter extends RecyclerView
 
 
       //  Log.e("Msg Adapter","uid:"+userID+" msg_Uid"+mDataset.get(position).id);
-        int type=(mDataset.get(position).id.equals(userID))?MESSAGE_OUT:MESSAGE_IN;
+        int type=(mDataset.get(position).user_id.equals(userID))?MESSAGE_OUT:MESSAGE_IN;
        // Log.e("Msg Adapter","msg type:"+type);
         return type;
 
@@ -120,7 +120,7 @@ public class MessageAdapter extends RecyclerView
 
             ((IncomingMessageHolder) holder).message.setText(mDataset.get(position).content);
             ((IncomingMessageHolder) holder).timeSpan.setText(timePast);
-            if(mDataset.get(position).id.equals(userID)){
+            if(mDataset.get(position).user_id.equals(userID)){
                 ((IncomingMessageHolder) holder).sender_name.setText("Me");
             }else
             ((IncomingMessageHolder) holder).sender_name.setText(mDataset.get(position).username);
@@ -128,7 +128,7 @@ public class MessageAdapter extends RecyclerView
         else{
             ((OutgoingMessageHolder) holder).message.setText(mDataset.get(position).content);
             ((OutgoingMessageHolder) holder).timeSpan.setText(timePast);
-            if(mDataset.get(position).id.equals(userID)){
+            if(mDataset.get(position).user_id.equals(userID)){
                 ((OutgoingMessageHolder) holder).receiver_name.setText("Me");
             }else
             ((OutgoingMessageHolder) holder).receiver_name.setText(mDataset.get(position).username);

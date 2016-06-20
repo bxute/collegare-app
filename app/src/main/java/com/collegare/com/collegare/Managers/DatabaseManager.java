@@ -21,6 +21,15 @@ import com.collegare.com.collegare.Models.CollegareUser;
 import java.util.ArrayList;
 
 public class DatabaseManager extends SQLiteOpenHelper {
+
+    public interface NewMessageListener{
+        public void onMessageAdd();
+    }
+    public NewMessageListener listener;
+    public void setOnNewMessageAdditionListener(NewMessageListener listener){
+        this.listener = listener;
+    }
+
     private static DatabaseManager instance;
     String TAG;
 
@@ -33,6 +42,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public DatabaseManager(Context context) {
         super(context, App_Config.DATABASE_NAME, null, App_Config.DATABASE_VERSION);
         TAG = "DM";
+        listener = null;
     }
 
     public static DatabaseManager getInstance(Context context) {
@@ -102,7 +112,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
             db.execSQL(
                     "CREATE TABLE  if not exists Posts (" +
-                            "POSTID INTEGER PRIMARY KEY, " +
+                            "POSTID TEXT, " +
                             "CONTENT TEXT, " +
                             "USERNAME TEXT, " +
                             "DOC TEXT, " +
@@ -135,11 +145,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
             db.execSQL(
                     "CREATE TABLE if not exists Messages (" +
-                            "MESSAGEID INTEGER PRIMARY KEY, " +
+                            "MESSAGEID TEXT, " +
                             "CONTENT TEXT, " +
                             "USERNAME TEXT, " +
                             "DOC TEXT, " +
-                            "ID TEXT" +
+                            "ID TEXT," +
+                            "READ TEXT," +
+                            "TYPE TEXT," +
+                            "SENT TEXT"+
                             ");"
             );
             Log.e("DM", "Messages table created!");
@@ -526,11 +539,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
         msg.put("CONTENT", messages.content);
         msg.put("USERNAME", messages.username);
         msg.put("DOC", messages.doc);
-        msg.put("ID", messages.id);
+        msg.put("ID", messages.user_id);
+        msg.put("READ", messages.read);
         if (db.insert(App_Config.TABLE_MESSAGES, null, msg) != -1) {
             messagesDone++;
         }
-     //   Log.e("Added ", messagesDone + " message");
+
+        this.listener.onMessageAdd();        // callback to listeners
+        //Log.e("DM","Added "+ messagesDone + " message");
     }
 
     public ArrayList<CollegareMessage> getMessages() {
@@ -538,7 +554,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<CollegareMessage> messages = new ArrayList<>();
         Cursor cursor = db.query(App_Config.TABLE_MESSAGES,
-                new String[]{"MESSAGEID", "CONTENT", "USERNAME", "DOC", "ID"},
+                new String[]{"MESSAGEID", "CONTENT", "USERNAME", "DOC", "ID","READ","TYPE","SENT"},
                 null, null, null, null, null);
 
         cursor.moveToFirst();
@@ -547,15 +563,41 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex("CONTENT")),
                     cursor.getString(cursor.getColumnIndex("USERNAME")),
                     cursor.getString(cursor.getColumnIndex("DOC")),
-                    cursor.getString(cursor.getColumnIndex("ID"))
+                    cursor.getString(cursor.getColumnIndex("ID")),
+                    cursor.getString(cursor.getColumnIndex("READ")),
+                    cursor.getString(cursor.getColumnIndex("TYPE")),
+                    cursor.getString(cursor.getColumnIndex("SENT"))
             ));
             hasMore = cursor.moveToNext();
         }
-       // Log.e("Retrived ", messages.size() + " messages");
+     //   Log.e("DM", "Retrived " + messages.size() + " messages");
         return messages;
     }
 
+    public ArrayList<CollegareMessage> getMessages(String id) {
+        boolean hasMore = true;
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<CollegareMessage> messages = new ArrayList<>();
+        Cursor cursor = db.query(App_Config.TABLE_MESSAGES,
+                new String[]{"MESSAGEID", "CONTENT", "USERNAME", "DOC", "ID","READ","TYPE","SENT"},
+                "ID=?", new String[]{id}, null, null, null);
 
+        cursor.moveToFirst();
+        while (hasMore && cursor.getCount() > 0) {
+            messages.add(new CollegareMessage(cursor.getString(cursor.getColumnIndex("MESSAGEID")),
+                    cursor.getString(cursor.getColumnIndex("CONTENT")),
+                    cursor.getString(cursor.getColumnIndex("USERNAME")),
+                    cursor.getString(cursor.getColumnIndex("DOC")),
+                    cursor.getString(cursor.getColumnIndex("ID")),
+                    cursor.getString(cursor.getColumnIndex("READ")),
+                    cursor.getString(cursor.getColumnIndex("TYPE")),
+                    cursor.getString(cursor.getColumnIndex("SENT"))
+            ));
+            hasMore = cursor.moveToNext();
+        }
+      //  Log.e("DM","Retrived "+messages.size() + " messages for id "+id);
+        return messages;
+    }
 
     /*
     *           OTHER SECTIONS

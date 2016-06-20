@@ -130,8 +130,6 @@ public class postDataAdapter extends RecyclerView
         String timePast = TimeManager.getInstance().convert(doc.toString(), mDataset.get(position).doc);
 
         if(mDataset.get(position).pollid.equals("null")){
-            Log.e("PDA", "binding post");
-            Log.e("type",""+holder.getClass());
             ( (PostHolder) holder).post.setText(mDataset.get(position).content);
             ( (PostHolder) holder).commentCount.setText(mDataset.get(position).CommentCount);
             ( (PostHolder) holder).disLikeCount.setText(mDataset.get(position).dislikeCount);
@@ -147,7 +145,6 @@ public class postDataAdapter extends RecyclerView
             ( (PostHolder) holder).unlike.setImageResource(resIdD);
         }
         else{
-            Log.e("PDA", "binding poll");
             ((PollHolder) holder).content.setText(mDataset.get(position).content);
             ((PollHolder) holder).duration.setText(timePast);
             final PollOptionsAdapter adapter= new PollOptionsAdapter(context,mDataset.get(position).pollOptions,mDataset.get(position).pollOptionSelected);

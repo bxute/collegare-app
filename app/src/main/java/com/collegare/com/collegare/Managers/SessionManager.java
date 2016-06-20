@@ -88,4 +88,14 @@ public class SessionManager
         editor.putInt("sortType",t);
         editor.commit();
     }
+
+    public static void setUserIdSequence(String seq){
+        editor.putString("user_id_seq",seq);
+        editor.commit();
+    }
+
+    public static String getUserIdSequence(){
+        return preferences.getString("user_id_seq","");
+    }
+
 }

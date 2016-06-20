@@ -54,7 +54,6 @@ public class Home extends AppCompatActivity {
         sessionManager = new SessionManager(this);
         setContentView(R.layout.activity_home);
         Init();
-        View view = findViewById(R.id.toolbar);
     }
 
     @Override

@@ -1,30 +1,16 @@
 package com.collegare.com.collegare.Managers;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.provider.ContactsContract;
-import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.collegare.com.collegare.Activity.Home;
-import com.collegare.com.collegare.Models.CollegareFeed;
-import com.collegare.com.collegare.Models.CollegareMessage;
-import com.collegare.com.collegare.Models.CollegareMessageSent;
-import com.collegare.com.collegare.Models.CollegarePost;
 import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.Models.Report;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.DataOutputStream;
 import java.io.File;
@@ -32,8 +18,6 @@ import java.io.FileInputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLDecoder;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;

@@ -1,19 +1,12 @@
 package com.collegare.com.collegare.Managers;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.collegare.com.collegare.Models.CollegareAdmin;
-import com.collegare.com.collegare.Models.CollegareComment;
 import com.collegare.com.collegare.Models.CollegareFeed;
 import com.collegare.com.collegare.Models.CollegareGroup;
 import com.collegare.com.collegare.Models.CollegareMessage;
-import com.collegare.com.collegare.Models.CollegareMessageSent;
 import com.collegare.com.collegare.Models.CollegarePollOption;
-import com.collegare.com.collegare.Models.CollegarePost;
 import com.collegare.com.collegare.Models.CollegareUser;
-import com.collegare.com.collegare.Models.Message;
-import com.collegare.com.collegare.Models.Report;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,13 +34,6 @@ public class CollegareParser {
         }
         return bInstance;
     }
-
-
-
-
-
-
-
 
     public void parseFeed(String response) {
         ArrayList<CollegareFeed> feedlist= new ArrayList<>();
@@ -162,10 +148,12 @@ public class CollegareParser {
                                 temp.getString("content"),
                                 temp.getString("username"),
                                 temp.getString("doc"),
-                                temp.getString("id")
+                                temp.getString("id"),
+                                temp.getString("read"),
+                                "R","false"
                         );
                 //Log.e("msg parser","msg:"+temp.getString("content"));
-                MessageWallRecylerAdapter.getmInstance(context).addMessage(new Message(Integer.parseInt(message.msgid),Integer.parseInt(message.id),message.username, 1,message.doc,message.content ));
+               // MessageWallRecylerAdapter.getInstance(context).addMessage(new Message(Integer.parseInt(message.msgid),Integer.parseInt(message.id),message.username, 1,message.doc,message.content ));
               // MessageAdapter.getInstance(context).addMessageToList(message);
                DatabaseManager.getInstance(context).appendMessage(message);
             }
@@ -177,22 +165,6 @@ public class CollegareParser {
         return;
     }
 
-    public void parseSentMessage(String response,CollegareMessageSent msg){
-
-        CollegareMessage ms=new CollegareMessage("1",msg.content,msg.username,msg.doc,msg.id);
-
-        try {
-            JSONObject obj= new JSONObject(response);
-            if(obj.getInt("status")==0){
-                MessageAdapter.getInstance(context).addMessageToList(ms);
-                DatabaseManager.getInstance(context).appendMessage(ms);
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
 
 
 //(String firstname, String lastname, String username, String id, String email, String sex,

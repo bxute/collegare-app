@@ -59,7 +59,8 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     private int MAX_ATTEMPT=10;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        Log.e("Feeds","onCreate");
+        Log.e("Feeds", "onCreate");
+
         super.onCreate(savedInstanceState);
         adapter= postDataAdapter.getInstance(getActivity());
         feedArrayList= new ArrayList<>();
@@ -70,6 +71,17 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
             String lastId=SessionManager.getLastPostID(groupID);
             getFeeds(groupID,lastId);
         }
+
+
+        if(App_Config.OFFLINE){
+
+            dataStore= new DataStore(getActivity());
+            dataStore.testDB();
+            Log.e("Feeds","feeds for "+groupID);
+            feedArrayList=dataStore.getFeeds(groupID);
+            Log.e("Feeds",feedArrayList.size()+" feeds");
+        }
+
     }
 
     @Override
@@ -79,17 +91,6 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         Log.e("Feeds","onCreateView");
         swipeRefreshLayout= (SwipeRefreshLayout) view.findViewById(R.id.refresser);
         recyclerView=(RecyclerView) view.findViewById(R.id.recyclerGroups);
-        //Log.e("restored gid"," "+groupID);
-        dataStore= new DataStore(getActivity());
-        feedArrayList=dataStore.getFeeds(groupID);
-        /*if(feedArrayList.size()==0){
-            recyclerView.setVisibility(View.GONE);
-            error.setVisibility(View.VISIBLE);
-            error.setText("Data Not Available");
-        }*/
-
-
-        //Toast.makeText(getActivity()," "+rp.Description+" sta "+rp.Status,Toast.LENGTH_LONG).show();
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
@@ -113,6 +114,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
     public void onResume() {
         super.onResume();
         Log.e("Feeds","onResume");
+
 
     }
 
