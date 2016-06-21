@@ -4,9 +4,7 @@ package com.collegare.com.collegare.Managers;
  * Created by RadhePC on 10-11-2015.
  */
 
-import android.app.ActionBar;
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -25,34 +23,28 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class MessageAdapter extends RecyclerView
+public class MessageRoomAdapter extends RecyclerView
         .Adapter<RecyclerView.ViewHolder> implements LogoutListener {
 
     private static int MESSAGE_IN=0;
     private static int MESSAGE_OUT=1;
-    private static MessageAdapter bInstance;
+    private static MessageRoomAdapter bInstance;
     public ArrayList<CollegareMessage> mDataset;
-    String userID;
     Context context;
 
-    public MessageAdapter(Context context) {
+    public MessageRoomAdapter(Context context) {
         mDataset = new ArrayList<>();
         this.context=context;
-        CollegareUser user=DatabaseManager.getInstance(context).getUser();
-
-        if(user!=null){
-            userID=user.id;
-        }
     }
 
 
-    public MessageAdapter(ArrayList<CollegareMessage> myDataset) {
+    public MessageRoomAdapter(ArrayList<CollegareMessage> myDataset) {
         mDataset = myDataset;
     }
 
-    public static MessageAdapter getInstance(Context context){
+    public static MessageRoomAdapter getInstance(Context context){
         if(bInstance==null){
-            bInstance=new MessageAdapter(context);
+            bInstance=new MessageRoomAdapter(context);
         }
         return bInstance;
     }
@@ -63,27 +55,14 @@ public class MessageAdapter extends RecyclerView
     }
 
     public void addMessageToList(CollegareMessage collegareMessage){
-        boolean insert = true;
-        int i = 0;
-
-        while(insert && (i < mDataset.size()))
-            if(mDataset.get(i++).msgid.matches(collegareMessage.msgid))
-                insert = false;
-
-        if(insert)
-            mDataset.add(0,collegareMessage);
-
+        mDataset.add(collegareMessage);
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemViewType(int position) {
          super.getItemViewType(position);
-
-
-      //  Log.e("Msg Adapter","uid:"+userID+" msg_Uid"+mDataset.get(position).id);
-        int type=(mDataset.get(position).user_id.equals(userID))?MESSAGE_OUT:MESSAGE_IN;
-       // Log.e("Msg Adapter","msg type:"+type);
+        int type=(mDataset.get(position).type.equals("S"))?MESSAGE_OUT:MESSAGE_IN;
         return type;
 
     }
@@ -118,20 +97,13 @@ public class MessageAdapter extends RecyclerView
 
         if(holder instanceof IncomingMessageHolder){
 
-            ((IncomingMessageHolder) holder).message.setText(mDataset.get(position).content);
-            ((IncomingMessageHolder) holder).timeSpan.setText(timePast);
-            if(mDataset.get(position).user_id.equals(userID)){
-                ((IncomingMessageHolder) holder).sender_name.setText("Me");
-            }else
-            ((IncomingMessageHolder) holder).sender_name.setText(mDataset.get(position).username);
+            ((IncomingMessageHolder) holder).msg_text.setText(mDataset.get(position).content);
+            ((IncomingMessageHolder) holder).time_stamp.setText(timePast);
+
         }
         else{
-            ((OutgoingMessageHolder) holder).message.setText(mDataset.get(position).content);
-            ((OutgoingMessageHolder) holder).timeSpan.setText(timePast);
-            if(mDataset.get(position).user_id.equals(userID)){
-                ((OutgoingMessageHolder) holder).receiver_name.setText("Me");
-            }else
-            ((OutgoingMessageHolder) holder).receiver_name.setText(mDataset.get(position).username);
+            ((OutgoingMessageHolder) holder).msg_text.setText(mDataset.get(position).content);
+            ((OutgoingMessageHolder) holder).time_stamp.setText(timePast);
         }
 
 
@@ -139,7 +111,6 @@ public class MessageAdapter extends RecyclerView
 
     @Override
     public int getItemCount() {
-
 
         return mDataset.size();
     }
@@ -154,18 +125,12 @@ public class MessageAdapter extends RecyclerView
     public static class IncomingMessageHolder extends RecyclerView.ViewHolder
             implements View
             .OnClickListener {
-
-        TextView sender_name;
-        TextView timeSpan;
-        TextView message;
-        ImageView send_receiveImg;
+        TextView msg_text,time_stamp;
 
         public IncomingMessageHolder(View itemView) {
             super(itemView);
-            send_receiveImg= (ImageView) itemView.findViewById(R.id.indicator);
-            sender_name = (TextView) itemView.findViewById(R.id.sender_name);
-            message = (TextView) itemView.findViewById(R.id.messageText);
-            timeSpan = (TextView) itemView.findViewById(R.id.pastTime);
+             msg_text = (TextView) itemView.findViewById(R.id.msg_text_in);
+             time_stamp = (TextView) itemView.findViewById(R.id.time_stamp);
             itemView.setOnClickListener(this);
         }
 
@@ -179,18 +144,11 @@ public class MessageAdapter extends RecyclerView
             implements View
             .OnClickListener {
 
-        TextView receiver_name;
-        TextView timeSpan;
-        TextView message;
-        ImageView send_receiveImg;
-
-
+        TextView msg_text  ,time_stamp;
         public OutgoingMessageHolder(View itemView) {
             super(itemView);
-            send_receiveImg= (ImageView) itemView.findViewById(R.id.indicator);
-            receiver_name = (TextView) itemView.findViewById(R.id.receiver_name);
-            message = (TextView) itemView.findViewById(R.id.messageText);
-            timeSpan = (TextView) itemView.findViewById(R.id.pastTime);
+             msg_text = (TextView) itemView.findViewById(R.id.msg_text_out);
+             time_stamp = (TextView) itemView.findViewById(R.id.time_stamp);
             itemView.setOnClickListener(this);
         }
 

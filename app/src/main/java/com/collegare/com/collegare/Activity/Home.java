@@ -14,7 +14,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,11 +21,9 @@ import android.view.View;
 import com.collegare.com.collegare.Fragments.NavigationFragment;
 import com.collegare.com.collegare.Fragments.SendDailoge;
 import com.collegare.com.collegare.Managers.BPagerAdapter;
-import com.collegare.com.collegare.Managers.CallbackListener;
 import com.collegare.com.collegare.Managers.DatabaseManager;
 import com.collegare.com.collegare.Managers.LogoutListener;
-import com.collegare.com.collegare.Managers.MessageAdapter;
-import com.collegare.com.collegare.Managers.RefressListener;
+import com.collegare.com.collegare.Managers.MessageRoomAdapter;
 import com.collegare.com.collegare.Managers.SendListener;
 import com.collegare.com.collegare.Managers.SessionManager;
 import com.collegare.com.collegare.Managers.postDataAdapter;
@@ -106,7 +103,7 @@ public class Home extends AppCompatActivity {
         SessionManager.setLastPostID(SessionManager.getLastGroup(),"0");
         startActivity(new Intent(this, Login.class));
         ((LogoutListener) postDataAdapter.getInstance(this)).Reset();
-        ((LogoutListener) MessageAdapter.getInstance(this)).Reset();
+        ((LogoutListener) MessageRoomAdapter.getInstance(this)).Reset();
         finish();
     }
 
@@ -130,6 +127,9 @@ public class Home extends AppCompatActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                if(tab.getPosition()==1)fab.hide();
+                else fab.show();
+
                 viewPager.setCurrentItem(tab.getPosition());
             }
 

@@ -22,6 +22,7 @@
             android:background="@drawable/wall_user_tag"/>
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:visibility="invisible"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/wall_user_tag_img"
             android:layout_width="match_parent"
@@ -34,6 +35,7 @@
     </FrameLayout>
 
     <LinearLayout
+        android:id="@+id/msg_wall_block"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">

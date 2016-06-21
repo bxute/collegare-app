@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:weightSum="1"
     tools:context="com.collegare.com.collegare.Activity.MessageRoom"
-    android:background="@drawable/chat_bg">
+    android:background="#cecece">
 <FrameLayout
     android:layout_weight="1"
     android:layout_width="match_parent"
@@ -23,7 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
-            android:background="@drawable/customeditbox"
             android:orientation="horizontal"
             android:weightSum="1"
             android:layout_width="match_parent"
@@ -41,13 +40,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
             <FrameLayout
+                android:background="@drawable/msg_send_btn_bg"
                 android:layout_gravity="center_vertical"
-                android:background="@drawable/send_btn_states"
                 android:padding="6dp"
                 android:layout_width="40dp"
                 android:layout_height="40dp">
                 <ImageView
-                    android:background="@drawable/send_btn"
+                    android:src="@drawable/send_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
             </FrameLayout>

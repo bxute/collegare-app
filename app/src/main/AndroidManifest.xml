@@ -67,11 +67,6 @@
             android:label="@string/title_activity_post_send"
             android:parentActivityName=".Activity.Home" />
         <activity
-            android:name=".Activity.MessageSend"
-            android:label="@string/title_activity_message_send"
-            android:parentActivityName=".Activity.Home"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".Activity.PollTest"
             android:label="@string/title_activity_poll_test" >
         </activity>

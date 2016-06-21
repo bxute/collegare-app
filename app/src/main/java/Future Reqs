@@ -1,0 +1,9 @@
+1 service , running in background , whenever a relevant push arrives,
+download the message and save to db.
+
+
+1 socket based sever/client module resposible for handling current typing
+state transfer
+
+1 service for profile management regularly checks for profile info of users
+and asynchronously udate db and notify (Message wall + profile)

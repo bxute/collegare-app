@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.internal.widget.ActivityChooserView;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -67,8 +68,10 @@ public class MessageWallRecylerAdapter extends RecyclerView.Adapter<MessageWallR
 
     public void setMessageList(ArrayList<CollegareWallMessageModel> msgs){
         this.wallMessages = msgs;
-        Log.e("MesgAda","new list set");
         notifyDataSetChanged();
+        for (CollegareWallMessageModel msg : msgs) {
+            Log.e("MsgAda user order", msg.user_name);
+        }
     }
 
 
@@ -104,11 +107,11 @@ public class MessageWallRecylerAdapter extends RecyclerView.Adapter<MessageWallR
         return wallMessages.size();
     }
 
-    public class MessageHolder extends RecyclerView.ViewHolder {
+    public class MessageHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView sender,msg,unread_tag,time,wall_user_tag;
         ImageView wall_user_tag_img;
-
+        LinearLayout block;
         public MessageHolder(View tempView) {
             super(tempView);
 
@@ -118,6 +121,19 @@ public class MessageWallRecylerAdapter extends RecyclerView.Adapter<MessageWallR
             time = (TextView) tempView.findViewById(R.id.wall_msg_time);
             wall_user_tag = (TextView) tempView.findViewById(R.id.wall_user_tag_char);
             wall_user_tag_img = (ImageView) tempView.findViewById(R.id.wall_user_tag_img);
+            block = (LinearLayout) tempView.findViewById(R.id.msg_wall_block);
+
+            block.setOnClickListener(this);
+        }
+
+
+        @Override
+        public void onClick(View view) {
+            int curr_pos = getAdapterPosition();
+            String user_id = wallMessages.get(curr_pos).userID;
+            Intent intent = new Intent(context,MessageRoom.class);
+            intent.putExtra("user_id",user_id);
+            context.startActivity(intent);
 
         }
     }

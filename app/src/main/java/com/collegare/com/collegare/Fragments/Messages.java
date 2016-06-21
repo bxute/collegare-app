@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
-import android.provider.ContactsContract;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -16,13 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.collegare.com.collegare.Activity.MessageSend;
 import com.collegare.com.collegare.Managers.AppManager;
 import com.collegare.com.collegare.Managers.App_Config;
 import com.collegare.com.collegare.Managers.CollegareParser;
@@ -39,14 +36,12 @@ import com.collegare.com.collegare.Models.CollegareMessage;
 import com.collegare.com.collegare.Models.CollegareUser;
 import com.collegare.com.collegare.Models.CollegareWallMessageModel;
 import com.collegare.com.collegare.R;
-import com.collegare.com.collegare.Managers.DataStore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
-public class Messages extends Fragment implements SendListener,RefressListener {
+public class Messages extends Fragment implements RefressListener {
     RecyclerView recyclerView;
     MessageWallRecylerAdapter adapter;
     TextView error;
@@ -110,7 +105,7 @@ public class Messages extends Fragment implements SendListener,RefressListener {
     public void onResume(){
         super.onResume();
 
-        new Thread(new Runnable() {
+        new Thread( new Runnable() {
             @Override
             public void run() {
 
@@ -206,13 +201,12 @@ public class Messages extends Fragment implements SendListener,RefressListener {
         messages.add(new CollegareMessage("7","roaming here and there ","Rajesh","2016-12-12 12:12:12","201551054","false","R","false"));
         messages.add(new CollegareMessage("19","playing football , meet u later ","Mudliar","2016-12-12 12:12:12","202451054","false","R","false"));
         messages.add(new CollegareMessage("12","why not hava a cup of coffee","shweta","2016-12-12 12:12:12","201451059","false","R","false"));
-        messages.add(new CollegareMessage("13","plz","shweta","2016-12-12 12:12:12","201451059","false","R","false"));
-        messages.add(new CollegareMessage("14","say something ","shweta","2016-12-12 12:12:12","201451059","false","R","false"));
+        messages.add(new CollegareMessage("13","plz\nhave some tea plz","shweta","2016-12-12 12:12:12","201451059","false","S","false"));
+        messages.add(new CollegareMessage("14", "say something ", "shweta", "2016-12-12 12:12:12", "201451059", "false", "R", "false"));
 
-            DatabaseManager.getInstance(getActivity()).appendMessage(messages.get(msg_n));
             putOnTop(messages.get(msg_n).user_id, user_id_order);
-
             writeToSharedPreferences(user_id_order);
+            DatabaseManager.getInstance(getActivity()).appendMessage(messages.get(msg_n));
             LocalNotificationManager.getInstance(getActivity()).launchNotification(messages.get(msg_n).username, messages.get(msg_n).content);
 
     }
@@ -231,14 +225,16 @@ public class Messages extends Fragment implements SendListener,RefressListener {
             String msg=null;
             String time=null;
             String username=null;
+            String user_id=null;
             for (CollegareMessage _m : _msgs) {
                 if(_m.read.equals("false"))unread_count++;
                 msg=_m.content;
                 time=_m.doc;
                 username=_m.username;
+                user_id = _m.user_id;
             }
 
-            message_wall_list.add(new CollegareWallMessageModel(username, unread_count, msg, time));
+            message_wall_list.add(new CollegareWallMessageModel(user_id,username, unread_count, msg, time));
 
         }
 
@@ -258,16 +254,6 @@ public class Messages extends Fragment implements SendListener,RefressListener {
         }
     }
 
-    @Override
-    public void send() {
-        startActivity(new Intent(getActivity(), MessageSend.class));
-
-    }
-
-    @Override
-    public void alert(String msg, Context context) {
-
-    }
 
     public void getMessage() {
 

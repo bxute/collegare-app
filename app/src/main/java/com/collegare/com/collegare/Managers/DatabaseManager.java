@@ -541,6 +541,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
         msg.put("DOC", messages.doc);
         msg.put("ID", messages.user_id);
         msg.put("READ", messages.read);
+        msg.put("TYPE",messages.type);
+        msg.put("SENT",messages.sent);
         if (db.insert(App_Config.TABLE_MESSAGES, null, msg) != -1) {
             messagesDone++;
         }
@@ -584,6 +586,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
         cursor.moveToFirst();
         while (hasMore && cursor.getCount() > 0) {
+
             messages.add(new CollegareMessage(cursor.getString(cursor.getColumnIndex("MESSAGEID")),
                     cursor.getString(cursor.getColumnIndex("CONTENT")),
                     cursor.getString(cursor.getColumnIndex("USERNAME")),
@@ -595,8 +598,48 @@ public class DatabaseManager extends SQLiteOpenHelper {
             ));
             hasMore = cursor.moveToNext();
         }
-      //  Log.e("DM","Retrived "+messages.size() + " messages for id "+id);
         return messages;
+    }
+
+    public void setMessageRead(String user_id){
+        boolean hasMore = true;
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<CollegareMessage> messages = new ArrayList<>();
+        Cursor cursor = db.query(App_Config.TABLE_MESSAGES,
+                new String[]{"MESSAGEID", "CONTENT", "USERNAME", "DOC", "ID", "READ", "TYPE", "SENT"},
+                "ID=?", new String[]{user_id}, null, null, null);
+
+        cursor.moveToFirst();
+        while (hasMore && cursor.getCount() > 0) {
+
+            messages.add(new CollegareMessage(cursor.getString(cursor.getColumnIndex("MESSAGEID")),
+                    cursor.getString(cursor.getColumnIndex("CONTENT")),
+                    cursor.getString(cursor.getColumnIndex("USERNAME")),
+                    cursor.getString(cursor.getColumnIndex("DOC")),
+                    cursor.getString(cursor.getColumnIndex("ID")),
+                    cursor.getString(cursor.getColumnIndex("READ")),
+                    cursor.getString(cursor.getColumnIndex("TYPE")),
+                    cursor.getString(cursor.getColumnIndex("SENT"))
+            ));
+            hasMore = cursor.moveToNext();
+        }
+
+        ContentValues msg_cv= new ContentValues();
+
+        for (CollegareMessage msg : messages) {
+
+            msg_cv.put("MESSAGEID", msg.msgid);
+            msg_cv.put("CONTENT", msg.content);
+            msg_cv.put("USERNAME", msg.username);
+            msg_cv.put("DOC", msg.doc);
+            msg_cv.put("ID", msg.user_id);
+            msg_cv.put("READ", "true");
+            msg_cv.put("TYPE",msg.type);
+            msg_cv.put("SENT",msg.sent);
+
+            db.update(App_Config.TABLE_MESSAGES, msg_cv, "ID=?", new String[]{user_id});
+        }
+
     }
 
     /*

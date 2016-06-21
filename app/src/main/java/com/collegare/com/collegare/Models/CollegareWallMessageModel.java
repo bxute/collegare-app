@@ -5,12 +5,14 @@ package com.collegare.com.collegare.Models;
  */
 public class CollegareWallMessageModel {
 
+    public String userID;
     public String user_name;
     public int unread_count;
     public String message;
     public String time;
 
-    public CollegareWallMessageModel(String user_name, int unread_count, String message, String time){
+    public CollegareWallMessageModel(String userID,String user_name, int unread_count, String message, String time){
+        this.userID = userID;
         this.user_name = user_name;
         this.unread_count = unread_count;
         this.message = message;
