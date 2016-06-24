@@ -89,6 +89,17 @@
                     android:layout_height="36dp"
                     android:weightSum="8">
 
+
+                    <ImageView
+                        android:visibility="gone"
+                        android:layout_marginTop="4dp"
+                        android:gravity="top"
+                        android:padding="2dp"
+                        android:id="@+id/msgSendIndicator"
+                        android:layout_width="14dp"
+                        android:src="@android:drawable/checkbox_on_background"
+                        android:layout_height="14dp" />
+
                     <TextView
                         android:id="@+id/msg"
                         android:paddingTop="4dp"
@@ -107,7 +118,7 @@
                         android:gravity="top|end"
                         android:paddingTop="4dp"
                         android:paddingRight="8dp"
-                        android:layout_weight="2"
+                        android:layout_weight="1"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:maxLines="1"

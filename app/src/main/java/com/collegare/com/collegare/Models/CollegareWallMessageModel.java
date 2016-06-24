@@ -10,13 +10,15 @@ public class CollegareWallMessageModel {
     public int unread_count;
     public String message;
     public String time;
+    public boolean sent;
 
-    public CollegareWallMessageModel(String userID,String user_name, int unread_count, String message, String time){
+    public CollegareWallMessageModel(String userID,String user_name, int unread_count, String message, String time , boolean sent){
         this.userID = userID;
         this.user_name = user_name;
         this.unread_count = unread_count;
         this.message = message;
         this.time = time;
+        this.sent = sent;
     }
 
 }

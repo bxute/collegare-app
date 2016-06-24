@@ -60,13 +60,14 @@ public class MessageRoom extends AppCompatActivity {
                 //TODO: add the chat content to msg send handler
                 String chat = chat_input.getText().toString();
                 Date d = new Date();
-                String doc  = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime()).toString();
-                CollegareMessage msg = new CollegareMessage("00",chat,"Me",doc,"201451065",user_id,remote_username,"true","S","false");
+                String doc = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime()).toString();
+                String timeStamp = DateFormat.format("yyyyMMddhhmmss", d.getTime()).toString();
+                CollegareMessage msg = new CollegareMessage(timeStamp, chat, "Me", doc, "201451065", user_id, remote_username, "true", "S", "false");
                 DatabaseManager.getInstance(MessageRoom.this).appendMessage(msg);
 
                 // current timestamp as task id
-                String timeStamp  = DateFormat.format("yyyyMMddhhmmss", d.getTime()).toString();
-                String taskID = "tsk"+timeStamp;
+
+                String taskID = "tsk" + timeStamp;
                 Log.e("MessageRoom", " new task " + taskID);
 
                 SessionManager.setTasksSequence(SessionManager.getTaskSequence() + "#" + taskID);
@@ -79,6 +80,14 @@ public class MessageRoom extends AppCompatActivity {
         DatabaseManager.getInstance(this).setOnNewMessageAdditionListener(new DatabaseManager.NewMessageListener() {
             @Override
             public void onMessageAdd() {
+                load();
+            }
+        });
+
+        DatabaseManager.getInstance(this).setOnMessageSentListener(new DatabaseManager.MessageSentListener() {
+            @Override
+            public void onMessageSent() {
+                Log.e("MR","messageSentListener call");
                 load();
             }
         });

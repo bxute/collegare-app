@@ -35,9 +35,15 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public interface TaskListener{
         void onAdd();
     }
+
+    public interface MessageSentListener{
+        void onMessageSent();
+    }
     public MessageReadListesner msgRead_listener;
     public NewMessageListener listener;
     public TaskListener mTaskListener;
+    public MessageSentListener sentListener;
+
     public void setOnNewMessageAdditionListener(NewMessageListener listener){
         this.listener = listener;
     }
@@ -50,6 +56,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
         this.mTaskListener = listener;
     }
 
+    public void setOnMessageSentListener(MessageSentListener listener){
+        this.sentListener = listener;
+    }
 
 
     private static DatabaseManager instance;
@@ -676,6 +685,44 @@ public class DatabaseManager extends SQLiteOpenHelper {
         msgRead_listener.onRead(user_id);
     }
 
+    public void setMessageSent(String msg_id){
+        boolean hasMore = true;
+        SQLiteDatabase db = getReadableDatabase();
+        ArrayList<CollegareMessage> messages = new ArrayList<>();
+        Cursor cursor = db.query(App_Config.TABLE_MESSAGES,
+                new String[]{"MESSAGEID", "CONTENT", "SENDERNAME", "DOC", "SENDERID","RECEIVERNAME","RECEIVERID" ,"READ", "TYPE", "SENT"},
+                "MESSAGEID=? AND TYPE=?", new String[]{msg_id,"S"}, null, null, null);
+
+        cursor.moveToFirst();
+        while (hasMore && cursor.getCount() > 0) {
+
+            messages.add(new CollegareMessage(cursor.getString(cursor.getColumnIndex("MESSAGEID")),
+                    cursor.getString(cursor.getColumnIndex("CONTENT")),
+                    cursor.getString(cursor.getColumnIndex("SENDERNAME")),
+                    cursor.getString(cursor.getColumnIndex("DOC")),
+                    cursor.getString(cursor.getColumnIndex("SENDERID")),
+                    cursor.getString(cursor.getColumnIndex("RECEIVERID")),
+                    cursor.getString(cursor.getColumnIndex("RECEIVERNAME")),
+                    cursor.getString(cursor.getColumnIndex("READ")),
+                    cursor.getString(cursor.getColumnIndex("TYPE")),
+                    cursor.getString(cursor.getColumnIndex("SENT"))
+            ));
+            hasMore = cursor.moveToNext();
+        }
+
+        ContentValues msg_cv= new ContentValues();
+
+        for (CollegareMessage msg : messages) {
+            Log.e("DM","setting read to "+msg.content);
+            msg_cv.put("SENT", "true");
+            db.update(App_Config.TABLE_MESSAGES, msg_cv, "MESSAGEID=?", new String[]{msg_id});
+        }
+        // callback to subscribers
+        sentListener.onMessageSent();
+        cursor.close();
+
+    }
+
     /*
     *           OTHER SECTIONS
     * */
@@ -728,6 +775,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
     public void removeTask(String _tid){
         SQLiteDatabase db = getWritableDatabase();
         long id = db.delete(App_Config.TABLE_TASKS,"TASK_ID=?",new String[]{_tid});
+        Log.e("DM","setting msgid "+_tid.substring(3)+ " seen");
+        setMessageSent(_tid.substring(3));
         Log.e("DM"," deleted "+id+ "Task");
     }
 

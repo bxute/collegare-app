@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.collegare.com.collegare.interfaces.LogoutListener;
@@ -102,6 +103,10 @@ public class MessageRoomAdapter extends RecyclerView
         else{
             ((OutgoingMessageHolder) holder).msg_text.setText(mDataset.get(position).content);
             ((OutgoingMessageHolder) holder).time_stamp.setText(doc);
+            Log.e("MsgAdap"," sent stat"+mDataset.get(position).sent);
+            if(mDataset.get(position).sent.equals("true")){
+                ((OutgoingMessageHolder) holder).sentIndicator.setVisibility(View.VISIBLE);
+            }
         }
 
 
@@ -143,10 +148,12 @@ public class MessageRoomAdapter extends RecyclerView
             .OnClickListener {
 
         TextView msg_text  ,time_stamp;
+        ImageView sentIndicator;
         public OutgoingMessageHolder(View itemView) {
             super(itemView);
              msg_text = (TextView) itemView.findViewById(R.id.msg_text_out);
              time_stamp = (TextView) itemView.findViewById(R.id.time_stamp);
+             sentIndicator = (ImageView) itemView.findViewById(R.id.msgSendIndicator);
             itemView.setOnClickListener(this);
         }
 

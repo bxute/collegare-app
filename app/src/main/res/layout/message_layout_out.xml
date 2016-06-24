@@ -7,10 +7,15 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
+<LinearLayout
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentRight="true"
+    android:id="@+id/msg_block"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
     <TextView
         android:id="@+id/msg_text_out"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:textColor="#222222"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
@@ -20,12 +25,25 @@
         android:layout_height="wrap_content"
         android:text="hi madam how are you"/>
 
+    <ImageView
+        android:visibility="gone"
+        android:layout_gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/msgSendIndicator"
+        android:layout_toRightOf="@+id/msg_text_out"
+        android:layout_width="14dp"
+        android:src="@android:drawable/checkbox_on_background"
+        android:layout_height="14dp" />
+
+</LinearLayout>
+
     <TextView
         android:id="@+id/time_stamp"
         android:textSize="10dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/msg_text_out"
+        android:layout_below="@+id/msg_block"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="12:00"/>

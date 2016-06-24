@@ -72,7 +72,7 @@ public class MessageWallRecylerAdapter extends ArrayAdapter<CollegareWallMessage
         View tempView = LayoutInflater.from(context).inflate(R.layout.msg_item,null,false);
 
         TextView sender,msg,unread_tag,time,wall_user_tag;
-        ImageView wall_user_tag_img;
+        ImageView wall_user_tag_img , sentIndicator;
         LinearLayout block;
 
             sender = (TextView) tempView.findViewById(R.id.sender);
@@ -82,6 +82,7 @@ public class MessageWallRecylerAdapter extends ArrayAdapter<CollegareWallMessage
             wall_user_tag = (TextView) tempView.findViewById(R.id.wall_user_tag_char);
             wall_user_tag_img = (ImageView) tempView.findViewById(R.id.wall_user_tag_img);
             block = (LinearLayout) tempView.findViewById(R.id.msg_wall_block);
+            sentIndicator = (ImageView) tempView.findViewById(R.id.msgSendIndicator);
 
             block.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -112,6 +113,9 @@ public class MessageWallRecylerAdapter extends ArrayAdapter<CollegareWallMessage
                 unread_tag.setText(wallMessageModel.unread_count+"");
             }
 
+            if(wallMessageModel.sent){
+                sentIndicator.setVisibility(View.VISIBLE);
+            }
             sender.setText(wallMessageModel.user_name);
 
         return tempView;

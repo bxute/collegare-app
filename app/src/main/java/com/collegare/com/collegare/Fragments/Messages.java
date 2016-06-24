@@ -60,6 +60,14 @@ public class Messages extends Fragment implements RefressListener {
                     Load();
                 }
             });
+
+            DatabaseManager.getInstance(getActivity()).setOnMessageSentListener(new DatabaseManager.MessageSentListener() {
+                @Override
+                public void onMessageSent() {
+                    Log.e("Messages", " callback from database for sent message");
+                    Load();
+                }
+            });
         }
 
 
@@ -227,11 +235,13 @@ public class Messages extends Fragment implements RefressListener {
             String time = null;
             String username=null;
             String user_id=null;
+            String sent = null;
             for (CollegareMessage _m : _msgs) {
                 if(_m.read.equals("false"))unread_count++;
 
                 msg=_m.content;
                 time=_m.doc;
+                sent = _m.sent;
                 if(_m.type.equals("S")){
                     username = _m.receiver_name;
                     user_id = _m.receiver_id;
@@ -242,7 +252,7 @@ public class Messages extends Fragment implements RefressListener {
 
             }
 
-            message_wall_list.add(new CollegareWallMessageModel(user_id,username, unread_count, msg, time));
+            message_wall_list.add(new CollegareWallMessageModel(user_id,username, unread_count, msg, time,Boolean.parseBoolean(sent)));
 
         }
 

@@ -8,6 +8,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.collegare.com.collegare.models.Message;
 import com.collegare.com.collegare.network.InternetManager;
 import com.collegare.com.collegare.volley.AppManager;
 import com.collegare.com.collegare.utilities.App_Config;
