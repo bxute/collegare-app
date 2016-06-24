@@ -1,4 +1,4 @@
-package com.collegare.com.collegare.Models;
+package com.collegare.com.collegare.models;
 
 /**
  * Created by Ankit on 6/18/2016.

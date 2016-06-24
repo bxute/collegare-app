@@ -1,4 +1,4 @@
-package com.collegare.com.collegare.Fragments;
+package com.collegare.com.collegare.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,24 +21,21 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.collegare.com.collegare.Activity.Home;
-import com.collegare.com.collegare.Activity.postSend;
-import com.collegare.com.collegare.Managers.AppManager;
-import com.collegare.com.collegare.Managers.App_Config;
-import com.collegare.com.collegare.Managers.CollegareParser;
-import com.collegare.com.collegare.Managers.Contexter;
-import com.collegare.com.collegare.Managers.DatabaseManager;
-import com.collegare.com.collegare.Managers.InternetManager;
-import com.collegare.com.collegare.Managers.NavigationListener;
-import com.collegare.com.collegare.Managers.RefressListener;
-import com.collegare.com.collegare.Managers.SendListener;
-import com.collegare.com.collegare.Managers.SessionManager;
-import com.collegare.com.collegare.Models.CollegareFeed;
-import com.collegare.com.collegare.Models.CollegareUser;
-import com.collegare.com.collegare.Models.Report;
+import com.collegare.com.collegare.activities.PostCreateActivity;
+import com.collegare.com.collegare.volley.AppManager;
+import com.collegare.com.collegare.utilities.App_Config;
+import com.collegare.com.collegare.json.CollegareParser;
+import com.collegare.com.collegare.database.DatabaseManager;
+import com.collegare.com.collegare.network.InternetManager;
+import com.collegare.com.collegare.interfaces.NavigationListener;
+import com.collegare.com.collegare.interfaces.RefressListener;
+import com.collegare.com.collegare.interfaces.SendListener;
+import com.collegare.com.collegare.SharedPreference.SessionManager;
+import com.collegare.com.collegare.models.CollegareFeed;
+import com.collegare.com.collegare.models.CollegareUser;
 import com.collegare.com.collegare.R;
-import com.collegare.com.collegare.Managers.DataStore;
-import com.collegare.com.collegare.Managers.postDataAdapter;
+import com.collegare.com.collegare.testStore.DataStore;
+import com.collegare.com.collegare.adapters.PostDataAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,7 +44,7 @@ import java.util.Map;
 
 public class Feeds extends Fragment implements SendListener , NavigationListener, RefressListener{
     RecyclerView recyclerView;
-    postDataAdapter adapter;
+    PostDataAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
     TextView error;
     DataStore dataStore;
@@ -62,7 +59,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
         Log.e("Feeds", "onCreate");
 
         super.onCreate(savedInstanceState);
-        adapter= postDataAdapter.getInstance(getActivity());
+        adapter= PostDataAdapter.getInstance(getActivity());
         feedArrayList= new ArrayList<>();
         groupID =   sessionManager.getLastGroup();
         sessionManager= new SessionManager(getActivity());
@@ -134,11 +131,11 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
 
     @Override
     public void send(){
-        startActivity(new Intent(getActivity(), postSend.class));
+        startActivity(new Intent(getActivity(), PostCreateActivity.class));
     }
 
     @Override
-    public void LoadData(String gid) {
+    public void loadData(String gid) {
         if(groupID==gid){
             Log.e("Feeds"," loading no data");
             return;
@@ -174,7 +171,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
             public void onResponse(String response) {
                 Log.e("Feeds:",response+"");
                 CollegareParser.getInstance(getActivity()).parseFeed(response);
-                callback_postReceived();
+                callbackPostReceived();
             }
 
         }, new Response.ErrorListener() {
@@ -185,7 +182,7 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
                         MAX_ATTEMPT--;
                         refreshFeeds();
                     }else{
-                        TimeOut();
+                        timeOut();
                     }
             }
         }) {
@@ -207,12 +204,12 @@ public class Feeds extends Fragment implements SendListener , NavigationListener
 
     }                                               // getting feeds for anonymous post
 
-    protected void callback_postReceived(){
+    protected void callbackPostReceived(){
         swipeRefreshLayout.setRefreshing(false);
         swipeRefreshLayout.setEnabled(true);
     }
 
-    private void TimeOut(){
+    private void timeOut(){
         Snackbar.make(swipeRefreshLayout,"Connection Problem ! Please Pull to Reload ",Snackbar.LENGTH_LONG).show();
         swipeRefreshLayout.setRefreshing(false);
     }

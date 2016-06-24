@@ -1,16 +1,18 @@
-package com.collegare.com.collegare.Models;
+package com.collegare.com.collegare.models;
 
 public class CollegareMessage
 {
-    public String msgid, content, username, doc, user_id;
+    public String msgid, content, sender_name , doc, sender_id , receiver_name, receiver_id;
     public String read,sent,type;
-    public CollegareMessage(String msgid, String content, String username, String doc, String id,String read,String type , String sent )
+    public CollegareMessage(String msgid, String content, String sender_name, String doc, String sender_id,String receiver_id, String receiver_name,String read,String type , String sent )
     {
         this.msgid = msgid;
         this.content = content;
-        this.username = username;
+        this.sender_name = sender_name;
         this.doc = doc;
-        this.user_id = id;
+        this.sender_id = sender_id;
+        this.receiver_id = receiver_id;
+        this.receiver_name = receiver_name;
         this.read = read;
         this.sent = sent;
         this.type = type;

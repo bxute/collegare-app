@@ -1,40 +1,35 @@
-package com.collegare.com.collegare.Fragments;
+package com.collegare.com.collegare.fragments;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.collegare.com.collegare.Managers.AppManager;
-import com.collegare.com.collegare.Managers.App_Config;
-import com.collegare.com.collegare.Managers.CollegareParser;
-import com.collegare.com.collegare.Managers.DatabaseManager;
-import com.collegare.com.collegare.Managers.InternetManager;
-import com.collegare.com.collegare.Managers.LocalNotificationManager;
-import com.collegare.com.collegare.Managers.MessageWallRecylerAdapter;
-import com.collegare.com.collegare.Managers.RecyclerViewDecorator;
-import com.collegare.com.collegare.Managers.RefressListener;
-import com.collegare.com.collegare.Managers.Segmentor;
-import com.collegare.com.collegare.Managers.SendListener;
-import com.collegare.com.collegare.Managers.SessionManager;
-import com.collegare.com.collegare.Models.CollegareMessage;
-import com.collegare.com.collegare.Models.CollegareUser;
-import com.collegare.com.collegare.Models.CollegareWallMessageModel;
+import com.collegare.com.collegare.volley.AppManager;
+import com.collegare.com.collegare.utilities.App_Config;
+import com.collegare.com.collegare.json.CollegareParser;
+import com.collegare.com.collegare.database.DatabaseManager;
+import com.collegare.com.collegare.network.InternetManager;
+import com.collegare.com.collegare.notifications.LocalNotificationManager;
+import com.collegare.com.collegare.adapters.MessageWallRecylerAdapter;
+import com.collegare.com.collegare.interfaces.RefressListener;
+import com.collegare.com.collegare.utilities.Segmentor;
+import com.collegare.com.collegare.SharedPreference.SessionManager;
+import com.collegare.com.collegare.models.CollegareMessage;
+import com.collegare.com.collegare.models.CollegareUser;
+import com.collegare.com.collegare.models.CollegareWallMessageModel;
 import com.collegare.com.collegare.R;
 
 import java.util.ArrayList;
@@ -42,7 +37,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Messages extends Fragment implements RefressListener {
-    RecyclerView recyclerView;
+    ListView listView;
+    View view;
     MessageWallRecylerAdapter adapter;
     TextView error;
     SwipeRefreshLayout swipeRefreshLayout;
@@ -73,17 +69,14 @@ public class Messages extends Fragment implements RefressListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.e("Message", "onCreateView()");
-        View view = inflater.inflate(R.layout.activity_message, container, false);
+        view = inflater.inflate(R.layout.activity_message, container, false);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         error = (TextView) view.findViewById(R.id.errorPanel);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresser);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerMessageWall);
-        recyclerView.addItemDecoration(new RecyclerViewDecorator(getActivity(), 5, true, R.drawable.post_divider));
+        listView = (ListView) view.findViewById(R.id.listViewMessageWall);
+        adapter = new MessageWallRecylerAdapter(getActivity());
+        listView.setAdapter(adapter);
 
-        getMessage();
-
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         swipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -104,39 +97,40 @@ public class Messages extends Fragment implements RefressListener {
     @Override
     public void onResume(){
         super.onResume();
-
-        new Thread( new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                for (int i = 0; i < 10; i++) {
-                    final int ms_n = i;
-
-                    getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                            Log.e("Handler", "injecting " + ms_n + "th message");
-                            testInjectNewMessage(ms_n);
-                        }
-
-                });
+        Load();
+        if(false) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
 
                     try {
-                        Thread.sleep(4000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
-                    };
-            }
+                    }
+                    for (int i = 0; i < 10; i++) {
+                        final int ms_n = i;
 
-            }
-        }).start();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
 
+                                Log.e("Handler", "injecting " + ms_n + "th message");
+                                testInjectNewMessage(ms_n);
+                            }
+
+                        });
+
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+            }).start();
+        }
         Log.e("Message", "onResume()");
     }
 
@@ -147,24 +141,24 @@ public class Messages extends Fragment implements RefressListener {
     }
 
     public void putOnTop(String id,ArrayList<String> order){
-       // Log.e("Messages", "try pushing " + id);
+
         int index=-1;
         for(int i=0;i<order.size();i++){
-           // Log.e("Messages","matching "+id+" with "+ order.get(i));
+
             if(order.get(i).equals(id)){
                 index=i;
-               // Log.e("Messages"," and matched");
+
                 break;
             }
         }
 
         if(index==-1){
             order.add(0, id);
-           // Log.e("Messages", "added  " + id);
+
         }else {
-           // Log.e("Messages", "removing " +order.get(index));
+
             order.remove(index);
-           // Log.e("Messages", "moving to top " + id);
+
             order.add(0, id);
         }
 
@@ -176,38 +170,45 @@ public class Messages extends Fragment implements RefressListener {
             currStack +="#"+id;
         }
         currStack = currStack.substring(0,currStack.length());
-       // Log.e("MessageF","Writing to SP "+currStack);
+        Log.e("MessageF","Writing to SP "+currStack);
         SessionManager.setUserIdSequence(currStack);
     }
 
     public void testInjectNewMessage(int msg_n){
         ArrayList<String> user_id_order;
         String user_order_seq = SessionManager.getUserIdSequence();
-        //Log.e("MessageF","Reading from SP "+user_order_seq);
-        user_id_order = new Segmentor().getParts(user_order_seq,'#');
-        // trimming vaccant arrray
 
-       // Log.e("Messages" , "ids got from SP with size "+user_id_order.size());
-//        for (String s : user_id_order
-//             ) {Log.e("",s);
-//        }
+        user_id_order = new Segmentor().getParts(user_order_seq,'#');
+
         //Adding msgs
         ArrayList<CollegareMessage> messages = new ArrayList<>();
-        messages.add(new CollegareMessage("1","how are you?","ankit","2016-12-12 12:12:12","201451054","false","R","false"));
-        messages.add(new CollegareMessage("2","hi xute","xute","2016-12-12 12:12:12","201451053","false","R","false"));
-        messages.add(new CollegareMessage("3","watching tv?","ankit","2016-12-12 12:12:12","201451054","false","R","false"));
-        messages.add(new CollegareMessage("6","when did u reach?","shweta","2016-12-12 12:12:12","201451059","false","R","false"));
-        messages.add(new CollegareMessage("8","how did you come to know about my health","Ramesh","2016-12-12 12:12:12","201421054","false","R","false"));
-        messages.add(new CollegareMessage("7","roaming here and there ","Rajesh","2016-12-12 12:12:12","201551054","false","R","false"));
-        messages.add(new CollegareMessage("19","playing football , meet u later ","Mudliar","2016-12-12 12:12:12","202451054","false","R","false"));
-        messages.add(new CollegareMessage("12","why not hava a cup of coffee","shweta","2016-12-12 12:12:12","201451059","false","R","false"));
-        messages.add(new CollegareMessage("13","plz\nhave some tea plz","shweta","2016-12-12 12:12:12","201451059","false","S","false"));
-        messages.add(new CollegareMessage("14", "say something ", "shweta", "2016-12-12 12:12:12", "201451059", "false", "R", "false"));
+        messages.add(new CollegareMessage("1","how are you?","ankit","2016-12-12 12:12:12","201451054","201451065","Me","false","R","false"));
+        messages.add(new CollegareMessage("2","hi xute","xute","2016-12-12 12:12:12","201451053","201451065","Me","false","R","false"));
+        messages.add(new CollegareMessage("3","watching tv?","ankit","2016-12-12 12:12:12","201451054","201451065","Me","false","R","false"));
+        messages.add(new CollegareMessage("6","when did u reach?","Smack","2016-12-12 12:12:12","201451059","201451065","Me","false","R","false"));
+        messages.add(new CollegareMessage("8", "how did you come to know about my health", "Ramesh", "2016-12-12 12:12:12", "201421054","201451065","Me", "false", "R", "false"));
+        messages.add(new CollegareMessage("7", "roaming here and there ", "Rajesh", "2016-12-12 12:12:12", "201551054", "201451065","Me", "false", "R", "false"));
+        messages.add(new CollegareMessage("19", "playing football , meet u later ", "Master", "2016-12-12 12:12:12", "202451054", "201451065","Me", "false", "R", "false"));
+        messages.add(new CollegareMessage("12", "why not hava a cup of coffee", "Smack", "2016-12-12 12:12:12", "201451059", "201451065","Me", "false", "R", "false"));
+        messages.add(new CollegareMessage("23", "im fine and you", "Me", "2015-12-12 12:00:00", "201451065", "201451059", "Smack", "true", "S","false"));
+        messages.add(new CollegareMessage("14", "say something ", "Smack", "2016-12-12 12:12:12", "201451059","201451065","Me", "false", "R","false"));
 
-            putOnTop(messages.get(msg_n).user_id, user_id_order);
+
+
+            String idToPush;
+
+            if(messages.get(msg_n).type.equals("S")){
+                idToPush = messages.get(msg_n).receiver_id;
+
+            }else{
+                idToPush = messages.get(msg_n).sender_id;
+
+            }
+
+            putOnTop(idToPush, user_id_order);
             writeToSharedPreferences(user_id_order);
             DatabaseManager.getInstance(getActivity()).appendMessage(messages.get(msg_n));
-            LocalNotificationManager.getInstance(getActivity()).launchNotification(messages.get(msg_n).username, messages.get(msg_n).content);
+            LocalNotificationManager.getInstance(getActivity()).launchNotification(messages.get(msg_n).sender_name, messages.get(msg_n).content);
 
     }
 
@@ -222,16 +223,23 @@ public class Messages extends Fragment implements RefressListener {
             DatabaseManager manager = DatabaseManager.getInstance(getActivity());
             ArrayList<CollegareMessage> _msgs = manager.getMessages(id);
             int unread_count = 0;
-            String msg=null;
-            String time=null;
+            String msg = null;
+            String time = null;
             String username=null;
             String user_id=null;
             for (CollegareMessage _m : _msgs) {
                 if(_m.read.equals("false"))unread_count++;
+
                 msg=_m.content;
                 time=_m.doc;
-                username=_m.username;
-                user_id = _m.user_id;
+                if(_m.type.equals("S")){
+                    username = _m.receiver_name;
+                    user_id = _m.receiver_id;
+                }else{
+                    username = _m.sender_name;
+                    user_id = _m.sender_id;
+                }
+
             }
 
             message_wall_list.add(new CollegareWallMessageModel(user_id,username, unread_count, msg, time));
@@ -275,7 +283,7 @@ public class Messages extends Fragment implements RefressListener {
                     @Override
                     public void onResponse(String s) {
                         CollegareParser.getInstance(getActivity()).parseMessage(s);
-                        callback_msgReceived();
+                        callbackMsgReceived();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -286,7 +294,7 @@ public class Messages extends Fragment implements RefressListener {
                    refreshMessage();
                }
                 else{
-                   TimeOut();
+                   timeOut();
                }
             }
         }) {
@@ -303,11 +311,11 @@ public class Messages extends Fragment implements RefressListener {
         AppManager.getInstance().addToRequestQueue(getMsgReq, "msgReq", getActivity());
     }
 
-    private void TimeOut(){
+    private void timeOut(){
         Snackbar.make(swipeRefreshLayout, "Connection Problem ! Please Pull to Reload ", Snackbar.LENGTH_LONG).show();
     }
 
-    protected void callback_msgReceived() {
+    protected void callbackMsgReceived() {
         swipeRefreshLayout.setRefreshing(false);
         swipeRefreshLayout.setEnabled(true);
     }

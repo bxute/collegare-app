@@ -1,0 +1,5 @@
+Local push should be launched based on which screen is active.
+
+if current remote_user`s message is received then there will be no notification at all.
+else
+        there will be a notification

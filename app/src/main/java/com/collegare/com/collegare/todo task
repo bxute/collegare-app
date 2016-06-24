@@ -1,2 +1,2 @@
-create event listeners for database/new msg arrival
-simulating handler adding msg at regular interval
+there is some changes in message model related to sender and receiver names  and ids
+so reflect the changes in other fields

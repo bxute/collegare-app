@@ -1,4 +1,4 @@
-package com.collegare.com.collegare.Views;
+package com.collegare.com.collegare.views;
 
 import android.content.Context;
 import android.graphics.Canvas;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.collegare.com.collegare.Activity.MainActivity"
+    tools:context="com.collegare.com.collegare.activities.MainActivity"
     tools:showIn="@layout/activity_home">
 
     <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -41,7 +41,7 @@
 
         <fragment
             android:id="@+id/fragmentNav"
-            android:name="com.collegare.com.collegare.Fragments.NavigationFragment"
+            android:name="com.collegare.com.collegare.fragments.NavigationFragment"
             android:layout_width="280dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"

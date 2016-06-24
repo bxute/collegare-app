@@ -1,4 +1,4 @@
-package com.collegare.com.collegare.Models;
+package com.collegare.com.collegare.models;
 
 import java.util.ArrayList;
 

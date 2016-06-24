@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent"
+    android:elevation="20dp"
+    android:background="@color/primaryColor"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/chat_box_user_pic"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:src="@drawable/ankit"
+        app:civ_border_width="0dp"
+        app:civ_border_color="#eeeeee"
+        android:layout_marginLeft="14dp"/>
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:paddingLeft="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/chat_box_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ankit"
+            android:textSize="18dp"
+            android:textColor="#ffffff"/>
+
+        <TextView
+            android:id="@+id/chat_box_online_status"
+            android:textColor="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:paddingLeft="0dp"
+            android:text="last seen at 12:00 pm "/>
+
+    </LinearLayout>
+
+
+
+
+
+</android.support.v7.widget.Toolbar>

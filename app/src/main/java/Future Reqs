@@ -7,3 +7,14 @@ state transfer
 
 1 service for profile management regularly checks for profile info of users
 and asynchronously udate db and notify (Message wall + profile)
+
+
+
+Add listeners to
+ msg_send
+ msg_delivered
+ profile_pic changed
+ online status
+
+
+Item animations for profile pic/ user tag for message wall

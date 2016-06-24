@@ -1,10 +1,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:weightSum="1"
-    tools:context="com.collegare.com.collegare.Activity.MessageRoom"
+    tools:context="com.collegare.com.collegare.activities.MessageRoom"
     android:background="#cecece">
+<include layout="@layout/chat_room_toolbar"
+    android:id="@+id/chat_room_toolbar"/>
 <FrameLayout
     android:layout_weight="1"
     android:layout_width="match_parent"
@@ -14,6 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/msgRoomMessageRV"/>
+
 </FrameLayout>
     <FrameLayout
         android:layout_marginBottom="2dp"
@@ -28,6 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <EditText
+                android:id="@+id/chat_input_box"
                 android:background="@drawable/customeditbox"
                 android:padding="4dp"
                 android:layout_weight="1"
@@ -40,12 +45,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
             <FrameLayout
+                android:id="@+id/chat_send_btn"
                 android:background="@drawable/msg_send_btn_bg"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center"
                 android:padding="6dp"
                 android:layout_width="40dp"
-                android:layout_height="40dp">
+                android:layout_height="40dp"
+                android:elevation="5dp">
                 <ImageView
+                    android:padding="5dp"
+                    android:layout_marginLeft="3dp"
                     android:src="@drawable/send_btn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />

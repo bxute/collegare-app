@@ -1,4 +1,4 @@
-package com.collegare.com.collegare.Models;
+package com.collegare.com.collegare.models;
 
 /**
  * Created by Harry_RJ on 3/17/2016.

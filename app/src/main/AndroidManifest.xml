@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.collegare.com.collegare" >
 
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,8 +19,15 @@
         android:largeHeap="true"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
+
+        <receiver android:name=".receivers.ConnectivityBroadcastReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
+
         <activity
-            android:name=".Activity.Home"
+            android:name=".activities.Home"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.apkacollegare.collegare.HOME" />
@@ -28,9 +36,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.Profile"
+            android:name=".activities.Profile"
             android:label="@string/app_name"
-            android:parentActivityName=".Activity.Home" >
+            android:parentActivityName=".activities.Home" >
             <intent-filter>
                 <action android:name="com.collegare.com.collegare.PROFILE" />
 
@@ -38,7 +46,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.Login"
+            android:name=".activities.Login"
             android:label="@string/title_activity_home"
             android:windowSoftInputMode="stateAlwaysVisible" >
             <intent-filter>
@@ -48,30 +56,30 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activity.individualPost"
+            android:name=".activities.IndivisualPost"
             android:label="@string/title_activity_individual_post"
-            android:parentActivityName=".Activity.Home"
+            android:parentActivityName=".activities.Home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activity.EditProfile"
+            android:name=".activities.EditProfile"
             android:label="@string/title_activity_edit_profile"
-            android:parentActivityName=".Activity.Home"
+            android:parentActivityName=".activities.Home"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activity.MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activity.postSend"
+            android:name=".activities.PostCreateActivity"
             android:label="@string/title_activity_post_send"
-            android:parentActivityName=".Activity.Home" />
+            android:parentActivityName=".activities.Home" />
         <activity
-            android:name=".Activity.PollTest"
+            android:name=".activities.PollTest"
             android:label="@string/title_activity_poll_test" >
         </activity>
         <activity
-            android:name=".Activity.MessageRoom"
+            android:name=".activities.MessageRoom"
             android:label="@string/title_activity_message_room" >
         </activity>
     </application>

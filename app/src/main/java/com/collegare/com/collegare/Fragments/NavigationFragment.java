@@ -1,11 +1,9 @@
-package com.collegare.com.collegare.Fragments;
+package com.collegare.com.collegare.fragments;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.FloatingActionButton;
@@ -20,34 +18,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
-import com.collegare.com.collegare.Activity.EditProfile;
-import com.collegare.com.collegare.Managers.AppManager;
-import com.collegare.com.collegare.Managers.App_Config;
-import com.collegare.com.collegare.Managers.DataStore;
-import com.collegare.com.collegare.Managers.DatabaseManager;
-import com.collegare.com.collegare.Managers.Imager;
-import com.collegare.com.collegare.Managers.InternetManager;
-import com.collegare.com.collegare.Managers.NavigationDrawerRecyclerViewAdapter;
-import com.collegare.com.collegare.Managers.RecyclerViewDecorator;
-import com.collegare.com.collegare.Managers.SessionManager;
-import com.collegare.com.collegare.Models.CollegareAdmin;
-import com.collegare.com.collegare.Models.CollegareGroup;
-import com.collegare.com.collegare.Models.CollegareGroupMember;
-import com.collegare.com.collegare.Models.CollegareUser;
+import com.collegare.com.collegare.activities.EditProfile;
+import com.collegare.com.collegare.volley.AppManager;
+import com.collegare.com.collegare.utilities.App_Config;
+import com.collegare.com.collegare.testStore.DataStore;
+import com.collegare.com.collegare.database.DatabaseManager;
+import com.collegare.com.collegare.utilities.Imager;
+import com.collegare.com.collegare.network.InternetManager;
+import com.collegare.com.collegare.adapters.NavigationDrawerRecyclerViewAdapter;
+import com.collegare.com.collegare.utilities.RecyclerViewDecorator;
+import com.collegare.com.collegare.models.CollegareAdmin;
+import com.collegare.com.collegare.models.CollegareGroup;
+import com.collegare.com.collegare.models.CollegareGroupMember;
+import com.collegare.com.collegare.models.CollegareUser;
 import com.collegare.com.collegare.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.ref.SoftReference;
-import java.net.PortUnreachableException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -122,7 +116,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
         }
         else{
             if (InternetManager.getInstance(getActivity()).isConnectedToNet()) {
-                RequestImage();
+                requestImage();
             }
             else {
                 proPic.setImageResource(R.drawable.ankit);
@@ -172,7 +166,7 @@ public class NavigationFragment extends Fragment implements View.OnClickListener
 
     }
 
-    public void RequestImage(){
+    public void requestImage(){
 
         StringRequest userReq = new StringRequest(Request.Method.POST, App_Config.USER_URL, new Response.Listener<String>() {
             @Override

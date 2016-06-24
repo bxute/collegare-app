@@ -1,6 +1,5 @@
-package com.collegare.com.collegare.Fragments;
+package com.collegare.com.collegare.fragments;
 
-import android.app.ActionBar;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
