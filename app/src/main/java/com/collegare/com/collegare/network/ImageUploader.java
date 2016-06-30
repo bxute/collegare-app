@@ -1,4 +1,4 @@
-package com.collegare.com.collegare.utilities;
+package com.collegare.com.collegare.network;
 
 import java.io.ByteArrayOutputStream;
 

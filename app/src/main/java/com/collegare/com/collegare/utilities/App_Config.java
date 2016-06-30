@@ -18,7 +18,6 @@ public class App_Config{
     public static final String STATUS_OK="ok";
     public static final String STATUS_ERROR="error";
 
-
     //TABLES
     public static final String TABLE_POST="Posts";
     public static final int DATABASE_VERSION=1;
@@ -30,10 +29,11 @@ public class App_Config{
     public static final String TABLE_MEMBERS="Members";
     public static final String TABLE_ADMINS="Admins";
     public static final String TABLE_TASKS = "Tasks";
+    public static final String TABLE_CONTACTS = "Contacts";
 
     // push notification configs
 
-    public static final String SERVER_URL="";
+    public static final String GCM_SERVER_URL="";
     public static final String SENDER_ID="collegare-1238";
 
 

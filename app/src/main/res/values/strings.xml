@@ -41,6 +41,7 @@
     <string name="title_activity_dynamic_layout_test">DynamicLayoutTest</string>
     <string name="title_activity_poll_test">PollTest</string>
     <string name="title_activity_message_room">MessageRoom</string>
+    <string name="title_activity_users">UsersActivity</string>
 
 
 </resources>

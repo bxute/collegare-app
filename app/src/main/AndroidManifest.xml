@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.collegare.com.collegare" >
 
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -19,10 +19,9 @@
         android:largeHeap="true"
         android:screenOrientation="portrait"
         android:theme="@style/AppTheme" >
-
-        <receiver android:name=".receivers.ConnectivityBroadcastReceiver">
+        <receiver android:name=".receivers.ConnectivityBroadcastReceiver" >
             <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
 
@@ -79,8 +78,13 @@
             android:label="@string/title_activity_poll_test" >
         </activity>
         <activity
+            android:parentActivityName=".activities.Home"
             android:name=".activities.MessageRoom"
             android:label="@string/title_activity_message_room" >
+        </activity>
+        <activity
+            android:name=".activities.UsersActivity"
+            android:label="@string/title_activity_users" >
         </activity>
     </application>
 

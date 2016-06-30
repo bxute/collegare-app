@@ -1,5 +1,7 @@
 package com.collegare.com.collegare.fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.design.widget.Snackbar;
@@ -17,15 +19,18 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.collegare.com.collegare.activities.UsersActivity;
+import com.collegare.com.collegare.interfaces.FABListener;
+import com.collegare.com.collegare.utilities.Contexter;
 import com.collegare.com.collegare.volley.AppManager;
 import com.collegare.com.collegare.utilities.App_Config;
 import com.collegare.com.collegare.json.CollegareParser;
 import com.collegare.com.collegare.database.DatabaseManager;
 import com.collegare.com.collegare.network.InternetManager;
 import com.collegare.com.collegare.notifications.LocalNotificationManager;
-import com.collegare.com.collegare.adapters.MessageWallRecylerAdapter;
+import com.collegare.com.collegare.adapters.MessageWallListAdapter;
 import com.collegare.com.collegare.interfaces.RefressListener;
-import com.collegare.com.collegare.utilities.Segmentor;
+import com.collegare.com.collegare.textUtils.Segmentor;
 import com.collegare.com.collegare.SharedPreference.SessionManager;
 import com.collegare.com.collegare.models.CollegareMessage;
 import com.collegare.com.collegare.models.CollegareUser;
@@ -36,42 +41,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Messages extends Fragment implements RefressListener {
+public class Messages extends Fragment implements RefressListener,FABListener {
     ListView listView;
     View view;
-    MessageWallRecylerAdapter adapter;
+    MessageWallListAdapter adapter;
     TextView error;
     SwipeRefreshLayout swipeRefreshLayout;
     Handler hadler;
     private int MAX_ATTEMPT=10;
+    ArrayList<String> user_id_order;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.e("Message", "onCreate()");
         super.onCreate(savedInstanceState);
-        adapter = MessageWallRecylerAdapter.getInstance(getActivity());
+        adapter = MessageWallListAdapter.getInstance(getActivity());
         hadler= new Handler();
-
-        if(App_Config.OFFLINE){
-            DatabaseManager.getInstance(getActivity()).setOnNewMessageAdditionListener(new DatabaseManager.NewMessageListener() {
-                @Override
-                public void onMessageAdd() {
-                    Log.e("Messages", " callback from database for new message");
-                    Load();
-                }
-            });
-
-            DatabaseManager.getInstance(getActivity()).setOnMessageSentListener(new DatabaseManager.MessageSentListener() {
-                @Override
-                public void onMessageSent() {
-                    Log.e("Messages", " callback from database for sent message");
-                    Load();
-                }
-            });
-        }
-
-
-
     }
 
     @Override
@@ -82,7 +67,7 @@ public class Messages extends Fragment implements RefressListener {
         error = (TextView) view.findViewById(R.id.errorPanel);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresser);
         listView = (ListView) view.findViewById(R.id.listViewMessageWall);
-        adapter = new MessageWallRecylerAdapter(getActivity());
+        adapter = new MessageWallListAdapter(getActivity());
         listView.setAdapter(adapter);
 
         swipeRefreshLayout.setColorSchemeColors(Color.RED, Color.BLUE, Color.GREEN);
@@ -105,8 +90,32 @@ public class Messages extends Fragment implements RefressListener {
     @Override
     public void onResume(){
         super.onResume();
-        Load();
-        if(false) {
+        load();
+
+        if(App_Config.OFFLINE){
+            Log.e("Message","registering for msg add");
+            DatabaseManager.getInstance(getActivity()).setOnNewMessageAdditionListener(new DatabaseManager.NewMessageListener() {
+                @Override
+                public void onMessageAdd(String userID) {
+                    Log.e("Message", " msg add listner callback");
+                    putOnTop(userID);
+                    writeToSharedPreferences();
+                    load();
+                }
+            });
+
+            Log.e("Message", "registering for msg sent");
+            DatabaseManager.getInstance(new Contexter().getContext()).setOnMessageSentListener(new DatabaseManager.MessageSentListener() {
+                @Override
+                public void onMessageSent() {
+                    Log.e("Msg", "messageSentListener call");
+                    load();
+                }
+            });
+
+        }
+
+        if(false){
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -148,12 +157,12 @@ public class Messages extends Fragment implements RefressListener {
         Log.e("Message", "onPause()");
     }
 
-    public void putOnTop(String id,ArrayList<String> order){
+    public void putOnTop(String id){
 
         int index=-1;
-        for(int i=0;i<order.size();i++){
+        for(int i=0;i<user_id_order.size();i++){
 
-            if(order.get(i).equals(id)){
+            if(user_id_order.get(i).equals(id)){
                 index=i;
 
                 break;
@@ -161,29 +170,28 @@ public class Messages extends Fragment implements RefressListener {
         }
 
         if(index==-1){
-            order.add(0, id);
+            user_id_order.add(0, id);
 
         }else {
 
-            order.remove(index);
+            user_id_order.remove(index);
 
-            order.add(0, id);
+            user_id_order.add(0, id);
         }
 
     }
 
-    public void writeToSharedPreferences(ArrayList<String> orders){
+    public void writeToSharedPreferences(){
         String currStack="";
-        for (String id : orders) {
+        for (String id : user_id_order) {
             currStack +="#"+id;
         }
         currStack = currStack.substring(0,currStack.length());
-        Log.e("MessageF","Writing to SP "+currStack);
+        Log.e("MessageF", "Writing to SP " + currStack);
         SessionManager.setUserIdSequence(currStack);
     }
 
     public void testInjectNewMessage(int msg_n){
-        ArrayList<String> user_id_order;
         String user_order_seq = SessionManager.getUserIdSequence();
 
         user_id_order = new Segmentor().getParts(user_order_seq,'#');
@@ -199,37 +207,27 @@ public class Messages extends Fragment implements RefressListener {
         messages.add(new CollegareMessage("19", "playing football , meet u later ", "Master", "2016-12-12 12:12:12", "202451054", "201451065","Me", "false", "R", "false"));
         messages.add(new CollegareMessage("12", "why not hava a cup of coffee", "Smack", "2016-12-12 12:12:12", "201451059", "201451065","Me", "false", "R", "false"));
         messages.add(new CollegareMessage("23", "im fine and you", "Me", "2015-12-12 12:00:00", "201451065", "201451059", "Smack", "true", "S","false"));
-        messages.add(new CollegareMessage("14", "say something ", "Smack", "2016-12-12 12:12:12", "201451059","201451065","Me", "false", "R","false"));
+        messages.add(new CollegareMessage("14", "say something ", "Smack", "2016-12-12 12:12:12", "201451059", "201451065", "Me", "false", "R", "false"));
 
 
-
-            String idToPush;
-
-            if(messages.get(msg_n).type.equals("S")){
-                idToPush = messages.get(msg_n).receiver_id;
-
-            }else{
-                idToPush = messages.get(msg_n).sender_id;
-
-            }
-
-            putOnTop(idToPush, user_id_order);
-            writeToSharedPreferences(user_id_order);
             DatabaseManager.getInstance(getActivity()).appendMessage(messages.get(msg_n));
             LocalNotificationManager.getInstance(getActivity()).launchNotification(messages.get(msg_n).sender_name, messages.get(msg_n).content);
 
     }
 
-    public void Load(){
+    public void load(){
 
         //TODO: get current order from Session Manager and prepare order list of array
         ArrayList<String> user_id_order = new Segmentor().getParts(SessionManager.getUserIdSequence(), '#');
         ArrayList<CollegareWallMessageModel> message_wall_list = new ArrayList<>();
 
+        Log.e("Message"," userids found "+user_id_order.size());
         //TODO: for each uid in order list get:-> last message from DB and unread count
         for (String id : user_id_order) {
             DatabaseManager manager = DatabaseManager.getInstance(getActivity());
             ArrayList<CollegareMessage> _msgs = manager.getMessages(id);
+            Log.e("Message"," msgs found "+_msgs.size());
+
             int unread_count = 0;
             String msg = null;
             String time = null;
@@ -243,11 +241,15 @@ public class Messages extends Fragment implements RefressListener {
                 time=_m.doc;
                 sent = _m.sent;
                 if(_m.type.equals("S")){
+
                     username = _m.receiver_name;
                     user_id = _m.receiver_id;
+                    Log.e("Ms","username"+username);
                 }else{
+
                     username = _m.sender_name;
                     user_id = _m.sender_id;
+                    Log.e("Mr","username"+username);
                 }
 
             }
@@ -334,5 +336,16 @@ public class Messages extends Fragment implements RefressListener {
     public void refress() {
         Log.e("Message","interface call:: to refress()");
         refreshMessage();
+    }
+
+    @Override
+    public void send() {
+        Intent intent = new Intent(getActivity(), UsersActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    public void alert(String msg, Context context) {
+
     }
 }

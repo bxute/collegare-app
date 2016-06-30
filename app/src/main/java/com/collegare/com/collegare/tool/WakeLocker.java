@@ -1,11 +1,11 @@
-package com.collegare.com.collegare.utilities;
+package com.collegare.com.collegare.tool;
 
+/**
+ * Created by Ankit on 6/29/2016.
+ */
 import android.content.Context;
 import android.os.PowerManager;
 
-/**
- * Created by Radhe on 02-03-2016.
- */
 public abstract class WakeLocker {
     private static PowerManager.WakeLock wakeLock;
 

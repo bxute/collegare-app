@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.collegare.com.collegare.activities.MessageRoom;
 import com.collegare.com.collegare.database.DatabaseManager;
-import com.collegare.com.collegare.utilities.TimeManager;
+import com.collegare.com.collegare.textUtils.TimeManager;
 import com.collegare.com.collegare.models.CollegareWallMessageModel;
 import com.collegare.com.collegare.R;
 
@@ -24,22 +24,22 @@ import java.util.Date;
 /**
  * Created by Ankit on 17-03-2016.
  */
-public class MessageWallRecylerAdapter extends ArrayAdapter<CollegareWallMessageModel> {
+public class MessageWallListAdapter extends ArrayAdapter<CollegareWallMessageModel> {
 
     private  Context context;
-    private static MessageWallRecylerAdapter mInstance;
+    private static MessageWallListAdapter mInstance;
     private ArrayList<CollegareWallMessageModel> wallMessages;
 
-    public  MessageWallRecylerAdapter(Context context) {
+    public MessageWallListAdapter(Context context) {
         super(context, 0);
         this.context = context;
         wallMessages = new ArrayList<>();
     }
 
 
-    public static MessageWallRecylerAdapter getInstance(Context context){
+    public static MessageWallListAdapter getInstance(Context context){
         if(mInstance==null){
-            mInstance=new MessageWallRecylerAdapter(context);
+            mInstance=new MessageWallListAdapter(context);
         }
         return mInstance;
     }
@@ -97,7 +97,7 @@ public class MessageWallRecylerAdapter extends ArrayAdapter<CollegareWallMessage
 
             Date d = new Date();
             final CharSequence doc  = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime());
-           String timePast = TimeManager.getInstance().convert(doc.toString(), wallMessages.get(position).time);
+           String timePast = TimeManager.getInstance().getDifference(doc.toString(), wallMessages.get(position).time);
 
             String wall_user_tag_char = String.format("%c", wallMessages.get(position).user_name.toUpperCase().charAt(0));
             CollegareWallMessageModel wallMessageModel = wallMessages.get(position);

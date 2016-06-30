@@ -1,2 +1,5 @@
-there is some changes in message model related to sender and receiver names  and ids
-so reflect the changes in other fields
+in order to implement gcm services
+ 1. sync SDK for google cloud messaging
+ 2. implement gcmIntentServices
+ 3. implement serverUtils
+ 4. implement LocalGCMRegistrar

@@ -1,4 +1,4 @@
-package com.collegare.com.collegare.utilities;
+package com.collegare.com.collegare.customControls;
 
 import android.content.Context;
 import android.graphics.Canvas;

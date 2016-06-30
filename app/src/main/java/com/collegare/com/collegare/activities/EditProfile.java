@@ -25,7 +25,7 @@ import com.collegare.com.collegare.database.DatabaseManager;
 import com.collegare.com.collegare.models.CollegareUser;
 import com.collegare.com.collegare.network.InternetManager;
 import com.collegare.com.collegare.utilities.Contexter;
-import com.collegare.com.collegare.utilities.ImageUploader;
+import com.collegare.com.collegare.network.ImageUploader;
 
 import java.io.ByteArrayOutputStream;
 

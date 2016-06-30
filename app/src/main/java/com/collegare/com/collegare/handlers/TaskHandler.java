@@ -8,7 +8,6 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.collegare.com.collegare.models.Message;
 import com.collegare.com.collegare.network.InternetManager;
 import com.collegare.com.collegare.volley.AppManager;
 import com.collegare.com.collegare.utilities.App_Config;
@@ -16,7 +15,7 @@ import com.collegare.com.collegare.SharedPreference.SessionManager;
 import com.collegare.com.collegare.database.DatabaseManager;
 import com.collegare.com.collegare.models.CollegareTask;
 import com.collegare.com.collegare.models.CollegareUser;
-import com.collegare.com.collegare.utilities.Segmentor;
+import com.collegare.com.collegare.textUtils.Segmentor;
 
 import java.util.ArrayList;
 import java.util.Date;

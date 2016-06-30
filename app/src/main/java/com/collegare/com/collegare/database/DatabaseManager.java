@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.collegare.com.collegare.SharedPreference.SessionManager;
+import com.collegare.com.collegare.models.CollegareContact;
+import com.collegare.com.collegare.textUtils.Segmentor;
 import com.collegare.com.collegare.utilities.App_Config;
 import com.collegare.com.collegare.models.CollegareAdmin;
 import com.collegare.com.collegare.models.CollegareComment;
@@ -24,42 +27,51 @@ import java.util.ArrayList;
 
 public class DatabaseManager extends SQLiteOpenHelper {
 
-    public interface NewMessageListener{
-         void onMessageAdd();
+    public interface NewMessageListener {
+        void onMessageAdd(String userID);
     }
 
-    public interface MessageReadListesner{
+    public interface MessageReadListesner {
         void onRead(String user_id);
     }
 
-    public interface TaskListener{
+    public interface TaskListener {
         void onAdd();
     }
 
-    public interface MessageSentListener{
+    public interface MessageSentListener {
         void onMessageSent();
     }
+
+    public interface NewContactAddListener{
+        void onContactAdded();
+    }
+
     public MessageReadListesner msgRead_listener;
     public NewMessageListener listener;
     public TaskListener mTaskListener;
     public MessageSentListener sentListener;
+    public NewContactAddListener newContactAddListener;
 
-    public void setOnNewMessageAdditionListener(NewMessageListener listener){
+    public void setOnNewMessageAdditionListener(NewMessageListener listener) {
         this.listener = listener;
     }
 
-    public void setOnMessageReadListener(MessageReadListesner listener){
+    public void setOnMessageReadListener(MessageReadListesner listener) {
         this.msgRead_listener = listener;
     }
 
-    public void setOnTaskAdditionListener(TaskListener listener){
+    public void setOnTaskAdditionListener(TaskListener listener) {
         this.mTaskListener = listener;
     }
 
-    public void setOnMessageSentListener(MessageSentListener listener){
+    public void setOnMessageSentListener(MessageSentListener listener) {
         this.sentListener = listener;
     }
 
+    public void setOnNewContactAddListener(NewContactAddListener listener){
+        this.newContactAddListener = listener;
+    }
 
     private static DatabaseManager instance;
     String TAG;
@@ -95,7 +107,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
 
     public void dropTable(SQLiteDatabase db, String tableName) {
         db.execSQL("DROP TABLE IF EXISTS " + tableName + ";");
-        Log.e("DM" + tableName, "droped");
+        Log.d("DM" + tableName, "droped");
     }
 
     public void rolldownTables(SQLiteDatabase db) {
@@ -113,7 +125,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "TOKEN TEXT" +
                             ");"
             );
-            Log.e("DM", "LoginInfo table created!");
+            Log.d("DM", "LoginInfo table created!");
 
             db.execSQL(
                     "CREATE TABLE if not exists Groups (" +
@@ -122,7 +134,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "DOC TEXT ," +
                             "ID TEXT );"
             );
-            Log.e("DM", "Groups table created !");
+            Log.d("DM", "Groups table created !");
 
 
             db.execSQL("CREATE TABLE if not exists Members (" +
@@ -130,7 +142,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "NAME TEXT ," +
                             "ID TEXT );"
             );
-            Log.e("DM", "Members table created !");
+            Log.d("DM", "Members table created !");
 
 
             db.execSQL("CREATE TABLE IF NOT EXISTS Admins (" +
@@ -138,7 +150,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "NAME TEXT ," +
                             "ID TEXT );"
             );
-            Log.e("DM", "Admins table created !");
+            Log.d("DM", "Admins table created !");
 
 
             db.execSQL(
@@ -158,7 +170,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "DISLIKED TEXT  " +
                             ");"
             );
-            Log.e("DM", "Posts table created!");
+            Log.d("DM", "Posts table created!");
 
 
             db.execSQL(
@@ -171,7 +183,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "DOC TEXT " +
                             ");"
             );
-            Log.e("DM", "Comments table created!");
+            Log.d("DM", "Comments table created!");
 
 
             db.execSQL(
@@ -189,7 +201,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "RECEIVERID TEXT" +
                             ");"
             );
-            Log.e("DM", "Messages table created!");
+            Log.d("DM", "Messages table created!");
 
             db.execSQL(
                     "CREATE TABLE if not exists PollOptions (" +
@@ -198,7 +210,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "TAG TEXT " +
                             ");"
             );
-            Log.e("DM", "PollOptions table created!");
+            Log.d("DM", "PollOptions table created!");
 
             db.execSQL(
                     "CREATE TABLE if not exists Tasks (" +
@@ -208,10 +220,18 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             "TASK_TIMESTAMP TEXT" +
                             ");"
             );
-            Log.e("DM","Tasks Table created!");
+            Log.d("DM", "Tasks Table created!");
+
+            db.execSQL(
+                    "CREATE TABLE if not exists Contacts (" +
+                            "USER_ID TEXT," +
+                            "USERNAME TEXT" +
+                            ");"
+            );
+            Log.d("DM", "Contacts Table created!");
 
         } catch (Exception e) {
-            Log.e("DM","[TABLE CREATION ERROR]");
+            Log.d("DM", "[TABLE CREATION ERROR]");
         }
     }
 
@@ -236,9 +256,66 @@ public class DatabaseManager extends SQLiteOpenHelper {
         dropTable(db, App_Config.TABLE_LOGIN);
         dropTable(db, App_Config.TABLE_COMMENTS);
         dropTable(db, App_Config.TABLE_GROUPS);
-        dropTable(db, App_Config.TABLE_GROUPS);
+        dropTable(db, App_Config.TABLE_TASKS);
+        dropTable(db, App_Config.TABLE_CONTACTS);
         onCreate(db);
-        Log.e("DM","database up graded");
+        Log.d("DM", "database up graded");
+    }
+
+    public void addContact(CollegareContact collegareContact) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("USER_ID", collegareContact.userId);
+        values.put("USERNAME", collegareContact.username);
+        long id = db.insert(App_Config.TABLE_CONTACTS, null, values);
+
+        if (id != -1) {
+            Log.d("DM", "inserted a user");
+            //callback to subscribers
+            newContactAddListener.onContactAdded();
+        }
+    }
+
+    public ArrayList<CollegareContact> getContacts() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        boolean hasNext = true;
+        ArrayList<CollegareContact> contacts = new ArrayList<>();
+
+        Cursor cursor = db.query(App_Config.TABLE_CONTACTS,
+                new String[]{"USER_ID", "USERNAME"},
+                null,
+                null,
+                null, null, null);
+
+        cursor.moveToFirst();
+        while (hasNext && cursor.getCount() > 0) {
+            contacts.add(
+                    new CollegareContact(cursor.getString(cursor.getColumnIndex("USER_ID")),
+                                         cursor.getString(cursor.getColumnIndex("USERNAME"))));
+
+            hasNext = cursor.moveToNext();
+        }
+        return contacts;
+    }
+
+    public CollegareContact getContacts(String userId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        CollegareContact contact = null;
+
+        Cursor cursor = db.query(App_Config.TABLE_CONTACTS,
+                new String[]{"USER_ID", "USERNAME"},
+                "USER_ID = ?",
+                new String[]{userId},
+                null, null, null);
+
+        cursor.moveToFirst();
+        if(cursor.getCount() > 0) {
+            contact=new CollegareContact(cursor.getString(cursor.getColumnIndex("USER_ID")),
+                            cursor.getString(cursor.getColumnIndex("USERNAME")));
+
+        }
+        return contact;
     }
 
     public void addUser(CollegareUser user) {
@@ -257,7 +334,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         values.put("TOKEN", user.token);
 
         long ins = db.insert("LoginInfo", null, values);
-        Log.e("lll inserted ", "user >" + ins);
+        Log.d("lll inserted ", "user >" + ins);
         int size = user.groups.size();
 
         for (int i = 0; i < size; i++) {
@@ -275,7 +352,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 admins.put("ID", admins1.get(k).id);
                 admins.put("NAME", admins1.get(k).Name);
                 ins = db.insert(App_Config.TABLE_ADMINS, null, admins);
-                Log.e(" inserted admin", " " + ins);
+                Log.d(" inserted admin", " " + ins);
 
             }
             ArrayList<CollegareGroupMember> mem = user.groups.get(i).memebers;
@@ -284,7 +361,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 admins.put("ID", mem.get(k).id);
                 admins.put("NAME", mem.get(k).Name);
                 ins = db.insert(App_Config.TABLE_MEMBERS, null, admins);
-                Log.e(" inserted member ", " " + ins);
+                Log.d(" inserted member ", " " + ins);
 
             }
 
@@ -314,12 +391,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex("TOKEN"))
             );
         }
-       cursor.close();
+        cursor.close();
         return user;
     }
 
     public ArrayList<CollegareAdmin> getAdmins(String grpId) {
-        //  Log.e("call for grp id "," "+grpId+" admin");
+        //  Log.d("call for grp id "," "+grpId+" admin");
         SQLiteDatabase db = getReadableDatabase();
         boolean hasNext = true;
         ArrayList<CollegareAdmin> admins = new ArrayList<>();
@@ -332,12 +409,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex("NAME"))));
             hasNext = cursor.moveToNext();
         }
-      //  Log.e("retrieved ", " " + admins.size() + " admins");
+        //  Log.d("retrieved ", " " + admins.size() + " admins");
         return admins;
     }
 
     public ArrayList<CollegareGroupMember> getMembers(String grpId) {
-        //  Log.e("call for grp id "," "+grpId+" members");
+        //  Log.d("call for grp id "," "+grpId+" members");
         SQLiteDatabase db = getReadableDatabase();
         boolean hasNext = true;
         ArrayList<CollegareGroupMember> members = new ArrayList<>();
@@ -350,22 +427,22 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex("NAME"))));
             hasNext = cursor.moveToNext();
         }
-        //Log.e("retrieved ", " " + members.size() + " members");
+        //Log.d("retrieved ", " " + members.size() + " members");
         return members;
     }
 
     public ArrayList<CollegareGroup> getGroups(String Id) {
-        //Log.e("call for groups ", " id>" + Id);
+        //Log.d("call for groups ", " id>" + Id);
         SQLiteDatabase db = getReadableDatabase();
         boolean hasNext = true;
         ArrayList<CollegareGroup> members = new ArrayList<>();
 
         Cursor cursor = db.query(App_Config.TABLE_GROUPS, new String[]{"GROUPID", "ID", "TITLE", "DOC"},
                 "ID = ?", new String[]{Id}, null, null, null);
-        //Log.e(" size "," "+cursor.getCount());
+        //Log.d(" size "," "+cursor.getCount());
         cursor.moveToFirst();
         while (hasNext && cursor.getCount() > 0) {
-            //   Log.e(" grp id "," "+cursor.getString(1));
+            //   Log.d(" grp id "," "+cursor.getString(1));
             members.add(new CollegareGroup(cursor.getString(cursor.getColumnIndex("GROUPID")),
                             cursor.getString(cursor.getColumnIndex("TITLE")),
                             cursor.getString(cursor.getColumnIndex("ID")),
@@ -374,7 +451,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             );
             hasNext = cursor.moveToNext();
         }
-        //Log.e("retrieved ", " " + members.size() + " groups");
+        //Log.d("retrieved ", " " + members.size() + " groups");
         return members;
     }
 
@@ -411,45 +488,46 @@ public class DatabaseManager extends SQLiteOpenHelper {
             }
         }
         db.close();
-        Log.e("lll Added ", id + " Feeds");
+        Log.d("lll Added ", id + " Feeds");
 
     }
 
-    public void appendPollOptions(ArrayList<CollegarePollOption> pollOptionList){
+    public void appendPollOptions(ArrayList<CollegarePollOption> pollOptionList) {
 
-        SQLiteDatabase db =getWritableDatabase();
-        ContentValues pollValues= new ContentValues();
-        for(int i=0;i<pollOptionList.size();i++){
-            CollegarePollOption option=pollOptionList.get(i);
-            pollValues.put("POLLID",option.pollId);
-            pollValues.put("CONTENT",option.optionValue);
-            pollValues.put("TAG",option.tagValue);
-            db.insert("PollOptions",null,pollValues);
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues pollValues = new ContentValues();
+        for (int i = 0; i < pollOptionList.size(); i++) {
+            CollegarePollOption option = pollOptionList.get(i);
+            pollValues.put("POLLID", option.pollId);
+            pollValues.put("CONTENT", option.optionValue);
+            pollValues.put("TAG", option.tagValue);
+            db.insert("PollOptions", null, pollValues);
         }
-        Log.e("DM", "appended poll options");
+        Log.d("DM", "appended poll options");
 
     }
 
-    public ArrayList<CollegarePollOption> getPollOptions(String pollId){
+    public ArrayList<CollegarePollOption> getPollOptions(String pollId) {
         SQLiteDatabase db = getReadableDatabase();
         boolean hasMore = true;
 
-        ArrayList<CollegarePollOption> options =  new ArrayList<>();
-        Cursor cursor= db.query("PollOptions",new String[]{"POLLID","CONTENT","TAG"},"POLLID = ?",new String[]{pollId},null,null,null);
+        ArrayList<CollegarePollOption> options = new ArrayList<>();
+        Cursor cursor = db.query("PollOptions", new String[]{"POLLID", "CONTENT", "TAG"}, "POLLID = ?", new String[]{pollId}, null, null, null);
         cursor.moveToFirst();
-        while(hasMore && cursor.getCount()>0){
+        while (hasMore && cursor.getCount() > 0) {
             options.add(new CollegarePollOption(
                     cursor.getString(cursor.getColumnIndex("POLLID")),
                     cursor.getString(cursor.getColumnIndex("CONTENT")),
                     cursor.getString(cursor.getColumnIndex("TAG"))
 
             ));
-            hasMore=cursor.moveToNext();
+            hasMore = cursor.moveToNext();
         }
-        Log.e("DM", options.size() + " Options from db");
+        Log.d("DM", options.size() + " Options from db");
         return options;
 
     }
+
     // getting a single complete post with comments
     public CollegarePost getPost(String PostId) {
         SQLiteDatabase db = getReadableDatabase();
@@ -479,7 +557,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     getComments(PostId));
 
         }
-        //Log.e("Retrieved ", cursor.getCount() + " Post");
+        //Log.d("Retrieved ", cursor.getCount() + " Post");
         return feed;
     }
 
@@ -504,12 +582,12 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex("LikeCount")),
                     cursor.getString(cursor.getColumnIndex("DisLikeCount")),
                     cursor.getString(cursor.getColumnIndex("LIKED")),
-                    cursor.getString(cursor.getColumnIndex("DISLIKED")),null,null
+                    cursor.getString(cursor.getColumnIndex("DISLIKED")), null, null
 
             ));
             hasMore = cursor.moveToNext();
         }
-        Log.e("DM", posts.size() + " Posts from db");
+        Log.d("DM", posts.size() + " Posts from db");
         return posts;
     }
 
@@ -522,7 +600,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
     * */
 
     ArrayList<CollegareComment> getComments(String PostID) {
-       // Log.e("for post id", " " + PostID);
+        // Log.d("for post id", " " + PostID);
         boolean hasMore = true;
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<CollegareComment> comments = new ArrayList<>();
@@ -530,7 +608,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         String[] args = {PostID};
         Cursor cr = db.query(App_Config.TABLE_COMMENTS, cols, " POSTID = ? ", args, null, null, null);
         cr.moveToFirst();
-        Log.e("cursor size ", " " + cr.getCount());
+        Log.d("cursor size ", " " + cr.getCount());
         while (hasMore && cr.getCount() > 0) {
             comments.add(new CollegareComment(cr.getString(cr.getColumnIndex("COMMENTID")),
                     cr.getString(cr.getColumnIndex("POSTID")),
@@ -571,24 +649,78 @@ public class DatabaseManager extends SQLiteOpenHelper {
     * */
 
     public void appendMessage(CollegareMessage messages) {
+
+        Log.e("db",""+messages.receiver_name);
+
         SQLiteDatabase db = getWritableDatabase();
         ContentValues msg = new ContentValues();
         long messagesDone = 0;
         msg.put("MESSAGEID", messages.msgid);
         msg.put("CONTENT", messages.content);
         msg.put("DOC", messages.doc);
-        msg.put("SENDERNAME",messages.sender_name);
-        msg.put("SENDERID",messages.sender_id);
-        msg.put("RECEIVERNAME",messages.receiver_name);
-        msg.put("RECEIVERID",messages.receiver_id);
+        msg.put("SENDERNAME", messages.sender_name);
+        msg.put("SENDERID", messages.sender_id);
+        msg.put("RECEIVERNAME", messages.receiver_name);
+        msg.put("RECEIVERID", messages.receiver_id);
         msg.put("READ", messages.read);
-        msg.put("TYPE",messages.type);
-        msg.put("SENT",messages.sent);
+        msg.put("TYPE", messages.type);
+        msg.put("SENT", messages.sent);
         if (db.insert(App_Config.TABLE_MESSAGES, null, msg) != -1) {
             messagesDone++;
         }
-        this.listener.onMessageAdd();        // callback to listeners
-        Log.e("DM","Added "+ messagesDone + " message");
+
+        String user_order_seq = SessionManager.getUserIdSequence();
+        ArrayList<String> user_id_order = new Segmentor().getParts(user_order_seq,'#');
+
+
+
+            if(messages.type.equals("S")){
+                putOnTop(messages.receiver_id,user_id_order);
+                writeToSharedPreferences(user_id_order);
+                this.listener.onMessageAdd(messages.receiver_id);
+            }
+            else{
+                putOnTop(messages.sender_id,user_id_order);
+                writeToSharedPreferences(user_id_order);
+                this.listener.onMessageAdd(messages.sender_id);
+            }
+
+
+        Log.d("DM", "Added " + messagesDone + " message");
+    }
+
+    public void putOnTop(String id, ArrayList<String> user_id_order){
+
+        int index=-1;
+        for(int i=0;i<user_id_order.size();i++){
+
+            if(user_id_order.get(i).equals(id)){
+                index=i;
+
+                break;
+            }
+        }
+
+        if(index==-1){
+            user_id_order.add(0, id);
+
+        }else {
+
+            user_id_order.remove(index);
+
+            user_id_order.add(0, id);
+        }
+
+    }
+
+    public void writeToSharedPreferences(ArrayList<String> user_id_order){
+        String currStack="";
+        for (String id : user_id_order) {
+            currStack +="#"+id;
+        }
+        currStack = currStack.substring(0,currStack.length());
+        Log.e("MessageF","Writing to SP "+currStack);
+        SessionManager.setUserIdSequence(currStack);
     }
 
     public ArrayList<CollegareMessage> getMessages() {
@@ -596,7 +728,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<CollegareMessage> messages = new ArrayList<>();
         Cursor cursor = db.query(App_Config.TABLE_MESSAGES,
-                new String[]{"MESSAGEID", "CONTENT", "SENDERNAME", "DOC", "SENDERID","RECEIVER_NAME","RECEIVERID" ,"READ", "TYPE", "SENT"},
+                new String[]{"MESSAGEID", "CONTENT", "SENDERNAME", "DOC", "SENDERID", "RECEIVER_NAME", "RECEIVERID", "READ", "TYPE", "SENT"},
                 null, null, null, null, null);
 
         cursor.moveToFirst();
@@ -615,7 +747,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             ));
             hasMore = cursor.moveToNext();
         }
-     //   Log.e("DM", "Retrived " + messages.size() + " messages");
+           Log.d("DM", "Retrived " + messages.size() + " messages");
         return messages;
     }
 
@@ -624,12 +756,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<CollegareMessage> messages = new ArrayList<>();
         Cursor cursor = db.query(App_Config.TABLE_MESSAGES,
-                new String[]{"MESSAGEID", "CONTENT", "SENDERNAME", "DOC", "SENDERID","RECEIVERNAME","RECEIVERID" ,"READ", "TYPE", "SENT"},
-                "SENDERID=? OR RECEIVERID =?", new String[]{id,id}, null, null, null);
+                new String[]{"MESSAGEID", "CONTENT", "SENDERNAME", "DOC", "SENDERID", "RECEIVERNAME", "RECEIVERID", "READ", "TYPE", "SENT"},
+                "SENDERID=? OR RECEIVERID =?", new String[]{id, id}, null, null, null);
 
         cursor.moveToFirst();
         while (hasMore && cursor.getCount() > 0) {
 
+            Log.e("db",""+cursor.getString(cursor.getColumnIndex("RECEIVERNAME")));
             messages.add(new CollegareMessage(
                     cursor.getString(cursor.getColumnIndex("MESSAGEID")),
                     cursor.getString(cursor.getColumnIndex("CONTENT")),
@@ -644,16 +777,16 @@ public class DatabaseManager extends SQLiteOpenHelper {
             ));
             hasMore = cursor.moveToNext();
         }
-       cursor.close();
+        cursor.close();
         return messages;
     }
 
-    public void setMessageRead(String user_id){
+    public void setMessageRead(String user_id) {
         boolean hasMore = true;
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<CollegareMessage> messages = new ArrayList<>();
         Cursor cursor = db.query(App_Config.TABLE_MESSAGES,
-                new String[]{"MESSAGEID", "CONTENT", "SENDERNAME", "DOC", "SENDERID","RECEIVERNAME","RECEIVERID" ,"READ", "TYPE", "SENT"},
+                new String[]{"MESSAGEID", "CONTENT", "SENDERNAME", "DOC", "SENDERID", "RECEIVERNAME", "RECEIVERID", "READ", "TYPE", "SENT"},
                 "SENDERID=?", new String[]{user_id}, null, null, null);
 
         cursor.moveToFirst();
@@ -673,10 +806,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
             hasMore = cursor.moveToNext();
         }
 
-        ContentValues msg_cv= new ContentValues();
+        ContentValues msg_cv = new ContentValues();
 
         for (CollegareMessage msg : messages) {
-            Log.e("DM","setting read to "+msg.content);
+            Log.d("DM", "setting read to " + msg.content);
             msg_cv.put("READ", "true");
             db.update(App_Config.TABLE_MESSAGES, msg_cv, "SENDERID=?", new String[]{user_id});
         }
@@ -685,13 +818,13 @@ public class DatabaseManager extends SQLiteOpenHelper {
         msgRead_listener.onRead(user_id);
     }
 
-    public void setMessageSent(String msg_id){
+    public void setMessageSent(String msg_id) {
         boolean hasMore = true;
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<CollegareMessage> messages = new ArrayList<>();
         Cursor cursor = db.query(App_Config.TABLE_MESSAGES,
-                new String[]{"MESSAGEID", "CONTENT", "SENDERNAME", "DOC", "SENDERID","RECEIVERNAME","RECEIVERID" ,"READ", "TYPE", "SENT"},
-                "MESSAGEID=? AND TYPE=?", new String[]{msg_id,"S"}, null, null, null);
+                new String[]{"MESSAGEID", "CONTENT", "SENDERNAME", "DOC", "SENDERID", "RECEIVERNAME", "RECEIVERID", "READ", "TYPE", "SENT"},
+                "MESSAGEID=? AND TYPE=?", new String[]{msg_id, "S"}, null, null, null);
 
         cursor.moveToFirst();
         while (hasMore && cursor.getCount() > 0) {
@@ -710,10 +843,10 @@ public class DatabaseManager extends SQLiteOpenHelper {
             hasMore = cursor.moveToNext();
         }
 
-        ContentValues msg_cv= new ContentValues();
+        ContentValues msg_cv = new ContentValues();
 
         for (CollegareMessage msg : messages) {
-            Log.e("DM","setting read to "+msg.content);
+            Log.d("DM", "setting read to " + msg.content);
             msg_cv.put("SENT", "true");
             db.update(App_Config.TABLE_MESSAGES, msg_cv, "MESSAGEID=?", new String[]{msg_id});
         }
@@ -739,7 +872,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
         return data;
     }
 
-    public CollegareTask getTask(String _id){
+    public CollegareTask getTask(String _id) {
 
         SQLiteDatabase db = getReadableDatabase();
         CollegareTask collegareTask;
@@ -747,40 +880,38 @@ public class DatabaseManager extends SQLiteOpenHelper {
                 new String[]{"TASK_ID , TASK_PAYLOAD , TASK_RECEIVER , TASK_TIMESTAMP"},
                 "TASK_ID=?", new String[]{_id}, null, null, null);
         cursor.moveToFirst();
-        collegareTask = new CollegareTask(  cursor.getString(cursor.getColumnIndex("TASK_ID")),
-                                            cursor.getString(cursor.getColumnIndex("TASK_PAYLOAD")),
-                                            cursor.getString(cursor.getColumnIndex("TASK_RECEIVER")),
-                                            cursor.getString(cursor.getColumnIndex("TASK_TIMESTAMP"))
-                                        );
+        collegareTask = new CollegareTask(cursor.getString(cursor.getColumnIndex("TASK_ID")),
+                cursor.getString(cursor.getColumnIndex("TASK_PAYLOAD")),
+                cursor.getString(cursor.getColumnIndex("TASK_RECEIVER")),
+                cursor.getString(cursor.getColumnIndex("TASK_TIMESTAMP"))
+        );
         cursor.close();
         return collegareTask;
     }
 
-    public void addTask(CollegareTask task){
+    public void addTask(CollegareTask task) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues tasks = new ContentValues();
 
-        tasks.put("TASK_ID",task.taskID);
-        tasks.put("TASK_PAYLOAD",task.payload);
-        tasks.put("TASK_RECEIVER",task.receiver);
+        tasks.put("TASK_ID", task.taskID);
+        tasks.put("TASK_PAYLOAD", task.payload);
+        tasks.put("TASK_RECEIVER", task.receiver);
         tasks.put("TASK_TIMESTAMP", task.timeStamp);
 
-        long _s  = db.insert(App_Config.TABLE_TASKS, null, tasks);
+        long _s = db.insert(App_Config.TABLE_TASKS, null, tasks);
 
-        Log.e("DM", "Added " + _s + " task");
+        Log.d("DM", "Added " + _s + " task");
         mTaskListener.onAdd();
 
     }
 
-    public void removeTask(String _tid){
+    public void removeTask(String _tid) {
         SQLiteDatabase db = getWritableDatabase();
-        long id = db.delete(App_Config.TABLE_TASKS,"TASK_ID=?",new String[]{_tid});
-        Log.e("DM","setting msgid "+_tid.substring(3)+ " seen");
+        long id = db.delete(App_Config.TABLE_TASKS, "TASK_ID=?", new String[]{_tid});
+        Log.d("DM", "setting msgid " + _tid.substring(3) + " seen");
         setMessageSent(_tid.substring(3));
-        Log.e("DM"," deleted "+id+ "Task");
+        Log.d("DM", " deleted " + id + "Task");
     }
-
-
 
 
 }

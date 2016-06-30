@@ -29,7 +29,7 @@ import com.collegare.com.collegare.database.DatabaseManager;
 import com.collegare.com.collegare.network.InternetManager;
 import com.collegare.com.collegare.interfaces.NavigationListener;
 import com.collegare.com.collegare.interfaces.RefressListener;
-import com.collegare.com.collegare.interfaces.SendListener;
+import com.collegare.com.collegare.interfaces.FABListener;
 import com.collegare.com.collegare.SharedPreference.SessionManager;
 import com.collegare.com.collegare.models.CollegareFeed;
 import com.collegare.com.collegare.models.CollegareUser;
@@ -42,7 +42,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class Feeds extends Fragment implements SendListener , NavigationListener, RefressListener{
+public class Feeds extends Fragment implements FABListener, NavigationListener, RefressListener{
     RecyclerView recyclerView;
     PostDataAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;

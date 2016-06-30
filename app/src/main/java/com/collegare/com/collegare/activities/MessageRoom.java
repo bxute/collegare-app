@@ -17,6 +17,7 @@ import com.collegare.com.collegare.SharedPreference.SessionManager;
 import com.collegare.com.collegare.customControls.MessageLayoutManager;
 import com.collegare.com.collegare.database.DatabaseManager;
 import com.collegare.com.collegare.adapters.MessageRoomAdapter;
+import com.collegare.com.collegare.models.CollegareContact;
 import com.collegare.com.collegare.models.CollegareMessage;
 import com.collegare.com.collegare.R;
 import com.collegare.com.collegare.models.CollegareTask;
@@ -41,7 +42,6 @@ public class MessageRoom extends AppCompatActivity {
         setContentView(R.layout.activity_message_room);
 
         toolbar = (Toolbar) findViewById(R.id.chat_room_toolbar);
-        Log.e("MR",""+toolbar);
         chat_box_username = (TextView) toolbar.findViewById(R.id.chat_box_username);
         chat_box_online_status = (TextView) toolbar.findViewById(R.id.chat_box_online_status);
 
@@ -77,17 +77,18 @@ public class MessageRoom extends AppCompatActivity {
                 chat_input.setText("");
             }
         });
+        Log.e("MessageR", "registering for msg add");
         DatabaseManager.getInstance(this).setOnNewMessageAdditionListener(new DatabaseManager.NewMessageListener() {
             @Override
-            public void onMessageAdd() {
+            public void onMessageAdd(String userID) {
                 load();
             }
         });
-
+        Log.e("MessageR", "registering for msg sent");
         DatabaseManager.getInstance(this).setOnMessageSentListener(new DatabaseManager.MessageSentListener() {
             @Override
             public void onMessageSent() {
-                Log.e("MR","messageSentListener call");
+                Log.e("MR", "messageSentListener call");
                 load();
             }
         });
@@ -97,7 +98,6 @@ public class MessageRoom extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-
         load();
         markThemAsRead();
     }
@@ -106,12 +106,20 @@ public class MessageRoom extends AppCompatActivity {
 
     public void load(){
         ArrayList<CollegareMessage> msgs = DatabaseManager.getInstance(this).getMessages(user_id);
+        CollegareContact contact = DatabaseManager.getInstance(this).getContacts(user_id);
 
-        remote_username = (msgs.get(0).type.equals("S"))?msgs.get(0).receiver_name:msgs.get(0).sender_name;
-        chat_box_username.setText(remote_username);
+        if(msgs.size()>0){
+            remote_username = (msgs.get(0).type.equals("S"))?msgs.get(0).receiver_name:msgs.get(0).sender_name;
+            chat_box_username.setText(remote_username);
+            adapter.setMessageDataList(msgs);
+            msg_thread.smoothScrollToPosition(msgs.size()-1);
+        }else{
+            remote_username = contact.username;
+            chat_box_username.setText(contact.username);
+        }
+
         chat_box_online_status.setText("online");
-        adapter.setMessageDataList(msgs);
-        msg_thread.smoothScrollToPosition(msgs.size()-1);
+
     }
 
     public void markThemAsRead(){

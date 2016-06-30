@@ -1,4 +1,4 @@
-package com.collegare.com.collegare.utilities;
+package com.collegare.com.collegare.GCM;
 
 /**
  * Created by Radhe on 02-03-2016.

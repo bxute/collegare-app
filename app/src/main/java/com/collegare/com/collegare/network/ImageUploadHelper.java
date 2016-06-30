@@ -1,10 +1,12 @@
-package com.collegare.com.collegare.utilities;
+package com.collegare.com.collegare.network;
 
 import android.content.Context;
 import android.util.Log;
 
 import com.collegare.com.collegare.database.DatabaseManager;
 import com.collegare.com.collegare.models.CollegareUser;
+import com.collegare.com.collegare.utilities.App_Config;
+import com.collegare.com.collegare.utilities.Contexter;
 
 import java.io.DataOutputStream;
 import java.io.File;

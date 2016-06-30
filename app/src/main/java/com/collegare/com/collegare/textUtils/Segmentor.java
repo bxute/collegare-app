@@ -1,4 +1,4 @@
-package com.collegare.com.collegare.utilities;
+package com.collegare.com.collegare.textUtils;
 
 import java.util.ArrayList;
 

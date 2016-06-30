@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.collegare.com.collegare.utilities.TimeManager;
+import com.collegare.com.collegare.textUtils.TimeManager;
 import com.collegare.com.collegare.models.CollegareComment;
 import com.collegare.com.collegare.R;
 
@@ -60,7 +60,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.Commen
     @Override
     public void onBindViewHolder(CommentHolder holder, int position) {
 
-        String past= TimeManager.getInstance().convert("2014-12-03 12:13:45",comments.get(position).doc);
+        String past= TimeManager.getInstance().getDifference("2014-12-03 12:13:45", comments.get(position).doc);
         holder.content.setText(comments.get(position).content);
         holder.commentUser.setText(comments.get(position).username);
         holder.pastTime.setText(past);

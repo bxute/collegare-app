@@ -27,7 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.collegare.com.collegare.json.CollegareParser;
 import com.collegare.com.collegare.database.DatabaseManager;
 import com.collegare.com.collegare.network.InternetManager;
-import com.collegare.com.collegare.utilities.Segmentor;
+import com.collegare.com.collegare.textUtils.Segmentor;
 import com.collegare.com.collegare.models.CollegareUser;
 import com.collegare.com.collegare.R;
 import com.collegare.com.collegare.volley.AppManager;

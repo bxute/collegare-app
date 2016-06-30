@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="72dp"
+        android:layout_height="72dp">
+
+        <TextView
+            android:id="@+id/wall_user_tag_char"
+            android:layout_margin="14dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:maxLines="1"
+            android:maxLength="1"
+            android:text="A"
+            android:gravity="center"
+            android:textSize="24sp"
+            android:textColor="#ffffff"
+            android:background="@drawable/wall_user_tag"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/contact_user_tag_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ankit"
+            app:civ_border_width="0dp"
+            app:civ_border_color="#eeeeee"
+            android:layout_margin="14dp"/>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/msg_wall_block"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+            <TextView
+                android:textColor="#222222"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:gravity="center_vertical"
+                android:id="@+id/contact_username"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:maxLines="1"
+                android:textSize="18sp"
+                android:text="Ankit Kumar"
+                />
+
+
+    </LinearLayout>
+
+</LinearLayout>

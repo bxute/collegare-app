@@ -25,7 +25,7 @@ import com.collegare.com.collegare.utilities.Contexter;
 import com.collegare.com.collegare.testStore.DataStore;
 import com.collegare.com.collegare.database.DatabaseManager;
 import com.collegare.com.collegare.network.InternetManager;
-import com.collegare.com.collegare.utilities.RecyclerViewDecorator;
+import com.collegare.com.collegare.customControls.RecyclerViewDecorator;
 import com.collegare.com.collegare.interfaces.UpdateListener;
 import com.collegare.com.collegare.models.CollegareComment;
 import com.collegare.com.collegare.models.CollegarePost;

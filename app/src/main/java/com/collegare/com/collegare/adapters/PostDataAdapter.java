@@ -32,9 +32,9 @@ import com.collegare.com.collegare.utilities.Contexter;
 import com.collegare.com.collegare.database.DatabaseManager;
 import com.collegare.com.collegare.network.InternetManager;
 import com.collegare.com.collegare.interfaces.LogoutListener;
-import com.collegare.com.collegare.interfaces.SendListener;
+import com.collegare.com.collegare.interfaces.FABListener;
 import com.collegare.com.collegare.SharedPreference.SessionManager;
-import com.collegare.com.collegare.utilities.TimeManager;
+import com.collegare.com.collegare.textUtils.TimeManager;
 import com.collegare.com.collegare.interfaces.UpdateListener;
 import com.collegare.com.collegare.models.CollegareFeed;
 import com.collegare.com.collegare.models.CollegarePost;
@@ -136,7 +136,7 @@ public class PostDataAdapter extends RecyclerView
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         Date d = new Date();
         final CharSequence doc  = DateFormat.format("yyyy-MM-dd hh:mm:ss", d.getTime());
-        String timePast = TimeManager.getInstance().convert(doc.toString(), mDataset.get(position).doc);
+        String timePast = TimeManager.getInstance().getDifference(doc.toString(), mDataset.get(position).doc);
 
         if(mDataset.get(position).pollid.equals("null")){
             ( (PostHolder) holder).post.setText(mDataset.get(position).content);
@@ -284,7 +284,7 @@ public class PostDataAdapter extends RecyclerView
 
                     }else
                     {
-                        ((SendListener)feedFragment).alert("No Internet Connectivity",instance.context);
+                        ((FABListener)feedFragment).alert("No Internet Connectivity",instance.context);
                     }
 
 
@@ -300,7 +300,7 @@ public class PostDataAdapter extends RecyclerView
                     instance.context.startActivity(proIntent);
                     }else
                     {
-                        ((SendListener)feedFragment).alert("No Internet Connectivity",instance.context);
+                        ((FABListener)feedFragment).alert("No Internet Connectivity",instance.context);
                     }
                     break;
 
@@ -334,7 +334,7 @@ public class PostDataAdapter extends RecyclerView
                         } else{ }
                     }
                     else{
-                        ((SendListener)feedFragment).alert("No Internet Connectivity",instance.context);
+                        ((FABListener)feedFragment).alert("No Internet Connectivity",instance.context);
                     }
 
 
@@ -368,7 +368,7 @@ public class PostDataAdapter extends RecyclerView
                         }
 
                     }else{
-                        ((SendListener)feedFragment).alert("No Internet Connectivity",instance.context);
+                        ((FABListener)feedFragment).alert("No Internet Connectivity",instance.context);
                     }
 
                     break;

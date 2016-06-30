@@ -6,7 +6,6 @@ package com.collegare.com.collegare.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.collegare.com.collegare.interfaces.LogoutListener;
-import com.collegare.com.collegare.utilities.TimeManager;
 import com.collegare.com.collegare.models.CollegareMessage;
 import com.collegare.com.collegare.R;
 

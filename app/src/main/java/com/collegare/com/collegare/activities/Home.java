@@ -25,7 +25,7 @@ import com.collegare.com.collegare.database.DatabaseManager;
 import com.collegare.com.collegare.handlers.TaskHandler;
 import com.collegare.com.collegare.interfaces.LogoutListener;
 import com.collegare.com.collegare.adapters.MessageRoomAdapter;
-import com.collegare.com.collegare.interfaces.SendListener;
+import com.collegare.com.collegare.interfaces.FABListener;
 import com.collegare.com.collegare.SharedPreference.SessionManager;
 import com.collegare.com.collegare.adapters.PostDataAdapter;
 import com.collegare.com.collegare.R;
@@ -129,7 +129,9 @@ public class Home extends AppCompatActivity {
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if(tab.getPosition()==1)fab.hide();
+                if(tab.getPosition()==1){
+                    ///fab.setBackgroundResource(R.drawable.add2);
+                }
                 else fab.show();
 
                 viewPager.setCurrentItem(tab.getPosition());
@@ -165,8 +167,8 @@ public class Home extends AppCompatActivity {
                                    public void onClick(View view) {
                                        fragment = (Fragment) pagerAdapter.instantiateItem(viewPager, viewPager.getCurrentItem());
 
-                                       if (fragment instanceof SendListener) {
-                                           ((SendListener) fragment).send();
+                                       if (fragment instanceof FABListener) {
+                                           ((FABListener) fragment).send();
                                        }
                                    }
                                }
