@@ -9,7 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.collegare.com.collegare.adapters.PostDataAdapter;
+import com.collegare.com.collegare.adapters.FeedsAdapter;
 import com.collegare.com.collegare.volley.AppManager;
 import com.collegare.com.collegare.utilities.App_Config;
 import com.collegare.com.collegare.SharedPreference.SessionManager;
@@ -31,7 +31,7 @@ import java.util.Map;
 public class InternetManager {
     SessionManager session;
     Context context;
-    PostDataAdapter adapter;
+    FeedsAdapter adapter;
     String UserId = null;
     String UserToken = null;
     static InternetManager bInstance;
@@ -46,7 +46,7 @@ public class InternetManager {
         return bInstance;
     }
 
-    public InternetManager(Context context, PostDataAdapter adapter) {
+    public InternetManager(Context context, FeedsAdapter adapter) {
         this.context = context;
         this.adapter = adapter;
     }

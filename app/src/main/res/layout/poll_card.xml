@@ -87,13 +87,14 @@
                             android:listSelector="#ffffff"
                             android:divider="#ffffff"
                             android:dividerHeight="0dp"
-                            android:scrollbars="none"
                             android:paddingBottom="10dp"
                             android:layout_below="@+id/duration"
                             android:id="@+id/Polloptions"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"/>
+
                     </RelativeLayout>
+
                 </RelativeLayout>
 
             </RelativeLayout>

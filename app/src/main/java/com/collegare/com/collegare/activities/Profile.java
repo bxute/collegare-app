@@ -86,12 +86,11 @@ public class Profile extends AppCompatActivity implements OnClickListener {
             requestAndSetPic();
             requestUserInfo(username);
         }
-            toolbarLayout.setTitle(username);
 
-
+        toolbarLayout.setTitle(username);
         progress.setMessage("Retrieving Infos");
         progress.setIndeterminate(true);
-        progress.show();
+
     }
 
 

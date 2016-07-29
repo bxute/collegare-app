@@ -50,6 +50,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:layout_gravity="fill"
@@ -58,7 +59,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="#eeeeee"
             android:paddingTop="2dp">
@@ -330,8 +331,8 @@
                 </RelativeLayout>
 
             </android.support.v7.widget.CardView>
-
         </LinearLayout>
+
 
     </android.support.v4.widget.NestedScrollView>
 

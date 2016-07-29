@@ -35,7 +35,7 @@ import com.collegare.com.collegare.models.CollegareFeed;
 import com.collegare.com.collegare.models.CollegareUser;
 import com.collegare.com.collegare.R;
 import com.collegare.com.collegare.testStore.DataStore;
-import com.collegare.com.collegare.adapters.PostDataAdapter;
+import com.collegare.com.collegare.adapters.FeedsAdapter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +44,7 @@ import java.util.Map;
 
 public class Feeds extends Fragment implements FABListener, NavigationListener, RefressListener{
     RecyclerView recyclerView;
-    PostDataAdapter adapter;
+    FeedsAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
     TextView error;
     DataStore dataStore;
@@ -59,7 +59,7 @@ public class Feeds extends Fragment implements FABListener, NavigationListener, 
         Log.e("Feeds", "onCreate");
 
         super.onCreate(savedInstanceState);
-        adapter= PostDataAdapter.getInstance(getActivity());
+        adapter= FeedsAdapter.getInstance(getActivity());
         feedArrayList= new ArrayList<>();
         groupID =   sessionManager.getLastGroup();
         sessionManager= new SessionManager(getActivity());

@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.collegare.com.collegare.adapters.FeedsAdapter;
 import com.collegare.com.collegare.fragments.NavigationFragment;
 import com.collegare.com.collegare.fragments.SendDailoge;
 import com.collegare.com.collegare.adapters.BPagerAdapter;
@@ -27,7 +28,6 @@ import com.collegare.com.collegare.interfaces.LogoutListener;
 import com.collegare.com.collegare.adapters.MessageRoomAdapter;
 import com.collegare.com.collegare.interfaces.FABListener;
 import com.collegare.com.collegare.SharedPreference.SessionManager;
-import com.collegare.com.collegare.adapters.PostDataAdapter;
 import com.collegare.com.collegare.R;
 
 
@@ -86,7 +86,8 @@ public class Home extends AppCompatActivity {
             case R.id.action_Profile:
                 Intent aboutUsIntent = new Intent(this, Profile.class);
                 Bundle data=new Bundle();
-                data.putString("username",DatabaseManager.getInstance(this).getUser().username);
+                //TODO: hard coded user name
+                data.putString("username","Ankit");
                 aboutUsIntent.putExtras(data);
                 startActivity(aboutUsIntent);
                 break;
@@ -94,9 +95,15 @@ public class Home extends AppCompatActivity {
                 logout();
                 break;
             case R.id.action_CreatePoll:
-                break;
+                navigateToPollCreation();
         }
         return false;
+    }
+
+    private void navigateToPollCreation() {
+        Intent intent = new Intent(this,CreatePoll.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
     }
 
     public void logout(){
@@ -104,7 +111,7 @@ public class Home extends AppCompatActivity {
         DatabaseManager.getInstance(this).rollbackDatabase();
         SessionManager.setLastPostID(SessionManager.getLastGroup(),"0");
         startActivity(new Intent(this, Login.class));
-        ((LogoutListener) PostDataAdapter.getInstance(this)).reset();
+        ((LogoutListener) FeedsAdapter.getInstance(this)).reset();
         ((LogoutListener) MessageRoomAdapter.getInstance(this)).reset();
         finish();
     }

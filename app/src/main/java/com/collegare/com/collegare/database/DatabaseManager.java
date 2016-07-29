@@ -23,6 +23,7 @@ import com.collegare.com.collegare.models.CollegarePost;
 import com.collegare.com.collegare.models.CollegareTask;
 import com.collegare.com.collegare.models.CollegareUser;
 
+import java.io.PipedOutputStream;
 import java.util.ArrayList;
 
 public class DatabaseManager extends SQLiteOpenHelper {
@@ -167,7 +168,8 @@ public class DatabaseManager extends SQLiteOpenHelper {
                             " DisLikeCount TEXT," +
                             " LikeCount TEXT, " +
                             "LIKED TEXT, " +
-                            "DISLIKED TEXT  " +
+                            "DISLIKED TEXT,  " +
+                            "SELECTED_ITEM TEXT"+
                             ");"
             );
             Log.d("DM", "Posts table created!");
@@ -483,6 +485,7 @@ public class DatabaseManager extends SQLiteOpenHelper {
             values.put("LikeCount", feeds.get(i).dislikeCount);
             values.put("LIKED", feeds.get(i).isLiked);
             values.put("DISLIKED", feeds.get(i).isDisliked);
+            values.put("SELECTED_ITEM", feeds.get(i).pollOptionSelected);
             if (db.insert(App_Config.TABLE_POST, null, values) != -1) {
                 id++;
             }
@@ -566,10 +569,17 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getReadableDatabase();
         ArrayList<CollegareFeed> posts = new ArrayList<>();
         Cursor cursor = db.query(App_Config.TABLE_POST, new String[]{"POSTID", "CONTENT", "USERNAME", "DOC", "GROUPID",
-                        "ID", "WEIGHT", "POLLID", "CommentCount", "LikeCount", "DisLikeCount", "LIKED", "DISLIKED"},
+                        "ID", "WEIGHT", "POLLID", "CommentCount", "LikeCount", "DisLikeCount", "LIKED", "DISLIKED","SELECTED_ITEM"},
                 "GROUPID = ? ", new String[]{gid}, null, null, null);
         cursor.moveToFirst();
+
         while (hasMore && cursor.getCount() > 0) {
+            ArrayList<CollegarePollOption> options = new ArrayList<>();
+            if(cursor.getString(cursor.getColumnIndex("POSTID")).equals("null")){
+                // means it is poll
+                String pollID = cursor.getString(cursor.getColumnIndex("POLLID"));
+                options = getPollOptions(pollID);
+            }
             posts.add(new CollegareFeed(cursor.getString(cursor.getColumnIndex("POSTID")),
                     cursor.getString(cursor.getColumnIndex("CONTENT")),
                     cursor.getString(cursor.getColumnIndex("USERNAME")),
@@ -582,7 +592,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
                     cursor.getString(cursor.getColumnIndex("LikeCount")),
                     cursor.getString(cursor.getColumnIndex("DisLikeCount")),
                     cursor.getString(cursor.getColumnIndex("LIKED")),
-                    cursor.getString(cursor.getColumnIndex("DISLIKED")), null, null
+                    cursor.getString(cursor.getColumnIndex("DISLIKED")),
+                    options,
+                    cursor.getString(cursor.getColumnIndex("SELECTED_ITEM"))
 
             ));
             hasMore = cursor.moveToNext();

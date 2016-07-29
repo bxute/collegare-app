@@ -36,7 +36,7 @@ public class PollTest extends AppCompatActivity{
         adapter= new PollOptionsAdapter(this);
         adapter.addPollOption(new CollegarePollOption("12","Ankit Kumar","1"));
         adapter.addPollOption(new CollegarePollOption("5","Rajesh Kumar","1"));
-        // these steps to be done in PostDataAdapter
+        // these steps to be done in FeedsAdapter
         // only for test
         RelativeLayout lockHolder= (RelativeLayout) findViewById(R.id.lockHolder);
         final ImageView lock = (ImageView) findViewById(R.id.lock);

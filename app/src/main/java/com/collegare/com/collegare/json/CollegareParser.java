@@ -3,13 +3,13 @@ package com.collegare.com.collegare.json;
 import android.content.Context;
 
 import com.collegare.com.collegare.SharedPreference.SessionManager;
+import com.collegare.com.collegare.adapters.FeedsAdapter;
 import com.collegare.com.collegare.database.DatabaseManager;
 import com.collegare.com.collegare.models.CollegareFeed;
 import com.collegare.com.collegare.models.CollegareGroup;
 import com.collegare.com.collegare.models.CollegareMessage;
 import com.collegare.com.collegare.models.CollegarePollOption;
 import com.collegare.com.collegare.models.CollegareUser;
-import com.collegare.com.collegare.adapters.PostDataAdapter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -104,7 +104,7 @@ public class CollegareParser {
 
 
 
-                    PostDataAdapter.getInstance(context).addToPostDataList(feed);
+                    FeedsAdapter.getInstance(context).addToPostDataList(feed);
                     feedlist.add(feed);
             //        Log.e("lll hiesght id is",""+SessionManager.getLastPostID());
                     if(Integer.parseInt(SessionManager.getLastPostID(SessionManager.getLastGroup())) < Integer.parseInt(post.getString("postid"))){

@@ -78,13 +78,17 @@
             android:label="@string/title_activity_poll_test" >
         </activity>
         <activity
-            android:parentActivityName=".activities.Home"
             android:name=".activities.MessageRoom"
-            android:label="@string/title_activity_message_room" >
+            android:label="@string/title_activity_message_room"
+            android:parentActivityName=".activities.Home" >
         </activity>
         <activity
             android:name=".activities.UsersActivity"
             android:label="@string/title_activity_users" >
+        </activity>
+        <activity
+            android:name=".activities.CreatePoll"
+            android:label="@string/title_activity_create_poll" >
         </activity>
     </application>
 

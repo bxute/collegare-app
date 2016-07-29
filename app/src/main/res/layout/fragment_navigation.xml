@@ -8,16 +8,16 @@
         android:id="@+id/navHeader"
         android:orientation="vertical" android:layout_width="wrap_content"
         android:layout_height="170dp"
-        android:background="@color/collegareBtn">
+        android:background="@color/primaryColor">
 
 
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_image"
-            android:layout_width="128dp"
-            android:layout_height="128dp"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
             android:src="@drawable/ankit"
-            app:civ_border_width="3dp"
+            app:civ_border_width="0dp"
             app:civ_border_color="#ffffff"
             android:layout_margin="10dp"/>
 
@@ -57,6 +57,7 @@
         </LinearLayout>
 
     </RelativeLayout>
+
     <RelativeLayout
         android:layout_below="@+id/navHeader"
         android:layout_width="match_parent"
@@ -65,10 +66,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/navRecycler"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            />
-
-
+            android:layout_width="match_parent" />
 
     </RelativeLayout>
 

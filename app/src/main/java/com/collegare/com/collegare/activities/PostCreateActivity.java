@@ -69,7 +69,7 @@ public class PostCreateActivity extends AppCompatActivity implements View.OnClic
         addBtn= (ImageView) findViewById(R.id.addBtn);
         addBtn.setOnClickListener(this);
         adapter= new PollOptionsEditListAdapter(this);
-
+        optionsListView.setAdapter(adapter);
     }
 
     @Override
@@ -102,6 +102,7 @@ public class PostCreateActivity extends AppCompatActivity implements View.OnClic
             }
         }
         if (id==R.id.addBtn){
+            Log.e("Pc","poll option addition");
             adapter.add(inputBox.getText().toString());
         }
 

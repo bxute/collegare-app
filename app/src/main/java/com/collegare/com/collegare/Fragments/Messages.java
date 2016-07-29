@@ -289,7 +289,8 @@ public class Messages extends Fragment implements RefressListener,FABListener {
         final String UserId = dbm.id;
         final String UserToken = dbm.token;
 
-        StringRequest getMsgReq = new StringRequest(Request.Method.POST,
+        StringRequest getMsgReq = new StringRequest(
+                Request.Method.POST,
                 App_Config.Message_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -297,19 +298,21 @@ public class Messages extends Fragment implements RefressListener,FABListener {
                         CollegareParser.getInstance(getActivity()).parseMessage(s);
                         callbackMsgReceived();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError volleyError) {
-                Log.e("Message", "" + volleyError);
-               if(MAX_ATTEMPT>0){
-                   MAX_ATTEMPT--;
-                   refreshMessage();
-               }
-                else{
-                   timeOut();
-               }
-            }
-        }) {
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError volleyError) {
+                        Log.e("Message", "" + volleyError);
+                        if(MAX_ATTEMPT>0){
+                            MAX_ATTEMPT--;
+                            refreshMessage();
+                        }
+                        else {
+                            timeOut();
+                        }
+                    }
+                }
+        ) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

@@ -13,7 +13,7 @@ public class LocalNotificationManager {
 
     public static LocalNotificationManager mInstance;
     private static Context context;
-    private int mNotificationId=0;
+    private int mNotificationId = 0;
     public LocalNotificationManager(){}
 
     public LocalNotificationManager(Context context){

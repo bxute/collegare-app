@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="0dp"
+    android:padding="4dp"
     android:layout_margin="5dp">
 
     <RelativeLayout
@@ -25,7 +25,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/poll_tag_bg"
                 android:gravity="center"
-                android:text="3"
+                android:text="0"
                 android:textColor="#ff0000"
                 android:textSize="12dp" />
         </RelativeLayout>
@@ -41,12 +41,14 @@
             android:textColor="#111111" />
     </RelativeLayout>
 
-    <ImageView
+    <Button
+        android:textSize="10dp"
+        android:textColor="#ff0000"
+        android:text="remove"
         android:id="@+id/removeBtn"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
         android:layout_marginLeft="16dp"
-        android:gravity="center_vertical"
-        android:padding="5dp"
-        android:src="@drawable/cross" />
+        android:background="@drawable/remove_btn_bg"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp" />
+
 </LinearLayout>

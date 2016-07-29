@@ -50,10 +50,10 @@ import java.util.Map;
  */
 
 
-public class PostDataAdapter extends RecyclerView
+public class FeedsAdapter extends RecyclerView
         .Adapter<RecyclerView.ViewHolder> implements LogoutListener, UpdateListener {
 
-    static PostDataAdapter bInstance;
+    static FeedsAdapter bInstance;
     public ArrayList<CollegareFeed> mDataset;
     public SessionManager sessionManager;
     Context context;
@@ -62,12 +62,12 @@ public class PostDataAdapter extends RecyclerView
     private static int TYPE_POST=1;
 
 
-    public PostDataAdapter(ArrayList<CollegareFeed> myDataset) {
+    public FeedsAdapter(ArrayList<CollegareFeed> myDataset) {
         mDataset = myDataset;
         // polls = pollList;
     }
 
-    public PostDataAdapter(Context context) {
+    public FeedsAdapter(Context context) {
         sessionManager = new SessionManager(context);
         this.context = context;
         //Log.e("PDA","constructor");
@@ -78,9 +78,9 @@ public class PostDataAdapter extends RecyclerView
 
     }
 
-    public static PostDataAdapter getInstance(Context context) {
+    public static FeedsAdapter getInstance(Context context) {
         if (bInstance == null) {
-            bInstance = new PostDataAdapter(context);
+            bInstance = new FeedsAdapter(context);
         }
         return bInstance;
     }
@@ -125,7 +125,7 @@ public class PostDataAdapter extends RecyclerView
         }
         else {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.post_layout, parent, false);
+                    .inflate(R.layout.poll_card, parent, false);
             return new PollHolder(view);
         }
 
@@ -156,9 +156,10 @@ public class PostDataAdapter extends RecyclerView
         else{
             ((PollHolder) holder).content.setText(mDataset.get(position).content);
             ((PollHolder) holder).duration.setText(timePast);
-            final PollOptionsAdapter adapter= new PollOptionsAdapter(context,mDataset.get(position).pollOptions,mDataset.get(position).pollOptionSelected);
+            final PollOptionsAdapter adapter=
+                    new PollOptionsAdapter(context,mDataset.get(position).pollOptions,mDataset.get(position).pollOptionSelected);
                     ((PollHolder) holder).pollOptions.setAdapter(adapter);
-
+                    setListViewHeight(((PollHolder) holder).pollOptions);
             if(!mDataset.get(position).pollOptionSelected.equals("")){
                 adapter.setSelected(Integer.parseInt(mDataset.get(position).pollOptionSelected));
                 ((PollHolder) holder).lock.setImageResource(R.drawable.lock_pressed);
@@ -258,7 +259,7 @@ public class PostDataAdapter extends RecyclerView
         @Override
         public void onClick(View v) {
 
-            PostDataAdapter instance = PostDataAdapter.getInstance(new Contexter().getContext());
+            FeedsAdapter instance = FeedsAdapter.getInstance(new Contexter().getContext());
 
             Fragment feedFragment= (Fragment)new Feeds();
 
@@ -547,4 +548,25 @@ public class PostDataAdapter extends RecyclerView
 
     }
 
+    public void setListViewHeight(ListView listView){
+        PollOptionsAdapter adapter = (PollOptionsAdapter) listView.getAdapter();
+        if(adapter!=null){
+            int items = adapter.getCount();
+            //get total height of items
+            int totalHeight = 0 ;
+            for(int i = 0; i< items ; i++){
+                View view = adapter.getView(i,null,listView);
+                view.measure(0,0);
+                totalHeight += view.getMeasuredHeight();
+            }
+            //get height of all dividers
+            int dividersHeight = listView.getDividerHeight() * (items);
+
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalHeight+dividersHeight;
+            listView.setLayoutParams(params);
+            listView.requestLayout();
+        }
+
+    }
 }

@@ -17,7 +17,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.collegare.com.collegare.adapters.PostDataAdapter;
+import com.collegare.com.collegare.adapters.FeedsAdapter;
 import com.collegare.com.collegare.volley.AppManager;
 import com.collegare.com.collegare.utilities.App_Config;
 import com.collegare.com.collegare.adapters.CommentsAdapter;
@@ -52,7 +52,7 @@ public class IndivisualPost extends AppCompatActivity implements View.OnClickLis
     ProgressDialog progressDialoge;
     private Toolbar toolbar;
     private int position;
-    private PostDataAdapter pda;
+    private FeedsAdapter pda;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,7 +100,7 @@ public class IndivisualPost extends AppCompatActivity implements View.OnClickLis
         commentCount = (TextView) findViewById(R.id.commentCount);
 
         dataStore = new DataStore(IndivisualPost.this);
-        pda= PostDataAdapter.getInstance(this);
+        pda= FeedsAdapter.getInstance(this);
         progressDialoge = new ProgressDialog(this);
         progressDialoge.setIndeterminate(true);
         progressDialoge.setMessage("Crunching latest data...");

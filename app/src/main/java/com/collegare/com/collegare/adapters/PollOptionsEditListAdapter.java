@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,7 +53,7 @@ public class PollOptionsEditListAdapter extends ArrayAdapter<String> {
             tempView= LayoutInflater.from(context).inflate(R.layout.poll_option_item,null);
         }
         TextView title= (TextView) tempView.findViewById(R.id.optionTitle);
-        ImageView cross= (ImageView) tempView.findViewById(R.id.removeBtn);
+        Button cross= (Button) tempView.findViewById(R.id.removeBtn);
         cross.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,6 +66,7 @@ public class PollOptionsEditListAdapter extends ArrayAdapter<String> {
 
     @Override
     public int getCount() {
+        Log.e("PollAdapter","s"+options.size()) ;
         return options.size();
     }
 

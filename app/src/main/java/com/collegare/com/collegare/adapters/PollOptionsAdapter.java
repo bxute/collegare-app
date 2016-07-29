@@ -59,7 +59,6 @@ public class PollOptionsAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getView(final int position, View view, ViewGroup parent) {
-        Log.e("POLLA", "getView() called");
         retView = view;
         //if(retView==null){
         retView = LayoutInflater.from(context).inflate(R.layout.poll_option, null);
