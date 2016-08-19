@@ -16,7 +16,7 @@ class RootModelParser {
 
 					DatModel dat = dat_parser.parseDatModel(jsobj.getJSONObject("dat").toString());
 
-					local_model = new RootModel(dat, jsobj.getString("apiVersion") , );
+					local_model = new RootModel(jsobj.getString("apiVersion") , dat, );
  			} 
 			catch (JSONException e){
 

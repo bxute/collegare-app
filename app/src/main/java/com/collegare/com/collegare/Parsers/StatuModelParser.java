@@ -13,7 +13,7 @@ class StatuModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new StatuModel(jsobj.getString("value") , jsobj.getString("reason") , );
+					local_model = new StatuModel(jsobj.getString("reason") , jsobj.getString("value") , );
  			} 
 			catch (JSONException e){
 
