@@ -2,47 +2,37 @@ import java.util.ArrayList;
 
 class SoldModel {
 
-	public String id;
-	public AccesspiModel _accesspi;
+	public String updatedon;
+	public ThumbnailModel _thumbnail;
+	public StatuModel _statu;
+	public ArrayList<String> tags;
 	public String updatededon;
+	public String id;
+	public String uploadedon;
+	public int commentCount;
+	public AccesspiModel _accesspi;
+	public ContentModel _content;
+	public PlayerModel _player;
+	public String description;
 	public String uploadedby;
 	public String title;
-	public ContentModel _content;
-	public int duration;
-	public PlayerModel _player;
-	public String uploadedon;
-	public ThumbnailModel _thumbnail;
-	public ArrayList<String> tags;
-	public String description;
-	public int viewCount;
-	public int ratingCount;
-	public int commentCount;
-	public StatuModel _statu;
-	public String updatedon;
-	public String aspectRatio;
-	public int favoriteCount;
 
-	public SoldModel(String id, AccesspiModel accesspi, String updatededon, String uploadedby, String title, ContentModel content, int duration, PlayerModel player, String uploadedon, ThumbnailModel thumbnail, ArrayList<String> tags, String description, int viewCount, int ratingCount, int commentCount, StatuModel statu, String updatedon, String aspectRatio, int favoriteCount) {
+	public SoldModel(String updatedon, ThumbnailModel thumbnail, StatuModel statu, ArrayList<String> tags, String updatededon, String id, String uploadedon, int commentCount, AccesspiModel accesspi, ContentModel content, PlayerModel player, String description, String uploadedby, String title) {
 
-		this.id = id;
-		this._accesspi = accesspi;
+		this.updatedon = updatedon;
+		this._thumbnail = thumbnail;
+		this._statu = statu;
+		this.tags = tags;
 		this.updatededon = updatededon;
+		this.id = id;
+		this.uploadedon = uploadedon;
+		this.commentCount = commentCount;
+		this._accesspi = accesspi;
+		this._content = content;
+		this._player = player;
+		this.description = description;
 		this.uploadedby = uploadedby;
 		this.title = title;
-		this._content = content;
-		this.duration = duration;
-		this._player = player;
-		this.uploadedon = uploadedon;
-		this._thumbnail = thumbnail;
-		this.tags = tags;
-		this.description = description;
-		this.viewCount = viewCount;
-		this.ratingCount = ratingCount;
-		this.commentCount = commentCount;
-		this._statu = statu;
-		this.updatedon = updatedon;
-		this.aspectRatio = aspectRatio;
-		this.favoriteCount = favoriteCount;
 
 	}
 

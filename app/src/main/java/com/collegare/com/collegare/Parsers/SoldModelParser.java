@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class SoldModelParser {
 
+		ThumbnailModelParser thumbnail_parser = new ThumbnailModelParser();
+		StatuModelParser statu_parser = new StatuModelParser();
 		AccesspiModelParser accesspi_parser = new AccesspiModelParser();
 		ContentModelParser content_parser = new ContentModelParser();
 		PlayerModelParser player_parser = new PlayerModelParser();
-		ThumbnailModelParser thumbnail_parser = new ThumbnailModelParser();
-		StatuModelParser statu_parser = new StatuModelParser();
 
 		public SoldModelParser() {
 		}
@@ -20,13 +20,9 @@ class SoldModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					AccesspiModel accesspi = accesspi_parser.parseAccesspiModel(jsobj.getJSONObject("accesspi").toString());
+					ThumbnailModel thumbnail = thumbnail_parser.parseThumbnailModel(jsobj.getJSONObject("thumbnail").toString());
 
-					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
-
-					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
-
-					ThumbnailModel thumbnail = thumbnail_parser.parseThumbnailModel(jsobj.getJSONObject("thumbnail").toString()); 
+					StatuModel statu = statu_parser.parseStatuModel(jsobj.getJSONObject("statu").toString()); 
 
 					ArrayList<String> tags = new ArrayList<>();
 					JSONArray tags_arr = jsobj.getJSONArray("tags");
@@ -37,9 +33,13 @@ class SoldModelParser {
 
 					}
 
-					StatuModel statu = statu_parser.parseStatuModel(jsobj.getJSONObject("statu").toString());
+					AccesspiModel accesspi = accesspi_parser.parseAccesspiModel(jsobj.getJSONObject("accesspi").toString());
 
-					local_model = new SoldModel(jsobj.getString("id") , accesspi, jsobj.getString("updatededon") , jsobj.getString("uploadedby") , jsobj.getString("title") , content, jsobj.getInt("duration") , player, jsobj.getString("uploadedon") , thumbnail, tagsjsobj.getString("description") , jsobj.getInt("viewCount") , jsobj.getInt("ratingCount") , jsobj.getInt("commentCount") , statu, jsobj.getString("updatedon") , jsobj.getString("aspectRatio") , jsobj.getInt("favoriteCount") , );
+					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
+
+					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
+
+					local_model = new SoldModel(jsobj.getString("updatedon") , thumbnail, statu, tagsjsobj.getString("updatededon") , jsobj.getString("id") , jsobj.getString("uploadedon") , jsobj.getInt("commentCount") , accesspi, content, player, jsobj.getString("description") , jsobj.getString("uploadedby") , jsobj.getString("title") , );
  			} 
 			catch (JSONException e){
 

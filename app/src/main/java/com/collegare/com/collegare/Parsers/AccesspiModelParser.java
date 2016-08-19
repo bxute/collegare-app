@@ -13,7 +13,7 @@ class AccesspiModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new AccesspiModel(jsobj.getString("comment") , jsobj.getString("videoRespond") , jsobj.getString("syndicate") , jsobj.getString("list") , jsobj.getString("rate") , jsobj.getString("embed") , jsobj.getString("commentVote") , );
+					local_model = new AccesspiModel(jsobj.getString("commentVote") , jsobj.getString("comment") , jsobj.getString("videoRespond") , jsobj.getString("syndicate") , jsobj.getInt("viewCount") , jsobj.getString("list") , jsobj.getInt("favoriteCount") , jsobj.getString("rate") , jsobj.getInt("duration") , jsobj.getString("embed") , jsobj.getString("aspectRatio") , jsobj.getInt("ratingCount") , );
  			} 
 			catch (JSONException e){
 
