@@ -1,53 +1,69 @@
-{"apiVersion":"2.0",
- "sam":{
-    "updated":"2010-01-07T19:58:42.949Z",
-    "totalItems":800,
-    "startIndex":1,
-    "itemsPerPage":1,
-    "res":[
-        {"id":"hYB0mn5zh2c",
-         "uploaded":"2007-06-05T22:07:03.000Z",
-         "updated":"2010-01-07T13:26:50.000Z",
-         "uploader":"GoogleDeveloperDay",
-         "category":"News",
-         "title":"Google Developers Day US - Maps API Introduction",
-         "description":"Google Maps API Introduction ...",
-         "tags":[
-            "GDD07","GDD07US","Maps"
-         ],
-         "thumbnail":{
-            "default":"http://i.ytimg.com/vi/hYB0mn5zh2c/default.jpg",
-            "hqDefault":"http://i.ytimg.com/vi/hYB0mn5zh2c/hqdefault.jpg"
+{
+
+     "firstName": "John",
+     "lastName": "Smith",
+     "age": 25,
+     "address":
+     {
+         "streetAddress": "21 2nd Street",
+         "city": "New York",
+         "state": "NY",
+         "postalCode": "10021"
+     },
+     "phoneNumber":
+     [
+         {
+           "type": "home",
+           "number": "212 555-1234"
          },
-         "sig":{
-            "default":"http://www.youtube.com/watch?vu003dhYB0mn5zh2c"
-         },
-         "mcontent":{
-            "1":"rtsp://v5.cache3.c.youtube.com/CiILENy.../0/0/0/video.3gp",
-            "5":"http://www.youtube.com/v/hYB0mn5zh2c?f...",
-            "6":"rtsp://v1.cache1.c.youtube.com/CiILENy.../0/0/0/video.3gp"
-         },
-         "duration":2840,
-         "aspectRatio":"widescreen",
-         "rating":4.63,
-         "ratingCount":68,
-         "viewCount":220101,
-         "favoriteCount":201,
-         "commentCount":22,
-         "qstatus":{
-            "value":"restricted",
-            "reason":"limitedSyndication"
-         },
-         "semantics":{
-            "syndicate":"allowed",
-            "commentVote":"allowed",
-            "rate":"allowed",
-            "list":"allowed",
-            "comment":"allowed",
-            "embed":"allowed",
-            "videoRespond":"moderated"
+         {
+           "type": "fax",
+           "number": "646 555-4567"
          }
-        }
-    ]
- }
+     ]
+ ,
+
+
+   "post": [
+      {
+         "id": "X999_Y999",
+         "from": {
+            "name": "Tom Brady", "id": "X12"
+         },
+         "message": "Looking forward to 2010!",
+         "action": [
+            {
+               "name": "Comment",
+               "link": "http://www.facebook.com/X999/posts/Y999"
+            },
+            {
+               "name": "Like",
+               "link": "http://www.facebook.com/X999/posts/Y999"
+            }
+         ],
+         "type": "status",
+         "created_time": "2010-08-02T21:27:44+0000",
+         "updated_time": "2010-08-02T21:27:44+0000"
+      },
+      {
+         "id": "X998_Y998",
+         "from": {
+            "name": "Peyton Manning", "id": "X18"
+         },
+         "message": "Where's my contract?",
+         "action": [
+            {
+               "name": "Comment",
+               "link": "http://www.facebook.com/X998/posts/Y998"
+            },
+            {
+               "name": "Like",
+               "link": "http://www.facebook.com/X998/posts/Y998"
+            }
+         ],
+         "type": "status",
+         "created_time": "2010-08-02T21:27:44+0000",
+         "updated_time": "2010-08-02T21:27:44+0000"
+      }
+   ]
 }

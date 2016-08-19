@@ -1,19 +1,19 @@
 import org.json.JSONException;
 import org.json.JSONObject;
 
-class ItemsModelParser {
+class FromModelParser {
 
 
-		public ItemsModelParser() {
+		public FromModelParser() {
 		}
 
-		public ItemsModel parseItemsModel(String json_object) {
+		public FromModel parseFromModel(String json_object) {
 
-			ItemsModel local_model = null;
+			FromModel local_model = null;
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new ItemsModel(jsobj.getString("id") , );
+					local_model = new FromModel(jsobj.getString("id") , jsobj.getString("name") , );
  			} 
 			catch (JSONException e){
 

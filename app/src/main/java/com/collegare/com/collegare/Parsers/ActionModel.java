@@ -1,13 +1,13 @@
 
 class ActionModel {
 
-	public String link;
 	public String name;
+	public String link;
 
-	public ActionModel(String link, String name) {
+	public ActionModel(String name, String link) {
 
-		this.link = link;
 		this.name = name;
+		this.link = link;
 
 	}
 
