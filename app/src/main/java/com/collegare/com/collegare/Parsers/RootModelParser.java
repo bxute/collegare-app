@@ -1,15 +1,11 @@
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.util.ArrayList;
-import org.json.JSONArray;
 
 class RootModelParser {
 
-		ResultModelParser result_parser = new ResultModelParser();
-		RepalerModelParser repaler_parser;
+		ReModelParser re_parser = new ReModelParser();
 
 		public RootModelParser() {
-			repaler_parser = new RepalerModelParser();
 		}
 
 		public RootModel parseRootModel(String json_object) {
@@ -18,18 +14,9 @@ class RootModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					ResultModel result = result_parser.parseResultModel(jsobj.getJSONObject("result").toString());
+					ReModel re = re_parser.parseReModel(jsobj.getJSONObject("re").toString());
 
-					ArrayList<RepalerModel> repalers = new ArrayList<>();
-					JSONArray repaler_arr = jsobj.getJSONArray("repaler");
-			
-					for(int i = 0 ;i<repaler_arr.length();i++){
-
- 						repalers.add(repaler_parser.parseRepalerModel((String)repaler_arr.get(i)));
-
-					}
-
-					local_model = new RootModel(result, repalers, );
+					local_model = new RootModel(re, );
  			} 
 			catch (JSONException e){
 

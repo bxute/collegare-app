@@ -1,14 +1,11 @@
-import java.util.ArrayList;
 
 class RootModel {
 
-	public ResultModel _result;
-	public ArrayList<RepalerModel> repaler;
+	public ReModel _re;
 
-	public RootModel(ResultModel result, ArrayList<RepalerModel> repaler) {
+	public RootModel(ReModel re) {
 
-		this._result = result;
-		this.repaler = repaler;
+		this._re = re;
 
 	}
 
