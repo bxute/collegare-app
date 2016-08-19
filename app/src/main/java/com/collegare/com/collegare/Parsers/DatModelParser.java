@@ -5,10 +5,10 @@ import org.json.JSONArray;
 
 class DatModelParser {
 
-		ItemModelParser item_parser;
+		SoldModelParser sold_parser;
 
 		public DatModelParser() {
-			item_parser = new ItemModelParser();
+			sold_parser = new SoldModelParser();
 		}
 
 		public DatModel parseDatModel(String json_object) {
@@ -17,16 +17,16 @@ class DatModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					ArrayList<ItemModel> items = new ArrayList<>();
-					JSONArray item_arr = jsobj.getJSONArray("item");
+					ArrayList<SoldModel> solds = new ArrayList<>();
+					JSONArray sold_arr = jsobj.getJSONArray("sold");
 			
-					for(int i = 0 ;i<item_arr.length();i++){
+					for(int i = 0 ;i<sold_arr.length();i++){
 
- 						items.add(item_parser.parseItemModel((String)item_arr.get(i)));
+ 						solds.add(sold_parser.parseSoldModel((String)sold_arr.get(i)));
 
 					}
 
-					local_model = new DatModel(jsobj.getString("updated") , items, jsobj.getInt("itemsPerPage") , );
+					local_model = new DatModel(jsobj.getInt("itemsPerPage") , jsobj.getString("updated") , solds, );
  			} 
 			catch (JSONException e){
 

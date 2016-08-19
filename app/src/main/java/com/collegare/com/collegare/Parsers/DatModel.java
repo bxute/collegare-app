@@ -2,15 +2,15 @@ import java.util.ArrayList;
 
 class DatModel {
 
-	public String updated;
-	public ArrayList<ItemModel> item;
 	public int itemsPerPage;
+	public String updated;
+	public ArrayList<SoldModel> sold;
 
-	public DatModel(String updated, ArrayList<ItemModel> item, int itemsPerPage) {
+	public DatModel(int itemsPerPage, String updated, ArrayList<SoldModel> sold) {
 
-		this.updated = updated;
-		this.item = item;
 		this.itemsPerPage = itemsPerPage;
+		this.updated = updated;
+		this.sold = sold;
 
 	}
 

@@ -1,13 +1,13 @@
 
 class StatuModel {
 
-	public String reason;
 	public String value;
+	public String reason;
 
-	public StatuModel(String reason, String value) {
+	public StatuModel(String value, String reason) {
 
-		this.reason = reason;
 		this.value = value;
+		this.reason = reason;
 
 	}
 
