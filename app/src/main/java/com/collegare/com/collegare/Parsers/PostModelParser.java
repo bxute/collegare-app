@@ -29,7 +29,7 @@ class PostModelParser {
 
 					}
 
-					local_model = new PostModel(jsobj.getString("id") , jsobj.getString("created_time") , jsobj.getString("updated_time") , jsobj.getString("message") , from, actions, jsobj.getString("type") , );
+					local_model = new PostModel(jsobj.getString("type") , jsobj.getString("id") , jsobj.getString("created_time") , jsobj.getString("updated_time") , jsobj.getString("message") , from, actions, );
  			} 
 			catch (JSONException e){
 

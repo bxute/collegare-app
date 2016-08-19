@@ -1,13 +1,15 @@
 
 class ThumbnailModel {
 
-	public String hqDefault;
-	public String default;
+	public String Width;
+	public String Url;
+	public String Height;
 
-	public ThumbnailModel(String hqDefault, String default) {
+	public ThumbnailModel(String Width, String Url, String Height) {
 
-		this.hqDefault = hqDefault;
-		this.default = default;
+		this.Width = Width;
+		this.Url = Url;
+		this.Height = Height;
 
 	}
 

@@ -1,13 +1,13 @@
 
 class PhoneNumberModel {
 
-	public String number;
 	public String type;
+	public String number;
 
-	public PhoneNumberModel(String number, String type) {
+	public PhoneNumberModel(String type, String number) {
 
-		this.number = number;
 		this.type = type;
+		this.number = number;
 
 	}
 

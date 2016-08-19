@@ -13,7 +13,7 @@ class PhoneNumberModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new PhoneNumberModel(jsobj.getString("number") , jsobj.getString("type") , );
+					local_model = new PhoneNumberModel(jsobj.getString("type") , jsobj.getString("number") , );
  			} 
 			catch (JSONException e){
 

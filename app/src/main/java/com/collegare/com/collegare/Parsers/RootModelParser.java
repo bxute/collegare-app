@@ -5,13 +5,15 @@ import org.json.JSONArray;
 
 class RootModelParser {
 
-		PhoneNumberModelParser phoneNumber_parser;
-		PostModelParser post_parser;
 		AddressModelParser address_parser = new AddressModelParser();
+		PostModelParser post_parser;
+		ResultModelParser Result_parser;
+		PhoneNumberModelParser phoneNumber_parser;
 
 		public RootModelParser() {
-			phoneNumber_parser = new PhoneNumberModelParser();
 			post_parser = new PostModelParser();
+			Result_parser = new ResultModelParser();
+			phoneNumber_parser = new PhoneNumberModelParser();
 		}
 
 		public RootModel parseRootModel(String json_object) {
@@ -20,14 +22,7 @@ class RootModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					ArrayList<PhoneNumberModel> phoneNumbers = new ArrayList<>();
-					JSONArray phoneNumber_arr = jsobj.getJSONArray("phoneNumber");
-			
-					for(int i = 0 ;i<phoneNumber_arr.length();i++){
-
- 						phoneNumbers.add(phoneNumber_parser.parsePhoneNumberModel((String)phoneNumber_arr.get(i)));
-
-					}
+					AddressModel address = address_parser.parseAddressModel(jsobj.getJSONObject("address").toString());
 
 					ArrayList<PostModel> posts = new ArrayList<>();
 					JSONArray post_arr = jsobj.getJSONArray("post");
@@ -38,9 +33,25 @@ class RootModelParser {
 
 					}
 
-					AddressModel address = address_parser.parseAddressModel(jsobj.getJSONObject("address").toString());
+					ArrayList<ResultModel> Results = new ArrayList<>();
+					JSONArray Result_arr = jsobj.getJSONArray("Result");
+			
+					for(int i = 0 ;i<Result_arr.length();i++){
 
-					local_model = new RootModel(phoneNumbers, jsobj.getString("lastName") , jsobj.getInt("age") , posts, address, jsobj.getString("firstName") , );
+ 						Results.add(Result_parser.parseResultModel((String)Result_arr.get(i)));
+
+					}
+
+					ArrayList<PhoneNumberModel> phoneNumbers = new ArrayList<>();
+					JSONArray phoneNumber_arr = jsobj.getJSONArray("phoneNumber");
+			
+					for(int i = 0 ;i<phoneNumber_arr.length();i++){
+
+ 						phoneNumbers.add(phoneNumber_parser.parsePhoneNumberModel((String)phoneNumber_arr.get(i)));
+
+					}
+
+					local_model = new RootModel(jsobj.getString("lastName") , address, posts, Results, jsobj.getString("firstName") , phoneNumbers, jsobj.getInt("age") , );
  			} 
 			catch (JSONException e){
 
