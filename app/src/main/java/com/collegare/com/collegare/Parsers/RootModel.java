@@ -1,11 +1,13 @@
 
 class RootModel {
 
-	public ReModel _re;
+	public DatModel _dat;
+	public String apiVersion;
 
-	public RootModel(ReModel re) {
+	public RootModel(DatModel dat, String apiVersion) {
 
-		this._re = re;
+		this._dat = dat;
+		this.apiVersion = apiVersion;
 
 	}
 
