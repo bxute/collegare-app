@@ -1,15 +1,15 @@
 
 class ThumbnailModel {
 
-	public String Width;
-	public String Url;
 	public String Height;
+	public String Url;
+	public String Width;
 
-	public ThumbnailModel(String Width, String Url, String Height) {
+	public ThumbnailModel(String Height, String Url, String Width) {
 
-		this.Width = Width;
-		this.Url = Url;
 		this.Height = Height;
+		this.Url = Url;
+		this.Width = Width;
 
 	}
 

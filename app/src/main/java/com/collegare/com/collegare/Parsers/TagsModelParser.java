@@ -3,18 +3,18 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import org.json.JSONArray;
 
-class PostModelParser {
+class TagsModelParser {
 
 		FromModelParser from_parser = new FromModelParser();
 		ActionModelParser action_parser;
 
-		public PostModelParser() {
+		public TagsModelParser() {
 			action_parser = new ActionModelParser();
 		}
 
-		public PostModel parsePostModel(String json_object) {
+		public TagsModel parseTagsModel(String json_object) {
 
-			PostModel local_model = null;
+			TagsModel local_model = null;
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
@@ -29,7 +29,7 @@ class PostModelParser {
 
 					}
 
-					local_model = new PostModel(jsobj.getString("type") , jsobj.getString("id") , jsobj.getString("created_time") , jsobj.getString("updated_time") , jsobj.getString("message") , from, actions, );
+					local_model = new TagsModel(jsobj.getString("id") , jsobj.getString("type") , jsobj.getString("updated_time") , jsobj.getString("message") , from, actions, jsobj.getString("created_time") , );
  			} 
 			catch (JSONException e){
 

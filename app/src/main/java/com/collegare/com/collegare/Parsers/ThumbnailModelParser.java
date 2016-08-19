@@ -13,7 +13,7 @@ class ThumbnailModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new ThumbnailModel(jsobj.getString("Width") , jsobj.getString("Url") , jsobj.getString("Height") , );
+					local_model = new ThumbnailModel(jsobj.getString("Height") , jsobj.getString("Url") , jsobj.getString("Width") , );
  			} 
 			catch (JSONException e){
 

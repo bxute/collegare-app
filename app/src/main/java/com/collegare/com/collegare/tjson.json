@@ -1,57 +1,39 @@
 {
-
- "Result": [
-            {
-                "Title": "potato jpg",
-                "Summary": "Kentang Si bungsu dari keluarga Solanum tuberosum L ini ternyata memiliki khasiat untuk mengurangi kerutan  jerawat  bintik hitam dan kemerahan pada kulit  Gunakan seminggu sekali sebagai",
-                "Url": "http://www.mediaindonesia.com/spaw/uploads/images/potato.jpg",
-                "ClickUrl": "http://www.mediaindonesia.com/spaw/uploads/images/potato.jpg",
-                "RefererUrl": "http://www.mediaindonesia.com/mediaperempuan/index.php?ar_id=Nzkw",
-                "FileSize": 22630,
-                "FileFormat": "jpeg",
-                "Height": "362",
-                "Width": "532",
-                "Thumbnail": {
-                    "Url": "http://thm-a01.yimg.com/nimage/557094559c18f16a",
-                    "Height": "98",
-                    "Width": "145"
-                }
-            }],
-
      "firstName": "John",
      "lastName": "Smith",
      "age": 25,
-     "address":
+
+      "restdata":{"text":"@twitterapi  http://tinyurl.com/ctrefg",
+
+     "to_user_id":396524,
+
+     "to_user":"TwitterAPI",
+
+     "from_user":"jkoum",
+
+     "metadata":
+
      {
-         "streetAddress": "21 2nd Street",
-         "city": "New York",
-         "state": "NY",
-         "postalCode": "10021"
-     },
-     "phoneNumber":
-     [
-         {
-           "type": "home",
-           "number": "212 555-1234"
-         },
-         {
-           "type": "fax",
-           "number": "646 555-4567"
-         }
-     ]
- ,
 
+      "result_type":"popular",
 
-   "post": [
+      "recent_retweets": 109
+
+    }},
+
+   "rest": [
       {
-         "id": "X999_Y999",
-         "from": {
+         "id_frome": "X999_Y999",
+         "id_to": {
             "name": "Tom Brady", "id": "X12"
          },
-         "message": "Looking forward to 2010!",
-         "action": [
+         "means": "Looking forward to 2010!",
+         "rast": [
             {
                "name": "Comment",
+               "type": "status",
+         "created_time": "2010-08-02T21:27:44+0000",
+         "updated_time": "2010-08-02T21:27:44+0000",
                "link": "http://www.facebook.com/X999/posts/Y999"
             },
             {
@@ -69,7 +51,7 @@
             "name": "Peyton Manning", "id": "X18"
          },
          "message": "Where's my contract?",
-         "action": [
+         "roam": [
             {
                "name": "Comment",
                "link": "http://www.facebook.com/X998/posts/Y998"

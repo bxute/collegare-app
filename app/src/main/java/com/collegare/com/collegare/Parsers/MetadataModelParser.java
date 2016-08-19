@@ -13,7 +13,7 @@ class MetadataModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new MetadataModel(jsobj.getString("result_type") , jsobj.getInt("recent_retweets") , );
+					local_model = new MetadataModel(jsobj.getInt("recent_retweets") , jsobj.getString("result_type") , );
  			} 
 			catch (JSONException e){
 

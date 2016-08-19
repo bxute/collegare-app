@@ -2,23 +2,19 @@ import java.util.ArrayList;
 
 class RootModel {
 
-	public String lastName;
-	public AddressModel _address;
-	public ArrayList<PostModel> post;
-	public ArrayList<ResultModel> Result;
+	public ArrayList<RestModel> rest;
 	public String firstName;
-	public ArrayList<PhoneNumberModel> phoneNumber;
 	public int age;
+	public String lastName;
+	public RestdataModel _restdata;
 
-	public RootModel(String lastName, AddressModel address, ArrayList<PostModel> post, ArrayList<ResultModel> Result, String firstName, ArrayList<PhoneNumberModel> phoneNumber, int age) {
+	public RootModel(ArrayList<RestModel> rest, String firstName, int age, String lastName, RestdataModel restdata) {
 
-		this.lastName = lastName;
-		this._address = address;
-		this.post = post;
-		this.Result = Result;
+		this.rest = rest;
 		this.firstName = firstName;
-		this.phoneNumber = phoneNumber;
 		this.age = age;
+		this.lastName = lastName;
+		this._restdata = restdata;
 
 	}
 
