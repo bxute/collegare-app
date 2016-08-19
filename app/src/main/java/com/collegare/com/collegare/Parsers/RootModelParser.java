@@ -3,7 +3,7 @@ import org.json.JSONObject;
 
 class RootModelParser {
 
-		DataModelParser data_parser = new DataModelParser();
+		SamModelParser sam_parser = new SamModelParser();
 
 		public RootModelParser() {
 		}
@@ -14,9 +14,9 @@ class RootModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					DataModel data = data_parser.parseDataModel(jsobj.getJSONObject("data").toString());
+					SamModel sam = sam_parser.parseSamModel(jsobj.getJSONObject("sam").toString());
 
-					local_model = new RootModel(data, jsobj.getString("apiVersion") , );
+					local_model = new RootModel(sam, jsobj.getString("apiVersion") , );
  			} 
 			catch (JSONException e){
 

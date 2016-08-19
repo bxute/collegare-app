@@ -1,10 +1,10 @@
 {"apiVersion":"2.0",
- "data":{
+ "sam":{
     "updated":"2010-01-07T19:58:42.949Z",
     "totalItems":800,
     "startIndex":1,
     "itemsPerPage":1,
-    "items":[
+    "res":[
         {"id":"hYB0mn5zh2c",
          "uploaded":"2007-06-05T22:07:03.000Z",
          "updated":"2010-01-07T13:26:50.000Z",
@@ -19,10 +19,10 @@
             "default":"http://i.ytimg.com/vi/hYB0mn5zh2c/default.jpg",
             "hqDefault":"http://i.ytimg.com/vi/hYB0mn5zh2c/hqdefault.jpg"
          },
-         "player":{
+         "sig":{
             "default":"http://www.youtube.com/watch?vu003dhYB0mn5zh2c"
          },
-         "content":{
+         "mcontent":{
             "1":"rtsp://v5.cache3.c.youtube.com/CiILENy.../0/0/0/video.3gp",
             "5":"http://www.youtube.com/v/hYB0mn5zh2c?f...",
             "6":"rtsp://v1.cache1.c.youtube.com/CiILENy.../0/0/0/video.3gp"
@@ -34,11 +34,11 @@
          "viewCount":220101,
          "favoriteCount":201,
          "commentCount":22,
-         "status":{
+         "qstatus":{
             "value":"restricted",
             "reason":"limitedSyndication"
          },
-         "accessControl":{
+         "semantics":{
             "syndicate":"allowed",
             "commentVote":"allowed",
             "rate":"allowed",

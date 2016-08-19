@@ -1,12 +1,12 @@
 
 class RootModel {
 
-	public DataModel _data;
+	public SamModel _sam;
 	public String apiVersion;
 
-	public RootModel(DataModel data, String apiVersion) {
+	public RootModel(SamModel sam, String apiVersion) {
 
-		this._data = data;
+		this._sam = sam;
 		this.apiVersion = apiVersion;
 
 	}
