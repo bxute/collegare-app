@@ -3,7 +3,7 @@ import org.json.JSONObject;
 
 class RootModelParser {
 
-		RawModelParser raw_parser = new RawModelParser();
+		DataModelParser data_parser = new DataModelParser();
 
 		public RootModelParser() {
 		}
@@ -14,9 +14,9 @@ class RootModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					RawModel raw = raw_parser.parseRawModel(jsobj.getJSONObject("raw").toString());
+					DataModel data = data_parser.parseDataModel(jsobj.getJSONObject("data").toString());
 
-					local_model = new RootModel(jsobj.getString("text") , jsobj.getString("iso_language_code") , jsobj.getString("to_user") , jsobj.getString("from_user") , jsobj.getString("profile_image_url") , jsobj.getString("created_at") , raw, jsobj.getInt("id") , jsobj.getInt("to_user_id") , jsobj.getInt("from_user_id") , jsobj.getString("source") , );
+					local_model = new RootModel(data, jsobj.getString("apiVersion") , );
  			} 
 			catch (JSONException e){
 
