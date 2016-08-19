@@ -1,33 +1,33 @@
 
 class AccesspiModel {
 
-	public String commentVote;
-	public String comment;
-	public String videoRespond;
+	public int duration;
 	public String syndicate;
+	public String rate;
+	public int ratingCount;
+	public String comment;
 	public int viewCount;
 	public String list;
-	public int favoriteCount;
-	public String rate;
-	public int duration;
-	public String embed;
+	public String videoRespond;
+	public String commentVote;
 	public String aspectRatio;
-	public int ratingCount;
+	public int favoriteCount;
+	public String embed;
 
-	public AccesspiModel(String commentVote, String comment, String videoRespond, String syndicate, int viewCount, String list, int favoriteCount, String rate, int duration, String embed, String aspectRatio, int ratingCount) {
+	public AccesspiModel(int duration, String syndicate, String rate, int ratingCount, String comment, int viewCount, String list, String videoRespond, String commentVote, String aspectRatio, int favoriteCount, String embed) {
 
-		this.commentVote = commentVote;
-		this.comment = comment;
-		this.videoRespond = videoRespond;
+		this.duration = duration;
 		this.syndicate = syndicate;
+		this.rate = rate;
+		this.ratingCount = ratingCount;
+		this.comment = comment;
 		this.viewCount = viewCount;
 		this.list = list;
-		this.favoriteCount = favoriteCount;
-		this.rate = rate;
-		this.duration = duration;
-		this.embed = embed;
+		this.videoRespond = videoRespond;
+		this.commentVote = commentVote;
 		this.aspectRatio = aspectRatio;
-		this.ratingCount = ratingCount;
+		this.favoriteCount = favoriteCount;
+		this.embed = embed;
 
 	}
 
