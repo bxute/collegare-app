@@ -2,16 +2,16 @@
 class RootModel {
 
 	public PropertiesModel _properties;
-	public String apiVersion;
 	public String name;
-	public WrimModel _wrim;
+	public WricModel _wric;
+	public String apiVersion;
 
-	public RootModel(PropertiesModel properties, String apiVersion, String name, WrimModel wrim) {
+	public RootModel(PropertiesModel properties, String name, WricModel wric, String apiVersion) {
 
 		this._properties = properties;
-		this.apiVersion = apiVersion;
 		this.name = name;
-		this._wrim = wrim;
+		this._wric = wric;
+		this.apiVersion = apiVersion;
 
 	}
 

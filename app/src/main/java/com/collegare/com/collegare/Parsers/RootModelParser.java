@@ -4,7 +4,7 @@ import org.json.JSONObject;
 class RootModelParser {
 
 		PropertiesModelParser properties_parser = new PropertiesModelParser();
-		WrimModelParser wrim_parser = new WrimModelParser();
+		WricModelParser wric_parser = new WricModelParser();
 
 		public RootModelParser() {
 		}
@@ -17,9 +17,9 @@ class RootModelParser {
 
 					PropertiesModel properties = properties_parser.parsePropertiesModel(jsobj.getJSONObject("properties").toString());
 
-					WrimModel wrim = wrim_parser.parseWrimModel(jsobj.getJSONObject("wrim").toString());
+					WricModel wric = wric_parser.parseWricModel(jsobj.getJSONObject("wric").toString());
 
-					local_model = new RootModel(properties, jsobj.getString("apiVersion") , jsobj.getString("name") , wrim, );
+					local_model = new RootModel(properties, jsobj.getString("name") , wric, jsobj.getString("apiVersion") , );
  			} 
 			catch (JSONException e){
 
