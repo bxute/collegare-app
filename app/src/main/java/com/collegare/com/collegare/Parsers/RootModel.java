@@ -2,19 +2,13 @@ import java.util.ArrayList;
 
 class RootModel {
 
-	public ArrayList<RestModel> rest;
-	public String firstName;
-	public int age;
-	public String lastName;
-	public RestdataModel _restdata;
+	public ResultModel _result;
+	public ArrayList<RepalerModel> repaler;
 
-	public RootModel(ArrayList<RestModel> rest, String firstName, int age, String lastName, RestdataModel restdata) {
+	public RootModel(ResultModel result, ArrayList<RepalerModel> repaler) {
 
-		this.rest = rest;
-		this.firstName = firstName;
-		this.age = age;
-		this.lastName = lastName;
-		this._restdata = restdata;
+		this._result = result;
+		this.repaler = repaler;
 
 	}
 

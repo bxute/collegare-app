@@ -1,9 +1,6 @@
 {
-     "firstName": "John",
-     "lastName": "Smith",
-     "age": 25,
 
-      "restdata":{"text":"@twitterapi  http://tinyurl.com/ctrefg",
+      "result":{"text":"@twitterapi  http://tinyurl.com/ctrefg",
 
      "to_user_id":396524,
 
@@ -11,7 +8,7 @@
 
      "from_user":"jkoum",
 
-     "metadata":
+     "meta":
 
      {
 
@@ -21,7 +18,7 @@
 
     }},
 
-   "rest": [
+   "repaler": [
       {
          "id_frome": "X999_Y999",
          "id_to": {

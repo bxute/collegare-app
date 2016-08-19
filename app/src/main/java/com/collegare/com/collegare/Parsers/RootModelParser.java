@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class RootModelParser {
 
-		RestModelParser rest_parser;
-		RestdataModelParser restdata_parser = new RestdataModelParser();
+		ResultModelParser result_parser = new ResultModelParser();
+		RepalerModelParser repaler_parser;
 
 		public RootModelParser() {
-			rest_parser = new RestModelParser();
+			repaler_parser = new RepalerModelParser();
 		}
 
 		public RootModel parseRootModel(String json_object) {
@@ -18,18 +18,18 @@ class RootModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					ArrayList<RestModel> rests = new ArrayList<>();
-					JSONArray rest_arr = jsobj.getJSONArray("rest");
-			
-					for(int i = 0 ;i<rest_arr.length();i++){
+					ResultModel result = result_parser.parseResultModel(jsobj.getJSONObject("result").toString());
 
- 						rests.add(rest_parser.parseRestModel((String)rest_arr.get(i)));
+					ArrayList<RepalerModel> repalers = new ArrayList<>();
+					JSONArray repaler_arr = jsobj.getJSONArray("repaler");
+			
+					for(int i = 0 ;i<repaler_arr.length();i++){
+
+ 						repalers.add(repaler_parser.parseRepalerModel((String)repaler_arr.get(i)));
 
 					}
 
-					RestdataModel restdata = restdata_parser.parseRestdataModel(jsobj.getJSONObject("restdata").toString());
-
-					local_model = new RootModel(rests, jsobj.getString("firstName") , jsobj.getInt("age") , jsobj.getString("lastName") , restdata, );
+					local_model = new RootModel(result, repalers, );
  			} 
 			catch (JSONException e){
 
