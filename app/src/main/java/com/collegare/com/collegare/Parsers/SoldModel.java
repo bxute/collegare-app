@@ -2,37 +2,37 @@ import java.util.ArrayList;
 
 class SoldModel {
 
-	public String uploadedon;
 	public ThumbnailModel _thumbnail;
-	public int commentCount;
+	public ArrayList<String> tags;
+	public ContentModel _content;
 	public String id;
+	public String title;
+	public StatuModel _statu;
+	public String uploadedon;
 	public AccesspiModel _accesspi;
 	public String updatededon;
+	public String uploadedby;
+	public String description;
 	public PlayerModel _player;
 	public String updatedon;
-	public String title;
-	public String description;
-	public ArrayList<String> tags;
-	public StatuModel _statu;
-	public String uploadedby;
-	public ContentModel _content;
+	public int commentCount;
 
-	public SoldModel(String uploadedon, ThumbnailModel thumbnail, int commentCount, String id, AccesspiModel accesspi, String updatededon, PlayerModel player, String updatedon, String title, String description, ArrayList<String> tags, StatuModel statu, String uploadedby, ContentModel content) {
+	public SoldModel(ThumbnailModel thumbnail, ArrayList<String> tags, ContentModel content, String id, String title, StatuModel statu, String uploadedon, AccesspiModel accesspi, String updatededon, String uploadedby, String description, PlayerModel player, String updatedon, int commentCount) {
 
-		this.uploadedon = uploadedon;
 		this._thumbnail = thumbnail;
-		this.commentCount = commentCount;
+		this.tags = tags;
+		this._content = content;
 		this.id = id;
+		this.title = title;
+		this._statu = statu;
+		this.uploadedon = uploadedon;
 		this._accesspi = accesspi;
 		this.updatededon = updatededon;
+		this.uploadedby = uploadedby;
+		this.description = description;
 		this._player = player;
 		this.updatedon = updatedon;
-		this.title = title;
-		this.description = description;
-		this.tags = tags;
-		this._statu = statu;
-		this.uploadedby = uploadedby;
-		this._content = content;
+		this.commentCount = commentCount;
 
 	}
 

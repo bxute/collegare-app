@@ -1,17 +1,17 @@
 
 class PropertiesModel {
 
-	public PriceModel _price;
-	public NameModel _name;
-	public TagsModel _tags;
-	public IdModel _id;
+	public PricemModel _pricem;
+	public DesModel _des;
+	public FoltModel _folt;
+	public TagerModel _tager;
 
-	public PropertiesModel(PriceModel price, NameModel name, TagsModel tags, IdModel id) {
+	public PropertiesModel(PricemModel pricem, DesModel des, FoltModel folt, TagerModel tager) {
 
-		this._price = price;
-		this._name = name;
-		this._tags = tags;
-		this._id = id;
+		this._pricem = pricem;
+		this._des = des;
+		this._folt = folt;
+		this._tager = tager;
 
 	}
 

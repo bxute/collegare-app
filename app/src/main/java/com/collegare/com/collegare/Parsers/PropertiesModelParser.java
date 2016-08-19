@@ -3,10 +3,10 @@ import org.json.JSONObject;
 
 class PropertiesModelParser {
 
-		PriceModelParser price_parser = new PriceModelParser();
-		NameModelParser name_parser = new NameModelParser();
-		TagsModelParser tags_parser = new TagsModelParser();
-		IdModelParser id_parser = new IdModelParser();
+		PricemModelParser pricem_parser = new PricemModelParser();
+		DesModelParser des_parser = new DesModelParser();
+		FoltModelParser folt_parser = new FoltModelParser();
+		TagerModelParser tager_parser = new TagerModelParser();
 
 		public PropertiesModelParser() {
 		}
@@ -17,15 +17,15 @@ class PropertiesModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					PriceModel price = price_parser.parsePriceModel(jsobj.getJSONObject("price").toString());
+					PricemModel pricem = pricem_parser.parsePricemModel(jsobj.getJSONObject("pricem").toString());
 
-					NameModel name = name_parser.parseNameModel(jsobj.getJSONObject("name").toString());
+					DesModel des = des_parser.parseDesModel(jsobj.getJSONObject("des").toString());
 
-					TagsModel tags = tags_parser.parseTagsModel(jsobj.getJSONObject("tags").toString());
+					FoltModel folt = folt_parser.parseFoltModel(jsobj.getJSONObject("folt").toString());
 
-					IdModel id = id_parser.parseIdModel(jsobj.getJSONObject("id").toString());
+					TagerModel tager = tager_parser.parseTagerModel(jsobj.getJSONObject("tager").toString());
 
-					local_model = new PropertiesModel(price, name, tags, id, );
+					local_model = new PropertiesModel(pricem, des, folt, tager, );
  			} 
 			catch (JSONException e){
 

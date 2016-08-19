@@ -6,10 +6,10 @@ import org.json.JSONArray;
 class SoldModelParser {
 
 		ThumbnailModelParser thumbnail_parser = new ThumbnailModelParser();
+		ContentModelParser content_parser = new ContentModelParser();
+		StatuModelParser statu_parser = new StatuModelParser();
 		AccesspiModelParser accesspi_parser = new AccesspiModelParser();
 		PlayerModelParser player_parser = new PlayerModelParser();
-		StatuModelParser statu_parser = new StatuModelParser();
-		ContentModelParser content_parser = new ContentModelParser();
 
 		public SoldModelParser() {
 		}
@@ -20,11 +20,7 @@ class SoldModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					ThumbnailModel thumbnail = thumbnail_parser.parseThumbnailModel(jsobj.getJSONObject("thumbnail").toString());
-
-					AccesspiModel accesspi = accesspi_parser.parseAccesspiModel(jsobj.getJSONObject("accesspi").toString());
-
-					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString()); 
+					ThumbnailModel thumbnail = thumbnail_parser.parseThumbnailModel(jsobj.getJSONObject("thumbnail").toString()); 
 
 					ArrayList<String> tags = new ArrayList<>();
 					JSONArray tags_arr = jsobj.getJSONArray("tags");
@@ -35,11 +31,15 @@ class SoldModelParser {
 
 					}
 
-					StatuModel statu = statu_parser.parseStatuModel(jsobj.getJSONObject("statu").toString());
-
 					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
-					local_model = new SoldModel(jsobj.getString("uploadedon") , thumbnail, jsobj.getInt("commentCount") , jsobj.getString("id") , accesspi, jsobj.getString("updatededon") , player, jsobj.getString("updatedon") , jsobj.getString("title") , jsobj.getString("description") , tagsstatu, jsobj.getString("uploadedby") , content, );
+					StatuModel statu = statu_parser.parseStatuModel(jsobj.getJSONObject("statu").toString());
+
+					AccesspiModel accesspi = accesspi_parser.parseAccesspiModel(jsobj.getJSONObject("accesspi").toString());
+
+					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
+
+					local_model = new SoldModel(thumbnail, tagscontent, jsobj.getString("id") , jsobj.getString("title") , statu, jsobj.getString("uploadedon") , accesspi, jsobj.getString("updatededon") , jsobj.getString("uploadedby") , jsobj.getString("description") , player, jsobj.getString("updatedon") , jsobj.getInt("commentCount") , );
  			} 
 			catch (JSONException e){
 
