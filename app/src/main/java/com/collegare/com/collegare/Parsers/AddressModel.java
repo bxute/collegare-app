@@ -1,17 +1,17 @@
 
 class AddressModel {
 
-	public String streetAddress;
+	public String state;
 	public String postalCode;
 	public String city;
-	public String state;
+	public String streetAddress;
 
-	public AddressModel(String streetAddress, String postalCode, String city, String state) {
+	public AddressModel(String state, String postalCode, String city, String streetAddress) {
 
-		this.streetAddress = streetAddress;
+		this.state = state;
 		this.postalCode = postalCode;
 		this.city = city;
-		this.state = state;
+		this.streetAddress = streetAddress;
 
 	}
 
