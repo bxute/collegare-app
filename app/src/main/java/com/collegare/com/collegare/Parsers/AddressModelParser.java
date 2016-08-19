@@ -13,7 +13,7 @@ class AddressModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new AddressModel(jsobj.getString("streetAddress") , jsobj.getString("postalCode") , jsobj.getString("city") , jsobj.getString("state") , );
+					local_model = new AddressModel(jsobj.getString("state") , jsobj.getString("postalCode") , jsobj.getString("city") , jsobj.getString("streetAddress") , );
  			} 
 			catch (JSONException e){
 
