@@ -1,13 +1,13 @@
 
 class ThumbnailModel {
 
-	public String default;
 	public String hqDefault;
+	public String default;
 
-	public ThumbnailModel(String default, String hqDefault) {
+	public ThumbnailModel(String hqDefault, String default) {
 
-		this.default = default;
 		this.hqDefault = hqDefault;
+		this.default = default;
 
 	}
 
