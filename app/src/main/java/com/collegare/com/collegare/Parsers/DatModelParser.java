@@ -26,7 +26,7 @@ class DatModelParser {
 
 					}
 
-					local_model = new DatModel(jsobj.getString("updated") , solds, jsobj.getInt("itemsPerPage") , );
+					local_model = new DatModel(jsobj.getString("updated") , jsobj.getInt("itemsPerPage") , solds, );
  			} 
 			catch (JSONException e){
 

@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class SoldModelParser {
 
+		ThumbnailModelParser thumbnail_parser = new ThumbnailModelParser();
+		AccesspiModelParser accesspi_parser = new AccesspiModelParser();
 		PlayerModelParser player_parser = new PlayerModelParser();
 		StatuModelParser statu_parser = new StatuModelParser();
-		ThumbnailModelParser thumbnail_parser = new ThumbnailModelParser();
 		ContentModelParser content_parser = new ContentModelParser();
-		AccesspiModelParser accesspi_parser = new AccesspiModelParser();
 
 		public SoldModelParser() {
 		}
@@ -19,6 +19,10 @@ class SoldModelParser {
 			SoldModel local_model = null;
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
+
+					ThumbnailModel thumbnail = thumbnail_parser.parseThumbnailModel(jsobj.getJSONObject("thumbnail").toString());
+
+					AccesspiModel accesspi = accesspi_parser.parseAccesspiModel(jsobj.getJSONObject("accesspi").toString());
 
 					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString()); 
 
@@ -33,13 +37,9 @@ class SoldModelParser {
 
 					StatuModel statu = statu_parser.parseStatuModel(jsobj.getJSONObject("statu").toString());
 
-					ThumbnailModel thumbnail = thumbnail_parser.parseThumbnailModel(jsobj.getJSONObject("thumbnail").toString());
-
 					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
-					AccesspiModel accesspi = accesspi_parser.parseAccesspiModel(jsobj.getJSONObject("accesspi").toString());
-
-					local_model = new SoldModel(player, jsobj.getInt("commentCount") , jsobj.getString("updatededon") , tagsjsobj.getString("description") , statu, jsobj.getString("uploadedby") , jsobj.getString("uploadedon") , thumbnail, jsobj.getString("title") , content, jsobj.getString("id") , jsobj.getString("updatedon") , accesspi, );
+					local_model = new SoldModel(jsobj.getString("uploadedon") , thumbnail, jsobj.getInt("commentCount") , jsobj.getString("id") , accesspi, jsobj.getString("updatededon") , player, jsobj.getString("updatedon") , jsobj.getString("title") , jsobj.getString("description") , tagsstatu, jsobj.getString("uploadedby") , content, );
  			} 
 			catch (JSONException e){
 

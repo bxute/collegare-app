@@ -4,6 +4,7 @@ import org.json.JSONObject;
 class RootModelParser {
 
 		DatModelParser dat_parser = new DatModelParser();
+		PropertiesModelParser properties_parser = new PropertiesModelParser();
 
 		public RootModelParser() {
 		}
@@ -16,7 +17,9 @@ class RootModelParser {
 
 					DatModel dat = dat_parser.parseDatModel(jsobj.getJSONObject("dat").toString());
 
-					local_model = new RootModel(jsobj.getString("apiVersion") , dat, );
+					PropertiesModel properties = properties_parser.parsePropertiesModel(jsobj.getJSONObject("properties").toString());
+
+					local_model = new RootModel(jsobj.getString("name") , jsobj.getString("apiVersion") , dat, properties, );
  			} 
 			catch (JSONException e){
 

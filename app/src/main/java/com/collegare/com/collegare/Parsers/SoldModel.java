@@ -2,37 +2,37 @@ import java.util.ArrayList;
 
 class SoldModel {
 
-	public PlayerModel _player;
-	public int commentCount;
-	public String updatededon;
-	public ArrayList<String> tags;
-	public String description;
-	public StatuModel _statu;
-	public String uploadedby;
 	public String uploadedon;
 	public ThumbnailModel _thumbnail;
-	public String title;
-	public ContentModel _content;
+	public int commentCount;
 	public String id;
-	public String updatedon;
 	public AccesspiModel _accesspi;
+	public String updatededon;
+	public PlayerModel _player;
+	public String updatedon;
+	public String title;
+	public String description;
+	public ArrayList<String> tags;
+	public StatuModel _statu;
+	public String uploadedby;
+	public ContentModel _content;
 
-	public SoldModel(PlayerModel player, int commentCount, String updatededon, ArrayList<String> tags, String description, StatuModel statu, String uploadedby, String uploadedon, ThumbnailModel thumbnail, String title, ContentModel content, String id, String updatedon, AccesspiModel accesspi) {
+	public SoldModel(String uploadedon, ThumbnailModel thumbnail, int commentCount, String id, AccesspiModel accesspi, String updatededon, PlayerModel player, String updatedon, String title, String description, ArrayList<String> tags, StatuModel statu, String uploadedby, ContentModel content) {
 
-		this._player = player;
-		this.commentCount = commentCount;
-		this.updatededon = updatededon;
-		this.tags = tags;
-		this.description = description;
-		this._statu = statu;
-		this.uploadedby = uploadedby;
 		this.uploadedon = uploadedon;
 		this._thumbnail = thumbnail;
-		this.title = title;
-		this._content = content;
+		this.commentCount = commentCount;
 		this.id = id;
-		this.updatedon = updatedon;
 		this._accesspi = accesspi;
+		this.updatededon = updatededon;
+		this._player = player;
+		this.updatedon = updatedon;
+		this.title = title;
+		this.description = description;
+		this.tags = tags;
+		this._statu = statu;
+		this.uploadedby = uploadedby;
+		this._content = content;
 
 	}
 
