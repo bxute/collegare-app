@@ -3,8 +3,8 @@ import org.json.JSONObject;
 
 class RootModelParser {
 
-		SignModelParser sign_parser = new SignModelParser();
 		WricModelParser wric_parser = new WricModelParser();
+		SignModelParser sign_parser = new SignModelParser();
 
 		public RootModelParser() {
 		}
@@ -15,11 +15,11 @@ class RootModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					SignModel sign = sign_parser.parseSignModel(jsobj.getJSONObject("sign").toString());
-
 					WricModel wric = wric_parser.parseWricModel(jsobj.getJSONObject("wric").toString());
 
-					local_model = new RootModel(jsobj.getString("set") , sign, jsobj.getString("apiVersion") , wric, );
+					SignModel sign = sign_parser.parseSignModel(jsobj.getJSONObject("sign").toString());
+
+					local_model = new RootModel(wric, jsobj.getString("apiVersion") , jsobj.getString("set") , sign, );
  			} 
 			catch (JSONException e){
 

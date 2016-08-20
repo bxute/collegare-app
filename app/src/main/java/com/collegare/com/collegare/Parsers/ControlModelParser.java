@@ -13,7 +13,7 @@ class ControlModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new ControlModel(jsobj.getInt("favoriteCount") , jsobj.getString("videoRespond") , jsobj.getString("commentVote") , jsobj.getString("list") , jsobj.getString("rate") , jsobj.getString("syndicate") , jsobj.getString("embed") , jsobj.getString("aspectRatio") , jsobj.getString("comment") , jsobj.getInt("viewCount") , jsobj.getInt("ratingCount") , );
+					local_model = new ControlModel(jsobj.getString("rate") , jsobj.getString("aspectRatio") , jsobj.getString("list") , jsobj.getString("videoRespond") , jsobj.getString("comment") , jsobj.getInt("viewCount") , jsobj.getString("embed") , jsobj.getInt("favoriteCount") , jsobj.getInt("ratingCount") , jsobj.getString("commentVote") , jsobj.getString("syndicate") , );
  			} 
 			catch (JSONException e){
 

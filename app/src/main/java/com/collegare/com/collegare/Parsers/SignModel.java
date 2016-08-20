@@ -1,17 +1,17 @@
 
 class SignModel {
 
-	public DesModel _des;
-	public FoltModel _folt;
 	public TightModel _tight;
+	public FoltModel _folt;
 	public PricemModel _pricem;
+	public DesModel _des;
 
-	public SignModel(DesModel des, FoltModel folt, TightModel tight, PricemModel pricem) {
+	public SignModel(TightModel tight, FoltModel folt, PricemModel pricem, DesModel des) {
 
-		this._des = des;
-		this._folt = folt;
 		this._tight = tight;
+		this._folt = folt;
 		this._pricem = pricem;
+		this._des = des;
 
 	}
 

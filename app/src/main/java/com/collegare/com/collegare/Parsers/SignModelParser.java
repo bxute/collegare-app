@@ -3,10 +3,10 @@ import org.json.JSONObject;
 
 class SignModelParser {
 
-		DesModelParser des_parser = new DesModelParser();
-		FoltModelParser folt_parser = new FoltModelParser();
 		TightModelParser tight_parser = new TightModelParser();
+		FoltModelParser folt_parser = new FoltModelParser();
 		PricemModelParser pricem_parser = new PricemModelParser();
+		DesModelParser des_parser = new DesModelParser();
 
 		public SignModelParser() {
 		}
@@ -17,15 +17,15 @@ class SignModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					DesModel des = des_parser.parseDesModel(jsobj.getJSONObject("des").toString());
+					TightModel tight = tight_parser.parseTightModel(jsobj.getJSONObject("tight").toString());
 
 					FoltModel folt = folt_parser.parseFoltModel(jsobj.getJSONObject("folt").toString());
 
-					TightModel tight = tight_parser.parseTightModel(jsobj.getJSONObject("tight").toString());
-
 					PricemModel pricem = pricem_parser.parsePricemModel(jsobj.getJSONObject("pricem").toString());
 
-					local_model = new SignModel(des, folt, tight, pricem, );
+					DesModel des = des_parser.parseDesModel(jsobj.getJSONObject("des").toString());
+
+					local_model = new SignModel(tight, folt, pricem, des, );
  			} 
 			catch (JSONException e){
 
