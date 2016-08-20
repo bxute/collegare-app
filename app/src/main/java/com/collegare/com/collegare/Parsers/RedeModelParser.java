@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class RedeModelParser {
 
-		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
-		PlayerModelParser player_parser = new PlayerModelParser();
 		SyndicateModelParser syndicate_parser = new SyndicateModelParser();
-		ContentModelParser content_parser = new ContentModelParser();
+		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
 		ConModelParser con_parser = new ConModelParser();
+		ContentModelParser content_parser = new ContentModelParser();
+		PlayerModelParser player_parser = new PlayerModelParser();
 
 		public RedeModelParser() {
 		}
@@ -20,7 +20,11 @@ class RedeModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString()); 
+					SyndicateModel syndicate = syndicate_parser.parseSyndicateModel(jsobj.getJSONObject("syndicate").toString());
+
+					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
+
+					ConModel con = con_parser.parseConModel(jsobj.getJSONObject("con").toString()); 
 
 					ArrayList<String> tags = new ArrayList<>();
 					JSONArray tags_arr = jsobj.getJSONArray("tags");
@@ -31,15 +35,11 @@ class RedeModelParser {
 
 					}
 
-					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
-
-					SyndicateModel syndicate = syndicate_parser.parseSyndicateModel(jsobj.getJSONObject("syndicate").toString());
-
 					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
-					ConModel con = con_parser.parseConModel(jsobj.getJSONObject("con").toString());
+					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
 
-					local_model = new RedeModel(thumbi, jsobj.getString("id") , jsobj.getString("description") , tagsjsobj.getString("title") , player, syndicate, content, jsobj.getInt("commentCount") , con, );
+					local_model = new RedeModel(jsobj.getInt("ratingCount") , jsobj.getInt("favoriteCount") , syndicate, jsobj.getInt("viewCount") , jsobj.getString("title") , thumbi, con, jsobj.getString("uploadedon") , jsobj.getString("description") , jsobj.getString("id") , jsobj.getString("updatedon") , tagsjsobj.getString("uploadedby") , content, jsobj.getInt("commentCount") , player, );
  			} 
 			catch (JSONException e){
 
