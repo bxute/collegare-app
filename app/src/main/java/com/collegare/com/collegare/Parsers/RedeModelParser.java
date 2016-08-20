@@ -5,9 +5,9 @@ import org.json.JSONArray;
 
 class RedeModelParser {
 
-		SyndicateModelParser syndicate_parser = new SyndicateModelParser();
 		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
 		PlayerModelParser player_parser = new PlayerModelParser();
+		SyndicateModelParser syndicate_parser = new SyndicateModelParser();
 		ContentModelParser content_parser = new ContentModelParser();
 		ConModelParser con_parser = new ConModelParser();
 
@@ -19,8 +19,6 @@ class RedeModelParser {
 			RedeModel local_model = null;
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
-
-					SyndicateModel syndicate = syndicate_parser.parseSyndicateModel(jsobj.getJSONObject("syndicate").toString());
 
 					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString()); 
 
@@ -35,11 +33,13 @@ class RedeModelParser {
 
 					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
 
+					SyndicateModel syndicate = syndicate_parser.parseSyndicateModel(jsobj.getJSONObject("syndicate").toString());
+
 					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
 					ConModel con = con_parser.parseConModel(jsobj.getJSONObject("con").toString());
 
-					local_model = new RedeModel(syndicate, thumbi, tagsjsobj.getString("title") , player, jsobj.getString("id") , jsobj.getString("description") , content, con, jsobj.getInt("commentCount") , );
+					local_model = new RedeModel(thumbi, jsobj.getString("id") , jsobj.getString("description") , tagsjsobj.getString("title") , player, syndicate, content, jsobj.getInt("commentCount") , con, );
  			} 
 			catch (JSONException e){
 

@@ -1,39 +1,31 @@
 
 class ConModel {
 
-	public String commentVote;
-	public String rate;
-	public String updatedon;
-	public String syndicate;
-	public String embed;
-	public int favoriteCount;
-	public String comment;
-	public String aspectRatio;
-	public String uploadedby;
-	public int ratingCount;
-	public String updatededon;
-	public String uploadedon;
 	public String videoRespond;
-	public int viewCount;
+	public String comment;
+	public String rate;
+	public String aspectRatio;
+	public int favoriteCount;
+	public String commentVote;
+	public String syndicate;
 	public String list;
+	public int ratingCount;
+	public int viewCount;
+	public String embed;
 
-	public ConModel(String commentVote, String rate, String updatedon, String syndicate, String embed, int favoriteCount, String comment, String aspectRatio, String uploadedby, int ratingCount, String updatededon, String uploadedon, String videoRespond, int viewCount, String list) {
+	public ConModel(String videoRespond, String comment, String rate, String aspectRatio, int favoriteCount, String commentVote, String syndicate, String list, int ratingCount, int viewCount, String embed) {
 
-		this.commentVote = commentVote;
-		this.rate = rate;
-		this.updatedon = updatedon;
-		this.syndicate = syndicate;
-		this.embed = embed;
-		this.favoriteCount = favoriteCount;
-		this.comment = comment;
-		this.aspectRatio = aspectRatio;
-		this.uploadedby = uploadedby;
-		this.ratingCount = ratingCount;
-		this.updatededon = updatededon;
-		this.uploadedon = uploadedon;
 		this.videoRespond = videoRespond;
-		this.viewCount = viewCount;
+		this.comment = comment;
+		this.rate = rate;
+		this.aspectRatio = aspectRatio;
+		this.favoriteCount = favoriteCount;
+		this.commentVote = commentVote;
+		this.syndicate = syndicate;
 		this.list = list;
+		this.ratingCount = ratingCount;
+		this.viewCount = viewCount;
+		this.embed = embed;
 
 	}
 

@@ -16,7 +16,7 @@ class PricemModelParser {
 
 					ItemsModel items = items_parser.parseItemsModel(jsobj.getJSONObject("items").toString());
 
-					local_model = new PricemModel(jsobj.getInt("minimum") , items, jsobj.getString("type") , jsobj.getBoolean("required") , );
+					local_model = new PricemModel(jsobj.getString("rate") , jsobj.getInt("minimum") , items, jsobj.getInt("favoriteCount") , jsobj.getString("syndicate") , jsobj.getString("updatededon") , jsobj.getString("uploadedby") , jsobj.getString("updatedon") , jsobj.getString("aspectRatio") , jsobj.getBoolean("required") , jsobj.getString("commentVote") , jsobj.getInt("viewCount") , jsobj.getInt("ratingCount") , jsobj.getString("uploadedon") , jsobj.getString("list") , jsobj.getString("type") , );
  			} 
 			catch (JSONException e){
 
