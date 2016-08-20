@@ -33,7 +33,7 @@
  "wric":{
     "updated":"2010-01-07T19:58:42.949Z",
     "itemsPerPage":1,
-    "redeme":[
+    "rede":[
         {"id":"hYB0mn5zh2c",
          "uploadedon":"2007-06-05T22:07:03.000Z",
          "updatedon":"2010-01-07T13:26:50.000Z",
@@ -44,7 +44,7 @@
          "tags":[
             "GDD07","GDD07US","Maps"
          ],
-         "thumb":{
+         "thumbi":{
             "default":"http://i.ytimg.com/vi/hYB0mn5zh2c/default.jpg",
             "hqDefault":"http://i.ytimg.com/vi/hYB0mn5zh2c/hqdefault.jpg"
          },
@@ -58,19 +58,18 @@
          },
         
          "commentCount":22,
-         "srat":{
+         "south":{
            "duration":2840,
          "aspectRatio":"widescreen",
          "rating":4.63,
          "ratingCount":68,
          "viewCount":220101,
          "favoriteCount":201,
-            "syndicate":"allowed",
-            "commentVote":"allowed",
-            "rate":"allowed",
-            "list":"allowed",
-            "comment":"allowed",
-            "value":"restricted",
+         "uploadedon":"2007-06-05T22:07:03.000Z",
+         "updatedon":"2010-01-07T13:26:50.000Z",
+         "uploadedby":"GoogleDeveloperDay",
+         "updatededon":"2010-01-07T19:58:42.949Z",
+         "title":"Google Developers Day US - Maps API Introduction",
             "reason":"limitedSyndication"
          },
          "control":{
