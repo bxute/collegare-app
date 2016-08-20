@@ -2,37 +2,37 @@ import java.util.ArrayList;
 
 class ExsodeModel {
 
-	public String title;
-	public ContentModel _content;
-	public AccesspiModel _accesspi;
-	public String description;
-	public ArrayList<String> tags;
+	public String uploadedon;
+	public String updatededon;
 	public String uploadedby;
 	public StatuModel _statu;
-	public PlayerModel _player;
-	public String updatedon;
-	public String uploadedon;
 	public String id;
-	public String updatededon;
-	public int commentCount;
+	public String description;
+	public String title;
 	public ThumbnailModel _thumbnail;
+	public ContentModel _content;
+	public AccesspiModel _accesspi;
+	public int commentCount;
+	public ArrayList<String> tags;
+	public String updatedon;
+	public PlayerModel _player;
 
-	public ExsodeModel(String title, ContentModel content, AccesspiModel accesspi, String description, ArrayList<String> tags, String uploadedby, StatuModel statu, PlayerModel player, String updatedon, String uploadedon, String id, String updatededon, int commentCount, ThumbnailModel thumbnail) {
+	public ExsodeModel(String uploadedon, String updatededon, String uploadedby, StatuModel statu, String id, String description, String title, ThumbnailModel thumbnail, ContentModel content, AccesspiModel accesspi, int commentCount, ArrayList<String> tags, String updatedon, PlayerModel player) {
 
-		this.title = title;
-		this._content = content;
-		this._accesspi = accesspi;
-		this.description = description;
-		this.tags = tags;
+		this.uploadedon = uploadedon;
+		this.updatededon = updatededon;
 		this.uploadedby = uploadedby;
 		this._statu = statu;
-		this._player = player;
-		this.updatedon = updatedon;
-		this.uploadedon = uploadedon;
 		this.id = id;
-		this.updatededon = updatededon;
-		this.commentCount = commentCount;
+		this.description = description;
+		this.title = title;
 		this._thumbnail = thumbnail;
+		this._content = content;
+		this._accesspi = accesspi;
+		this.commentCount = commentCount;
+		this.tags = tags;
+		this.updatedon = updatedon;
+		this._player = player;
 
 	}
 

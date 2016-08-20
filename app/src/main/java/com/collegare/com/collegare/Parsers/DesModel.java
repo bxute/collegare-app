@@ -1,14 +1,14 @@
 
 class DesModel {
 
-	public String type;
 	public String description;
+	public String type;
 	public Boolean required;
 
-	public DesModel(String type, String description, Boolean required) {
+	public DesModel(String description, String type, Boolean required) {
 
-		this.type = type;
 		this.description = description;
+		this.type = type;
 		this.required = required;
 
 	}
