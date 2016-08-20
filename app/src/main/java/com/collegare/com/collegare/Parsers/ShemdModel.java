@@ -1,14 +1,14 @@
 
 class ShemdModel {
 
-	public String reason;
 	public String aspectRatio;
+	public String reason;
 	public String title;
 
-	public ShemdModel(String reason, String aspectRatio, String title) {
+	public ShemdModel(String aspectRatio, String reason, String title) {
 
-		this.reason = reason;
 		this.aspectRatio = aspectRatio;
+		this.reason = reason;
 		this.title = title;
 
 	}

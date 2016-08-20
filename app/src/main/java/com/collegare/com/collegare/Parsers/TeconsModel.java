@@ -1,37 +1,39 @@
 
 class TeconsModel {
 
-	public String list;
-	public String uploadedon;
-	public String updatedon;
-	public String comment;
-	public String commentVote;
-	public String aspectRatio;
 	public String syndicate;
-	public String rate;
 	public int viewCount;
-	public String uploadedby;
-	public int favoriteCount;
-	public int ratingCount;
 	public String embed;
+	public String aspectRatio;
+	public String comment;
+	public int ratingCount;
+	public String commentVote;
+	public int duration;
+	public String uploadedon;
+	public int favoriteCount;
 	public String videoRespond;
+	public String uploadedby;
+	public String rate;
+	public String list;
+	public String updatedon;
 
-	public TeconsModel(String list, String uploadedon, String updatedon, String comment, String commentVote, String aspectRatio, String syndicate, String rate, int viewCount, String uploadedby, int favoriteCount, int ratingCount, String embed, String videoRespond) {
+	public TeconsModel(String syndicate, int viewCount, String embed, String aspectRatio, String comment, int ratingCount, String commentVote, int duration, String uploadedon, int favoriteCount, String videoRespond, String uploadedby, String rate, String list, String updatedon) {
 
-		this.list = list;
-		this.uploadedon = uploadedon;
-		this.updatedon = updatedon;
-		this.comment = comment;
-		this.commentVote = commentVote;
-		this.aspectRatio = aspectRatio;
 		this.syndicate = syndicate;
-		this.rate = rate;
 		this.viewCount = viewCount;
-		this.uploadedby = uploadedby;
-		this.favoriteCount = favoriteCount;
-		this.ratingCount = ratingCount;
 		this.embed = embed;
+		this.aspectRatio = aspectRatio;
+		this.comment = comment;
+		this.ratingCount = ratingCount;
+		this.commentVote = commentVote;
+		this.duration = duration;
+		this.uploadedon = uploadedon;
+		this.favoriteCount = favoriteCount;
 		this.videoRespond = videoRespond;
+		this.uploadedby = uploadedby;
+		this.rate = rate;
+		this.list = list;
+		this.updatedon = updatedon;
 
 	}
 

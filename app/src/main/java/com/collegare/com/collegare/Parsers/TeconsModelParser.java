@@ -13,7 +13,7 @@ class TeconsModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new TeconsModel(jsobj.getString("list") , jsobj.getString("uploadedon") , jsobj.getString("updatedon") , jsobj.getString("comment") , jsobj.getString("commentVote") , jsobj.getString("aspectRatio") , jsobj.getString("syndicate") , jsobj.getString("rate") , jsobj.getInt("viewCount") , jsobj.getString("uploadedby") , jsobj.getInt("favoriteCount") , jsobj.getInt("ratingCount") , jsobj.getString("embed") , jsobj.getString("videoRespond") , );
+				local_model = new TeconsModel(jsobj.getString("syndicate"), jsobj.getInt("viewCount"), jsobj.getString("embed"), jsobj.getString("aspectRatio"), jsobj.getString("comment"), jsobj.getInt("ratingCount"), jsobj.getString("commentVote"), jsobj.getInt("duration"), jsobj.getString("uploadedon"), jsobj.getInt("favoriteCount"), jsobj.getString("videoRespond"), jsobj.getString("uploadedby"), jsobj.getString("rate"), jsobj.getString("list"), jsobj.getString("updatedon"), );
  			} 
 			catch (JSONException e){
 
