@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class RedeModelParser {
 
+		SyndicateModelParser syndicate_parser = new SyndicateModelParser();
+		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
 		PlayerModelParser player_parser = new PlayerModelParser();
 		ContentModelParser content_parser = new ContentModelParser();
 		ConModelParser con_parser = new ConModelParser();
-		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
-		SyndicateModelParser syndicate_parser = new SyndicateModelParser();
 
 		public RedeModelParser() {
 		}
@@ -20,7 +20,9 @@ class RedeModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString()); 
+					SyndicateModel syndicate = syndicate_parser.parseSyndicateModel(jsobj.getJSONObject("syndicate").toString());
+
+					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString()); 
 
 					ArrayList<String> tags = new ArrayList<>();
 					JSONArray tags_arr = jsobj.getJSONArray("tags");
@@ -31,15 +33,13 @@ class RedeModelParser {
 
 					}
 
+					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
+
 					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
 					ConModel con = con_parser.parseConModel(jsobj.getJSONObject("con").toString());
 
-					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
-
-					SyndicateModel syndicate = syndicate_parser.parseSyndicateModel(jsobj.getJSONObject("syndicate").toString());
-
-					local_model = new RedeModel(jsobj.getString("id") , player, jsobj.getString("description") , tagscontent, jsobj.getString("title") , jsobj.getInt("commentCount") , con, thumbi, syndicate, );
+					local_model = new RedeModel(syndicate, thumbi, tagsjsobj.getString("title") , player, jsobj.getString("id") , jsobj.getString("description") , content, con, jsobj.getInt("commentCount") , );
  			} 
 			catch (JSONException e){
 

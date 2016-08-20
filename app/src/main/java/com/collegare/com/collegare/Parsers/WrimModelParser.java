@@ -5,10 +5,10 @@ import org.json.JSONArray;
 
 class WrimModelParser {
 
-		SoldModelParser sold_parser;
+		RedeModelParser rede_parser;
 
 		public WrimModelParser() {
-			sold_parser = new SoldModelParser();
+			rede_parser = new RedeModelParser();
 		}
 
 		public WrimModel parseWrimModel(String json_object) {
@@ -17,16 +17,16 @@ class WrimModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					ArrayList<SoldModel> solds = new ArrayList<>();
-					JSONArray sold_arr = jsobj.getJSONArray("sold");
+					ArrayList<RedeModel> redes = new ArrayList<>();
+					JSONArray rede_arr = jsobj.getJSONArray("rede");
 			
-					for(int i = 0 ;i<sold_arr.length();i++){
+					for(int i = 0 ;i<rede_arr.length();i++){
 
- 						solds.add(sold_parser.parseSoldModel((String)sold_arr.get(i)));
+ 						redes.add(rede_parser.parseRedeModel((String)rede_arr.get(i)));
 
 					}
 
-					local_model = new WrimModel(solds, jsobj.getString("updated") , jsobj.getInt("itemsPerPage") , );
+					local_model = new WrimModel(jsobj.getInt("itemsPerPage") , redes, jsobj.getString("updated") , );
  			} 
 			catch (JSONException e){
 

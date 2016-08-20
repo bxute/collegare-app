@@ -7,7 +7,12 @@
                 {
                         "type":"number",
                         "minimum":0,
-                        "required":true
+                        "required":true,
+                         "type":"array",
+                        "items":
+                        {
+                                "type":"string"
+                        }
                 },
                 "tight":
                 {
@@ -19,7 +24,7 @@
                 }
         },
 "apiVersion":"2.0",
- "wric":{
+ "wrim":{
     "updated":"2010-01-07T19:58:42.949Z",
     "itemsPerPage":1,
     "rede":[

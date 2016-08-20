@@ -3,6 +3,7 @@ import org.json.JSONObject;
 
 class PricemModelParser {
 
+		ItemsModelParser items_parser = new ItemsModelParser();
 
 		public PricemModelParser() {
 		}
@@ -13,7 +14,9 @@ class PricemModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new PricemModel(jsobj.getInt("minimum") , jsobj.getBoolean("required") , jsobj.getString("type") , );
+					ItemsModel items = items_parser.parseItemsModel(jsobj.getJSONObject("items").toString());
+
+					local_model = new PricemModel(jsobj.getInt("minimum") , items, jsobj.getString("type") , jsobj.getBoolean("required") , );
  			} 
 			catch (JSONException e){
 

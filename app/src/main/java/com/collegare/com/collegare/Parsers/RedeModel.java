@@ -2,29 +2,29 @@ import java.util.ArrayList;
 
 class RedeModel {
 
-	public String id;
-	public PlayerModel _player;
-	public String description;
-	public ArrayList<String> tags;
-	public ContentModel _content;
-	public String title;
-	public int commentCount;
-	public ConModel _con;
-	public ThumbiModel _thumbi;
 	public SyndicateModel _syndicate;
+	public ThumbiModel _thumbi;
+	public ArrayList<String> tags;
+	public String title;
+	public PlayerModel _player;
+	public String id;
+	public String description;
+	public ContentModel _content;
+	public ConModel _con;
+	public int commentCount;
 
-	public RedeModel(String id, PlayerModel player, String description, ArrayList<String> tags, ContentModel content, String title, int commentCount, ConModel con, ThumbiModel thumbi, SyndicateModel syndicate) {
+	public RedeModel(SyndicateModel syndicate, ThumbiModel thumbi, ArrayList<String> tags, String title, PlayerModel player, String id, String description, ContentModel content, ConModel con, int commentCount) {
 
-		this.id = id;
-		this._player = player;
-		this.description = description;
-		this.tags = tags;
-		this._content = content;
-		this.title = title;
-		this.commentCount = commentCount;
-		this._con = con;
-		this._thumbi = thumbi;
 		this._syndicate = syndicate;
+		this._thumbi = thumbi;
+		this.tags = tags;
+		this.title = title;
+		this._player = player;
+		this.id = id;
+		this.description = description;
+		this._content = content;
+		this._con = con;
+		this.commentCount = commentCount;
 
 	}
 

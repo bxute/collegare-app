@@ -1,17 +1,17 @@
 
 class RootModel {
 
+	public String set;
 	public String apiVersion;
 	public SignModel _sign;
-	public String set;
-	public WricModel _wric;
+	public WrimModel _wrim;
 
-	public RootModel(String apiVersion, SignModel sign, String set, WricModel wric) {
+	public RootModel(String set, String apiVersion, SignModel sign, WrimModel wrim) {
 
+		this.set = set;
 		this.apiVersion = apiVersion;
 		this._sign = sign;
-		this.set = set;
-		this._wric = wric;
+		this._wrim = wrim;
 
 	}
 
