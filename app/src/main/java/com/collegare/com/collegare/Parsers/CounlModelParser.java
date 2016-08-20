@@ -26,7 +26,7 @@ class CounlModelParser {
 
 					}
 
-					local_model = new CounlModel(jsobj.getString("updated") , redes, jsobj.getInt("itemsPerPage") , );
+				local_model = new CounlModel(jsobj.getString("updated"), jsobj.getInt("itemsPerPage"), redes, );
  			} 
 			catch (JSONException e){
 
