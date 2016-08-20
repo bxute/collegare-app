@@ -4,7 +4,7 @@ import org.json.JSONObject;
 class RootModelParser {
 
 		SignModelParser sign_parser = new SignModelParser();
-		ConpentModelParser conpent_parser = new ConpentModelParser();
+		CounlModelParser counl_parser = new CounlModelParser();
 
 		public RootModelParser() {
 		}
@@ -17,9 +17,9 @@ class RootModelParser {
 
 					SignModel sign = sign_parser.parseSignModel(jsobj.getJSONObject("sign").toString());
 
-					ConpentModel conpent = conpent_parser.parseConpentModel(jsobj.getJSONObject("conpent").toString());
+					CounlModel counl = counl_parser.parseCounlModel(jsobj.getJSONObject("counl").toString());
 
-					local_model = new RootModel(sign, jsobj.getString("set") , jsobj.getString("apiVersion") , conpent, );
+					local_model = new RootModel(sign, counl, jsobj.getString("set") , jsobj.getString("apiVersion") , );
  			} 
 			catch (JSONException e){
 

@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class RedeModelParser {
 
-		ContentModelParser content_parser = new ContentModelParser();
-		ShemdModelParser shemd_parser = new ShemdModelParser();
-		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
-		ConsModelParser cons_parser = new ConsModelParser();
 		PlayerModelParser player_parser = new PlayerModelParser();
+		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
+		TeconsModelParser tecons_parser = new TeconsModelParser();
+		ShemdModelParser shemd_parser = new ShemdModelParser();
+		ContentModelParser content_parser = new ContentModelParser();
 
 		public RedeModelParser() {
 		}
@@ -29,17 +29,17 @@ class RedeModelParser {
 
 					}
 
-					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
-
-					ShemdModel shemd = shemd_parser.parseShemdModel(jsobj.getJSONObject("shemd").toString());
+					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
 
 					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
 
-					ConsModel cons = cons_parser.parseConsModel(jsobj.getJSONObject("cons").toString());
+					TeconsModel tecons = tecons_parser.parseTeconsModel(jsobj.getJSONObject("tecons").toString());
 
-					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
+					ShemdModel shemd = shemd_parser.parseShemdModel(jsobj.getJSONObject("shemd").toString());
 
-					local_model = new RedeModel(tagscontent, jsobj.getString("description") , shemd, thumbi, cons, jsobj.getInt("commentCount") , jsobj.getString("title") , jsobj.getString("id") , player, );
+					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
+
+					local_model = new RedeModel(jsobj.getString("description") , tagsplayer, thumbi, tecons, jsobj.getString("title") , jsobj.getString("id") , shemd, jsobj.getInt("commentCount") , content, );
  			} 
 			catch (JSONException e){
 
