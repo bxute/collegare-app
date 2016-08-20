@@ -1,17 +1,17 @@
 
 class SyndicateModel {
 
-	public String reason;
-	public String title;
-	public int duration;
 	public String aspectRatio;
+	public String title;
+	public String reason;
+	public int duration;
 
-	public SyndicateModel(String reason, String title, int duration, String aspectRatio) {
+	public SyndicateModel(String aspectRatio, String title, String reason, int duration) {
 
-		this.reason = reason;
-		this.title = title;
-		this.duration = duration;
 		this.aspectRatio = aspectRatio;
+		this.title = title;
+		this.reason = reason;
+		this.duration = duration;
 
 	}
 

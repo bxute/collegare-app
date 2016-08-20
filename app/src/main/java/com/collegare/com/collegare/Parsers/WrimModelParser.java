@@ -26,7 +26,7 @@ class WrimModelParser {
 
 					}
 
-					local_model = new WrimModel(jsobj.getString("updated") , redes, jsobj.getInt("itemsPerPage") , );
+					local_model = new WrimModel(jsobj.getString("updated") , jsobj.getInt("itemsPerPage") , redes, );
  			} 
 			catch (JSONException e){
 

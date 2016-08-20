@@ -3,14 +3,14 @@ import java.util.ArrayList;
 class WrimModel {
 
 	public String updated;
-	public ArrayList<RedeModel> rede;
 	public int itemsPerPage;
+	public ArrayList<RedeModel> rede;
 
-	public WrimModel(String updated, ArrayList<RedeModel> rede, int itemsPerPage) {
+	public WrimModel(String updated, int itemsPerPage, ArrayList<RedeModel> rede) {
 
 		this.updated = updated;
-		this.rede = rede;
 		this.itemsPerPage = itemsPerPage;
+		this.rede = rede;
 
 	}
 
