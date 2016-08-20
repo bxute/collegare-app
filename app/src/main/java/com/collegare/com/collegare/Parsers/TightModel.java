@@ -1,13 +1,13 @@
 
 class TightModel {
 
-	public ItemsModel _items;
 	public String type;
+	public ItemsModel _items;
 
-	public TightModel(ItemsModel items, String type) {
+	public TightModel(String type, ItemsModel items) {
 
-		this._items = items;
 		this.type = type;
+		this._items = items;
 
 	}
 

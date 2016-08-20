@@ -1,13 +1,13 @@
 
 class SignModel {
 
-	public PridModel _prid;
 	public TightModel _tight;
+	public PridModel _prid;
 
-	public SignModel(PridModel prid, TightModel tight) {
+	public SignModel(TightModel tight, PridModel prid) {
 
-		this._prid = prid;
 		this._tight = tight;
+		this._prid = prid;
 
 	}
 

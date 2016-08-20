@@ -3,8 +3,8 @@ import org.json.JSONObject;
 
 class SignModelParser {
 
-		PridModelParser prid_parser = new PridModelParser();
 		TightModelParser tight_parser = new TightModelParser();
+		PridModelParser prid_parser = new PridModelParser();
 
 		public SignModelParser() {
 		}
@@ -15,11 +15,11 @@ class SignModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					PridModel prid = prid_parser.parsePridModel(jsobj.getJSONObject("prid").toString());
-
 					TightModel tight = tight_parser.parseTightModel(jsobj.getJSONObject("tight").toString());
 
-					local_model = new SignModel(prid, tight, );
+					PridModel prid = prid_parser.parsePridModel(jsobj.getJSONObject("prid").toString());
+
+					local_model = new SignModel(tight, prid, );
  			} 
 			catch (JSONException e){
 
