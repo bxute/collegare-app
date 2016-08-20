@@ -40,7 +40,7 @@
                 }
         },
 "apiVersion":"2.0",
- "wrim":{
+ "conpent":{
     "updated":"2010-01-07T19:58:42.949Z",
     "itemsPerPage":1,
     "rede":[
@@ -64,7 +64,7 @@
          },
         
          "commentCount":22,
-         "syndicate":{
+         "syncd":{
            "duration":2840,
          "aspectRatio":"widescreen",
          "title":"Google Developers Day US - Maps API Introduction",

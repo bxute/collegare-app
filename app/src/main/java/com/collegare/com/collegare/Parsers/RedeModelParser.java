@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class RedeModelParser {
 
-		ContentModelParser content_parser = new ContentModelParser();
-		PlayerModelParser player_parser = new PlayerModelParser();
-		SyndicateModelParser syndicate_parser = new SyndicateModelParser();
-		ConModelParser con_parser = new ConModelParser();
 		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
+		SyncdModelParser syncd_parser = new SyncdModelParser();
+		ContentModelParser content_parser = new ContentModelParser();
+		ConModelParser con_parser = new ConModelParser();
+		PlayerModelParser player_parser = new PlayerModelParser();
 
 		public RedeModelParser() {
 		}
@@ -20,13 +20,9 @@ class RedeModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
+					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
 
-					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
-
-					SyndicateModel syndicate = syndicate_parser.parseSyndicateModel(jsobj.getJSONObject("syndicate").toString());
-
-					ConModel con = con_parser.parseConModel(jsobj.getJSONObject("con").toString()); 
+					SyncdModel syncd = syncd_parser.parseSyncdModel(jsobj.getJSONObject("syncd").toString()); 
 
 					ArrayList<String> tags = new ArrayList<>();
 					JSONArray tags_arr = jsobj.getJSONArray("tags");
@@ -37,9 +33,13 @@ class RedeModelParser {
 
 					}
 
-					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
+					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
-					local_model = new RedeModel(jsobj.getString("title") , content, jsobj.getString("description") , player, jsobj.getString("id") , syndicate, con, tagsthumbi, jsobj.getInt("commentCount") , );
+					ConModel con = con_parser.parseConModel(jsobj.getJSONObject("con").toString());
+
+					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
+
+					local_model = new RedeModel(thumbi, jsobj.getString("id") , jsobj.getInt("commentCount") , syncd, tagsjsobj.getString("description") , jsobj.getString("title") , content, con, player, );
  			} 
 			catch (JSONException e){
 
