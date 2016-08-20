@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class RedeModelParser {
 
-		PlayerModelParser player_parser = new PlayerModelParser();
-		SouthModelParser south_parser = new SouthModelParser();
-		ControlModelParser control_parser = new ControlModelParser();
 		ContentModelParser content_parser = new ContentModelParser();
+		PlayerModelParser player_parser = new PlayerModelParser();
 		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
+		ConterieModelParser conterie_parser = new ConterieModelParser();
+		SyndicateModelParser syndicate_parser = new SyndicateModelParser();
 
 		public RedeModelParser() {
 		}
@@ -20,7 +20,15 @@ class RedeModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString()); 
+					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
+
+					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
+
+					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
+
+					ConterieModel conterie = conterie_parser.parseConterieModel(jsobj.getJSONObject("conterie").toString());
+
+					SyndicateModel syndicate = syndicate_parser.parseSyndicateModel(jsobj.getJSONObject("syndicate").toString()); 
 
 					ArrayList<String> tags = new ArrayList<>();
 					JSONArray tags_arr = jsobj.getJSONArray("tags");
@@ -31,15 +39,7 @@ class RedeModelParser {
 
 					}
 
-					SouthModel south = south_parser.parseSouthModel(jsobj.getJSONObject("south").toString());
-
-					ControlModel control = control_parser.parseControlModel(jsobj.getJSONObject("control").toString());
-
-					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
-
-					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
-
-					local_model = new RedeModel(jsobj.getString("description") , jsobj.getString("updatedon") , jsobj.getInt("commentCount") , jsobj.getString("id") , jsobj.getString("updatededon") , player, tagssouth, control, jsobj.getString("uploadedon") , jsobj.getString("title") , content, thumbi, jsobj.getString("uploadedby") , );
+					local_model = new RedeModel(content, jsobj.getString("updatedon") , player, thumbi, jsobj.getString("uploadedon") , jsobj.getString("title") , conterie, jsobj.getString("id") , jsobj.getString("updatededon") , jsobj.getString("uploadedby") , syndicate, jsobj.getString("description") , jsobj.getInt("commentCount") , tags);
  			} 
 			catch (JSONException e){
 

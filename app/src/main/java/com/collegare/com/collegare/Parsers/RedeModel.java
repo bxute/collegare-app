@@ -2,37 +2,37 @@ import java.util.ArrayList;
 
 class RedeModel {
 
-	public String description;
+	public ContentModel _content;
 	public String updatedon;
-	public int commentCount;
-	public String id;
-	public String updatededon;
 	public PlayerModel _player;
-	public ArrayList<String> tags;
-	public SouthModel _south;
-	public ControlModel _control;
+	public ThumbiModel _thumbi;
 	public String uploadedon;
 	public String title;
-	public ContentModel _content;
-	public ThumbiModel _thumbi;
+	public ConterieModel _conterie;
+	public String id;
+	public String updatededon;
 	public String uploadedby;
+	public SyndicateModel _syndicate;
+	public String description;
+	public int commentCount;
+	public ArrayList<String> tags;
 
-	public RedeModel(String description, String updatedon, int commentCount, String id, String updatededon, PlayerModel player, ArrayList<String> tags, SouthModel south, ControlModel control, String uploadedon, String title, ContentModel content, ThumbiModel thumbi, String uploadedby) {
+	public RedeModel(ContentModel content, String updatedon, PlayerModel player, ThumbiModel thumbi, String uploadedon, String title, ConterieModel conterie, String id, String updatededon, String uploadedby, SyndicateModel syndicate, String description, int commentCount, ArrayList<String> tags) {
 
-		this.description = description;
+		this._content = content;
 		this.updatedon = updatedon;
-		this.commentCount = commentCount;
-		this.id = id;
-		this.updatededon = updatededon;
 		this._player = player;
-		this.tags = tags;
-		this._south = south;
-		this._control = control;
+		this._thumbi = thumbi;
 		this.uploadedon = uploadedon;
 		this.title = title;
-		this._content = content;
-		this._thumbi = thumbi;
+		this._conterie = conterie;
+		this.id = id;
+		this.updatededon = updatededon;
 		this.uploadedby = uploadedby;
+		this._syndicate = syndicate;
+		this.description = description;
+		this.commentCount = commentCount;
+		this.tags = tags;
 
 	}
 
