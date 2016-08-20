@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class ExsodeModelParser {
 
-		StatuModelParser statu_parser = new StatuModelParser();
-		ThumbnailModelParser thumbnail_parser = new ThumbnailModelParser();
 		ContentModelParser content_parser = new ContentModelParser();
 		AccesspiModelParser accesspi_parser = new AccesspiModelParser();
+		StatuModelParser statu_parser = new StatuModelParser();
 		PlayerModelParser player_parser = new PlayerModelParser();
+		ThumbnailModelParser thumbnail_parser = new ThumbnailModelParser();
 
 		public ExsodeModelParser() {
 		}
@@ -19,10 +19,6 @@ class ExsodeModelParser {
 			ExsodeModel local_model = null;
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
-
-					StatuModel statu = statu_parser.parseStatuModel(jsobj.getJSONObject("statu").toString());
-
-					ThumbnailModel thumbnail = thumbnail_parser.parseThumbnailModel(jsobj.getJSONObject("thumbnail").toString());
 
 					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
@@ -37,9 +33,13 @@ class ExsodeModelParser {
 
 					}
 
+					StatuModel statu = statu_parser.parseStatuModel(jsobj.getJSONObject("statu").toString());
+
 					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
 
-					local_model = new ExsodeModel(jsobj.getString("uploadedon") , jsobj.getString("updatededon") , jsobj.getString("uploadedby") , statu, jsobj.getString("id") , jsobj.getString("description") , jsobj.getString("title") , thumbnail, content, accesspi, jsobj.getInt("commentCount") , tagsjsobj.getString("updatedon") , player, );
+					ThumbnailModel thumbnail = thumbnail_parser.parseThumbnailModel(jsobj.getJSONObject("thumbnail").toString());
+
+					local_model = new ExsodeModel(jsobj.getString("title") , content, accesspi, jsobj.getString("description") , tagsjsobj.getString("uploadedby") , statu, player, jsobj.getString("updatedon") , jsobj.getString("uploadedon") , jsobj.getString("id") , jsobj.getString("updatededon") , jsobj.getInt("commentCount") , thumbnail, );
  			} 
 			catch (JSONException e){
 

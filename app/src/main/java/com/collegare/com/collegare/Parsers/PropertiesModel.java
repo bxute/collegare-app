@@ -1,17 +1,17 @@
 
 class PropertiesModel {
 
-	public FoltModel _folt;
+	public DesModel _des;
 	public TagerModel _tager;
 	public PricemModel _pricem;
-	public DesModel _des;
+	public FoltModel _folt;
 
-	public PropertiesModel(FoltModel folt, TagerModel tager, PricemModel pricem, DesModel des) {
+	public PropertiesModel(DesModel des, TagerModel tager, PricemModel pricem, FoltModel folt) {
 
-		this._folt = folt;
+		this._des = des;
 		this._tager = tager;
 		this._pricem = pricem;
-		this._des = des;
+		this._folt = folt;
 
 	}
 

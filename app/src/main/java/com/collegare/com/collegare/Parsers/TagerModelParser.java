@@ -16,7 +16,7 @@ class TagerModelParser {
 
 					ItemsModel items = items_parser.parseItemsModel(jsobj.getJSONObject("items").toString());
 
-					local_model = new TagerModel(items, jsobj.getString("type") , );
+					local_model = new TagerModel(jsobj.getString("type") , items, );
  			} 
 			catch (JSONException e){
 
