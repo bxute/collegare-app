@@ -6,8 +6,8 @@ import org.json.JSONArray;
 class RedeModelParser {
 
 		PlayerModelParser player_parser = new PlayerModelParser();
+		MgmtModelParser mgmt_parser = new MgmtModelParser();
 		ContentModelParser content_parser = new ContentModelParser();
-		TeconsModelParser tecons_parser = new TeconsModelParser();
 		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
 		ShemdModelParser shemd_parser = new ShemdModelParser();
 
@@ -22,13 +22,7 @@ class RedeModelParser {
 
 					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
 
-					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
-
-					TeconsModel tecons = tecons_parser.parseTeconsModel(jsobj.getJSONObject("tecons").toString());
-
-					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
-
-					ShemdModel shemd = shemd_parser.parseShemdModel(jsobj.getJSONObject("shemd").toString()); 
+					MgmtModel mgmt = mgmt_parser.parseMgmtModel(jsobj.getJSONObject("mgmt").toString()); 
 
 					ArrayList<String> tags = new ArrayList<>();
 					JSONArray tags_arr = jsobj.getJSONArray("tags");
@@ -39,7 +33,13 @@ class RedeModelParser {
 
 					}
 
-					local_model = new RedeModel(jsobj.getString("description") , player, content, jsobj.getString("id") , tecons, thumbi, shemd, tagsjsobj.getInt("commentCount") , jsobj.getString("title") , );
+					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
+
+					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
+
+					ShemdModel shemd = shemd_parser.parseShemdModel(jsobj.getJSONObject("shemd").toString());
+
+					local_model = new RedeModel(player, jsobj.getInt("commentCount") , mgmt, tagsjsobj.getString("id") , jsobj.getString("description") , content, jsobj.getString("title") , thumbi, shemd, );
  			} 
 			catch (JSONException e){
 

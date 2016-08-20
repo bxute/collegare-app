@@ -1,17 +1,17 @@
 
 class RootModel {
 
-	public String apiVersion;
-	public CounlModel _counl;
-	public SignModel _sign;
 	public String set;
+	public CounlModel _counl;
+	public String apiVersion;
+	public SignModel _sign;
 
-	public RootModel(String apiVersion, CounlModel counl, SignModel sign, String set) {
+	public RootModel(String set, CounlModel counl, String apiVersion, SignModel sign) {
 
-		this.apiVersion = apiVersion;
-		this._counl = counl;
-		this._sign = sign;
 		this.set = set;
+		this._counl = counl;
+		this.apiVersion = apiVersion;
+		this._sign = sign;
 
 	}
 
