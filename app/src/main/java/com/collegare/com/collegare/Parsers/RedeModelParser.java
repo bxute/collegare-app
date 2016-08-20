@@ -6,10 +6,10 @@ import org.json.JSONArray;
 class RedeModelParser {
 
 		PlayerModelParser player_parser = new PlayerModelParser();
-		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
-		TeconsModelParser tecons_parser = new TeconsModelParser();
-		ShemdModelParser shemd_parser = new ShemdModelParser();
 		ContentModelParser content_parser = new ContentModelParser();
+		TeconsModelParser tecons_parser = new TeconsModelParser();
+		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
+		ShemdModelParser shemd_parser = new ShemdModelParser();
 
 		public RedeModelParser() {
 		}
@@ -18,7 +18,17 @@ class RedeModelParser {
 
 			RedeModel local_model = null;
 			try {
-					JSONObject jsobj = new JSONObject(json_object); 
+					JSONObject jsobj = new JSONObject(json_object);
+
+					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
+
+					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
+
+					TeconsModel tecons = tecons_parser.parseTeconsModel(jsobj.getJSONObject("tecons").toString());
+
+					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
+
+					ShemdModel shemd = shemd_parser.parseShemdModel(jsobj.getJSONObject("shemd").toString()); 
 
 					ArrayList<String> tags = new ArrayList<>();
 					JSONArray tags_arr = jsobj.getJSONArray("tags");
@@ -29,17 +39,7 @@ class RedeModelParser {
 
 					}
 
-					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
-
-					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
-
-					TeconsModel tecons = tecons_parser.parseTeconsModel(jsobj.getJSONObject("tecons").toString());
-
-					ShemdModel shemd = shemd_parser.parseShemdModel(jsobj.getJSONObject("shemd").toString());
-
-					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
-
-					local_model = new RedeModel(jsobj.getString("description") , tagsplayer, thumbi, tecons, jsobj.getString("title") , jsobj.getString("id") , shemd, jsobj.getInt("commentCount") , content, );
+					local_model = new RedeModel(jsobj.getString("description") , player, content, jsobj.getString("id") , tecons, thumbi, shemd, tagsjsobj.getInt("commentCount") , jsobj.getString("title") , );
  			} 
 			catch (JSONException e){
 

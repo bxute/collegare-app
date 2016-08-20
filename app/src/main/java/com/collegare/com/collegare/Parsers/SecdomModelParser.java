@@ -16,7 +16,7 @@ class SecdomModelParser {
 
 					ItemsModel items = items_parser.parseItemsModel(jsobj.getJSONObject("items").toString());
 
-					local_model = new SecdomModel(jsobj.getString("list") , jsobj.getString("type") , items, jsobj.getString("commentVote") , jsobj.getString("aspectRatio") , jsobj.getString("syndicate") , jsobj.getString("rate") , jsobj.getInt("viewCount") , jsobj.getInt("favoriteCount") , jsobj.getInt("ratingCount") , jsobj.getBoolean("required") , jsobj.getString("updatededon") , jsobj.getInt("minimum") , );
+					local_model = new SecdomModel(jsobj.getString("syndicate") , jsobj.getInt("viewCount") , jsobj.getString("aspectRatio") , jsobj.getInt("ratingCount") , jsobj.getString("commentVote") , jsobj.getInt("minimum") , jsobj.getInt("favoriteCount") , jsobj.getString("updatededon") , items, jsobj.getString("rate") , jsobj.getString("list") , jsobj.getBoolean("required") , jsobj.getString("type") , );
  			} 
 			catch (JSONException e){
 

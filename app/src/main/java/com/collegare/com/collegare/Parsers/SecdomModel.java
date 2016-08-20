@@ -1,35 +1,35 @@
 
 class SecdomModel {
 
-	public String list;
-	public String type;
-	public ItemsModel _items;
-	public String commentVote;
-	public String aspectRatio;
 	public String syndicate;
-	public String rate;
 	public int viewCount;
-	public int favoriteCount;
+	public String aspectRatio;
 	public int ratingCount;
-	public Boolean required;
-	public String updatededon;
+	public String commentVote;
 	public int minimum;
+	public int favoriteCount;
+	public String updatededon;
+	public ItemsModel _items;
+	public String rate;
+	public String list;
+	public Boolean required;
+	public String type;
 
-	public SecdomModel(String list, String type, ItemsModel items, String commentVote, String aspectRatio, String syndicate, String rate, int viewCount, int favoriteCount, int ratingCount, Boolean required, String updatededon, int minimum) {
+	public SecdomModel(String syndicate, int viewCount, String aspectRatio, int ratingCount, String commentVote, int minimum, int favoriteCount, String updatededon, ItemsModel items, String rate, String list, Boolean required, String type) {
 
-		this.list = list;
-		this.type = type;
-		this._items = items;
-		this.commentVote = commentVote;
-		this.aspectRatio = aspectRatio;
 		this.syndicate = syndicate;
-		this.rate = rate;
 		this.viewCount = viewCount;
-		this.favoriteCount = favoriteCount;
+		this.aspectRatio = aspectRatio;
 		this.ratingCount = ratingCount;
-		this.required = required;
-		this.updatededon = updatededon;
+		this.commentVote = commentVote;
 		this.minimum = minimum;
+		this.favoriteCount = favoriteCount;
+		this.updatededon = updatededon;
+		this._items = items;
+		this.rate = rate;
+		this.list = list;
+		this.required = required;
+		this.type = type;
 
 	}
 
