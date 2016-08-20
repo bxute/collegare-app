@@ -1,6 +1,6 @@
 {
-        "name":"Product",
-        "properties":
+        "set":"Product",
+        "sign":
         {
                 "des":
                 {
@@ -20,7 +20,7 @@
                         "minimum":0,
                         "required":true
                 },
-                "tager":
+                "tight":
                 {
                         "type":"array",
                         "items":
@@ -33,7 +33,7 @@
  "wric":{
     "updated":"2010-01-07T19:58:42.949Z",
     "itemsPerPage":1,
-    "exsode":[
+    "redeme":[
         {"id":"hYB0mn5zh2c",
          "uploadedon":"2007-06-05T22:07:03.000Z",
          "updatedon":"2010-01-07T13:26:50.000Z",
@@ -44,7 +44,7 @@
          "tags":[
             "GDD07","GDD07US","Maps"
          ],
-         "thumbnail":{
+         "thumb":{
             "default":"http://i.ytimg.com/vi/hYB0mn5zh2c/default.jpg",
             "hqDefault":"http://i.ytimg.com/vi/hYB0mn5zh2c/hqdefault.jpg"
          },
@@ -58,7 +58,7 @@
          },
         
          "commentCount":22,
-         "statu":{
+         "srat":{
            "duration":2840,
          "aspectRatio":"widescreen",
          "rating":4.63,
@@ -73,7 +73,7 @@
             "value":"restricted",
             "reason":"limitedSyndication"
          },
-         "accesspi":{
+         "control":{
           "aspectRatio":"widescreen",
          "rating":4.63,
          "ratingCount":68,
