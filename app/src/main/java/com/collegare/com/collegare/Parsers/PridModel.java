@@ -1,31 +1,35 @@
 
 class PridModel {
 
-	public String aspectRatio;
-	public String list;
-	public String commentVote;
 	public String syndicate;
-	public int minimum;
-	public ItemsModel _items;
-	public String rate;
-	public String updatededon;
-	public int ratingCount;
 	public String type;
+	public int viewCount;
+	public String list;
+	public String updatededon;
+	public ItemsModel _items;
+	public int favoriteCount;
+	public String aspectRatio;
+	public int minimum;
+	public String rate;
 	public Boolean required;
+	public String commentVote;
+	public int ratingCount;
 
-	public PridModel(String aspectRatio, String list, String commentVote, String syndicate, int minimum, ItemsModel items, String rate, String updatededon, int ratingCount, String type, Boolean required) {
+	public PridModel(String syndicate, String type, int viewCount, String list, String updatededon, ItemsModel items, int favoriteCount, String aspectRatio, int minimum, String rate, Boolean required, String commentVote, int ratingCount) {
 
-		this.aspectRatio = aspectRatio;
-		this.list = list;
-		this.commentVote = commentVote;
 		this.syndicate = syndicate;
-		this.minimum = minimum;
-		this._items = items;
-		this.rate = rate;
-		this.updatededon = updatededon;
-		this.ratingCount = ratingCount;
 		this.type = type;
+		this.viewCount = viewCount;
+		this.list = list;
+		this.updatededon = updatededon;
+		this._items = items;
+		this.favoriteCount = favoriteCount;
+		this.aspectRatio = aspectRatio;
+		this.minimum = minimum;
+		this.rate = rate;
 		this.required = required;
+		this.commentVote = commentVote;
+		this.ratingCount = ratingCount;
 
 	}
 

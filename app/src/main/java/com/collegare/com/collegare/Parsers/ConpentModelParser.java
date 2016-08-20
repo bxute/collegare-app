@@ -26,7 +26,7 @@ class ConpentModelParser {
 
 					}
 
-					local_model = new ConpentModel(redes, jsobj.getInt("itemsPerPage") , jsobj.getString("updated") , );
+					local_model = new ConpentModel(jsobj.getString("updated") , jsobj.getInt("itemsPerPage") , redes, );
  			} 
 			catch (JSONException e){
 

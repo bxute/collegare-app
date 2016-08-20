@@ -1,15 +1,15 @@
 
 class ContentModel {
 
-	public String 5;
-	public String 6;
-	public String 1;
+	public String sycurl;
+	public String url1;
+	public String playur;
 
-	public ContentModel(String 5, String 6, String 1) {
+	public ContentModel(String sycurl, String url1, String playur) {
 
-		this.5 = 5;
-		this.6 = 6;
-		this.1 = 1;
+		this.sycurl = sycurl;
+		this.url1 = url1;
+		this.playur = playur;
 
 	}
 

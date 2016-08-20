@@ -5,10 +5,10 @@ import org.json.JSONArray;
 
 class RedeModelParser {
 
-		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
-		SyncdModelParser syncd_parser = new SyncdModelParser();
 		ContentModelParser content_parser = new ContentModelParser();
-		ConModelParser con_parser = new ConModelParser();
+		ShemdModelParser shemd_parser = new ShemdModelParser();
+		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
+		ConsModelParser cons_parser = new ConsModelParser();
 		PlayerModelParser player_parser = new PlayerModelParser();
 
 		public RedeModelParser() {
@@ -18,11 +18,7 @@ class RedeModelParser {
 
 			RedeModel local_model = null;
 			try {
-					JSONObject jsobj = new JSONObject(json_object);
-
-					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
-
-					SyncdModel syncd = syncd_parser.parseSyncdModel(jsobj.getJSONObject("syncd").toString()); 
+					JSONObject jsobj = new JSONObject(json_object); 
 
 					ArrayList<String> tags = new ArrayList<>();
 					JSONArray tags_arr = jsobj.getJSONArray("tags");
@@ -35,11 +31,15 @@ class RedeModelParser {
 
 					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
-					ConModel con = con_parser.parseConModel(jsobj.getJSONObject("con").toString());
+					ShemdModel shemd = shemd_parser.parseShemdModel(jsobj.getJSONObject("shemd").toString());
+
+					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
+
+					ConsModel cons = cons_parser.parseConsModel(jsobj.getJSONObject("cons").toString());
 
 					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
 
-					local_model = new RedeModel(thumbi, jsobj.getString("id") , jsobj.getInt("commentCount") , syncd, tagsjsobj.getString("description") , jsobj.getString("title") , content, con, player, );
+					local_model = new RedeModel(tagscontent, jsobj.getString("description") , shemd, thumbi, cons, jsobj.getInt("commentCount") , jsobj.getString("title") , jsobj.getString("id") , player, );
  			} 
 			catch (JSONException e){
 

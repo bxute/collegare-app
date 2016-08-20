@@ -2,15 +2,15 @@ import java.util.ArrayList;
 
 class ConpentModel {
 
-	public ArrayList<RedeModel> rede;
-	public int itemsPerPage;
 	public String updated;
+	public int itemsPerPage;
+	public ArrayList<RedeModel> rede;
 
-	public ConpentModel(ArrayList<RedeModel> rede, int itemsPerPage, String updated) {
+	public ConpentModel(String updated, int itemsPerPage, ArrayList<RedeModel> rede) {
 
-		this.rede = rede;
-		this.itemsPerPage = itemsPerPage;
 		this.updated = updated;
+		this.itemsPerPage = itemsPerPage;
+		this.rede = rede;
 
 	}
 
