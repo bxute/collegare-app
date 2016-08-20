@@ -1,31 +1,31 @@
 
 class ConModel {
 
-	public int ratingCount;
-	public String list;
+	public String aspectRatio;
+	public String syndicate;
+	public String embed;
 	public String rate;
 	public int favoriteCount;
-	public String syndicate;
-	public String aspectRatio;
 	public int viewCount;
-	public String comment;
 	public String videoRespond;
-	public String embed;
+	public String list;
 	public String commentVote;
+	public int ratingCount;
+	public String comment;
 
-	public ConModel(int ratingCount, String list, String rate, int favoriteCount, String syndicate, String aspectRatio, int viewCount, String comment, String videoRespond, String embed, String commentVote) {
+	public ConModel(String aspectRatio, String syndicate, String embed, String rate, int favoriteCount, int viewCount, String videoRespond, String list, String commentVote, int ratingCount, String comment) {
 
-		this.ratingCount = ratingCount;
-		this.list = list;
+		this.aspectRatio = aspectRatio;
+		this.syndicate = syndicate;
+		this.embed = embed;
 		this.rate = rate;
 		this.favoriteCount = favoriteCount;
-		this.syndicate = syndicate;
-		this.aspectRatio = aspectRatio;
 		this.viewCount = viewCount;
-		this.comment = comment;
 		this.videoRespond = videoRespond;
-		this.embed = embed;
+		this.list = list;
 		this.commentVote = commentVote;
+		this.ratingCount = ratingCount;
+		this.comment = comment;
 
 	}
 

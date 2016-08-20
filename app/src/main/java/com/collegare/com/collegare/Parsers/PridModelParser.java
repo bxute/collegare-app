@@ -16,7 +16,7 @@ class PridModelParser {
 
 					ItemsModel items = items_parser.parseItemsModel(jsobj.getJSONObject("items").toString());
 
-					local_model = new PridModel(jsobj.getInt("ratingCount") , jsobj.getString("rate") , jsobj.getString("type") , jsobj.getString("syndicate") , jsobj.getInt("minimum") , jsobj.getString("list") , items, jsobj.getString("aspectRatio") , jsobj.getString("updatededon") , jsobj.getString("commentVote") , jsobj.getBoolean("required") , );
+					local_model = new PridModel(jsobj.getString("aspectRatio") , jsobj.getString("syndicate") , jsobj.getString("rate") , jsobj.getString("list") , jsobj.getBoolean("required") , jsobj.getInt("minimum") , items, jsobj.getString("commentVote") , jsobj.getString("type") , jsobj.getInt("ratingCount") , jsobj.getString("updatededon") , );
  			} 
 			catch (JSONException e){
 

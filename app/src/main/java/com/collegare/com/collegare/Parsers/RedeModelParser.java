@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class RedeModelParser {
 
-		SyndicateModelParser syndicate_parser = new SyndicateModelParser();
-		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
-		ConModelParser con_parser = new ConModelParser();
 		ContentModelParser content_parser = new ContentModelParser();
 		PlayerModelParser player_parser = new PlayerModelParser();
+		SyndicateModelParser syndicate_parser = new SyndicateModelParser();
+		ConModelParser con_parser = new ConModelParser();
+		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
 
 		public RedeModelParser() {
 		}
@@ -20,9 +20,11 @@ class RedeModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					SyndicateModel syndicate = syndicate_parser.parseSyndicateModel(jsobj.getJSONObject("syndicate").toString());
+					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
-					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
+					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
+
+					SyndicateModel syndicate = syndicate_parser.parseSyndicateModel(jsobj.getJSONObject("syndicate").toString());
 
 					ConModel con = con_parser.parseConModel(jsobj.getJSONObject("con").toString()); 
 
@@ -35,11 +37,9 @@ class RedeModelParser {
 
 					}
 
-					ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
+					ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
 
-					PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
-
-					local_model = new RedeModel(jsobj.getInt("ratingCount") , jsobj.getInt("favoriteCount") , syndicate, jsobj.getInt("viewCount") , jsobj.getString("title") , thumbi, con, jsobj.getString("uploadedon") , jsobj.getString("description") , jsobj.getString("id") , jsobj.getString("updatedon") , tagsjsobj.getString("uploadedby") , content, jsobj.getInt("commentCount") , player, );
+					local_model = new RedeModel(jsobj.getString("title") , content, jsobj.getString("description") , player, jsobj.getString("id") , syndicate, con, tagsthumbi, jsobj.getInt("commentCount") , );
  			} 
 			catch (JSONException e){
 

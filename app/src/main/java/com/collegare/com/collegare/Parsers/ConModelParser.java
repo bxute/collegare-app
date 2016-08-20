@@ -13,7 +13,7 @@ class ConModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new ConModel(jsobj.getInt("ratingCount") , jsobj.getString("list") , jsobj.getString("rate") , jsobj.getInt("favoriteCount") , jsobj.getString("syndicate") , jsobj.getString("aspectRatio") , jsobj.getInt("viewCount") , jsobj.getString("comment") , jsobj.getString("videoRespond") , jsobj.getString("embed") , jsobj.getString("commentVote") , );
+					local_model = new ConModel(jsobj.getString("aspectRatio") , jsobj.getString("syndicate") , jsobj.getString("embed") , jsobj.getString("rate") , jsobj.getInt("favoriteCount") , jsobj.getInt("viewCount") , jsobj.getString("videoRespond") , jsobj.getString("list") , jsobj.getString("commentVote") , jsobj.getInt("ratingCount") , jsobj.getString("comment") , );
  			} 
 			catch (JSONException e){
 

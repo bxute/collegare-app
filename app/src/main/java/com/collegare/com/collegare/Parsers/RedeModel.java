@@ -2,41 +2,29 @@ import java.util.ArrayList;
 
 class RedeModel {
 
-	public int ratingCount;
-	public int favoriteCount;
-	public SyndicateModel _syndicate;
-	public int viewCount;
 	public String title;
-	public ThumbiModel _thumbi;
-	public ConModel _con;
-	public String uploadedon;
-	public String description;
-	public String id;
-	public String updatedon;
-	public ArrayList<String> tags;
-	public String uploadedby;
 	public ContentModel _content;
-	public int commentCount;
+	public String description;
 	public PlayerModel _player;
+	public String id;
+	public SyndicateModel _syndicate;
+	public ConModel _con;
+	public ArrayList<String> tags;
+	public ThumbiModel _thumbi;
+	public int commentCount;
 
-	public RedeModel(int ratingCount, int favoriteCount, SyndicateModel syndicate, int viewCount, String title, ThumbiModel thumbi, ConModel con, String uploadedon, String description, String id, String updatedon, ArrayList<String> tags, String uploadedby, ContentModel content, int commentCount, PlayerModel player) {
+	public RedeModel(String title, ContentModel content, String description, PlayerModel player, String id, SyndicateModel syndicate, ConModel con, ArrayList<String> tags, ThumbiModel thumbi, int commentCount) {
 
-		this.ratingCount = ratingCount;
-		this.favoriteCount = favoriteCount;
-		this._syndicate = syndicate;
-		this.viewCount = viewCount;
 		this.title = title;
-		this._thumbi = thumbi;
-		this._con = con;
-		this.uploadedon = uploadedon;
-		this.description = description;
-		this.id = id;
-		this.updatedon = updatedon;
-		this.tags = tags;
-		this.uploadedby = uploadedby;
 		this._content = content;
-		this.commentCount = commentCount;
+		this.description = description;
 		this._player = player;
+		this.id = id;
+		this._syndicate = syndicate;
+		this._con = con;
+		this.tags = tags;
+		this._thumbi = thumbi;
+		this.commentCount = commentCount;
 
 	}
 
