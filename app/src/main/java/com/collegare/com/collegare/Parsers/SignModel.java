@@ -2,12 +2,12 @@
 class SignModel {
 
 	public TightModel _tight;
-	public PridModel _prid;
+	public SecdomModel _secdom;
 
-	public SignModel(TightModel tight, PridModel prid) {
+	public SignModel(TightModel tight, SecdomModel secdom) {
 
 		this._tight = tight;
-		this._prid = prid;
+		this._secdom = secdom;
 
 	}
 

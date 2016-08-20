@@ -1,29 +1,29 @@
 
 class ShemdModel {
 
-	public String aspectRatio;
 	public String syndicate;
 	public String rate;
 	public int viewCount;
-	public String title;
 	public String reason;
-	public String commentVote;
 	public int duration;
 	public int favoriteCount;
+	public String title;
 	public int ratingCount;
+	public String commentVote;
+	public String aspectRatio;
 
-	public ShemdModel(String aspectRatio, String syndicate, String rate, int viewCount, String title, String reason, String commentVote, int duration, int favoriteCount, int ratingCount) {
+	public ShemdModel(String syndicate, String rate, int viewCount, String reason, int duration, int favoriteCount, String title, int ratingCount, String commentVote, String aspectRatio) {
 
-		this.aspectRatio = aspectRatio;
 		this.syndicate = syndicate;
 		this.rate = rate;
 		this.viewCount = viewCount;
-		this.title = title;
 		this.reason = reason;
-		this.commentVote = commentVote;
 		this.duration = duration;
 		this.favoriteCount = favoriteCount;
+		this.title = title;
 		this.ratingCount = ratingCount;
+		this.commentVote = commentVote;
+		this.aspectRatio = aspectRatio;
 
 	}
 

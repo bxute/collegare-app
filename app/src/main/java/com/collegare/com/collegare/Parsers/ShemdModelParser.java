@@ -13,7 +13,7 @@ class ShemdModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new ShemdModel(jsobj.getString("aspectRatio") , jsobj.getString("syndicate") , jsobj.getString("rate") , jsobj.getInt("viewCount") , jsobj.getString("title") , jsobj.getString("reason") , jsobj.getString("commentVote") , jsobj.getInt("duration") , jsobj.getInt("favoriteCount") , jsobj.getInt("ratingCount") , );
+					local_model = new ShemdModel(jsobj.getString("syndicate") , jsobj.getString("rate") , jsobj.getInt("viewCount") , jsobj.getString("reason") , jsobj.getInt("duration") , jsobj.getInt("favoriteCount") , jsobj.getString("title") , jsobj.getInt("ratingCount") , jsobj.getString("commentVote") , jsobj.getString("aspectRatio") , );
  			} 
 			catch (JSONException e){
 
