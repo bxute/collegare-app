@@ -19,7 +19,7 @@ class RootModelParser {
 
 					SignModel sign = sign_parser.parseSignModel(jsobj.getJSONObject("sign").toString());
 
-					local_model = new RootModel(jsobj.getString("apiVersion") , wrim, sign, jsobj.getString("set") , );
+					local_model = new RootModel(wrim, jsobj.getString("set") , sign, jsobj.getString("apiVersion") , );
  			} 
 			catch (JSONException e){
 
