@@ -3,8 +3,8 @@ import org.json.JSONObject;
 
 class SeperModelParser {
 
+	SrimModelParser srim_parser = new SrimModelParser();
 	MetightModelParser metight_parser = new MetightModelParser();
-	S_o_ughModelParser s_o_ugh_parser = new S_o_ughModelParser();
 
 	public SeperModelParser() {
 	}
@@ -15,11 +15,11 @@ class SeperModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
+			SrimModel srim = srim_parser.parseSrimModel(jsobj.getJSONObject("srim").toString());
+
 			MetightModel metight = metight_parser.parseMetightModel(jsobj.getJSONObject("metight").toString());
 
-			S_o_ughModel s_o_ugh = s_o_ugh_parser.parseS_o_ughModel(jsobj.getJSONObject("s_o_ugh").toString());
-
-			local_model = new SeperModel(metight, s_o_ugh, );
+			local_model = new SeperModel(srim, metight, );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

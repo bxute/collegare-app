@@ -1,125 +1,122 @@
 {
-        "set":"Product",
-  "seper":
-        {
-          "s_o_ugh":
-                {
-                     "aspectRatio":"widescreen",
-         "rating":4.63,
-         "rating":4.63,
+   "set": "Product",
+   "rating": 4.63,
          "ratingCount":68,
          "viewCount":220101,
          "favoriteCount":201,
             "syndicate":"allowed",
             "commentVote":"allowed",
             "rate":"allowed",
-                        "type":"number",
-                         "ratingCount":68,
-         "updatededon":"2010-01-07T19:58:42.949Z",
+   "favoriteCount": 201,
+   "rating": 4.63,
+   "rating": 4.63,
+   "ratingCount": 68,
+   "viewCount": 220101,
+   "favoriteCount": 201,
             "syndicate":"allowed",
             "commentVote":"allowed",
             "rate":"allowed",
-            "list":"allowed",
+   "duration": 2840,
+   "rating": 4.63,
+   "ratingCount": 68,
+   "viewCount": 220101,
+   "favoriteCount": 201,
+   "uploadedon": "2007-06-05T22:07:03.000Z",
+   "updatedon": "2010-01-07T13:26:50.000Z",
+   "uploadedby": "GoogleDeveloperDay",
+   "seper": {
+      "srim": {
          "aspectRatio":"widescreen",
-                        "minimum":0,
-                        "required":true,
-                         "type":"array",
-                        "items":
-                        {
-                                "type":"string"
-                        }
-                },
-          "metight":
-                {
-                        "type":"array",
-                        "items":
-                        {
-                                "type":"string",
-                                 "viewCount":220101,
+         "rating": 4.63,
+         "rating": 4.63,
+         "ratingCount": 68,
+         "viewCount": 220101,
          "favoriteCount":201,
-          "rating":4.63,
-           "aspectRatio":"widescreen",
+         "syndicate": "allowed",
+         "commentVote": "allowed",
+         "rate": "allowed",
+         "type": "number",
+         "ratingCount": 68,
+         "updatededon": "2010-01-07T19:58:42.949Z",
+         "syndicate": "allowed",
+         "commentVote": "allowed",
+         "rate": "allowed",
+         "list": "allowed",
+         "aspectRatio": "widescreen",
+         "minimum": 0,
+         "required": true,
+         "type": "array",
+         "items": {
+            "type": "string"
+         }
+      },
+      "metight": {
+         "type": "array",
+         "items": {
+            "type": "string",
+            "viewCount": 220101,
+            "favoriteCount": 201,
          "rating":4.63,
+            "aspectRatio": "widescreen",
          "rating":4.63,
+            "rating": 4.63,
          "ratingCount":68,
          "viewCount":220101,
          "favoriteCount":201,
-            "syndicate":"allowed",
-            "commentVote":"allowed",
-            "rate":"allowed",
+            "syndicate": "allowed",
+            "commentVote": "allowed",
+            "rate": "allowed",
          "ratingCount":68,
          "viewCount":220101,
          "favoriteCount":201,
          "uploadedon":"2007-06-05T22:07:03.000Z",
          "updatedon":"2010-01-07T13:26:50.000Z",
          "uploadedby":"GoogleDeveloperDay"
-                        }
-                }
-        },
-"apiVersion":"2.0",
- "counl":{
-    "updated":"2010-01-07T19:58:42.949Z",
-    "itemsPerPage":1,
-    "rede":[
-        {"id":"hYB0mn5zh2c",
+         }
+      }
+   },
+   "apiVersion": "2.0",
+   "counl": {
+      "updated": "2010-01-07T19:58:42.949Z",
+      "itemsPerPage": 1,
+      "rede": [
+         {
+            "id": "hYB0mn5zh2c",
          "title":"Google Developers Day US - Maps API Introduction",
          "description":"Google Maps API Introduction ...",
          "tags":[
-            "GDD07","GDD07US","Maps"
+            "GDD07",
+            "GDD07US",
+            "Maps"
          ],
          "thumbi":{
-            "default":"http://i.ytimg.com/vi/hYB0mn5zh2c/default.jpg",
-            "hqDefault":"http://i.ytimg.com/vi/hYB0mn5zh2c/hqdefault.jpg"
+            "default": "http://i.ytimg.com/vi/hYB0mn5zh2c/default.jpg",
+            "hqDefault": "http://i.ytimg.com/vi/hYB0mn5zh2c/hqdefault.jpg"
          },
          "player":{
-            "default":"http://www.youtube.com/watch?vu003dhYB0mn5zh2c"
+            "default": "http://www.youtube.com/watch?vu003dhYB0mn5zh2c"
          },
          "content":{
-            "url1":"rtsp://v5.cache3.c.youtube.com/CiILENy.../0/0/0/video.3gp",
-            "playur":"http://www.youtube.com/v/hYB0mn5zh2c?f...",
-            "sycurl":"rtsp://v1.cache1.c.youtube.com/CiILENy.../0/0/0/video.3gp"
+            "url1": "rtsp://v5.cache3.c.youtube.com/CiILENy.../0/0/0/video.3gp",
+            "playur": "http://www.youtube.com/v/hYB0mn5zh2c?f...",
+            "sycurl": "rtsp://v1.cache1.c.youtube.com/CiILENy.../0/0/0/video.3gp"
          },
-        
          "commentCount":22,
-          "scheme": {
-             "aspectRatio":"widescreen",
-           "aspectRatio": "widescreen",
-           "title": "Google Developers Day US - Maps API Introduction",
-           "reason": "limitedSyndication"
+            "scheme": {
+               "aspectRatio": "widescreen",
+               "aspectRatio": "widescreen",
+               "title": "Google Developers Day US - Maps API Introduction",
+               "reason": "limitedSyndication"
          },
-          "megern": {
-            "aspectRatio": "widescreen",
+            "megern": {
+               "aspectRatio": "widescreen",
          "rating":4.63,
-         "rating":4.63,
-         "ratingCount":68,
-         "viewCount":220101,
-         "favoriteCount":201,
-            "syndicate":"allowed",
-            "commentVote":"allowed",
-            "rate":"allowed",
-            "favoriteCount": 201,
-            "rating": 4.63,
-         "rating":4.63,
-         "ratingCount":68,
-         "viewCount":220101,
-         "favoriteCount":201,
-            "syndicate":"allowed",
-            "commentVote":"allowed",
-            "rate":"allowed",
-            "duration": 2840,
-          "rating":4.63,
-         "ratingCount":68,
-         "viewCount":220101,
-         "favoriteCount":201,
-         "uploadedon":"2007-06-05T22:07:03.000Z",
-         "updatedon":"2010-01-07T13:26:50.000Z",
-         "uploadedby":"GoogleDeveloperDay",
-            "list":"allowed",
-            "comment":"allowed",
-            "embed":"allowed",
-            "videoRespond":"moderated"
+               "list": "allowed",
+               "comment": "allowed",
+               "embed": "allowed",
+               "videoRespond": "moderated"
          }
-        }
-    ]
- }
+         }
+      ]
+   }
 }

@@ -19,7 +19,7 @@ class RootModelParser {
 
 				CounlModel counl = counl_parser.parseCounlModel(jsobj.getJSONObject("counl").toString());
 
-				local_model = new RootModel(jsobj.getString("set"), seper, jsobj.getString("apiVersion"), counl, );
+				local_model = new RootModel(jsobj.getInt("viewCount"), jsobj.getString("rate"), jsobj.getString("apiVersion"), jsobj.getInt("ratingCount"), jsobj.getString("commentVote"), jsobj.getString("syndicate"), seper, jsobj.getString("uploadedon"), jsobj.getInt("duration"), jsobj.getInt("favoriteCount"), jsobj.getString("updatedon"), jsobj.getString("uploadedby"), counl, jsobj.getString("set"), );
  			} 
 			catch (JSONException e){
 

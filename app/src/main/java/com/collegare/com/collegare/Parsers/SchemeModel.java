@@ -2,14 +2,14 @@
 class SchemeModel {
 
 	public String aspectRatio;
-	public String reason;
 	public String title;
+	public String reason;
 
-	public SchemeModel(String aspectRatio, String reason, String title) {
+	public SchemeModel(String aspectRatio, String title, String reason) {
 
 		this.aspectRatio = aspectRatio;
-		this.reason = reason;
 		this.title = title;
+		this.reason = reason;
 
 	}
 
