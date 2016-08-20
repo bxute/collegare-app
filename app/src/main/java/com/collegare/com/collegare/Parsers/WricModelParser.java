@@ -26,7 +26,7 @@ class WricModelParser {
 
 					}
 
-					local_model = new WricModel(redes, jsobj.getString("updated") , jsobj.getInt("itemsPerPage") , );
+					local_model = new WricModel(jsobj.getString("updated") , jsobj.getInt("itemsPerPage") , redes, );
  			} 
 			catch (JSONException e){
 

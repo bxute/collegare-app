@@ -3,15 +3,15 @@ class SyndicateModel {
 
 	public String aspectRatio;
 	public String title;
-	public String reason;
 	public int duration;
+	public String reason;
 
-	public SyndicateModel(String aspectRatio, String title, String reason, int duration) {
+	public SyndicateModel(String aspectRatio, String title, int duration, String reason) {
 
 		this.aspectRatio = aspectRatio;
 		this.title = title;
-		this.reason = reason;
 		this.duration = duration;
+		this.reason = reason;
 
 	}
 

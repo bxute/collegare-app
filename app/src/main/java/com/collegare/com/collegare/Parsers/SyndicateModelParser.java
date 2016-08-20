@@ -13,7 +13,7 @@ class SyndicateModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new SyndicateModel(jsobj.getString("aspectRatio") , jsobj.getString("title") , jsobj.getString("reason") , jsobj.getInt("duration") , );
+					local_model = new SyndicateModel(jsobj.getString("aspectRatio") , jsobj.getString("title") , jsobj.getInt("duration") , jsobj.getString("reason") , );
  			} 
 			catch (JSONException e){
 

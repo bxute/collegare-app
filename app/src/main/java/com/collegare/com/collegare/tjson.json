@@ -2,18 +2,7 @@
         "set":"Product",
         "sign":
         {
-                "des":
-                {
-                        "type":"number",
-                        "description":"Product identifier",
-                        "required":true
-                },
-                "folt":
-                {
-                        "description":"Name of the product",
-                        "type":"string",
-                        "required":true
-                },
+            
                 "pricem":
                 {
                         "type":"number",
@@ -35,10 +24,6 @@
     "itemsPerPage":1,
     "rede":[
         {"id":"hYB0mn5zh2c",
-         "uploadedon":"2007-06-05T22:07:03.000Z",
-         "updatedon":"2010-01-07T13:26:50.000Z",
-         "uploadedby":"GoogleDeveloperDay",
-         "updatededon":"2010-01-07T19:58:42.949Z",
          "title":"Google Developers Day US - Maps API Introduction",
          "description":"Google Maps API Introduction ...",
          "tags":[
@@ -64,7 +49,7 @@
          "title":"Google Developers Day US - Maps API Introduction",
             "reason":"limitedSyndication"
          },
-         "conterie":{
+         "con":{
           "aspectRatio":"widescreen",
          "rating":4.63,
          "ratingCount":68,
