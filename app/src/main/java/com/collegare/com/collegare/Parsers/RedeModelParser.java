@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class RedeModelParser {
 
+		PlayerModelParser player_parser = new PlayerModelParser();
+	ContentModelParser content_parser = new ContentModelParser();
 	MegernModelParser megern_parser = new MegernModelParser();
 	SchemeModelParser scheme_parser = new SchemeModelParser();
-		ThumbiModelParser thumbi_parser = new ThumbiModelParser();
-		ContentModelParser content_parser = new ContentModelParser();
-		PlayerModelParser player_parser = new PlayerModelParser();
+	ThumbiModelParser thumbi_parser = new ThumbiModelParser();
 
 		public RedeModelParser() {
 		}
@@ -20,13 +20,11 @@ class RedeModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-				MegernModel megern = megern_parser.parseMegernModel(jsobj.getJSONObject("megern").toString());
-
-					SchemeModel scheme = scheme_parser.parseSchemeModel(jsobj.getJSONObject("scheme").toString());
-
-				ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
+				PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
 
 				ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
+
+				MegernModel megern = megern_parser.parseMegernModel(jsobj.getJSONObject("megern").toString());
 
 					ArrayList<String> tags = new ArrayList<>();
 					JSONArray tags_arr = jsobj.getJSONArray("tags");
@@ -37,9 +35,11 @@ class RedeModelParser {
 
 					}
 
-				PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
+				SchemeModel scheme = scheme_parser.parseSchemeModel(jsobj.getJSONObject("scheme").toString());
 
-				local_model = new RedeModel(jsobj.getString("description"), megern, jsobj.getString("id"), scheme, jsobj.getInt("commentCount"), thumbi, jsobj.getString("title"), content, tagsplayer, );
+				ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
+
+				local_model = new RedeModel(jsobj.getString("id"), player, content, megern, tagsjsobj.getString("description"), scheme, jsobj.getString("title"), thumbi, jsobj.getInt("commentCount"), );
  			} 
 			catch (JSONException e){
 
