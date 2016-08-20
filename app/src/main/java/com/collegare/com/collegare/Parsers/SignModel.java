@@ -1,13 +1,13 @@
 
 class SignModel {
 
-	public PricemModel _pricem;
 	public TightModel _tight;
+	public PricemModel _pricem;
 
-	public SignModel(PricemModel pricem, TightModel tight) {
+	public SignModel(TightModel tight, PricemModel pricem) {
 
-		this._pricem = pricem;
 		this._tight = tight;
+		this._pricem = pricem;
 
 	}
 
