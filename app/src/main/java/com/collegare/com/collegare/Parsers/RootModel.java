@@ -1,17 +1,17 @@
 
 class RootModel {
 
-	public String set;
-	public CounlModel _counl;
 	public String apiVersion;
-	public SignModel _sign;
+	public CounlModel _counl;
+	public String set;
+	public SeperModel _seper;
 
-	public RootModel(String set, CounlModel counl, String apiVersion, SignModel sign) {
+	public RootModel(String apiVersion, CounlModel counl, String set, SeperModel seper) {
 
-		this.set = set;
-		this._counl = counl;
 		this.apiVersion = apiVersion;
-		this._sign = sign;
+		this._counl = counl;
+		this.set = set;
+		this._seper = seper;
 
 	}
 

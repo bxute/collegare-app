@@ -13,7 +13,7 @@ class ContentModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new ContentModel(jsobj.getString("sycurl") , jsobj.getString("playur") , jsobj.getString("url1") , );
+					local_model = new ContentModel(jsobj.getString("url1") , jsobj.getString("sycurl") , jsobj.getString("playur") , );
  			} 
 			catch (JSONException e){
 

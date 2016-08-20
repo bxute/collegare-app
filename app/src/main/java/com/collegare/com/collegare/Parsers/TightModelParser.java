@@ -16,7 +16,7 @@ class TightModelParser {
 
 					ItemsModel items = items_parser.parseItemsModel(jsobj.getJSONObject("items").toString());
 
-					local_model = new TightModel(jsobj.getString("type") , items, );
+				local_model = new TightModel(items, jsobj.getString("type"), );
  			} 
 			catch (JSONException e){
 

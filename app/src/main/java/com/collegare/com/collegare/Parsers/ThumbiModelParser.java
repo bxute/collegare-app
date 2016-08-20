@@ -13,7 +13,7 @@ class ThumbiModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-				local_model = new ThumbiModel(jsobj.getString("default"), jsobj.getString("hqDefault"), );
+					local_model = new ThumbiModel(jsobj.getString("hqDefault") , jsobj.getString("default") , );
  			} 
 			catch (JSONException e){
 
