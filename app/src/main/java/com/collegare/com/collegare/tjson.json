@@ -2,7 +2,7 @@
         "set":"Product",
   "seper":
         {
-          "sough":
+          "s_o_ugh":
                 {
                      "aspectRatio":"widescreen",
          "rating":4.63,
@@ -29,7 +29,7 @@
                                 "type":"string"
                         }
                 },
-                "tight":
+          "metight":
                 {
                         "type":"array",
                         "items":

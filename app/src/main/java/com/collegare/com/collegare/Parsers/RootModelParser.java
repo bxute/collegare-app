@@ -3,8 +3,8 @@ import org.json.JSONObject;
 
 class RootModelParser {
 
-		CounlModelParser counl_parser = new CounlModelParser();
 		SeperModelParser seper_parser = new SeperModelParser();
+	CounlModelParser counl_parser = new CounlModelParser();
 
 		public RootModelParser() {
 		}
@@ -15,11 +15,11 @@ class RootModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					CounlModel counl = counl_parser.parseCounlModel(jsobj.getJSONObject("counl").toString());
-
 					SeperModel seper = seper_parser.parseSeperModel(jsobj.getJSONObject("seper").toString());
 
-					local_model = new RootModel(jsobj.getString("apiVersion") , counl, jsobj.getString("set") , seper, );
+				CounlModel counl = counl_parser.parseCounlModel(jsobj.getJSONObject("counl").toString());
+
+				local_model = new RootModel(jsobj.getString("set"), seper, jsobj.getString("apiVersion"), counl, );
  			} 
 			catch (JSONException e){
 

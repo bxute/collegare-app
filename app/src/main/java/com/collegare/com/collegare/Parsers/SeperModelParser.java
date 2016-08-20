@@ -3,29 +3,29 @@ import org.json.JSONObject;
 
 class SeperModelParser {
 
-    SoughModelParser sough_parser = new SoughModelParser();
-    TightModelParser tight_parser = new TightModelParser();
+	MetightModelParser metight_parser = new MetightModelParser();
+	S_o_ughModelParser s_o_ugh_parser = new S_o_ughModelParser();
 
-    public SeperModelParser() {
-    }
+	public SeperModelParser() {
+	}
 
-    public SeperModel parseSeperModel(String json_object) {
+	public SeperModel parseSeperModel(String json_object) {
 
-        SeperModel local_model = null;
-        try {
-            JSONObject jsobj = new JSONObject(json_object);
+		SeperModel local_model = null;
+		try {
+			JSONObject jsobj = new JSONObject(json_object);
 
-            SoughModel sough = sough_parser.parseSoughModel(jsobj.getJSONObject("sough").toString());
+			MetightModel metight = metight_parser.parseMetightModel(jsobj.getJSONObject("metight").toString());
 
-            TightModel tight = tight_parser.parseTightModel(jsobj.getJSONObject("tight").toString());
+			S_o_ughModel s_o_ugh = s_o_ugh_parser.parseS_o_ughModel(jsobj.getJSONObject("s_o_ugh").toString());
 
-            local_model = new SeperModel(sough, tight, );
-        } catch (JSONException e) {
+			local_model = new SeperModel(metight, s_o_ugh, );
+		} catch (JSONException e) {
 
-            e.printStackTrace();
-        }
+			e.printStackTrace();
+		}
 
-        return local_model;
-    }
-
+		return local_model;
+	}
+			
 }

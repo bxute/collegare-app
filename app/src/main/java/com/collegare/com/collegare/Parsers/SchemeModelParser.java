@@ -4,22 +4,22 @@ import org.json.JSONObject;
 class SchemeModelParser {
 
 
-    public SchemeModelParser() {
-    }
+	public SchemeModelParser() {
+	}
 
-    public SchemeModel parseSchemeModel(String json_object) {
+	public SchemeModel parseSchemeModel(String json_object) {
 
-        SchemeModel local_model = null;
-        try {
-            JSONObject jsobj = new JSONObject(json_object);
+		SchemeModel local_model = null;
+		try {
+			JSONObject jsobj = new JSONObject(json_object);
 
-            local_model = new SchemeModel(jsobj.getString("aspectRatio"), jsobj.getString("reason"), jsobj.getString("title"), );
-        } catch (JSONException e) {
+			local_model = new SchemeModel(jsobj.getString("aspectRatio"), jsobj.getString("reason"), jsobj.getString("title"), );
+		} catch (JSONException e) {
 
-            e.printStackTrace();
-        }
+			e.printStackTrace();
+		}
 
-        return local_model;
-    }
-
+		return local_model;
+	}
+			
 }
