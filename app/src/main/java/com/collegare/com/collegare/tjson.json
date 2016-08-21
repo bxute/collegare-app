@@ -1,262 +1,101 @@
 {
-   "meme": "Product",
-  "point": 4.63,
-         "ratingCount":68,
-         "viewCount":220101,
-         "favoriteCount":201,
-            "syndicate":"allowed",
-            "commentVote":"allowed",
-            "rate":"allowed",
-  "updatedon": "2010-01-07T13:26:50.000Z",
-  "uploadedby": "GoogleDeveloperDay",
-  "secon": {
-    "secon": {
-      "favoriteCount": 201,
-   "rating": 4.63,
-   "rating": 4.63,
-   "ratingCount": 68,
-   "viewCount": 220101,
-      "rating": {
-        "aspectRatio": "widescreen",
-        "rating": 4.63,
-        "list": "allowed",
-        "comment": "allowed",
-        "embed": "allowed",
-        "videoRespond": "moderated"
+  "itemsType": "Product",
+  "premice": {
+    "depth": {
+      "croopers": {
+        "1": "rtsp://v5.cache3.c.youtube.com/CiILENy.../0/0/0/video.3gp",
+        "5": "http://www.youtube.com/v/hYB0mn5zh2c?f...",
+        "6": "rtsp://v1.cache1.c.youtube.com/CiILENy.../0/0/0/video.3gp"
       },
-   "favoriteCount": 201,
-            "syndicate":"allowed",
-            "commentVote":"allowed",
-            "rate":"allowed",
-   "duration": 2840,
-   "rating": 4.63,
-   "ratingCount": 68,
-   "viewCount": 220101,
-   "favoriteCount": 201,
-   "uploadedon": "2007-06-05T22:07:03.000Z",
-         "aspectRatio":"widescreen",
-      "commentVote": "allowed",
-      "aspectRatio": "widescreen",
-      "rating": 4.63,
-      "rating": 4.63,
-      "ratingCount": 68,
-      "list": "allowed",
-      "aspectRatio": "widescreen",
-      "minimum": 0,
-      "shocked": {
-        "aspectRatio": "widescreen",
-        "rating": 4.63,
-        "list": "allowed",
-        "comment": "allowed",
-        "embed": "allowed",
-        "videoRespond": "moderated"
-      },
+      "type": "number",
+      "description": "Product identifier",
+      "required": true
+    },
+    "snipps": {
+      "description": "Name of the product",
+      "type": "string",
       "required": true,
+      "des": {
+        "compliance": {
+          "1": "rtsp://v5.cache3.c.youtube.com/CiILENy.../0/0/0/video.3gp",
+          "5": "http://www.youtube.com/v/hYB0mn5zh2c?f...",
+          "description": "Name of the product",
+          "type": "string",
+          "required": true,
+          "6": "rtsp://v1.cache1.c.youtube.com/CiILENy.../0/0/0/video.3gp"
+        },
+        "type": "number",
+        "description": "Product identifier",
+        "required": true
+      }
+    },
+    "pricem": {
+      "type": "number",
+      "minimum": 0,
+      "required": true
+    },
+    "tager": {
       "type": "array",
       "items": {
-        "viewCount": 220101,
-      "favoriteCount": 201,
-      "syndicate": "allowed",
-      "commentVote": "allowed",
-      "rate": "allowed",
-      "ratingCount": 68,
-      "viewCount": 220101,
-      "favoriteCount": 201,
-      "uploadedon": "2007-06-05T22:07:03.000Z",
-      "id": "hYB0mn5zh2c",
-         
-      "rate": "allowed",
-      "ratingCount": 68,
-      "viewCount": 220101,
-         "favoriteCount":201,
-      "uploadedon": "2007-06-05T22:07:03.000Z",
-      "id": "hYB0mn5zh2c",
-         "commentVote": "allowed",
-         "rate": "allowed",
-            "type": "string"
-         }
-      },
-      "metight": {
-        "ratingCount": 68,
-        "viewCount": 220101,
-        "favoriteCount": 201,
-        "uploadedon": "2007-06-05T22:07:03.000Z",
-        "aspectRatio": "widescreen",
-        "commentVote": "allowed",
-        "aspectRatio": "widescreen",
-        "rating": 4.63,
-        "rating": 4.63,
-        "ratingCount": 68,
-        "viewCount": 220101,
-        "favoriteCount": 201,
-        "syndicate": "allowed",
-        "commentVote": "allowed",
-        "rate": "allowed",
-        "ratingCount": 68,
-        "viewCount": 220101,
-        "favoriteCount": 201,
-         "type": "array",
-        "rome": {
-          "rating": 4.63,
-          "rate": "allowed",
-          "ratingCount": 68,
-          "viewCount": 220101,
-          "favoriteCount": 201,
-          "uploadedon": "2007-06-05T22:07:03.000Z",
-          "id": "hYB0mn5zh2c",
-          "rate": "allowed",
-          "ratingCount": 68,
-          "viewCount": 220101,
-          "favoriteCount": 201,
-          "uploadedon": "2007-06-05T22:07:03.000Z",
-          "id": "hYB0mn5zh2c",
-          "commentVote": "allowed",
-          "rate": "allowed",
-          "type": "string",
-          "viewCount": 220101,
-          "shocked": {
-            "viewCount": 220101,
-          "favoriteCount": 201,
-            "viewCount": 220101,
-            "favoriteCount": 201,
-            "syndicate": "allowed",
-          "commentVote": "allowed",
-            "aspectRatio": "widescreen",
-            "rating": 4.63,
-            "list": "allowed",
-            "comment": "allowed",
-            "embed": "allowed",
-            "videoRespond": "moderated"
-          },
-            "favoriteCount": 201,
-          "updatedon": "2010-01-07T13:26:50.000Z",
-          "uploadedby": "GoogleDeveloperDay",
-          "viewCount": 220101,
-          "favoriteCount": 201,
-          "syndicate": "allowed",
-          "commentVote": "allowed",
-          "rate": "allowed",
-          "ratingCount": 68,
-          "viewCount": 220101,
-          "favoriteCount": 201,
-          "uploadedon": "2007-06-05T22:07:03.000Z",
-          "id": "hYB0mn5zh2c",
-          "rate": "allowed",
-          "ratingCount": 68,
-          "viewCount": 220101,
-          "favoriteCount": 201,
-          "viewCount": 220101,
-          "favoriteCount": 201,
-          "syndicate": "allowed",
-          "commentVote": "allowed"
-        }
+        "type": "string"
       }
+    }
   },
   "apiVersion": "2.0",
-  "loose": {
-    "rating": 4.63,
-    "viewCount": 220101,
-    "favoriteCount": 201,
-    "syndicate": "allowed",
-    "commentVote": "allowed",
-    "rate": "allowed",
-    "ratingCount": 68,
-    "viewCount": 220101,
-    "favoriteCount": 201,
-    "uploadedon": "2007-06-05T22:07:03.000Z",
-    "id": "hYB0mn5zh2c",
-    "rate": "allowed",
-    "ratingCount": 68,
-    "viewCount": 220101,
-    "favoriteCount": 201,
-    "updated": "2010-01-07T19:58:42.949Z",
+  "wrappers": {
+    "redeem": "2010-01-07T19:58:42.949Z",
     "itemsPerPage": 1,
-    "redart": [
+    "reckle": [
       {
-        "rating": 4.63,
-        "viewCount": 220101,
-        "favoriteCount": 201,
-        "syndicate": "allowed",
-        "commentVote": "allowed",
-        "rate": "allowed",
-        "ratingCount": 68,
-        "viewCount": 220101,
-        "favoriteCount": 201,
-        "uploadedon": "2007-06-05T22:07:03.000Z",
-        "id": "hYB0mn5zh2c",
-        "rate": "allowed",
-        "ratingCount": 68,
-        "viewCount": 220101,
-        "favoriteCount": 201,
-        "uploadedon": "2007-06-05T22:07:03.000Z",
-        "id": "hYB0mn5zh2c",
-        "commentVote": "allowed",
-        "rate": "allowed",
-         "title":"Google Developers Day US - Maps API Introduction",
-         "description":"Google Maps API Introduction ...",
-         "tags":[
-            "GDD07",
-            "GDD07US",
-            "Maps"
-         ],
-         "thumbi":{
-            "default": "http://i.ytimg.com/vi/hYB0mn5zh2c/default.jpg",
-            "hqDefault": "http://i.ytimg.com/vi/hYB0mn5zh2c/hqdefault.jpg"
+        "_repe": "hYB0mn5zh2c",
+        "theta": {
+          "ackn": "http://i.ytimg.com/vi/hYB0mn5zh2c/default.jpg",
+          "hqDeep": "http://i.ytimg.com/vi/hYB0mn5zh2c/hqdefault.jpg"
          },
-         "player":{
-            "default": "http://www.youtube.com/watch?vu003dhYB0mn5zh2c"
+        "arePIseeds": {
+          "default": "http://www.youtube.com/watch?vu003dhYB0mn5zh2c"
          },
-         "content":{
-            "url1": "rtsp://v5.cache3.c.youtube.com/CiILENy.../0/0/0/video.3gp",
-            "playur": "http://www.youtube.com/v/hYB0mn5zh2c?f...",
-            "sycurl": "rtsp://v1.cache1.c.youtube.com/CiILENy.../0/0/0/video.3gp"
+        "contestNo": {
+          "remded": "rtsp://v5.cache3.c.youtube.com/CiILENy.../0/0/0/video.3gp",
+          "process": "http://www.youtube.com/v/hYB0mn5zh2c?f...",
+          "mise": "rtsp://v1.cache1.c.youtube.com/CiILENy.../0/0/0/video.3gp"
          },
-         "commentCount":22,
-        "ruse": {
-               "aspectRatio": "widescreen",
-          "rating": 4.63,
-          "shocked": {
-            "aspectRatio": "widescreen",
+        "commentCount":22,
+        "sed": {
+          "container": {
             "uploadedon": "2007-06-05T22:07:03.000Z",
-            "id": "hYB0mn5zh2c",
-            "commentVote": "allowed",
-            "rate": "allowed",
-            "list": "allowed",
-            "comment": "allowed",
-            "embed": "allowed",
-            "videoRespond": "moderated"
-          },
-          "list": "allowed",
-          "comment": "allowed",
-          "embed": "allowed",
-               "aspectRatio": "widescreen",
-               "title": "Google Developers Day US - Maps API Introduction",
-               "reason": "limitedSyndication"
+            "updatedon": "2010-01-07T13:26:50.000Z",
+            "day": "GoogleDeveloperDay",
+            "updateded": "2010-01-07T19:58:42.949Z",
+            "post": "Google Developers Day US - Maps API Introduction",
+            "desc": "Google Maps API Introduction ...",
+            "tags": [
+              "GDD07",
+              "GDD07US",
+              "Maps"
+            ],
+            "remedy": "rtsp://v5.cache3.c.youtube.com/CiILENy.../0/0/0/video.3gp",
+            "aperson": "http://www.youtube.com/v/hYB0mn5zh2c?f...",
+            "udecs": "rtsp://v1.cache1.c.youtube.com/CiILENy.../0/0/0/video.3gp"
          },
-        "shocked": {
-          "rating": 4.63,
-          "viewCount": 220101,
-          "favoriteCount": 201,
-          "syndicate": "allowed",
-          "commentVote": "allowed",
-          "rate": "allowed",
-          "ratingCount": 68,
-          "viewCount": 220101,
-          "favoriteCount": 201,
-          "uploadedon": "2007-06-05T22:07:03.000Z",
-          "id": "hYB0mn5zh2c",
-          "rate": "allowed",
-          "ratingCount": 68,
-          "viewCount": 220101,
-          "favoriteCount": 201,
-               "aspectRatio": "widescreen",
-              "rating": 4.63,
-               "list": "allowed",
-               "comment": "allowed",
-               "embed": "allowed",
-               "videoRespond": "moderated"
+          "modelist": 2840,
+          "sid": "allowed",
+          "comment": "allowed",
+          "made": "restricted",
+          "tag": "limitedSyndication"
+        },
+        "adees": {
+          "duration": 2840,
+          "list": "allowed",
+          "content": {
+          },
+          "comment": "allowed",
+          "value": "restricted",
+          "reason": "limitedSyndication",
+          "aspectRatio": "widescreen",
+          "videoRespond": "moderated"
          }
-         }
-      ]
-   }
+      }
+    ]
+  }
 }
