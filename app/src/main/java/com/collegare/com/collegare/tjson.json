@@ -27,18 +27,13 @@
    "favoriteCount": 201,
    "uploadedon": "2007-06-05T22:07:03.000Z",
          "aspectRatio":"widescreen",
-         "rating": 4.63,
-         "rating": 4.63,
-         "ratingCount": 68,
-         "viewCount": 220101,
+      "commentVote": "allowed",
+      "rate": "allowed",
+      "ratingCount": 68,
+      "viewCount": 220101,
          "favoriteCount":201,
-         "syndicate": "allowed",
-         "commentVote": "allowed",
-         "rate": "allowed",
-         "type": "number",
-         "ratingCount": 68,
-         "updatededon": "2010-01-07T19:58:42.949Z",
-         "syndicate": "allowed",
+      "uploadedon": "2007-06-05T22:07:03.000Z",
+      "id": "hYB0mn5zh2c",
          "commentVote": "allowed",
          "rate": "allowed",
          "list": "allowed",
@@ -65,7 +60,7 @@
   "counl": {
     "updated": "2010-01-07T19:58:42.949Z",
     "itemsPerPage": 1,
-    "rede": [
+    "remards": [
       {
         "rating": 4.63,
             "aspectRatio": "widescreen",

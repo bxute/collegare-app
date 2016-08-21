@@ -2,18 +2,18 @@
 class RomeModel {
 
 	public String uploadedby;
-	public int favoriteCount;
 	public int viewCount;
-	public String type;
 	public String updatedon;
+	public String type;
+	public int favoriteCount;
 
-	public RomeModel(String uploadedby, int favoriteCount, int viewCount, String type, String updatedon) {
+	public RomeModel(String uploadedby, int viewCount, String updatedon, String type, int favoriteCount) {
 
 		this.uploadedby = uploadedby;
-		this.favoriteCount = favoriteCount;
 		this.viewCount = viewCount;
-		this.type = type;
 		this.updatedon = updatedon;
+		this.type = type;
+		this.favoriteCount = favoriteCount;
 
 	}
 

@@ -13,7 +13,7 @@ class RomeModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
-			local_model = new RomeModel(jsobj.getString("uploadedby"), jsobj.getInt("favoriteCount"), jsobj.getInt("viewCount"), jsobj.getString("type"), jsobj.getString("updatedon"), );
+			local_model = new RomeModel(jsobj.getString("uploadedby"), jsobj.getInt("viewCount"), jsobj.getString("updatedon"), jsobj.getString("type"), jsobj.getInt("favoriteCount"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();
