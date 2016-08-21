@@ -3,7 +3,7 @@ import org.json.JSONObject;
 
 class RootModelParser {
 
-	CounlModelParser counl_parser = new CounlModelParser();
+	LooseModelParser loose_parser = new LooseModelParser();
 	SeconModelParser secon_parser = new SeconModelParser();
 
 		public RootModelParser() {
@@ -15,11 +15,11 @@ class RootModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-				CounlModel counl = counl_parser.parseCounlModel(jsobj.getJSONObject("counl").toString());
+				LooseModel loose = loose_parser.parseLooseModel(jsobj.getJSONObject("loose").toString());
 
 				SeconModel secon = secon_parser.parseSeconModel(jsobj.getJSONObject("secon").toString());
 
-				local_model = new RootModel(jsobj.getString("uploadedon"), jsobj.getInt("viewCount"), counl, secon, jsobj.getString("commentVote"), jsobj.getString("uploadedby"), jsobj.getString("updatedon"), jsobj.getString("syndicate"), jsobj.getString("aspectRatio"), jsobj.getString("meme"), jsobj.getString("rate"), jsobj.getInt("favoriteCount"), jsobj.getString("apiVersion"), jsobj.getInt("ratingCount"), );
+				local_model = new RootModel(loose, jsobj.getString("syndicate"), jsobj.getInt("viewCount"), jsobj.getString("commentVote"), jsobj.getInt("ratingCount"), jsobj.getString("apiVersion"), jsobj.getString("rate"), jsobj.getString("uploadedby"), jsobj.getString("updatedon"), jsobj.getInt("favoriteCount"), secon, jsobj.getString("meme"), );
  			} 
 			catch (JSONException e){
 

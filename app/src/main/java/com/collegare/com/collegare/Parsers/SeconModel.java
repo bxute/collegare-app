@@ -1,13 +1,13 @@
 
 class SeconModel {
 
-	public MetightModel _metight;
 	public SeconModel _secon;
+	public MetightModel _metight;
 
-	public SeconModel(MetightModel metight, SeconModel secon) {
+	public SeconModel(SeconModel secon, MetightModel metight) {
 
-		this._metight = metight;
 		this._secon = secon;
+		this._metight = metight;
 
 	}
 
