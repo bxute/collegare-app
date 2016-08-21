@@ -3,29 +3,29 @@ import org.json.JSONObject;
 
 class SeatModelParser {
 
-    ComModelParser com_parser = new ComModelParser();
-    MetightModelParser metight_parser = new MetightModelParser();
+	MetightModelParser metight_parser = new MetightModelParser();
+	ComModelParser com_parser = new ComModelParser();
 
-    public SeatModelParser() {
-    }
+	public SeatModelParser() {
+	}
 
-    public SeatModel parseSeatModel(String json_object) {
+	public SeatModel parseSeatModel(String json_object) {
 
-        SeatModel local_model = null;
-        try {
-            JSONObject jsobj = new JSONObject(json_object);
+		SeatModel local_model = null;
+		try {
+			JSONObject jsobj = new JSONObject(json_object);
 
-            ComModel com = com_parser.parseComModel(jsobj.getJSONObject("com").toString());
+			MetightModel metight = metight_parser.parseMetightModel(jsobj.getJSONObject("metight").toString());
 
-            MetightModel metight = metight_parser.parseMetightModel(jsobj.getJSONObject("metight").toString());
+			ComModel com = com_parser.parseComModel(jsobj.getJSONObject("com").toString());
 
-            local_model = new SeatModel(com, metight, );
-        } catch (JSONException e) {
+			local_model = new SeatModel(metight, com, );
+		} catch (JSONException e) {
 
-            e.printStackTrace();
-        }
+			e.printStackTrace();
+		}
 
-        return local_model;
-    }
-
+		return local_model;
+	}
+			
 }

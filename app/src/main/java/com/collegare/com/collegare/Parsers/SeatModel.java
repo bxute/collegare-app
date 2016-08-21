@@ -1,14 +1,14 @@
 
 class SeatModel {
 
-    public ComModel _com;
-    public MetightModel _metight;
+	public MetightModel _metight;
+	public ComModel _com;
 
-    public SeatModel(ComModel com, MetightModel metight) {
+	public SeatModel(MetightModel metight, ComModel com) {
 
-        this._com = com;
-        this._metight = metight;
+		this._metight = metight;
+		this._com = com;
 
-    }
+	}
 
 }

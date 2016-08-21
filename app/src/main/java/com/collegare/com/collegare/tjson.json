@@ -7,7 +7,11 @@
             "syndicate":"allowed",
             "commentVote":"allowed",
             "rate":"allowed",
-   "favoriteCount": 201,
+  "updatedon": "2010-01-07T13:26:50.000Z",
+  "uploadedby": "GoogleDeveloperDay",
+  "seat": {
+    "com": {
+      "favoriteCount": 201,
    "rating": 4.63,
    "rating": 4.63,
    "ratingCount": 68,
@@ -22,10 +26,6 @@
    "viewCount": 220101,
    "favoriteCount": 201,
    "uploadedon": "2007-06-05T22:07:03.000Z",
-   "updatedon": "2010-01-07T13:26:50.000Z",
-   "uploadedby": "GoogleDeveloperDay",
-   "seat": {
-      "com": {
          "aspectRatio":"widescreen",
          "rating": 4.63,
          "rating": 4.63,

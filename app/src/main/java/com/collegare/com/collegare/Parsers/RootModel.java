@@ -1,37 +1,33 @@
 
 class RootModel {
 
-	public String commentVote;
-	public int ratingCount;
-	public SeatModel _seat;
-	public String syndicate;
-	public int duration;
-	public int favoriteCount;
-	public String rate;
-	public String meme;
-	public String uploadedon;
-	public CounlModel _counl;
-	public String uploadedby;
-	public String apiVersion;
-	public int viewCount;
 	public String updatedon;
+	public int viewCount;
+	public String meme;
+	public CounlModel _counl;
+	public String commentVote;
+	public String syndicate;
+	public String uploadedby;
+	public String rate;
+	public SeatModel _seat;
+	public int favoriteCount;
+	public String apiVersion;
+	public int ratingCount;
 
-	public RootModel(String commentVote, int ratingCount, SeatModel seat, String syndicate, int duration, int favoriteCount, String rate, String meme, String uploadedon, CounlModel counl, String uploadedby, String apiVersion, int viewCount, String updatedon) {
+	public RootModel(String updatedon, int viewCount, String meme, CounlModel counl, String commentVote, String syndicate, String uploadedby, String rate, SeatModel seat, int favoriteCount, String apiVersion, int ratingCount) {
 
-		this.commentVote = commentVote;
-		this.ratingCount = ratingCount;
-		this._seat = seat;
-		this.syndicate = syndicate;
-		this.duration = duration;
-		this.favoriteCount = favoriteCount;
-		this.rate = rate;
-		this.meme = meme;
-		this.uploadedon = uploadedon;
-		this._counl = counl;
-		this.uploadedby = uploadedby;
-		this.apiVersion = apiVersion;
-		this.viewCount = viewCount;
 		this.updatedon = updatedon;
+		this.viewCount = viewCount;
+		this.meme = meme;
+		this._counl = counl;
+		this.commentVote = commentVote;
+		this.syndicate = syndicate;
+		this.uploadedby = uploadedby;
+		this.rate = rate;
+		this._seat = seat;
+		this.favoriteCount = favoriteCount;
+		this.apiVersion = apiVersion;
+		this.ratingCount = ratingCount;
 
 	}
 

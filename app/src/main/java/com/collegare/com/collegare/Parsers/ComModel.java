@@ -1,36 +1,40 @@
 
 class ComModel {
 
-    public String commentVote;
-    public int ratingCount;
-    public String list;
-    public String rate;
-    public int minimum;
-    public Boolean required;
-    public int favoriteCount;
-    public String syndicate;
-    public String aspectRatio;
-    public ItemsModel _items;
-    public String type;
-    public int viewCount;
-    public String updatededon;
+	public int viewCount;
+	public String uploadedon;
+	public int favoriteCount;
+	public String rate;
+	public String commentVote;
+	public String syndicate;
+	public String aspectRatio;
+	public String updatededon;
+	public String type;
+	public int duration;
+	public Boolean required;
+	public String list;
+	public int minimum;
+	public int ratingCount;
+	public ItemsModel _items;
 
-    public ComModel(String commentVote, int ratingCount, String list, String rate, int minimum, Boolean required, int favoriteCount, String syndicate, String aspectRatio, ItemsModel items, String type, int viewCount, String updatededon) {
+	public ComModel(int viewCount, String uploadedon, int favoriteCount, String rate, String commentVote, String syndicate, String aspectRatio, String updatededon, String type, int duration, Boolean required, String list, int minimum, int ratingCount, ItemsModel items) {
 
-        this.commentVote = commentVote;
-        this.ratingCount = ratingCount;
-        this.list = list;
-        this.rate = rate;
-        this.minimum = minimum;
-        this.required = required;
-        this.favoriteCount = favoriteCount;
-        this.syndicate = syndicate;
-        this.aspectRatio = aspectRatio;
-        this._items = items;
-        this.type = type;
-        this.viewCount = viewCount;
-        this.updatededon = updatededon;
+		this.viewCount = viewCount;
+		this.uploadedon = uploadedon;
+		this.favoriteCount = favoriteCount;
+		this.rate = rate;
+		this.commentVote = commentVote;
+		this.syndicate = syndicate;
+		this.aspectRatio = aspectRatio;
+		this.updatededon = updatededon;
+		this.type = type;
+		this.duration = duration;
+		this.required = required;
+		this.list = list;
+		this.minimum = minimum;
+		this.ratingCount = ratingCount;
+		this._items = items;
 
-    }
+	}
 
 }

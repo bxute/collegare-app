@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class RedeModelParser {
 
-	MegernModelParser megern_parser = new MegernModelParser();
-		PlayerModelParser player_parser = new PlayerModelParser();
-	ContentModelParser content_parser = new ContentModelParser();
-	ThumbiModelParser thumbi_parser = new ThumbiModelParser();
 	SchemeModelParser scheme_parser = new SchemeModelParser();
+	ContentModelParser content_parser = new ContentModelParser();
+		PlayerModelParser player_parser = new PlayerModelParser();
+	MegernModelParser megern_parser = new MegernModelParser();
+	ThumbiModelParser thumbi_parser = new ThumbiModelParser();
 
 		public RedeModelParser() {
 		}
@@ -20,9 +20,9 @@ class RedeModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-				MegernModel megern = megern_parser.parseMegernModel(jsobj.getJSONObject("megern").toString());
+				SchemeModel scheme = scheme_parser.parseSchemeModel(jsobj.getJSONObject("scheme").toString());
 
-				PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
+				ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
 					ArrayList<String> tags = new ArrayList<>();
 					JSONArray tags_arr = jsobj.getJSONArray("tags");
@@ -33,13 +33,13 @@ class RedeModelParser {
 
 					}
 
-				ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
+				PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
+
+				MegernModel megern = megern_parser.parseMegernModel(jsobj.getJSONObject("megern").toString());
 
 				ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
 
-				SchemeModel scheme = scheme_parser.parseSchemeModel(jsobj.getJSONObject("scheme").toString());
-
-				local_model = new RedeModel(jsobj.getString("title"), megern, player, jsobj.getInt("commentCount"), tagscontent, jsobj.getString("description"), thumbi, jsobj.getString("id"), scheme, );
+				local_model = new RedeModel(scheme, jsobj.getString("id"), content, jsobj.getString("description"), jsobj.getString("title"), tagsplayer, jsobj.getInt("commentCount"), megern, thumbi, );
  			} 
 			catch (JSONException e){
 

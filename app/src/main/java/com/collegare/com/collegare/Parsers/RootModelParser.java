@@ -3,8 +3,8 @@ import org.json.JSONObject;
 
 class RootModelParser {
 
-	SeatModelParser seat_parser = new SeatModelParser();
 	CounlModelParser counl_parser = new CounlModelParser();
+	SeatModelParser seat_parser = new SeatModelParser();
 
 		public RootModelParser() {
 		}
@@ -15,11 +15,11 @@ class RootModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-				SeatModel seat = seat_parser.parseSeatModel(jsobj.getJSONObject("seat").toString());
-
 				CounlModel counl = counl_parser.parseCounlModel(jsobj.getJSONObject("counl").toString());
 
-				local_model = new RootModel(jsobj.getString("commentVote"), jsobj.getInt("ratingCount"), seat, jsobj.getString("syndicate"), jsobj.getInt("duration"), jsobj.getInt("favoriteCount"), jsobj.getString("rate"), jsobj.getString("meme"), jsobj.getString("uploadedon"), counl, jsobj.getString("uploadedby"), jsobj.getString("apiVersion"), jsobj.getInt("viewCount"), jsobj.getString("updatedon"), );
+				SeatModel seat = seat_parser.parseSeatModel(jsobj.getJSONObject("seat").toString());
+
+				local_model = new RootModel(jsobj.getString("updatedon"), jsobj.getInt("viewCount"), jsobj.getString("meme"), counl, jsobj.getString("commentVote"), jsobj.getString("syndicate"), jsobj.getString("uploadedby"), jsobj.getString("rate"), seat, jsobj.getInt("favoriteCount"), jsobj.getString("apiVersion"), jsobj.getInt("ratingCount"), );
  			} 
 			catch (JSONException e){
 
