@@ -16,6 +16,14 @@
    "rating": 4.63,
    "ratingCount": 68,
    "viewCount": 220101,
+      "shocked": {
+        "aspectRatio": "widescreen",
+        "rating": 4.63,
+        "list": "allowed",
+        "comment": "allowed",
+        "embed": "allowed",
+        "videoRespond": "moderated"
+      },
    "favoriteCount": 201,
             "syndicate":"allowed",
             "commentVote":"allowed",
@@ -54,6 +62,14 @@
          "list": "allowed",
          "aspectRatio": "widescreen",
          "minimum": 0,
+      "shocked": {
+        "aspectRatio": "widescreen",
+        "rating": 4.63,
+        "list": "allowed",
+        "comment": "allowed",
+        "embed": "allowed",
+        "videoRespond": "moderated"
+      },
          "required": true,
          "type": "array",
          "items": {
@@ -83,6 +99,14 @@
         "rome": {
             "type": "string",
             "viewCount": 220101,
+          "shocked": {
+            "aspectRatio": "widescreen",
+            "rating": 4.63,
+            "list": "allowed",
+            "comment": "allowed",
+            "embed": "allowed",
+            "videoRespond": "moderated"
+          },
             "favoriteCount": 201,
           "updatedon": "2010-01-07T13:26:50.000Z",
           "uploadedby": "GoogleDeveloperDay"
@@ -116,8 +140,20 @@
             "sycurl": "rtsp://v1.cache1.c.youtube.com/CiILENy.../0/0/0/video.3gp"
          },
          "commentCount":22,
-        "rome": {
+        "ruse": {
                "aspectRatio": "widescreen",
+          "rating": 4.63,
+          "shocked": {
+            "aspectRatio": "widescreen",
+            "rating": 4.63,
+            "list": "allowed",
+            "comment": "allowed",
+            "embed": "allowed",
+            "videoRespond": "moderated"
+          },
+          "list": "allowed",
+          "comment": "allowed",
+          "embed": "allowed",
                "aspectRatio": "widescreen",
                "title": "Google Developers Day US - Maps API Introduction",
                "reason": "limitedSyndication"
