@@ -3,14 +3,14 @@ import java.util.ArrayList;
 class LooseModel {
 
 	public int itemsPerPage;
-	public ArrayList<RedartModel> redart;
 	public String updated;
+	public ArrayList<RedartModel> redart;
 
-	public LooseModel(int itemsPerPage, ArrayList<RedartModel> redart, String updated) {
+	public LooseModel(int itemsPerPage, String updated, ArrayList<RedartModel> redart) {
 
 		this.itemsPerPage = itemsPerPage;
-		this.redart = redart;
 		this.updated = updated;
+		this.redart = redart;
 
 	}
 

@@ -26,13 +26,13 @@ class LooseModelParser {
 
 			}
 
-			local_model = new LooseModel(jsobj.getInt("itemsPerPage"), redarts, jsobj.getString("updated"), );
+			local_model = new LooseModel(jsobj.getInt("itemsPerPage"), jsobj.getString("updated"), redarts, );
 		} catch (JSONException e) {
 
 			e.printStackTrace();
-		}
+			}
 
 		return local_model;
-	}
+		}
 			
 }
