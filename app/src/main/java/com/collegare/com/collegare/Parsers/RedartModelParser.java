@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class RedartModelParser {
 
-	ContentModelParser content_parser = new ContentModelParser();
 	ShockedModelParser shocked_parser = new ShockedModelParser();
-	PlayerModelParser player_parser = new PlayerModelParser();
 	ThumbiModelParser thumbi_parser = new ThumbiModelParser();
+	ContentModelParser content_parser = new ContentModelParser();
 	RuseModelParser ruse_parser = new RuseModelParser();
+	PlayerModelParser player_parser = new PlayerModelParser();
 
 	public RedartModelParser() {
 	}
@@ -19,6 +19,10 @@ class RedartModelParser {
 		RedartModel local_model = null;
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
+
+			ShockedModel shocked = shocked_parser.parseShockedModel(jsobj.getJSONObject("shocked").toString());
+
+			ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
 
 			ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
@@ -31,15 +35,11 @@ class RedartModelParser {
 
 			}
 
-			ShockedModel shocked = shocked_parser.parseShockedModel(jsobj.getJSONObject("shocked").toString());
+			RuseModel ruse = ruse_parser.parseRuseModel(jsobj.getJSONObject("ruse").toString());
 
 			PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
 
-			ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
-
-			RuseModel ruse = ruse_parser.parseRuseModel(jsobj.getJSONObject("ruse").toString());
-
-			local_model = new RedartModel(content, jsobj.getString("description"), jsobj.getInt("commentCount"), jsobj.getInt("ratingCount"), jsobj.getString("uploadedon"), jsobj.getInt("viewCount"), jsobj.getString("commentVote"), tagsjsobj.getString("rate"), shocked, jsobj.getString("syndicate"), player, jsobj.getString("id"), thumbi, ruse, jsobj.getString("title"), jsobj.getInt("favoriteCount"), );
+			local_model = new RedartModel(jsobj.getString("description"), jsobj.getString("rate"), jsobj.getString("title"), jsobj.getInt("commentCount"), shocked, jsobj.getInt("favoriteCount"), thumbi, jsobj.getString("commentVote"), jsobj.getString("uploadedon"), jsobj.getInt("viewCount"), content, jsobj.getString("syndicate"), tagsjsobj.getString("id"), jsobj.getInt("ratingCount"), ruse, player, );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

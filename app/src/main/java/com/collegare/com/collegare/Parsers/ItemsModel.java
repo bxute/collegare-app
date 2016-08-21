@@ -1,27 +1,27 @@
 
 class ItemsModel {
 
+	public int viewCount;
+	public String rate;
+	public String type;
 	public String uploadedon;
-	public String syndicate;
+	public String commentVote;
 	public String id;
 	public int ratingCount;
-	public int viewCount;
-	public String commentVote;
-	public String type;
-	public String rate;
 	public int favoriteCount;
+	public String syndicate;
 
-	public ItemsModel(String uploadedon, String syndicate, String id, int ratingCount, int viewCount, String commentVote, String type, String rate, int favoriteCount) {
+	public ItemsModel(int viewCount, String rate, String type, String uploadedon, String commentVote, String id, int ratingCount, int favoriteCount, String syndicate) {
 
+		this.viewCount = viewCount;
+		this.rate = rate;
+		this.type = type;
 		this.uploadedon = uploadedon;
-		this.syndicate = syndicate;
+		this.commentVote = commentVote;
 		this.id = id;
 		this.ratingCount = ratingCount;
-		this.viewCount = viewCount;
-		this.commentVote = commentVote;
-		this.type = type;
-		this.rate = rate;
 		this.favoriteCount = favoriteCount;
+		this.syndicate = syndicate;
 
 	}
 

@@ -1,33 +1,33 @@
 
 class RomeModel {
 
-	public int ratingCount;
-	public int viewCount;
-	public String commentVote;
 	public String rate;
-	public String updatedon;
-	public ShockedModel _shocked;
-	public String syndicate;
-	public String id;
-	public int favoriteCount;
 	public String uploadedby;
+	public ShockedModel _shocked;
+	public String commentVote;
+	public int favoriteCount;
 	public String type;
 	public String uploadedon;
+	public String updatedon;
+	public int viewCount;
+	public String syndicate;
+	public String id;
+	public int ratingCount;
 
-	public RomeModel(int ratingCount, int viewCount, String commentVote, String rate, String updatedon, ShockedModel shocked, String syndicate, String id, int favoriteCount, String uploadedby, String type, String uploadedon) {
+	public RomeModel(String rate, String uploadedby, ShockedModel shocked, String commentVote, int favoriteCount, String type, String uploadedon, String updatedon, int viewCount, String syndicate, String id, int ratingCount) {
 
-		this.ratingCount = ratingCount;
-		this.viewCount = viewCount;
-		this.commentVote = commentVote;
 		this.rate = rate;
-		this.updatedon = updatedon;
-		this._shocked = shocked;
-		this.syndicate = syndicate;
-		this.id = id;
-		this.favoriteCount = favoriteCount;
 		this.uploadedby = uploadedby;
+		this._shocked = shocked;
+		this.commentVote = commentVote;
+		this.favoriteCount = favoriteCount;
 		this.type = type;
 		this.uploadedon = uploadedon;
+		this.updatedon = updatedon;
+		this.viewCount = viewCount;
+		this.syndicate = syndicate;
+		this.id = id;
+		this.ratingCount = ratingCount;
 
 	}
 

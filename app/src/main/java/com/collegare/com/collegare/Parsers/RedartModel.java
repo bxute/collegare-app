@@ -2,43 +2,43 @@ import java.util.ArrayList;
 
 class RedartModel {
 
-	public ContentModel _content;
 	public String description;
+	public String rate;
+	public String title;
 	public int commentCount;
-	public int ratingCount;
+	public ShockedModel _shocked;
+	public int favoriteCount;
+	public ThumbiModel _thumbi;
+	public String commentVote;
 	public String uploadedon;
 	public int viewCount;
-	public String commentVote;
-	public ArrayList<String> tags;
-	public String rate;
-	public ShockedModel _shocked;
+	public ContentModel _content;
 	public String syndicate;
-	public PlayerModel _player;
+	public ArrayList<String> tags;
 	public String id;
-	public ThumbiModel _thumbi;
+	public int ratingCount;
 	public RuseModel _ruse;
-	public String title;
-	public int favoriteCount;
+	public PlayerModel _player;
 
-	public RedartModel(ContentModel content, String description, int commentCount, int ratingCount, String uploadedon, int viewCount, String commentVote, ArrayList<String> tags, String rate, ShockedModel shocked, String syndicate, PlayerModel player, String id, ThumbiModel thumbi, RuseModel ruse, String title, int favoriteCount) {
+	public RedartModel(String description, String rate, String title, int commentCount, ShockedModel shocked, int favoriteCount, ThumbiModel thumbi, String commentVote, String uploadedon, int viewCount, ContentModel content, String syndicate, ArrayList<String> tags, String id, int ratingCount, RuseModel ruse, PlayerModel player) {
 
-		this._content = content;
 		this.description = description;
+		this.rate = rate;
+		this.title = title;
 		this.commentCount = commentCount;
-		this.ratingCount = ratingCount;
+		this._shocked = shocked;
+		this.favoriteCount = favoriteCount;
+		this._thumbi = thumbi;
+		this.commentVote = commentVote;
 		this.uploadedon = uploadedon;
 		this.viewCount = viewCount;
-		this.commentVote = commentVote;
-		this.tags = tags;
-		this.rate = rate;
-		this._shocked = shocked;
+		this._content = content;
 		this.syndicate = syndicate;
-		this._player = player;
+		this.tags = tags;
 		this.id = id;
-		this._thumbi = thumbi;
+		this.ratingCount = ratingCount;
 		this._ruse = ruse;
-		this.title = title;
-		this.favoriteCount = favoriteCount;
+		this._player = player;
 
 	}
 
