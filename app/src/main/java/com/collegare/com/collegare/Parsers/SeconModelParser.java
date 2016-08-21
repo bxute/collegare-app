@@ -3,8 +3,8 @@ import org.json.JSONObject;
 
 class SeconModelParser {
 
-	SeconModelParser secon_parser = new SeconModelParser();
 	MetightModelParser metight_parser = new MetightModelParser();
+	SeconModelParser secon_parser = new SeconModelParser();
 
 	public SeconModelParser() {
 	}
@@ -15,11 +15,11 @@ class SeconModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
-			SeconModel secon = secon_parser.parseSeconModel(jsobj.getJSONObject("secon").toString());
-
 			MetightModel metight = metight_parser.parseMetightModel(jsobj.getJSONObject("metight").toString());
 
-			local_model = new SeconModel(secon, metight, );
+			SeconModel secon = secon_parser.parseSeconModel(jsobj.getJSONObject("secon").toString());
+
+			local_model = new SeconModel(metight, secon, );
 		} catch (JSONException e) {
 
 			e.printStackTrace();
