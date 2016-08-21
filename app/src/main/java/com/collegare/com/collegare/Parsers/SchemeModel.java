@@ -1,15 +1,15 @@
 
 class SchemeModel {
 
+	public String aspectRatio;
 	public String title;
 	public String reason;
-	public String aspectRatio;
 
-	public SchemeModel(String title, String reason, String aspectRatio) {
+	public SchemeModel(String aspectRatio, String title, String reason) {
 
+		this.aspectRatio = aspectRatio;
 		this.title = title;
 		this.reason = reason;
-		this.aspectRatio = aspectRatio;
 
 	}
 

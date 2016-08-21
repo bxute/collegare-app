@@ -13,7 +13,7 @@ class SchemeModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
-			local_model = new SchemeModel(jsobj.getString("title"), jsobj.getString("reason"), jsobj.getString("aspectRatio"), );
+			local_model = new SchemeModel(jsobj.getString("aspectRatio"), jsobj.getString("title"), jsobj.getString("reason"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

@@ -19,7 +19,7 @@ class RootModelParser {
 
 				SeconModel secon = secon_parser.parseSeconModel(jsobj.getJSONObject("secon").toString());
 
-				local_model = new RootModel(jsobj.getInt("viewCount"), jsobj.getString("updatedon"), jsobj.getString("apiVersion"), jsobj.getString("syndicate"), jsobj.getString("meme"), jsobj.getString("commentVote"), jsobj.getString("uploadedby"), jsobj.getInt("favoriteCount"), counl, secon, jsobj.getString("rate"), jsobj.getInt("ratingCount"), );
+				local_model = new RootModel(jsobj.getString("meme"), jsobj.getInt("viewCount"), counl, jsobj.getString("commentVote"), jsobj.getString("apiVersion"), jsobj.getString("rate"), jsobj.getInt("favoriteCount"), jsobj.getString("updatedon"), jsobj.getInt("ratingCount"), jsobj.getString("uploadedby"), jsobj.getString("syndicate"), secon, );
  			} 
 			catch (JSONException e){
 
