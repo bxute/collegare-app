@@ -1,14 +1,14 @@
 
 class SeconModel {
 
-    public ComModel _com;
-    public MetightModel _metight;
+	public ReactModel _react;
+	public MetightModel _metight;
 
-    public SeconModel(ComModel com, MetightModel metight) {
+	public SeconModel(ReactModel react, MetightModel metight) {
 
-        this._com = com;
-        this._metight = metight;
+		this._react = react;
+		this._metight = metight;
 
-    }
+	}
 
 }
