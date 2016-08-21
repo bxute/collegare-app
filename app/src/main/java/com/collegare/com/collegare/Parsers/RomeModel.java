@@ -1,19 +1,21 @@
 
 class RomeModel {
 
-	public String type;
-	public String uploadedby;
+	public int favoriteCount;
 	public int viewCount;
 	public String updatedon;
-	public int favoriteCount;
+	public ShockedModel _shocked;
+	public String type;
+	public String uploadedby;
 
-	public RomeModel(String type, String uploadedby, int viewCount, String updatedon, int favoriteCount) {
+	public RomeModel(int favoriteCount, int viewCount, String updatedon, ShockedModel shocked, String type, String uploadedby) {
 
-		this.type = type;
-		this.uploadedby = uploadedby;
+		this.favoriteCount = favoriteCount;
 		this.viewCount = viewCount;
 		this.updatedon = updatedon;
-		this.favoriteCount = favoriteCount;
+		this._shocked = shocked;
+		this.type = type;
+		this.uploadedby = uploadedby;
 
 	}
 

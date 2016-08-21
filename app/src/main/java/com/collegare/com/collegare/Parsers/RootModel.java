@@ -2,32 +2,32 @@
 class RootModel {
 
 	public LooseModel _loose;
-	public String syndicate;
+	public String apiVersion;
+	public String meme;
+	public String rate;
+	public String updatedon;
+	public SeconModel _secon;
 	public int viewCount;
 	public String commentVote;
 	public int ratingCount;
-	public String apiVersion;
-	public String rate;
-	public String uploadedby;
-	public String updatedon;
+	public String syndicate;
 	public int favoriteCount;
-	public SeconModel _secon;
-	public String meme;
+	public String uploadedby;
 
-	public RootModel(LooseModel loose, String syndicate, int viewCount, String commentVote, int ratingCount, String apiVersion, String rate, String uploadedby, String updatedon, int favoriteCount, SeconModel secon, String meme) {
+	public RootModel(LooseModel loose, String apiVersion, String meme, String rate, String updatedon, SeconModel secon, int viewCount, String commentVote, int ratingCount, String syndicate, int favoriteCount, String uploadedby) {
 
 		this._loose = loose;
-		this.syndicate = syndicate;
+		this.apiVersion = apiVersion;
+		this.meme = meme;
+		this.rate = rate;
+		this.updatedon = updatedon;
+		this._secon = secon;
 		this.viewCount = viewCount;
 		this.commentVote = commentVote;
 		this.ratingCount = ratingCount;
-		this.apiVersion = apiVersion;
-		this.rate = rate;
-		this.uploadedby = uploadedby;
-		this.updatedon = updatedon;
+		this.syndicate = syndicate;
 		this.favoriteCount = favoriteCount;
-		this._secon = secon;
-		this.meme = meme;
+		this.uploadedby = uploadedby;
 
 	}
 

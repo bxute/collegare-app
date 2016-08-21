@@ -2,16 +2,16 @@ import java.util.ArrayList;
 
 class LooseModel {
 
-    public String updated;
-    public int itemsPerPage;
-    public ArrayList<RedartModel> redart;
+	public int itemsPerPage;
+	public ArrayList<RedartModel> redart;
+	public String updated;
 
-    public LooseModel(String updated, int itemsPerPage, ArrayList<RedartModel> redart) {
+	public LooseModel(int itemsPerPage, ArrayList<RedartModel> redart, String updated) {
 
-        this.updated = updated;
-        this.itemsPerPage = itemsPerPage;
-        this.redart = redart;
+		this.itemsPerPage = itemsPerPage;
+		this.redart = redart;
+		this.updated = updated;
 
-    }
+	}
 
 }

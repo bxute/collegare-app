@@ -3,6 +3,7 @@ import org.json.JSONObject;
 
 class RomeModelParser {
 
+	ShockedModelParser shocked_parser = new ShockedModelParser();
 
 	public RomeModelParser() {
 	}
@@ -13,7 +14,9 @@ class RomeModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
-			local_model = new RomeModel(jsobj.getString("type"), jsobj.getString("uploadedby"), jsobj.getInt("viewCount"), jsobj.getString("updatedon"), jsobj.getInt("favoriteCount"), );
+			ShockedModel shocked = shocked_parser.parseShockedModel(jsobj.getJSONObject("shocked").toString());
+
+			local_model = new RomeModel(jsobj.getInt("favoriteCount"), jsobj.getInt("viewCount"), jsobj.getString("updatedon"), shocked, jsobj.getString("type"), jsobj.getString("uploadedby"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();
