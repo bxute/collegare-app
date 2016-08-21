@@ -56,7 +56,18 @@
             "type": "string",
             "viewCount": 220101,
             "favoriteCount": 201,
-         "rating":4.63,
+          "updatedon": "2010-01-07T13:26:50.000Z",
+          "uploadedby": "GoogleDeveloperDay"
+        }
+      }
+  },
+  "apiVersion": "2.0",
+  "counl": {
+    "updated": "2010-01-07T19:58:42.949Z",
+    "itemsPerPage": 1,
+    "rede": [
+      {
+        "rating": 4.63,
             "aspectRatio": "widescreen",
          "rating":4.63,
             "rating": 4.63,
@@ -70,17 +81,6 @@
          "viewCount":220101,
          "favoriteCount":201,
          "uploadedon":"2007-06-05T22:07:03.000Z",
-         "updatedon":"2010-01-07T13:26:50.000Z",
-         "uploadedby":"GoogleDeveloperDay"
-         }
-      }
-   },
-   "apiVersion": "2.0",
-   "counl": {
-      "updated": "2010-01-07T19:58:42.949Z",
-      "itemsPerPage": 1,
-      "rede": [
-         {
             "id": "hYB0mn5zh2c",
          "title":"Google Developers Day US - Maps API Introduction",
          "description":"Google Maps API Introduction ...",

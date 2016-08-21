@@ -1,33 +1,33 @@
 
 class RootModel {
 
+	public String updatedon;
+	public int favoriteCount;
+	public int ratingCount;
+	public SeconModel _secon;
+	public String syndicate;
 	public String meme;
 	public int viewCount;
-	public String updatedon;
-	public String uploadedby;
-	public int ratingCount;
-	public String rate;
-	public String syndicate;
-	public int favoriteCount;
-	public String commentVote;
-	public SeconModel _secon;
-	public String apiVersion;
 	public CounlModel _counl;
+	public String rate;
+	public String commentVote;
+	public String apiVersion;
+	public String uploadedby;
 
-	public RootModel(String meme, int viewCount, String updatedon, String uploadedby, int ratingCount, String rate, String syndicate, int favoriteCount, String commentVote, SeconModel secon, String apiVersion, CounlModel counl) {
+	public RootModel(String updatedon, int favoriteCount, int ratingCount, SeconModel secon, String syndicate, String meme, int viewCount, CounlModel counl, String rate, String commentVote, String apiVersion, String uploadedby) {
 
+		this.updatedon = updatedon;
+		this.favoriteCount = favoriteCount;
+		this.ratingCount = ratingCount;
+		this._secon = secon;
+		this.syndicate = syndicate;
 		this.meme = meme;
 		this.viewCount = viewCount;
-		this.updatedon = updatedon;
-		this.uploadedby = uploadedby;
-		this.ratingCount = ratingCount;
-		this.rate = rate;
-		this.syndicate = syndicate;
-		this.favoriteCount = favoriteCount;
-		this.commentVote = commentVote;
-		this._secon = secon;
-		this.apiVersion = apiVersion;
 		this._counl = counl;
+		this.rate = rate;
+		this.commentVote = commentVote;
+		this.apiVersion = apiVersion;
+		this.uploadedby = uploadedby;
 
 	}
 

@@ -19,7 +19,7 @@ class RootModelParser {
 
 				CounlModel counl = counl_parser.parseCounlModel(jsobj.getJSONObject("counl").toString());
 
-				local_model = new RootModel(jsobj.getString("meme"), jsobj.getInt("viewCount"), jsobj.getString("updatedon"), jsobj.getString("uploadedby"), jsobj.getInt("ratingCount"), jsobj.getString("rate"), jsobj.getString("syndicate"), jsobj.getInt("favoriteCount"), jsobj.getString("commentVote"), secon, jsobj.getString("apiVersion"), counl, );
+				local_model = new RootModel(jsobj.getString("updatedon"), jsobj.getInt("favoriteCount"), jsobj.getInt("ratingCount"), secon, jsobj.getString("syndicate"), jsobj.getString("meme"), jsobj.getInt("viewCount"), counl, jsobj.getString("rate"), jsobj.getString("commentVote"), jsobj.getString("apiVersion"), jsobj.getString("uploadedby"), );
  			} 
 			catch (JSONException e){
 

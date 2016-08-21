@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class RedeModelParser {
 
-		PlayerModelParser player_parser = new PlayerModelParser();
-	ContentModelParser content_parser = new ContentModelParser();
-	MegernModelParser megern_parser = new MegernModelParser();
 	SchemeModelParser scheme_parser = new SchemeModelParser();
+		PlayerModelParser player_parser = new PlayerModelParser();
+	MegernModelParser megern_parser = new MegernModelParser();
 	ThumbiModelParser thumbi_parser = new ThumbiModelParser();
+	ContentModelParser content_parser = new ContentModelParser();
 
 		public RedeModelParser() {
 		}
@@ -20,13 +20,11 @@ class RedeModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
+				SchemeModel scheme = scheme_parser.parseSchemeModel(jsobj.getJSONObject("scheme").toString());
+
 				PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
 
-				ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
-
 				MegernModel megern = megern_parser.parseMegernModel(jsobj.getJSONObject("megern").toString());
-
-				SchemeModel scheme = scheme_parser.parseSchemeModel(jsobj.getJSONObject("scheme").toString());
 
 				ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
 
@@ -39,7 +37,9 @@ class RedeModelParser {
 
 					}
 
-				local_model = new RedeModel(player, content, jsobj.getString("id"), jsobj.getString("title"), megern, jsobj.getInt("commentCount"), scheme, jsobj.getString("description"), thumbi, tags);
+				ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
+
+				local_model = new RedeModel(scheme, jsobj.getString("aspectRatio"), player, jsobj.getString("title"), jsobj.getInt("favoriteCount"), jsobj.getString("description"), jsobj.getString("syndicate"), megern, jsobj.getString("id"), jsobj.getString("uploadedon"), jsobj.getInt("viewCount"), jsobj.getString("rate"), thumbi, jsobj.getString("commentVote"), jsobj.getInt("commentCount"), jsobj.getInt("ratingCount"), tagscontent, );
  			} 
 			catch (JSONException e){
 
