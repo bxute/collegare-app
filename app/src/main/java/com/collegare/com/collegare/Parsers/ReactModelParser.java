@@ -16,7 +16,7 @@ class ReactModelParser {
 
 			ItemsModel items = items_parser.parseItemsModel(jsobj.getJSONObject("items").toString());
 
-			local_model = new ReactModel(jsobj.getString("updatededon"), jsobj.getInt("favoriteCount"), jsobj.getInt("duration"), jsobj.getBoolean("required"), jsobj.getInt("viewCount"), items, jsobj.getString("list"), jsobj.getString("type"), jsobj.getInt("ratingCount"), jsobj.getString("rate"), jsobj.getString("syndicate"), jsobj.getString("aspectRatio"), jsobj.getString("commentVote"), jsobj.getString("uploadedon"), jsobj.getInt("minimum"), );
+			local_model = new ReactModel(items, jsobj.getString("aspectRatio"), jsobj.getInt("duration"), jsobj.getInt("favoriteCount"), jsobj.getString("syndicate"), jsobj.getInt("minimum"), jsobj.getBoolean("required"), jsobj.getString("uploadedon"), jsobj.getInt("viewCount"), jsobj.getString("rate"), jsobj.getString("commentVote"), jsobj.getString("type"), jsobj.getInt("ratingCount"), jsobj.getString("list"), jsobj.getString("updatededon"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

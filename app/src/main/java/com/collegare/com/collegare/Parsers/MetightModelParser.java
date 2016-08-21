@@ -16,7 +16,7 @@ class MetightModelParser {
 
 			RomeModel rome = rome_parser.parseRomeModel(jsobj.getJSONObject("rome").toString());
 
-			local_model = new MetightModel(jsobj.getString("type"), rome, );
+			local_model = new MetightModel(rome, jsobj.getString("type"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

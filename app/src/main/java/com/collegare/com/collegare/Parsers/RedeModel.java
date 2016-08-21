@@ -2,29 +2,45 @@ import java.util.ArrayList;
 
 class RedeModel {
 
-	public PlayerModel _player;
-	public ContentModel _content;
-	public String id;
-	public String title;
-	public MegernModel _megern;
-	public int commentCount;
 	public SchemeModel _scheme;
+	public String aspectRatio;
+	public PlayerModel _player;
+	public String title;
+	public int favoriteCount;
 	public String description;
+	public String syndicate;
+	public MegernModel _megern;
+	public String id;
+	public String uploadedon;
+	public int viewCount;
+	public String rate;
 	public ThumbiModel _thumbi;
+	public String commentVote;
+	public int commentCount;
+	public int ratingCount;
 	public ArrayList<String> tags;
+	public ContentModel _content;
 
-	public RedeModel(PlayerModel player, ContentModel content, String id, String title, MegernModel megern, int commentCount, SchemeModel scheme, String description, ThumbiModel thumbi, ArrayList<String> tags) {
+	public RedeModel(SchemeModel scheme, String aspectRatio, PlayerModel player, String title, int favoriteCount, String description, String syndicate, MegernModel megern, String id, String uploadedon, int viewCount, String rate, ThumbiModel thumbi, String commentVote, int commentCount, int ratingCount, ArrayList<String> tags, ContentModel content) {
 
-		this._player = player;
-		this._content = content;
-		this.id = id;
-		this.title = title;
-		this._megern = megern;
-		this.commentCount = commentCount;
 		this._scheme = scheme;
+		this.aspectRatio = aspectRatio;
+		this._player = player;
+		this.title = title;
+		this.favoriteCount = favoriteCount;
 		this.description = description;
+		this.syndicate = syndicate;
+		this._megern = megern;
+		this.id = id;
+		this.uploadedon = uploadedon;
+		this.viewCount = viewCount;
+		this.rate = rate;
 		this._thumbi = thumbi;
+		this.commentVote = commentVote;
+		this.commentCount = commentCount;
+		this.ratingCount = ratingCount;
 		this.tags = tags;
+		this._content = content;
 
 	}
 

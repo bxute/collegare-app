@@ -1,39 +1,39 @@
 
 class ReactModel {
 
-	public String updatededon;
-	public int favoriteCount;
-	public int duration;
-	public Boolean required;
-	public int viewCount;
 	public ItemsModel _items;
-	public String list;
+	public String aspectRatio;
+	public int duration;
+	public int favoriteCount;
+	public String syndicate;
+	public int minimum;
+	public Boolean required;
+	public String uploadedon;
+	public int viewCount;
+	public String rate;
+	public String commentVote;
 	public String type;
 	public int ratingCount;
-	public String rate;
-	public String syndicate;
-	public String aspectRatio;
-	public String commentVote;
-	public String uploadedon;
-	public int minimum;
+	public String list;
+	public String updatededon;
 
-	public ReactModel(String updatededon, int favoriteCount, int duration, Boolean required, int viewCount, ItemsModel items, String list, String type, int ratingCount, String rate, String syndicate, String aspectRatio, String commentVote, String uploadedon, int minimum) {
+	public ReactModel(ItemsModel items, String aspectRatio, int duration, int favoriteCount, String syndicate, int minimum, Boolean required, String uploadedon, int viewCount, String rate, String commentVote, String type, int ratingCount, String list, String updatededon) {
 
-		this.updatededon = updatededon;
-		this.favoriteCount = favoriteCount;
-		this.duration = duration;
-		this.required = required;
-		this.viewCount = viewCount;
 		this._items = items;
-		this.list = list;
+		this.aspectRatio = aspectRatio;
+		this.duration = duration;
+		this.favoriteCount = favoriteCount;
+		this.syndicate = syndicate;
+		this.minimum = minimum;
+		this.required = required;
+		this.uploadedon = uploadedon;
+		this.viewCount = viewCount;
+		this.rate = rate;
+		this.commentVote = commentVote;
 		this.type = type;
 		this.ratingCount = ratingCount;
-		this.rate = rate;
-		this.syndicate = syndicate;
-		this.aspectRatio = aspectRatio;
-		this.commentVote = commentVote;
-		this.uploadedon = uploadedon;
-		this.minimum = minimum;
+		this.list = list;
+		this.updatededon = updatededon;
 
 	}
 
