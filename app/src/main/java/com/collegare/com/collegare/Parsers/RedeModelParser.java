@@ -5,11 +5,11 @@ import org.json.JSONArray;
 
 class RedeModelParser {
 
+		PlayerModelParser player_parser = new PlayerModelParser();
 	ContentModelParser content_parser = new ContentModelParser();
+	MegernModelParser megern_parser = new MegernModelParser();
 	SchemeModelParser scheme_parser = new SchemeModelParser();
 	ThumbiModelParser thumbi_parser = new ThumbiModelParser();
-	MegernModelParser megern_parser = new MegernModelParser();
-		PlayerModelParser player_parser = new PlayerModelParser();
 
 		public RedeModelParser() {
 		}
@@ -20,9 +20,15 @@ class RedeModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
+				PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
+
 				ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
+				MegernModel megern = megern_parser.parseMegernModel(jsobj.getJSONObject("megern").toString());
+
 				SchemeModel scheme = scheme_parser.parseSchemeModel(jsobj.getJSONObject("scheme").toString());
+
+				ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
 
 					ArrayList<String> tags = new ArrayList<>();
 					JSONArray tags_arr = jsobj.getJSONArray("tags");
@@ -33,13 +39,7 @@ class RedeModelParser {
 
 					}
 
-				ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
-
-				MegernModel megern = megern_parser.parseMegernModel(jsobj.getJSONObject("megern").toString());
-
-				PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
-
-				local_model = new RedeModel(content, jsobj.getInt("commentCount"), scheme, jsobj.getString("id"), tagsjsobj.getString("title"), thumbi, jsobj.getString("description"), megern, player, );
+				local_model = new RedeModel(player, content, jsobj.getString("id"), jsobj.getString("title"), megern, jsobj.getInt("commentCount"), scheme, jsobj.getString("description"), thumbi, tags);
  			} 
 			catch (JSONException e){
 

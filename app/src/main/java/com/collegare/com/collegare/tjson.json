@@ -52,7 +52,7 @@
       },
       "metight": {
          "type": "array",
-         "items": {
+        "rome": {
             "type": "string",
             "viewCount": 220101,
             "favoriteCount": 201,
