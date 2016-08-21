@@ -1,39 +1,39 @@
 
 class ReactModel {
 
-	public int viewCount;
+	public Boolean required;
+	public String commentVote;
+	public String type;
 	public String uploadedon;
 	public int minimum;
-	public String type;
-	public String syndicate;
-	public String list;
-	public ItemsModel _items;
-	public String commentVote;
-	public Boolean required;
-	public int favoriteCount;
-	public String id;
-	public String aspectRatio;
-	public int duration;
 	public String rate;
+	public int favoriteCount;
+	public String aspectRatio;
+	public ItemsModel _items;
 	public int ratingCount;
+	public String id;
+	public String syndicate;
+	public int viewCount;
+	public String list;
+	public int duration;
 
-	public ReactModel(int viewCount, String uploadedon, int minimum, String type, String syndicate, String list, ItemsModel items, String commentVote, Boolean required, int favoriteCount, String id, String aspectRatio, int duration, String rate, int ratingCount) {
+	public ReactModel(Boolean required, String commentVote, String type, String uploadedon, int minimum, String rate, int favoriteCount, String aspectRatio, ItemsModel items, int ratingCount, String id, String syndicate, int viewCount, String list, int duration) {
 
-		this.viewCount = viewCount;
+		this.required = required;
+		this.commentVote = commentVote;
+		this.type = type;
 		this.uploadedon = uploadedon;
 		this.minimum = minimum;
-		this.type = type;
-		this.syndicate = syndicate;
-		this.list = list;
-		this._items = items;
-		this.commentVote = commentVote;
-		this.required = required;
-		this.favoriteCount = favoriteCount;
-		this.id = id;
-		this.aspectRatio = aspectRatio;
-		this.duration = duration;
 		this.rate = rate;
+		this.favoriteCount = favoriteCount;
+		this.aspectRatio = aspectRatio;
+		this._items = items;
 		this.ratingCount = ratingCount;
+		this.id = id;
+		this.syndicate = syndicate;
+		this.viewCount = viewCount;
+		this.list = list;
+		this.duration = duration;
 
 	}
 
