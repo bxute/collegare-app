@@ -26,7 +26,7 @@ class LooseModelParser {
 
 			}
 
-			local_model = new LooseModel(jsobj.getString("commentVote"), jsobj.getString("rate"), jsobj.getString("syndicate"), jsobj.getString("uploadedon"), jsobj.getString("updated"), jsobj.getInt("ratingCount"), jsobj.getInt("itemsPerPage"), redarts, jsobj.getInt("favoriteCount"), jsobj.getInt("viewCount"), jsobj.getString("id"), );
+			local_model = new LooseModel(redarts, jsobj.getString("updated"), jsobj.getString("commentVote"), jsobj.getString("rate"), jsobj.getInt("itemsPerPage"), jsobj.getInt("ratingCount"), jsobj.getString("uploadedon"), jsobj.getString("syndicate"), jsobj.getInt("viewCount"), jsobj.getInt("favoriteCount"), jsobj.getString("id"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

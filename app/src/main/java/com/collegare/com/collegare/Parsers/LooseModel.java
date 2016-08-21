@@ -2,30 +2,30 @@ import java.util.ArrayList;
 
 class LooseModel {
 
+	public ArrayList<RedartModel> redart;
+	public String updated;
 	public String commentVote;
 	public String rate;
-	public String syndicate;
-	public String uploadedon;
-	public String updated;
-	public int ratingCount;
 	public int itemsPerPage;
-	public ArrayList<RedartModel> redart;
-	public int favoriteCount;
+	public int ratingCount;
+	public String uploadedon;
+	public String syndicate;
 	public int viewCount;
+	public int favoriteCount;
 	public String id;
 
-	public LooseModel(String commentVote, String rate, String syndicate, String uploadedon, String updated, int ratingCount, int itemsPerPage, ArrayList<RedartModel> redart, int favoriteCount, int viewCount, String id) {
+	public LooseModel(ArrayList<RedartModel> redart, String updated, String commentVote, String rate, int itemsPerPage, int ratingCount, String uploadedon, String syndicate, int viewCount, int favoriteCount, String id) {
 
+		this.redart = redart;
+		this.updated = updated;
 		this.commentVote = commentVote;
 		this.rate = rate;
-		this.syndicate = syndicate;
-		this.uploadedon = uploadedon;
-		this.updated = updated;
-		this.ratingCount = ratingCount;
 		this.itemsPerPage = itemsPerPage;
-		this.redart = redart;
-		this.favoriteCount = favoriteCount;
+		this.ratingCount = ratingCount;
+		this.uploadedon = uploadedon;
+		this.syndicate = syndicate;
 		this.viewCount = viewCount;
+		this.favoriteCount = favoriteCount;
 		this.id = id;
 
 	}
