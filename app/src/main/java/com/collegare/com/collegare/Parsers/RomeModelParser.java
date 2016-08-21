@@ -16,7 +16,7 @@ class RomeModelParser {
 
 			ShockedModel shocked = shocked_parser.parseShockedModel(jsobj.getJSONObject("shocked").toString());
 
-			local_model = new RomeModel(jsobj.getString("rate"), jsobj.getString("uploadedby"), shocked, jsobj.getString("commentVote"), jsobj.getInt("favoriteCount"), jsobj.getString("type"), jsobj.getString("uploadedon"), jsobj.getString("updatedon"), jsobj.getInt("viewCount"), jsobj.getString("syndicate"), jsobj.getString("id"), jsobj.getInt("ratingCount"), );
+			local_model = new RomeModel(jsobj.getString("commentVote"), jsobj.getString("type"), jsobj.getString("rate"), shocked, jsobj.getString("uploadedon"), jsobj.getInt("ratingCount"), jsobj.getString("updatedon"), jsobj.getString("uploadedby"), jsobj.getInt("favoriteCount"), jsobj.getInt("viewCount"), jsobj.getString("id"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

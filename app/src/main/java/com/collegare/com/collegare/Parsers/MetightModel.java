@@ -1,29 +1,29 @@
 
 class MetightModel {
 
-	public RomeModel _rome;
-	public int viewCount;
+	public String commentVote;
+	public String type;
 	public String rate;
 	public String syndicate;
-	public String commentVote;
-	public int favoriteCount;
-	public int ratingCount;
-	public String type;
 	public String aspectRatio;
+	public int ratingCount;
+	public RomeModel _rome;
 	public String uploadedon;
+	public int favoriteCount;
+	public int viewCount;
 
-	public MetightModel(RomeModel rome, int viewCount, String rate, String syndicate, String commentVote, int favoriteCount, int ratingCount, String type, String aspectRatio, String uploadedon) {
+	public MetightModel(String commentVote, String type, String rate, String syndicate, String aspectRatio, int ratingCount, RomeModel rome, String uploadedon, int favoriteCount, int viewCount) {
 
-		this._rome = rome;
-		this.viewCount = viewCount;
+		this.commentVote = commentVote;
+		this.type = type;
 		this.rate = rate;
 		this.syndicate = syndicate;
-		this.commentVote = commentVote;
-		this.favoriteCount = favoriteCount;
-		this.ratingCount = ratingCount;
-		this.type = type;
 		this.aspectRatio = aspectRatio;
+		this.ratingCount = ratingCount;
+		this._rome = rome;
 		this.uploadedon = uploadedon;
+		this.favoriteCount = favoriteCount;
+		this.viewCount = viewCount;
 
 	}
 

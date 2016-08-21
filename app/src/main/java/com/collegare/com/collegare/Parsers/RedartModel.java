@@ -2,42 +2,42 @@ import java.util.ArrayList;
 
 class RedartModel {
 
-	public String description;
-	public String rate;
-	public String title;
-	public int commentCount;
-	public ShockedModel _shocked;
-	public int favoriteCount;
-	public ThumbiModel _thumbi;
-	public String commentVote;
-	public String uploadedon;
-	public int viewCount;
-	public ContentModel _content;
-	public String syndicate;
 	public ArrayList<String> tags;
-	public String id;
-	public int ratingCount;
 	public RuseModel _ruse;
+	public String rate;
+	public int ratingCount;
+	public String title;
+	public String description;
+	public int favoriteCount;
+	public String commentVote;
+	public int commentCount;
+	public int viewCount;
+	public String syndicate;
+	public ShockedModel _shocked;
+	public String uploadedon;
+	public ContentModel _content;
+	public ThumbiModel _thumbi;
+	public String id;
 	public PlayerModel _player;
 
-	public RedartModel(String description, String rate, String title, int commentCount, ShockedModel shocked, int favoriteCount, ThumbiModel thumbi, String commentVote, String uploadedon, int viewCount, ContentModel content, String syndicate, ArrayList<String> tags, String id, int ratingCount, RuseModel ruse, PlayerModel player) {
+	public RedartModel(ArrayList<String> tags, RuseModel ruse, String rate, int ratingCount, String title, String description, int favoriteCount, String commentVote, int commentCount, int viewCount, String syndicate, ShockedModel shocked, String uploadedon, ContentModel content, ThumbiModel thumbi, String id, PlayerModel player) {
 
-		this.description = description;
-		this.rate = rate;
-		this.title = title;
-		this.commentCount = commentCount;
-		this._shocked = shocked;
-		this.favoriteCount = favoriteCount;
-		this._thumbi = thumbi;
-		this.commentVote = commentVote;
-		this.uploadedon = uploadedon;
-		this.viewCount = viewCount;
-		this._content = content;
-		this.syndicate = syndicate;
 		this.tags = tags;
-		this.id = id;
-		this.ratingCount = ratingCount;
 		this._ruse = ruse;
+		this.rate = rate;
+		this.ratingCount = ratingCount;
+		this.title = title;
+		this.description = description;
+		this.favoriteCount = favoriteCount;
+		this.commentVote = commentVote;
+		this.commentCount = commentCount;
+		this.viewCount = viewCount;
+		this.syndicate = syndicate;
+		this._shocked = shocked;
+		this.uploadedon = uploadedon;
+		this._content = content;
+		this._thumbi = thumbi;
+		this.id = id;
 		this._player = player;
 
 	}

@@ -5,10 +5,10 @@ import org.json.JSONArray;
 
 class RedartModelParser {
 
-	ShockedModelParser shocked_parser = new ShockedModelParser();
-	ThumbiModelParser thumbi_parser = new ThumbiModelParser();
-	ContentModelParser content_parser = new ContentModelParser();
 	RuseModelParser ruse_parser = new RuseModelParser();
+	ShockedModelParser shocked_parser = new ShockedModelParser();
+	ContentModelParser content_parser = new ContentModelParser();
+	ThumbiModelParser thumbi_parser = new ThumbiModelParser();
 	PlayerModelParser player_parser = new PlayerModelParser();
 
 	public RedartModelParser() {
@@ -19,12 +19,6 @@ class RedartModelParser {
 		RedartModel local_model = null;
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
-
-			ShockedModel shocked = shocked_parser.parseShockedModel(jsobj.getJSONObject("shocked").toString());
-
-			ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
-
-			ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
 			ArrayList<String> tags = new ArrayList<>();
 			JSONArray tags_arr = jsobj.getJSONArray("tags");
@@ -37,9 +31,15 @@ class RedartModelParser {
 
 			RuseModel ruse = ruse_parser.parseRuseModel(jsobj.getJSONObject("ruse").toString());
 
+			ShockedModel shocked = shocked_parser.parseShockedModel(jsobj.getJSONObject("shocked").toString());
+
+			ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
+
+			ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
+
 			PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
 
-			local_model = new RedartModel(jsobj.getString("description"), jsobj.getString("rate"), jsobj.getString("title"), jsobj.getInt("commentCount"), shocked, jsobj.getInt("favoriteCount"), thumbi, jsobj.getString("commentVote"), jsobj.getString("uploadedon"), jsobj.getInt("viewCount"), content, jsobj.getString("syndicate"), tagsjsobj.getString("id"), jsobj.getInt("ratingCount"), ruse, player, );
+			local_model = new RedartModel(tagsruse, jsobj.getString("rate"), jsobj.getInt("ratingCount"), jsobj.getString("title"), jsobj.getString("description"), jsobj.getInt("favoriteCount"), jsobj.getString("commentVote"), jsobj.getInt("commentCount"), jsobj.getInt("viewCount"), jsobj.getString("syndicate"), shocked, jsobj.getString("uploadedon"), content, thumbi, jsobj.getString("id"), player, );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

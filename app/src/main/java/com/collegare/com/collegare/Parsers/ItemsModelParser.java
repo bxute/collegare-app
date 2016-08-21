@@ -13,7 +13,7 @@ class ItemsModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-				local_model = new ItemsModel(jsobj.getInt("viewCount"), jsobj.getString("rate"), jsobj.getString("type"), jsobj.getString("uploadedon"), jsobj.getString("commentVote"), jsobj.getString("id"), jsobj.getInt("ratingCount"), jsobj.getInt("favoriteCount"), jsobj.getString("syndicate"), );
+				local_model = new ItemsModel(jsobj.getString("commentVote"), jsobj.getString("type"), jsobj.getString("rate"), jsobj.getString("syndicate"), jsobj.getString("uploadedon"), jsobj.getInt("ratingCount"), jsobj.getInt("favoriteCount"), jsobj.getInt("viewCount"), jsobj.getString("id"), );
  			} 
 			catch (JSONException e){
 
