@@ -16,7 +16,7 @@ class ComModelParser {
 
 			ItemsModel items = items_parser.parseItemsModel(jsobj.getJSONObject("items").toString());
 
-			local_model = new ComModel(jsobj.getInt("viewCount"), jsobj.getString("uploadedon"), jsobj.getInt("favoriteCount"), jsobj.getString("rate"), jsobj.getString("commentVote"), jsobj.getString("syndicate"), jsobj.getString("aspectRatio"), jsobj.getString("updatededon"), jsobj.getString("type"), jsobj.getInt("duration"), jsobj.getBoolean("required"), jsobj.getString("list"), jsobj.getInt("minimum"), jsobj.getInt("ratingCount"), items, );
+			local_model = new ComModel(jsobj.getString("updatededon"), items, jsobj.getInt("favoriteCount"), jsobj.getString("commentVote"), jsobj.getInt("ratingCount"), jsobj.getString("list"), jsobj.getString("syndicate"), jsobj.getString("aspectRatio"), jsobj.getString("uploadedon"), jsobj.getInt("duration"), jsobj.getInt("minimum"), jsobj.getString("rate"), jsobj.getString("type"), jsobj.getBoolean("required"), jsobj.getInt("viewCount"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();
