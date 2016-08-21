@@ -6,10 +6,10 @@ import org.json.JSONArray;
 class RemardsModelParser {
 
 	SchemeModelParser scheme_parser = new SchemeModelParser();
-	PlayerModelParser player_parser = new PlayerModelParser();
-	MegernModelParser megern_parser = new MegernModelParser();
 	ContentModelParser content_parser = new ContentModelParser();
 	ThumbiModelParser thumbi_parser = new ThumbiModelParser();
+	PlayerModelParser player_parser = new PlayerModelParser();
+	MegernModelParser megern_parser = new MegernModelParser();
 
 	public RemardsModelParser() {
 	}
@@ -20,12 +20,6 @@ class RemardsModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
-			SchemeModel scheme = scheme_parser.parseSchemeModel(jsobj.getJSONObject("scheme").toString());
-
-			PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
-
-			MegernModel megern = megern_parser.parseMegernModel(jsobj.getJSONObject("megern").toString());
-
 			ArrayList<String> tags = new ArrayList<>();
 			JSONArray tags_arr = jsobj.getJSONArray("tags");
 
@@ -35,17 +29,23 @@ class RemardsModelParser {
 
 			}
 
+			SchemeModel scheme = scheme_parser.parseSchemeModel(jsobj.getJSONObject("scheme").toString());
+
 			ContentModel content = content_parser.parseContentModel(jsobj.getJSONObject("content").toString());
 
 			ThumbiModel thumbi = thumbi_parser.parseThumbiModel(jsobj.getJSONObject("thumbi").toString());
 
-			local_model = new RemardsModel(scheme, jsobj.getString("description"), jsobj.getInt("commentCount"), player, megern, tagscontent, jsobj.getString("title"), thumbi, );
+			PlayerModel player = player_parser.parsePlayerModel(jsobj.getJSONObject("player").toString());
+
+			MegernModel megern = megern_parser.parseMegernModel(jsobj.getJSONObject("megern").toString());
+
+			local_model = new RemardsModel(tagsscheme, content, jsobj.getString("title"), thumbi, jsobj.getInt("commentCount"), player, jsobj.getString("description"), megern, );
 		} catch (JSONException e) {
 
 			e.printStackTrace();
 		}
 
 		return local_model;
-	}
+		}
 			
 }
