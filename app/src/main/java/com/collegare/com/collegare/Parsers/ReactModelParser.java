@@ -3,26 +3,26 @@ import org.json.JSONObject;
 
 class ReactModelParser {
 
-    ItemsModelParser items_parser = new ItemsModelParser();
+	ItemsModelParser items_parser = new ItemsModelParser();
 
-    public ReactModelParser() {
-    }
+	public ReactModelParser() {
+	}
 
-    public ReactModel parseReactModel(String json_object) {
+	public ReactModel parseReactModel(String json_object) {
 
-        ReactModel local_model = null;
-        try {
-            JSONObject jsobj = new JSONObject(json_object);
+		ReactModel local_model = null;
+		try {
+			JSONObject jsobj = new JSONObject(json_object);
 
-            ItemsModel items = items_parser.parseItemsModel(jsobj.getJSONObject("items").toString());
+			ItemsModel items = items_parser.parseItemsModel(jsobj.getJSONObject("items").toString());
 
-            local_model = new ReactModel(jsobj.getString("commentVote"), jsobj.getInt("duration"), jsobj.getString("updatededon"), jsobj.getInt("ratingCount"), jsobj.getString("rate"), jsobj.getString("aspectRatio"), items, jsobj.getInt("viewCount"), jsobj.getString("type"), jsobj.getString("uploadedon"), jsobj.getInt("minimum"), jsobj.getString("list"), jsobj.getString("syndicate"), jsobj.getBoolean("required"), jsobj.getInt("favoriteCount"), );
-        } catch (JSONException e) {
+			local_model = new ReactModel(jsobj.getString("updatededon"), jsobj.getInt("favoriteCount"), jsobj.getInt("duration"), jsobj.getBoolean("required"), jsobj.getInt("viewCount"), items, jsobj.getString("list"), jsobj.getString("type"), jsobj.getInt("ratingCount"), jsobj.getString("rate"), jsobj.getString("syndicate"), jsobj.getString("aspectRatio"), jsobj.getString("commentVote"), jsobj.getString("uploadedon"), jsobj.getInt("minimum"), );
+		} catch (JSONException e) {
 
-            e.printStackTrace();
-        }
+			e.printStackTrace();
+		}
 
-        return local_model;
-    }
-
+		return local_model;
+	}
+			
 }

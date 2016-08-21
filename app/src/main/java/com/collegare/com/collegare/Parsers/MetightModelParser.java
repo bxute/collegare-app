@@ -3,7 +3,7 @@ import org.json.JSONObject;
 
 class MetightModelParser {
 
-	ItemsModelParser items_parser = new ItemsModelParser();
+	RomeModelParser rome_parser = new RomeModelParser();
 
 	public MetightModelParser() {
 	}
@@ -14,9 +14,9 @@ class MetightModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
-			ItemsModel items = items_parser.parseItemsModel(jsobj.getJSONObject("items").toString());
+			RomeModel rome = rome_parser.parseRomeModel(jsobj.getJSONObject("rome").toString());
 
-			local_model = new MetightModel(items, jsobj.getString("type"), );
+			local_model = new MetightModel(jsobj.getString("type"), rome, );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

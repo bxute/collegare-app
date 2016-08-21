@@ -1,40 +1,40 @@
 
 class ReactModel {
 
-    public String commentVote;
-    public int duration;
-    public String updatededon;
-    public int ratingCount;
-    public String rate;
-    public String aspectRatio;
-    public ItemsModel _items;
-    public int viewCount;
-    public String type;
-    public String uploadedon;
-    public int minimum;
-    public String list;
-    public String syndicate;
-    public Boolean required;
-    public int favoriteCount;
+	public String updatededon;
+	public int favoriteCount;
+	public int duration;
+	public Boolean required;
+	public int viewCount;
+	public ItemsModel _items;
+	public String list;
+	public String type;
+	public int ratingCount;
+	public String rate;
+	public String syndicate;
+	public String aspectRatio;
+	public String commentVote;
+	public String uploadedon;
+	public int minimum;
 
-    public ReactModel(String commentVote, int duration, String updatededon, int ratingCount, String rate, String aspectRatio, ItemsModel items, int viewCount, String type, String uploadedon, int minimum, String list, String syndicate, Boolean required, int favoriteCount) {
+	public ReactModel(String updatededon, int favoriteCount, int duration, Boolean required, int viewCount, ItemsModel items, String list, String type, int ratingCount, String rate, String syndicate, String aspectRatio, String commentVote, String uploadedon, int minimum) {
 
-        this.commentVote = commentVote;
-        this.duration = duration;
-        this.updatededon = updatededon;
-        this.ratingCount = ratingCount;
-        this.rate = rate;
-        this.aspectRatio = aspectRatio;
-        this._items = items;
-        this.viewCount = viewCount;
-        this.type = type;
-        this.uploadedon = uploadedon;
-        this.minimum = minimum;
-        this.list = list;
-        this.syndicate = syndicate;
-        this.required = required;
-        this.favoriteCount = favoriteCount;
+		this.updatededon = updatededon;
+		this.favoriteCount = favoriteCount;
+		this.duration = duration;
+		this.required = required;
+		this.viewCount = viewCount;
+		this._items = items;
+		this.list = list;
+		this.type = type;
+		this.ratingCount = ratingCount;
+		this.rate = rate;
+		this.syndicate = syndicate;
+		this.aspectRatio = aspectRatio;
+		this.commentVote = commentVote;
+		this.uploadedon = uploadedon;
+		this.minimum = minimum;
 
-    }
+	}
 
 }
