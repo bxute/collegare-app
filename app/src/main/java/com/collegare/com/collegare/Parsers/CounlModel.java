@@ -2,15 +2,15 @@ import java.util.ArrayList;
 
 class CounlModel {
 
-	public ArrayList<RedeModel> rede;
 	public String updated;
 	public int itemsPerPage;
+	public ArrayList<RemardsModel> remards;
 
-	public CounlModel(ArrayList<RedeModel> rede, String updated, int itemsPerPage) {
+	public CounlModel(String updated, int itemsPerPage, ArrayList<RemardsModel> remards) {
 
-		this.rede = rede;
 		this.updated = updated;
 		this.itemsPerPage = itemsPerPage;
+		this.remards = remards;
 
 	}
 

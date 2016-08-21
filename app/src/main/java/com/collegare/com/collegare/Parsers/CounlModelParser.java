@@ -5,10 +5,10 @@ import org.json.JSONArray;
 
 class CounlModelParser {
 
-		RedeModelParser rede_parser;
+	RemardsModelParser remards_parser;
 
 		public CounlModelParser() {
-			rede_parser = new RedeModelParser();
+			remards_parser = new RemardsModelParser();
 		}
 
 		public CounlModel parseCounlModel(String json_object) {
@@ -17,16 +17,16 @@ class CounlModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					ArrayList<RedeModel> redes = new ArrayList<>();
-					JSONArray rede_arr = jsobj.getJSONArray("rede");
-			
-					for(int i = 0 ;i<rede_arr.length();i++){
+				ArrayList<RemardsModel> remardss = new ArrayList<>();
+				JSONArray remards_arr = jsobj.getJSONArray("remards");
 
- 						redes.add(rede_parser.parseRedeModel((String)rede_arr.get(i)));
+				for (int i = 0; i < remards_arr.length(); i++) {
+
+					remardss.add(remards_parser.parseRemardsModel((String) remards_arr.get(i)));
 
 					}
 
-				local_model = new CounlModel(redes, jsobj.getString("updated"), jsobj.getInt("itemsPerPage"), );
+				local_model = new CounlModel(jsobj.getString("updated"), jsobj.getInt("itemsPerPage"), remardss, );
  			} 
 			catch (JSONException e){
 
