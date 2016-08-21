@@ -1,33 +1,17 @@
 
 class RootModel {
 
-	public String commentVote;
-	public LooseModel _loose;
-	public String syndicate;
+	public PremiceModel _premice;
+	public WrappersModel _wrappers;
 	public String apiVersion;
-	public int favoriteCount;
-	public int ratingCount;
-	public String meme;
-	public int viewCount;
-	public String rate;
-	public String uploadedby;
-	public SeconModel _secon;
-	public String updatedon;
+	public String itemsType;
 
-	public RootModel(String commentVote, LooseModel loose, String syndicate, String apiVersion, int favoriteCount, int ratingCount, String meme, int viewCount, String rate, String uploadedby, SeconModel secon, String updatedon) {
+	public RootModel(PremiceModel premice, WrappersModel wrappers, String apiVersion, String itemsType) {
 
-		this.commentVote = commentVote;
-		this._loose = loose;
-		this.syndicate = syndicate;
+		this._premice = premice;
+		this._wrappers = wrappers;
 		this.apiVersion = apiVersion;
-		this.favoriteCount = favoriteCount;
-		this.ratingCount = ratingCount;
-		this.meme = meme;
-		this.viewCount = viewCount;
-		this.rate = rate;
-		this.uploadedby = uploadedby;
-		this._secon = secon;
-		this.updatedon = updatedon;
+		this.itemsType = itemsType;
 
 	}
 

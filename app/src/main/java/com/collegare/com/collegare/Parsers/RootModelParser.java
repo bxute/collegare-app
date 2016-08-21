@@ -3,8 +3,8 @@ import org.json.JSONObject;
 
 class RootModelParser {
 
-	LooseModelParser loose_parser = new LooseModelParser();
-	SeconModelParser secon_parser = new SeconModelParser();
+	PremiceModelParser premice_parser = new PremiceModelParser();
+	WrappersModelParser wrappers_parser = new WrappersModelParser();
 
 		public RootModelParser() {
 		}
@@ -15,11 +15,11 @@ class RootModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-				LooseModel loose = loose_parser.parseLooseModel(jsobj.getJSONObject("loose").toString());
+				PremiceModel premice = premice_parser.parsePremiceModel(jsobj.getJSONObject("premice").toString());
 
-				SeconModel secon = secon_parser.parseSeconModel(jsobj.getJSONObject("secon").toString());
+				WrappersModel wrappers = wrappers_parser.parseWrappersModel(jsobj.getJSONObject("wrappers").toString());
 
-				local_model = new RootModel(jsobj.getString("commentVote"), loose, jsobj.getString("syndicate"), jsobj.getString("apiVersion"), jsobj.getInt("favoriteCount"), jsobj.getInt("ratingCount"), jsobj.getString("meme"), jsobj.getInt("viewCount"), jsobj.getString("rate"), jsobj.getString("uploadedby"), secon, jsobj.getString("updatedon"), );
+				local_model = new RootModel(premice, wrappers, jsobj.getString("apiVersion"), jsobj.getString("itemsType"), );
  			} 
 			catch (JSONException e){
 
