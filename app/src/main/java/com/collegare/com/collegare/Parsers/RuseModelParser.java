@@ -16,7 +16,7 @@ class RuseModelParser {
 
 			ShockedModel shocked = shocked_parser.parseShockedModel(jsobj.getJSONObject("shocked").toString());
 
-			local_model = new RuseModel(jsobj.getString("aspectRatio"), shocked, jsobj.getString("embed"), jsobj.getString("comment"), jsobj.getString("list"), jsobj.getString("reason"), jsobj.getString("title"), );
+			local_model = new RuseModel(jsobj.getString("title"), jsobj.getString("reason"), jsobj.getString("embed"), jsobj.getString("aspectRatio"), shocked, jsobj.getString("list"), jsobj.getString("comment"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

@@ -19,7 +19,7 @@ class RootModelParser {
 
 				LooseModel loose = loose_parser.parseLooseModel(jsobj.getJSONObject("loose").toString());
 
-				local_model = new RootModel(secon, jsobj.getInt("ratingCount"), jsobj.getInt("viewCount"), jsobj.getString("commentVote"), jsobj.getString("rate"), loose, jsobj.getString("meme"), jsobj.getString("syndicate"), jsobj.getString("apiVersion"), jsobj.getString("updatedon"), jsobj.getString("uploadedby"), jsobj.getInt("favoriteCount"), );
+				local_model = new RootModel(jsobj.getString("rate"), jsobj.getString("uploadedby"), jsobj.getString("apiVersion"), jsobj.getString("commentVote"), jsobj.getInt("favoriteCount"), jsobj.getString("syndicate"), jsobj.getString("updatedon"), jsobj.getInt("viewCount"), jsobj.getString("meme"), jsobj.getInt("ratingCount"), secon, loose, );
  			} 
 			catch (JSONException e){
 

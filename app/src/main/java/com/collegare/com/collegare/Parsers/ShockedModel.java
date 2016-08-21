@@ -1,35 +1,27 @@
 
 class ShockedModel {
 
-	public String aspectRatio;
-	public String embed;
-	public String comment;
-	public int ratingCount;
-	public String uploadedon;
-	public int viewCount;
-	public String commentVote;
 	public String rate;
-	public String syndicate;
+	public String uploadedon;
+	public String commentVote;
 	public String id;
+	public String aspectRatio;
 	public String videoRespond;
+	public String embed;
 	public String list;
-	public int favoriteCount;
+	public String comment;
 
-	public ShockedModel(String aspectRatio, String embed, String comment, int ratingCount, String uploadedon, int viewCount, String commentVote, String rate, String syndicate, String id, String videoRespond, String list, int favoriteCount) {
+	public ShockedModel(String rate, String uploadedon, String commentVote, String id, String aspectRatio, String videoRespond, String embed, String list, String comment) {
 
-		this.aspectRatio = aspectRatio;
-		this.embed = embed;
-		this.comment = comment;
-		this.ratingCount = ratingCount;
-		this.uploadedon = uploadedon;
-		this.viewCount = viewCount;
-		this.commentVote = commentVote;
 		this.rate = rate;
-		this.syndicate = syndicate;
+		this.uploadedon = uploadedon;
+		this.commentVote = commentVote;
 		this.id = id;
+		this.aspectRatio = aspectRatio;
 		this.videoRespond = videoRespond;
+		this.embed = embed;
 		this.list = list;
-		this.favoriteCount = favoriteCount;
+		this.comment = comment;
 
 	}
 
