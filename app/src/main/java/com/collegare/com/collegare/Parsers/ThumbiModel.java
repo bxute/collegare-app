@@ -1,13 +1,13 @@
 
 class ThumbiModel {
 
-	public String default;
 	public String hqDefault;
+	public String default;
 
-	public ThumbiModel(String default, String hqDefault) {
+	public ThumbiModel(String hqDefault, String default) {
 
-		this. default=default ;
 		this.hqDefault = hqDefault;
+		this. default=default ;
 
 	}
 

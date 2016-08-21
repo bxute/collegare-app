@@ -1,24 +1,24 @@
 
 class RuseModel {
 
-    public String title;
-    public String comment;
-    public String embed;
-    public String aspectRatio;
-    public ShockedModel _shocked;
-    public String reason;
-    public String list;
+	public String aspectRatio;
+	public ShockedModel _shocked;
+	public String embed;
+	public String comment;
+	public String list;
+	public String reason;
+	public String title;
 
-    public RuseModel(String title, String comment, String embed, String aspectRatio, ShockedModel shocked, String reason, String list) {
+	public RuseModel(String aspectRatio, ShockedModel shocked, String embed, String comment, String list, String reason, String title) {
 
-        this.title = title;
-        this.comment = comment;
-        this.embed = embed;
-        this.aspectRatio = aspectRatio;
-        this._shocked = shocked;
-        this.reason = reason;
-        this.list = list;
+		this.aspectRatio = aspectRatio;
+		this._shocked = shocked;
+		this.embed = embed;
+		this.comment = comment;
+		this.list = list;
+		this.reason = reason;
+		this.title = title;
 
-    }
+	}
 
 }
