@@ -1,13 +1,13 @@
 
 class MetightModel {
 
-	public ItemsModel _items;
 	public String type;
+	public ItemsModel _items;
 
-	public MetightModel(ItemsModel items, String type) {
+	public MetightModel(String type, ItemsModel items) {
 
-		this._items = items;
 		this.type = type;
+		this._items = items;
 
 	}
 
