@@ -1,18 +1,18 @@
 
 class MegernModel {
 
-	public String list;
-	public String videoRespond;
-	public String comment;
 	public String embed;
+	public String comment;
+	public String videoRespond;
+	public String list;
 	public String aspectRatio;
 
-	public MegernModel(String list, String videoRespond, String comment, String embed, String aspectRatio) {
+	public MegernModel(String embed, String comment, String videoRespond, String list, String aspectRatio) {
 
-		this.list = list;
-		this.videoRespond = videoRespond;
-		this.comment = comment;
 		this.embed = embed;
+		this.comment = comment;
+		this.videoRespond = videoRespond;
+		this.list = list;
 		this.aspectRatio = aspectRatio;
 
 	}

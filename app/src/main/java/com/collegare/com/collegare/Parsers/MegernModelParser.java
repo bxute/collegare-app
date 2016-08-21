@@ -13,7 +13,7 @@ class MegernModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
-			local_model = new MegernModel(jsobj.getString("list"), jsobj.getString("videoRespond"), jsobj.getString("comment"), jsobj.getString("embed"), jsobj.getString("aspectRatio"), );
+			local_model = new MegernModel(jsobj.getString("embed"), jsobj.getString("comment"), jsobj.getString("videoRespond"), jsobj.getString("list"), jsobj.getString("aspectRatio"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

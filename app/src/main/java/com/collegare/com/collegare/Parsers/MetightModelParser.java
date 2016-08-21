@@ -16,7 +16,7 @@ class MetightModelParser {
 
 			ItemsModel items = items_parser.parseItemsModel(jsobj.getJSONObject("items").toString());
 
-			local_model = new MetightModel(jsobj.getString("type"), items, );
+			local_model = new MetightModel(items, jsobj.getString("type"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();
