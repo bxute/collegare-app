@@ -5,10 +5,10 @@ import org.json.JSONArray;
 
 class CopModelParser {
 
-	SociallinksModelParser sociallinks_parser;
 	CreatorModelParser creator_parser = new CreatorModelParser();
-	AdeesModelParser adees_parser = new AdeesModelParser();
+	SociallinksModelParser sociallinks_parser;
 	VersionModelParser version_parser = new VersionModelParser();
+	AdeesModelParser adees_parser = new AdeesModelParser();
 
 	public CopModelParser() {
 		sociallinks_parser = new SociallinksModelParser();
@@ -20,6 +20,8 @@ class CopModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
+			CreatorModel creator = creator_parser.parseCreatorModel(jsobj.getJSONObject("creator").toString());
+
 			ArrayList<SociallinksModel> sociallinkss = new ArrayList<>();
 			JSONArray sociallinks_arr = jsobj.getJSONArray("sociallinks");
 
@@ -29,13 +31,11 @@ class CopModelParser {
 
 			}
 
-			CreatorModel creator = creator_parser.parseCreatorModel(jsobj.getJSONObject("creator").toString());
+			VersionModel version = version_parser.parseVersionModel(jsobj.getJSONObject("version").toString());
 
 			AdeesModel adees = adees_parser.parseAdeesModel(jsobj.getJSONObject("adees").toString());
 
-			VersionModel version = version_parser.parseVersionModel(jsobj.getJSONObject("version").toString());
-
-			local_model = new CopModel(sociallinkss, jsobj.getString("time_zone"), jsobj.getString("privacy"), jsobj.getInt("id"), jsobj.getString("description"), jsobj.getInt("tracks_ver"), jsobj.getString("logo"), jsobj.getString("schedulepublished_on"), jsobj.getString("name"), creator, jsobj.getString("location_name"), adees, jsobj.getInt("speakers_ver"), jsobj.getString("start_time"), version, jsobj.getInt("sponsors_ver"), jsobj.getString("end_time"), jsobj.getString("organizer_name"), jsobj.getString("topic"), jsobj.getString("state"), jsobj.getString("type"), jsobj.getString("email"), jsobj.getString("organizer_description"), );
+			local_model = new CopModel(jsobj.getString("email"), jsobj.getString("location_name"), jsobj.getInt("id"), jsobj.getString("name"), jsobj.getString("organizer_description"), jsobj.getString("time_zone"), jsobj.getString("privacy"), jsobj.getString("description"), jsobj.getString("organizer_name"), jsobj.getInt("sponsors_ver"), jsobj.getString("state"), jsobj.getString("start_time"), jsobj.getString("schedulepublished_on"), creator, jsobj.getInt("speakers_ver"), jsobj.getString("logo"), sociallinkss, version, jsobj.getString("topic"), jsobj.getString("end_time"), adees, jsobj.getString("type"), jsobj.getInt("tracks_ver"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

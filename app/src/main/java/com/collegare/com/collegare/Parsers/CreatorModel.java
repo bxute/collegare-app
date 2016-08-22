@@ -1,11 +1,11 @@
 
 class CreatorModel {
 
-	public String email;
+	public String Email;
 
-	public CreatorModel(String email) {
+	public CreatorModel(String Email) {
 
-		this.email = email;
+		this.Email = Email;
 
 	}
 
