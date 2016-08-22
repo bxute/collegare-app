@@ -13,7 +13,7 @@ class Callfor_papersModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
-			local_model = new Callfor_papersModel(jsobj.getString("start_date"), jsobj.getString("privacy"), jsobj.getString("announcement"), jsobj.getString("timezone"), jsobj.getString("end_date"), );
+			local_model = new Callfor_papersModel(jsobj.getString("announce"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

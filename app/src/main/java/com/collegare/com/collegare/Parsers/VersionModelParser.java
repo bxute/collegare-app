@@ -13,7 +13,7 @@ class VersionModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
-			local_model = new VersionModel(jsobj.getInt("event_ver"), jsobj.getString("logo"), jsobj.getInt("year"), jsobj.getInt("microlocations_ver"), jsobj.getString("holder"), jsobj.getString("licence"), jsobj.getInt("sessions_ver"), jsobj.getString("holder_url"), jsobj.getString("licence_url"), );
+			local_model = new VersionModel(jsobj.getString("logo"), jsobj.getString("licence_url"), jsobj.getInt("year"), jsobj.getString("licence"), jsobj.getInt("sessions_ver"), jsobj.getString("holder"), jsobj.getInt("event_ver"), jsobj.getString("holder_url"), jsobj.getInt("microlocations_ver"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

@@ -2,55 +2,55 @@ import java.util.ArrayList;
 
 class CopModel {
 
-	public ArrayList<SociallinksModel> sociallinks;
-	public String start_time;
-	public VersionModel _version;
-	public String time_zone;
-	public int id;
+	public String location_name;
+	public String organizer_description;
+	public String organizer_name;
 	public int speakers_ver;
-	public String end_time;
 	public int tracks_ver;
+	public String name;
+	public int sponsors_ver;
 	public String description;
 	public String schedulepublished_on;
-	public String location_name;
-	public String email;
-	public String logo;
-	public String name;
-	public String state;
-	public CreatorModel _creator;
-	public AdeesModel _adees;
 	public String privacy;
+	public ArrayList<SociallinksModel> sociallinks;
+	public String end_time;
+	public CreatorModel _creator;
+	public String logo;
+	public VersionModel _version;
+	public String time_zone;
 	public String type;
+	public String start_time;
+	public AdeesModel _adees;
 	public String topic;
-	public String organizer_name;
-	public String organizer_description;
-	public int sponsors_ver;
+	public String state;
+	public String email;
+	public int id;
 
-	public CopModel(ArrayList<SociallinksModel> sociallinks, String start_time, VersionModel version, String time_zone, int id, int speakers_ver, String end_time, int tracks_ver, String description, String schedulepublished_on, String location_name, String email, String logo, String name, String state, CreatorModel creator, AdeesModel adees, String privacy, String type, String topic, String organizer_name, String organizer_description, int sponsors_ver) {
+	public CopModel(String location_name, String organizer_description, String organizer_name, int speakers_ver, int tracks_ver, String name, int sponsors_ver, String description, String schedulepublished_on, String privacy, ArrayList<SociallinksModel> sociallinks, String end_time, CreatorModel creator, String logo, VersionModel version, String time_zone, String type, String start_time, AdeesModel adees, String topic, String state, String email, int id) {
 
-		this.sociallinks = sociallinks;
-		this.start_time = start_time;
-		this._version = version;
-		this.time_zone = time_zone;
-		this.id = id;
+		this.location_name = location_name;
+		this.organizer_description = organizer_description;
+		this.organizer_name = organizer_name;
 		this.speakers_ver = speakers_ver;
-		this.end_time = end_time;
 		this.tracks_ver = tracks_ver;
+		this.name = name;
+		this.sponsors_ver = sponsors_ver;
 		this.description = description;
 		this.schedulepublished_on = schedulepublished_on;
-		this.location_name = location_name;
-		this.email = email;
-		this.logo = logo;
-		this.name = name;
-		this.state = state;
-		this._creator = creator;
-		this._adees = adees;
 		this.privacy = privacy;
+		this.sociallinks = sociallinks;
+		this.end_time = end_time;
+		this._creator = creator;
+		this.logo = logo;
+		this._version = version;
+		this.time_zone = time_zone;
 		this.type = type;
+		this.start_time = start_time;
+		this._adees = adees;
 		this.topic = topic;
-		this.organizer_name = organizer_name;
-		this.organizer_description = organizer_description;
-		this.sponsors_ver = sponsors_ver;
+		this.state = state;
+		this.email = email;
+		this.id = id;
 
 	}
 

@@ -186,8 +186,8 @@
         },
         {
             "id": 7,
-            "lnk": "https://www.linkedin.com/groups/FOSSASIA-3762811",
-            "nake": "Linkedin"
+            "link": "https://www.linkedin.com/groups/FOSSASIA-3762811",
+            "na": "Linkedin"
         },
         {
             "name": "External Event URL"
