@@ -187,7 +187,7 @@
         {
             "id": 7,
             "link": "https://www.linkedin.com/groups/FOSSASIA-3762811",
-            "na": "Linkedin"
+            "name": "Linkedin"
         },
         {
             "name": "External Event URL"
@@ -200,8 +200,8 @@
     "type": "Conference",
     "versioning": {
         "eventver": 1,
-        "trsver": 4,
-        "enter": "2016-03-16T20:30:00",
+        "tracksver": 4,
+        "enddate": "2016-03-16T20:30:00",
         "privacy": "public",
         "startdate": "2016-03-10T19:30:00",
         "timezone": "UTC"
