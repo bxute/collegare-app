@@ -1,21 +1,18 @@
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-
 import org.json.JSONArray;
 
 class RootModelParser {
 
 	Call_for_papersModelParser call_for_papers_parser = new Call_for_papersModelParser();
 	CopyrightModelParser copyright_parser = new CopyrightModelParser();
+	CreatorModelParser creator_parser = new CreatorModelParser();
 	VersionModelParser version_parser = new VersionModelParser();
-	CreatorEmailModelParser creatorEmail_parser = new CreatorEmailModelParser();
-	SociallinksModelParser sociallinks_parser;
-	FlxwmModelParser flxwm_parser = new FlxwmModelParser();
+	Social_linksModelParser social_links_parser;
 
 		public RootModelParser() {
-			sociallinks_parser = new SociallinksModelParser();
+			social_links_parser = new Social_linksModelParser();
 		}
 
 		public RootModel parseRootModel(String json_object) {
@@ -28,22 +25,20 @@ class RootModelParser {
 
 				CopyrightModel copyright = copyright_parser.parseCopyrightModel(jsobj.getJSONObject("copyright").toString());
 
+				CreatorModel creator = creator_parser.parseCreatorModel(jsobj.getJSONObject("creator").toString());
+
 				VersionModel version = version_parser.parseVersionModel(jsobj.getJSONObject("version").toString());
 
-				CreatorEmailModel creatorEmail = creatorEmail_parser.parseCreatorEmailModel(jsobj.getJSONObject("creatorEmail").toString());
+				ArrayList<Social_linksModel> social_linkss = new ArrayList<>();
+				JSONArray social_links_arr = jsobj.getJSONArray("social_links");
 
-				ArrayList<SociallinksModel> sociallinkss = new ArrayList<>();
-				JSONArray sociallinks_arr = jsobj.getJSONArray("sociallinks");
+				for (int i = 0; i < social_links_arr.length(); i++) {
 
-				for (int i = 0; i < sociallinks_arr.length(); i++) {
-
-					sociallinkss.add(sociallinks_parser.parseSociallinksModel((String) sociallinks_arr.get(i)));
+					social_linkss.add(social_links_parser.parseSocial_linksModel((String) social_links_arr.get(i)));
 
 				}
 
-				FlxwmModel flxwm = flxwm_parser.parseFlxwmModel(jsobj.getJSONObject("flxwm").toString());
-
-				local_model = new RootModel(call_for_papers, jsobj.getString("email"), jsobj.getString("schedule_published_on"), jsobj.getString("starttime"), jsobj.getString("privacy"), copyright, jsobj.getString("description"), version, creatorEmail, sociallinkss, jsobj.getString("organizer_description"), jsobj.getString("organizer_name"), jsobj.getString("background_image"), jsobj.getString("code_of_conduct"), jsobj.getString("type"), flxwm, );
+				local_model = new RootModel(jsobj.getString("end_time"), jsobj.getString("name"), call_for_papers, jsobj.getString("logo"), jsobj.getInt("id"), copyright, jsobj.getString("topic"), jsobj.getString("start_time"), jsobj.getString("organizer_name"), creator, jsobj.getString("state"), jsobj.getString("email"), jsobj.getString("description"), jsobj.getString("code_of_conduct"), version, jsobj.getString("type"), jsobj.getString("location_name"), jsobj.getString("schedule_published_on"), jsobj.getString("privacy"), jsobj.getString("organizer_description"), social_linkss, jsobj.getString("background_image"), jsobj.getString("timezone"), );
  			} 
 			catch (JSONException e){
 

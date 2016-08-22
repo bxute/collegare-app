@@ -4,22 +4,22 @@ import org.json.JSONObject;
 class Call_for_papersModelParser {
 
 
-    public Call_for_papersModelParser() {
-    }
+	public Call_for_papersModelParser() {
+	}
 
-    public Call_for_papersModel parseCall_for_papersModel(String json_object) {
+	public Call_for_papersModel parseCall_for_papersModel(String json_object) {
 
-        Call_for_papersModel local_model = null;
-        try {
-            JSONObject jsobj = new JSONObject(json_object);
+		Call_for_papersModel local_model = null;
+		try {
+			JSONObject jsobj = new JSONObject(json_object);
 
-            local_model = new Call_for_papersModel(jsobj.getString("announcement"), jsobj.getString("timezone"), jsobj.getString("privacy"), jsobj.getString("start_date"), jsobj.getString("end_date"), );
-        } catch (JSONException e) {
+			local_model = new Call_for_papersModel(jsobj.getString("start_date"), jsobj.getString("timezone"), jsobj.getString("privacy"), jsobj.getString("announcement"), jsobj.getString("end_date"), );
+		} catch (JSONException e) {
 
-            e.printStackTrace();
-        }
+			e.printStackTrace();
+		}
 
-        return local_model;
-    }
-
+		return local_model;
+	}
+			
 }

@@ -4,22 +4,22 @@ import org.json.JSONObject;
 class VersionModelParser {
 
 
-    public VersionModelParser() {
-    }
+	public VersionModelParser() {
+	}
 
-    public VersionModel parseVersionModel(String json_object) {
+	public VersionModel parseVersionModel(String json_object) {
 
-        VersionModel local_model = null;
-        try {
-            JSONObject jsobj = new JSONObject(json_object);
+		VersionModel local_model = null;
+		try {
+			JSONObject jsobj = new JSONObject(json_object);
 
-            local_model = new VersionModel(jsobj.getString("holder"), jsobj.getString("holder_url"), jsobj.getString("licence_url"), jsobj.getInt("sessions_ver"), jsobj.getInt("microlocations_ver"), jsobj.getString("logo"), jsobj.getString("licence"), jsobj.getInt("event_ver"), jsobj.getInt("year"), );
-        } catch (JSONException e) {
+			local_model = new VersionModel(jsobj.getInt("speakers_ver"), jsobj.getInt("tracks_ver"), jsobj.getInt("sessions_ver"), jsobj.getInt("event_ver"), jsobj.getInt("sponsors_ver"), jsobj.getInt("microlocations_ver"), );
+		} catch (JSONException e) {
 
-            e.printStackTrace();
-        }
+			e.printStackTrace();
+		}
 
-        return local_model;
-    }
-
+		return local_model;
+	}
+			
 }
