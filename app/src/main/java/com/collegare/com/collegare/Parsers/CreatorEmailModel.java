@@ -1,12 +1,12 @@
 
 class CreatorEmailModel {
 
-    public String email;
+	public String email;
 
-    public CreatorEmailModel(String email) {
+	public CreatorEmailModel(String email) {
 
-        this.email = email;
+		this.email = email;
 
-    }
+	}
 
 }
