@@ -13,7 +13,7 @@ class SociallinksModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
-			local_model = new SociallinksModel(jsobj.getString("name"), jsobj.getInt("id"), jsobj.getString("link"), );
+			local_model = new SociallinksModel(jsobj.getString("link"), jsobj.getString("name"), jsobj.getInt("id"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

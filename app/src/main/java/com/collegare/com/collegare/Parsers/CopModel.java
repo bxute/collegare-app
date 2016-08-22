@@ -2,55 +2,55 @@ import java.util.ArrayList;
 
 class CopModel {
 
-	public String organizer_name;
-	public String state;
-	public VersionModel _version;
-	public String end_time;
-	public String location_name;
-	public String name;
-	public String time_zone;
-	public int speakers_ver;
-	public String email;
 	public ArrayList<SociallinksModel> sociallinks;
-	public CreatorModel _creator;
-	public int sponsors_ver;
-	public String privacy;
 	public String start_time;
+	public VersionModel _version;
+	public String time_zone;
 	public int id;
-	public String schedulepublished_on;
-	public String logo;
+	public int speakers_ver;
+	public String end_time;
+	public int tracks_ver;
 	public String description;
+	public String schedulepublished_on;
+	public String location_name;
+	public String email;
+	public String logo;
+	public String name;
+	public String state;
+	public CreatorModel _creator;
 	public AdeesModel _adees;
+	public String privacy;
 	public String type;
 	public String topic;
-	public int tracks_ver;
+	public String organizer_name;
 	public String organizer_description;
+	public int sponsors_ver;
 
-	public CopModel(String organizer_name, String state, VersionModel version, String end_time, String location_name, String name, String time_zone, int speakers_ver, String email, ArrayList<SociallinksModel> sociallinks, CreatorModel creator, int sponsors_ver, String privacy, String start_time, int id, String schedulepublished_on, String logo, String description, AdeesModel adees, String type, String topic, int tracks_ver, String organizer_description) {
+	public CopModel(ArrayList<SociallinksModel> sociallinks, String start_time, VersionModel version, String time_zone, int id, int speakers_ver, String end_time, int tracks_ver, String description, String schedulepublished_on, String location_name, String email, String logo, String name, String state, CreatorModel creator, AdeesModel adees, String privacy, String type, String topic, String organizer_name, String organizer_description, int sponsors_ver) {
 
-		this.organizer_name = organizer_name;
-		this.state = state;
-		this._version = version;
-		this.end_time = end_time;
-		this.location_name = location_name;
-		this.name = name;
-		this.time_zone = time_zone;
-		this.speakers_ver = speakers_ver;
-		this.email = email;
 		this.sociallinks = sociallinks;
-		this._creator = creator;
-		this.sponsors_ver = sponsors_ver;
-		this.privacy = privacy;
 		this.start_time = start_time;
+		this._version = version;
+		this.time_zone = time_zone;
 		this.id = id;
-		this.schedulepublished_on = schedulepublished_on;
-		this.logo = logo;
+		this.speakers_ver = speakers_ver;
+		this.end_time = end_time;
+		this.tracks_ver = tracks_ver;
 		this.description = description;
+		this.schedulepublished_on = schedulepublished_on;
+		this.location_name = location_name;
+		this.email = email;
+		this.logo = logo;
+		this.name = name;
+		this.state = state;
+		this._creator = creator;
 		this._adees = adees;
+		this.privacy = privacy;
 		this.type = type;
 		this.topic = topic;
-		this.tracks_ver = tracks_ver;
+		this.organizer_name = organizer_name;
 		this.organizer_description = organizer_description;
+		this.sponsors_ver = sponsors_ver;
 
 	}
 
