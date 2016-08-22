@@ -186,22 +186,22 @@
         },
         {
             "id": 7,
-            "link": "https://www.linkedin.com/groups/FOSSASIA-3762811",
-            "name": "Linkedin"
+            "lnk": "https://www.linkedin.com/groups/FOSSASIA-3762811",
+            "nake": "Linkedin"
         },
         {
             "name": "External Event URL"
         }
     ],
     "starttime": "2016-03-18T01:30:00",
-    "call_for_papers": {
-        "announcement": "<p>Wanna speak at our prestigious event. Send us a proposal</p>"
+    "callfor_papers": {
+        "announce": "<p>Wanna speak at our prestigious event. Send us a proposal</p>"
     },
     "type": "Conference",
     "versioning": {
         "eventver": 1,
-        "tracks_ver": 4,
-        "end_date": "2016-03-16T20:30:00",
+        "trsver": 4,
+        "enter": "2016-03-16T20:30:00",
         "privacy": "public",
         "startdate": "2016-03-10T19:30:00",
         "timezone": "UTC"
