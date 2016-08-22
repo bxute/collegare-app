@@ -1,21 +1,27 @@
 
 class VersionModel {
 
-	public int event_ver;
-	public int tracks_ver;
-	public int sessions_ver;
 	public int microlocations_ver;
-	public int sponsors_ver;
-	public int speakers_ver;
+	public int event_ver;
+	public int sessions_ver;
+	public String holder_url;
+	public int year;
+	public String holder;
+	public String licence;
+	public String licence_url;
+	public String logo;
 
-	public VersionModel(int event_ver, int tracks_ver, int sessions_ver, int microlocations_ver, int sponsors_ver, int speakers_ver) {
+	public VersionModel(int microlocations_ver, int event_ver, int sessions_ver, String holder_url, int year, String holder, String licence, String licence_url, String logo) {
 
-		this.event_ver = event_ver;
-		this.tracks_ver = tracks_ver;
-		this.sessions_ver = sessions_ver;
 		this.microlocations_ver = microlocations_ver;
-		this.sponsors_ver = sponsors_ver;
-		this.speakers_ver = speakers_ver;
+		this.event_ver = event_ver;
+		this.sessions_ver = sessions_ver;
+		this.holder_url = holder_url;
+		this.year = year;
+		this.holder = holder;
+		this.licence = licence;
+		this.licence_url = licence_url;
+		this.logo = logo;
 
 	}
 

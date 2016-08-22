@@ -13,7 +13,7 @@ class CreatorModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
-			local_model = new CreatorModel(jsobj.getString("email"), );
+			local_model = new CreatorModel(jsobj.getString("Email"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();

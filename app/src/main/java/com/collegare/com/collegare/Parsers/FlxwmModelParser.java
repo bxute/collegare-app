@@ -3,8 +3,8 @@ import org.json.JSONObject;
 
 class FlxwmModelParser {
 
-	CopModelParser cop_parser = new CopModelParser();
 	Call_for_papersModelParser call_for_papers_parser = new Call_for_papersModelParser();
+	CopModelParser cop_parser = new CopModelParser();
 
 	public FlxwmModelParser() {
 	}
@@ -15,11 +15,11 @@ class FlxwmModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
-			CopModel cop = cop_parser.parseCopModel(jsobj.getJSONObject("cop").toString());
-
 			Call_for_papersModel call_for_papers = call_for_papers_parser.parseCall_for_papersModel(jsobj.getJSONObject("call_for_papers").toString());
 
-			local_model = new FlxwmModel(jsobj.getString("background_image"), cop, jsobj.getString("code_of_conduct"), call_for_papers, );
+			CopModel cop = cop_parser.parseCopModel(jsobj.getJSONObject("cop").toString());
+
+			local_model = new FlxwmModel(jsobj.getString("background_image"), call_for_papers, cop, jsobj.getString("code_of_conduct"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();
