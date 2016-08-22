@@ -3,7 +3,6 @@ import org.json.JSONObject;
 
 class SociallinksModelParser {
 
-	Call_for_papersModelParser call_for_papers_parser = new Call_for_papersModelParser();
 
 	public SociallinksModelParser() {
 	}
@@ -14,15 +13,13 @@ class SociallinksModelParser {
 		try {
 			JSONObject jsobj = new JSONObject(json_object);
 
-			Call_for_papersModel call_for_papers = call_for_papers_parser.parseCall_for_papersModel(jsobj.getJSONObject("call_for_papers").toString());
-
-			local_model = new SociallinksModel(jsobj.getInt("id"), call_for_papers, );
+			local_model = new SociallinksModel(jsobj.getString("link"), jsobj.getString("name"), jsobj.getInt("id"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();
 		}
 
 		return local_model;
-	}
+		}
 			
 }
