@@ -19,7 +19,7 @@ class FlxwmModelParser {
 
 			CopModel cop = cop_parser.parseCopModel(jsobj.getJSONObject("cop").toString());
 
-			local_model = new FlxwmModel(jsobj.getString("background_image"), call_for_papers, jsobj.getString("code_of_conduct"), cop, );
+			local_model = new FlxwmModel(call_for_papers, jsobj.getString("background_image"), cop, jsobj.getString("code_of_conduct"), );
 		} catch (JSONException e) {
 
 			e.printStackTrace();
