@@ -5,16 +5,14 @@ import org.json.JSONArray;
 
 class RootModelParser {
 
-	FlxwmModelParser flxwm_parser = new FlxwmModelParser();
-	Call_for_papersModelParser call_for_papers_parser = new Call_for_papersModelParser();
-	VersioningModelParser versioning_parser = new VersioningModelParser();
-	CreatorEmailModelParser creatorEmail_parser = new CreatorEmailModelParser();
-	Callfor_papersModelParser callfor_papers_parser = new Callfor_papersModelParser();
 	CopyrightModelParser copyright_parser = new CopyrightModelParser();
-	SociallinksModelParser sociallinks_parser;
+	Social_linksModelParser social_links_parser;
+	CreatorModelParser creator_parser = new CreatorModelParser();
+	Call_for_papersModelParser call_for_papers_parser = new Call_for_papersModelParser();
+	VersionModelParser version_parser = new VersionModelParser();
 
 		public RootModelParser() {
-			sociallinks_parser = new SociallinksModelParser();
+			social_links_parser = new Social_linksModelParser();
 		}
 
 		public RootModel parseRootModel(String json_object) {
@@ -23,28 +21,24 @@ class RootModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-				FlxwmModel flxwm = flxwm_parser.parseFlxwmModel(jsobj.getJSONObject("flxwm").toString());
-
-				Call_for_papersModel call_for_papers = call_for_papers_parser.parseCall_for_papersModel(jsobj.getJSONObject("call_for_papers").toString());
-
-				VersioningModel versioning = versioning_parser.parseVersioningModel(jsobj.getJSONObject("versioning").toString());
-
-				CreatorEmailModel creatorEmail = creatorEmail_parser.parseCreatorEmailModel(jsobj.getJSONObject("creatorEmail").toString());
-
-				Callfor_papersModel callfor_papers = callfor_papers_parser.parseCallfor_papersModel(jsobj.getJSONObject("callfor_papers").toString());
-
 				CopyrightModel copyright = copyright_parser.parseCopyrightModel(jsobj.getJSONObject("copyright").toString());
 
-				ArrayList<SociallinksModel> sociallinkss = new ArrayList<>();
-				JSONArray sociallinks_arr = jsobj.getJSONArray("sociallinks");
+				ArrayList<Social_linksModel> social_linkss = new ArrayList<>();
+				JSONArray social_links_arr = jsobj.getJSONArray("social_links");
 
-				for (int i = 0; i < sociallinks_arr.length(); i++) {
+				for (int i = 0; i < social_links_arr.length(); i++) {
 
-					sociallinkss.add(sociallinks_parser.parseSociallinksModel((String) sociallinks_arr.get(i)));
+					social_linkss.add(social_links_parser.parseSocial_linksModel((String) social_links_arr.get(i)));
 
 				}
 
-				local_model = new RootModel(jsobj.getString("email"), flxwm, jsobj.getString("code_of_conduct"), call_for_papers, versioning, jsobj.getString("organizer_description"), jsobj.getString("background_image"), jsobj.getString("privacy"), creatorEmail, jsobj.getString("description"), callfor_papers, copyright, jsobj.getString("schedule_published_on"), jsobj.getString("organizer_name"), sociallinkss, jsobj.getString("starttime"), jsobj.getString("type"), );
+				CreatorModel creator = creator_parser.parseCreatorModel(jsobj.getJSONObject("creator").toString());
+
+				Call_for_papersModel call_for_papers = call_for_papers_parser.parseCall_for_papersModel(jsobj.getJSONObject("call_for_papers").toString());
+
+				VersionModel version = version_parser.parseVersionModel(jsobj.getJSONObject("version").toString());
+
+				local_model = new RootModel(copyright, jsobj.getString("name"), jsobj.getString("type"), jsobj.getString("description"), jsobj.getString("logo"), jsobj.getString("privacy"), jsobj.getString("background_image"), social_linkss, jsobj.getInt("id"), jsobj.getString("code_of_conduct"), jsobj.getString("start_time"), jsobj.getString("topic"), jsobj.getString("organizer_description"), jsobj.getString("schedule_published_on"), creator, jsobj.getString("timezone"), call_for_papers, jsobj.getString("email"), jsobj.getString("organizer_name"), version, jsobj.getString("end_time"), jsobj.getString("state"), jsobj.getString("location_name"), );
  			} 
 			catch (JSONException e){
 
