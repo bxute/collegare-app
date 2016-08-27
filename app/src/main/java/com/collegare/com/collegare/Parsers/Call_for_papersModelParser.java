@@ -13,7 +13,7 @@ class Call_for_papersModelParser {
 			try {
 					JSONObject jsobj = new JSONObject(json_object);
 
-					local_model = new Call_for_papersModel(jsobj.getString("timezone") , jsobj.getString("end_date") , jsobj.getString("announcement") , jsobj.getString("privacy") , jsobj.getString("start_date") , );
+					local_model = new Call_for_papersModel(jsobj.getString("end_date") , jsobj.getString("privacy") , jsobj.getString("announcement") , jsobj.getString("timezone") , jsobj.getString("start_date") , );
  			} 
 			catch (JSONException e){
 
