@@ -1,14 +1,14 @@
 
 class Social_linksModel {
 
-	public String name;
 	public int id;
+	public String name;
 	public String link;
 
-	public Social_linksModel(String name, int id, String link) {
+	public Social_linksModel(int id, String name, String link) {
 
-		this.name = name;
 		this.id = id;
+		this.name = name;
 		this.link = link;
 
 	}
